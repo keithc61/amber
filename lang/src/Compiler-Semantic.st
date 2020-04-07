@@ -751,5 +751,9 @@ variableName: aString
 jsOverride: aString
 	(JSSuperSendVisitor new property: aString; yourself)
 		visit: self methodNode
+!
+
+jsOverride: aString args: aCollection
+	^ self jsOverride: aString
 ! !
 

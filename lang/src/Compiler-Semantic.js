@@ -2934,4 +2934,27 @@ return self;
 }; }),
 $globals.AstSemanticPragmator);
 
+$core.addMethod(
+$core.method({
+selector: "jsOverride:args:",
+protocol: "*Compiler-Semantic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aCollection"],
+source: "jsOverride: aString args: aCollection\x0a\x09^ self jsOverride: aString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["jsOverride:"]
+}, function ($methodClass){ return function (aString,aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._jsOverride_(aString);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsOverride:args:",{aString:aString,aCollection:aCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AstSemanticPragmator);
+
 });

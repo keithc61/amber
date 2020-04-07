@@ -1867,6 +1867,159 @@ $globals.AbstractJavaScriptGatewayTest);
 
 $core.addMethod(
 $core.method({
+selector: "testDyadicSuperDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: '4,true' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar_baz_((3),(4))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar:baz:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"4,true");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDyadicSuperDifferentNamesNested",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicSuperDifferentNamesNested\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ [ super bar: anObject baz: anotherObject ] value' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: '4,true' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ [ super bar: anObject baz: anotherObject ] value",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar_baz_((3),(4))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar:baz:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"4,true");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNamesNested",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMonadicSuperDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMonadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4) equals: '4,undefined' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar_((3))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar_((4)),"4,undefined");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMonadicSuperDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
 selector: "testNiladicSuper",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2464,6 +2617,205 @@ $globals.AbstractCodeGeneratorInstallTest);
 
 $core.addMethod(
 $core.method({
+selector: "testDyadicJSOverrideArgMismatch",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicJSOverrideArgMismatch\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherNumber)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)'\x0a\x09\x09andRaise: CompilerError.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(aNumber anotherInteger)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)'\x0a\x09\x09andRaise: CompilerError.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(anotherNumber anInteger)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+[$self._shouldntInstall_andRaise_("quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherNumber)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)",$globals.CompilerError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._shouldntInstall_andRaise_("quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(aNumber anotherInteger)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)",$globals.CompilerError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._shouldntInstall_andRaise_("quux: aNumber foo: anotherNumber\x0a\x09\x09<jsOverride: #mux args: #(anotherNumber anInteger)>\x0a\x09\x09^ (foo := foo * aNumber + anotherNumber)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicJSOverrideArgMismatch",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDyadicJSOverrideInOneArg",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicJSOverrideInOneArg\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo + anInteger)'\x0a\x09\x09andRaise: CompilerError.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anotherInteger anInteger)>\x0a\x09\x09^ (foo := foo + anInteger)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+[$self._shouldntInstall_andRaise_("quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo + anInteger)",$globals.CompilerError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._shouldntInstall_andRaise_("quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anotherInteger anInteger)>\x0a\x09\x09^ (foo := foo + anInteger)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicJSOverrideInOneArg",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDyadicJSOverrideInUnary",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicJSOverrideInUnary\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux <jsOverride: #mux args: #(anInteger anotherInteger)> ^ (foo := foo + 3)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$self._shouldntInstall_andRaise_("quux <jsOverride: #mux args: #(anInteger anotherInteger)> ^ (foo := foo + 3)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicJSOverrideInUnary",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDyadicJSOverrideRepeatedArgs",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicJSOverrideRepeatedArgs\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anInteger)>\x0a\x09\x09^ (foo := foo + anInteger)'\x0a\x09\x09andRaise: CompilerError.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+[$self._shouldntInstall_andRaise_("quux: anInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anInteger)>\x0a\x09\x09^ (foo := foo + anInteger)",$globals.CompilerError)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["shouldntInstall:andRaise:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._shouldntInstall_andRaise_("quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicJSOverrideRepeatedArgs",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testDyadicSOverrideDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicSOverrideDifferentNames\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)' should: [\x0a\x09\x09self should: [ receiver mux ] raise: MessageNotUnderstood.\x0a\x09\x09self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.\x0a\x09\x09self assert: (receiver basicPerform: #mux withArguments: #(2 -2)) equals: 6.\x0a\x09\x09self assert: (receiver quux: 1 foo: 4) equals: 10.\x0a\x09\x09self should: [ receiver basicPerform: #quux ] raise: Error.\x0a\x09\x09self assert: receiver foo equals: 10 ]",
+referencedClasses: ["ObjectMock", "MessageNotUnderstood", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "should:raise:", "mux", "mux:and:", "assert:equals:", "basicPerform:withArguments:", "quux:foo:", "basicPerform:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux_and_((2),(-1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._basicPerform_withArguments_("mux",[(2), (-2)]),(6))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._quux_foo_((1),(4)),(10))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._basicPerform_("quux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._foo(),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicSOverrideDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
 selector: "testInvalidAssignment",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2521,6 +2873,135 @@ $self._shouldntInstall_andRaise_("foo < inlineJS: 'return 'foo'' >",$globals.Par
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMistypedPragmaJSStatement",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMonadicJSOverrideArgMismatch",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMonadicJSOverrideArgMismatch\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + aNumber)'\x0a\x09\x09andRaise: CompilerError\x0a",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$self._shouldntInstall_andRaise_("quux: aNumber <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + aNumber)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMonadicJSOverrideArgMismatch",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMonadicJSOverrideDifferentNames",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMonadicJSOverrideDifferentNames\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'quux: anInteger <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + anInteger)' should: [\x0a\x09\x09self should: [ receiver mux ] raise: MessageNotUnderstood.\x0a\x09\x09self should: [ receiver mux: 2 ] raise: MessageNotUnderstood.\x0a\x09\x09self assert: (receiver basicPerform: #mux withArguments: #(2)) equals: 6.\x0a\x09\x09self assert: (receiver quux: 4) equals: 10.\x0a\x09\x09self should: [ receiver basicPerform: #quux ] raise: Error.\x0a\x09\x09self assert: receiver foo equals: 10 ]",
+referencedClasses: ["ObjectMock", "MessageNotUnderstood", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "should:raise:", "mux", "mux:", "assert:equals:", "basicPerform:withArguments:", "quux:", "basicPerform:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("quux: anInteger <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + anInteger)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._basicPerform_withArguments_("mux",[(2)]),(6))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._quux_((4)),(10))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._basicPerform_("quux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._foo(),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMonadicJSOverrideDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testMonadicJSOverrideInUnary",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testMonadicJSOverrideInUnary\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + 3)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$self._shouldntInstall_andRaise_("quux <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + 3)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testMonadicJSOverrideInUnary",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AbstractCodeGeneratorInstallTest);
@@ -2644,6 +3125,31 @@ return $self._assert_equals_($recv($self.receiver)._foo(),(10));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNiladicJSOverrideDifferentNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNiladicJSOverrideInOneArg",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNiladicJSOverrideInOneArg\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: anInteger <jsOverride: #mux> ^ (foo := foo + anInteger)'\x0a\x09\x09andRaise: CompilerError",
+referencedClasses: ["ObjectMock", "CompilerError"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "shouldntInstall:andRaise:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$self._shouldntInstall_andRaise_("quux: anInteger <jsOverride: #mux> ^ (foo := foo + anInteger)",$globals.CompilerError);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNiladicJSOverrideInOneArg",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AbstractCodeGeneratorInstallTest);
@@ -4180,14 +4686,14 @@ $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCT
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTExecuted}], $globals.CodeGeneratorTest);
 $core.setTraitComposition([{trait: $globals.TCTInlined}, {trait: $globals.TCTExecuted}], $globals.InliningCodeGeneratorTest);
 $core.setTraitComposition([{trait: $globals.TClassBuildingTest}], $globals.AbstractJavaScriptGatewayTest);
+$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTDebugged}], $globals.DebuggedJSGTest);
 $core.setTraitComposition([{trait: $globals.TCTInlined}, {trait: $globals.TCTExecuted}], $globals.InlinedJSGTest);
+$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTInterpreted}], $globals.InterpretedJSGTest);
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTExecuted}], $globals.PlainJSGTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPCNodeVisitorTest);
 $core.setTraitComposition([{trait: $globals.TASTParsingTest}], $globals.ASTPositionTest);
 $core.setTraitComposition([{trait: $globals.TASTCompilingTest}], $globals.AbstractCodeGeneratorInstallTest);
 $core.setTraitComposition([{trait: $globals.TCTNonInlined}], $globals.CodeGeneratorInstallTest);
 $core.setTraitComposition([{trait: $globals.TCTInlined}], $globals.InliningCodeGeneratorInstallTest);
-$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTInterpreted}], $globals.InterpretedJSGTest);
-$core.setTraitComposition([{trait: $globals.TCTNonInlined}, {trait: $globals.TCTDebugged}], $globals.DebuggedJSGTest);
 
 });

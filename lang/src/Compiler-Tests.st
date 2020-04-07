@@ -485,6 +485,37 @@ jsConstructor
 
 !AbstractJavaScriptGatewayTest methodsFor: 'tests'!
 
+testDyadicSuperDifferentNames
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar: anObject baz: anotherObject
+		<jsOverride: #foo args: #(anObject anotherObject)>
+		^ super bar: anObject baz: anotherObject' should: [
+		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
+		self assert: (receiver bar: 4 baz: true) equals: '4,true' ]
+!
+
+testDyadicSuperDifferentNamesNested
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar: anObject baz: anotherObject
+		<jsOverride: #foo args: #(anObject anotherObject)>
+		^ [ super bar: anObject baz: anotherObject ] value' should: [
+		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
+		self assert: (receiver bar: 4 baz: true) equals: '4,true' ]
+!
+
+testMonadicSuperDifferentNames
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject' should: [
+		self shouldnt: [ receiver bar: 3 ] raise: Error.
+		self assert: (receiver bar: 4) equals: '4,undefined' ]
+!
+
 testNiladicSuper
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
@@ -662,6 +693,74 @@ shouldntInstall: aString andRaise: anErrorClass
 
 !AbstractCodeGeneratorInstallTest methodsFor: 'tests'!
 
+testDyadicJSOverrideArgMismatch
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux: aNumber foo: anotherNumber
+		<jsOverride: #mux args: #(anInteger anotherNumber)>
+		^ (foo := foo * aNumber + anotherNumber)'
+		andRaise: CompilerError.
+	self
+		shouldntInstall: 'quux: aNumber foo: anotherNumber
+		<jsOverride: #mux args: #(aNumber anotherInteger)>
+		^ (foo := foo * aNumber + anotherNumber)'
+		andRaise: CompilerError.
+	self
+		shouldntInstall: 'quux: aNumber foo: anotherNumber
+		<jsOverride: #mux args: #(anotherNumber anInteger)>
+		^ (foo := foo * aNumber + anotherNumber)'
+		andRaise: CompilerError
+!
+
+testDyadicJSOverrideInOneArg
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux: anInteger
+		<jsOverride: #mux args: #(anInteger anotherInteger)>
+		^ (foo := foo + anInteger)'
+		andRaise: CompilerError.
+	self
+		shouldntInstall: 'quux: anInteger
+		<jsOverride: #mux args: #(anotherInteger anInteger)>
+		^ (foo := foo + anInteger)'
+		andRaise: CompilerError
+!
+
+testDyadicJSOverrideInUnary
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux <jsOverride: #mux args: #(anInteger anotherInteger)> ^ (foo := foo + 3)'
+		andRaise: CompilerError
+!
+
+testDyadicJSOverrideRepeatedArgs
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux: anInteger
+		<jsOverride: #mux args: #(anInteger anInteger)>
+		^ (foo := foo + anInteger)'
+		andRaise: CompilerError.
+	self
+		shouldntInstall: 'quux: anInteger foo: anotherInteger
+		<jsOverride: #mux args: #(anInteger anInteger)>
+		^ (foo := foo * anInteger + anotherInteger)'
+		andRaise: CompilerError
+!
+
+testDyadicSOverrideDifferentNames
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux: anInteger foo: anotherInteger
+		<jsOverride: #mux args: #(anInteger anotherInteger)>
+		^ (foo := foo * anInteger + anotherInteger)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux withArguments: #(2 -2)) equals: 6.
+		self assert: (receiver quux: 1 foo: 4) equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
 testInvalidAssignment
 	self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.
 	self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.
@@ -671,6 +770,32 @@ testInvalidAssignment
 
 testMistypedPragmaJSStatement
 	self shouldntInstall: 'foo < inlineJS: ''return ''foo'''' >' andRaise: ParseError
+!
+
+testMonadicJSOverrideArgMismatch
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux: aNumber <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + aNumber)'
+		andRaise: CompilerError
+!
+
+testMonadicJSOverrideDifferentNames
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux: anInteger <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + anInteger)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self should: [ receiver mux: 2 ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux withArguments: #(2)) equals: 6.
+		self assert: (receiver quux: 4) equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
+testMonadicJSOverrideInUnary
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + 3)'
+		andRaise: CompilerError
 !
 
 testNiladicJSOverride
@@ -692,6 +817,13 @@ testNiladicJSOverrideDifferentNames
 		self assert: receiver quux equals: 10.
 		self should: [ receiver basicPerform: #quux ] raise: Error.
 		self assert: receiver foo equals: 10 ]
+!
+
+testNiladicJSOverrideInOneArg
+	receiver := ObjectMock new.
+	self
+		shouldntInstall: 'quux: anInteger <jsOverride: #mux> ^ (foo := foo + anInteger)'
+		andRaise: CompilerError
 !
 
 testPragmaInBlock
@@ -1126,14 +1258,14 @@ ASTInterpreterTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitC
 CodeGeneratorTest setTraitComposition: {TCTNonInlined. TCTExecuted} asTraitComposition!
 InliningCodeGeneratorTest setTraitComposition: {TCTInlined. TCTExecuted} asTraitComposition!
 AbstractJavaScriptGatewayTest setTraitComposition: {TClassBuildingTest} asTraitComposition!
+DebuggedJSGTest setTraitComposition: {TCTNonInlined. TCTDebugged} asTraitComposition!
 InlinedJSGTest setTraitComposition: {TCTInlined. TCTExecuted} asTraitComposition!
+InterpretedJSGTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitComposition!
 PlainJSGTest setTraitComposition: {TCTNonInlined. TCTExecuted} asTraitComposition!
 ASTPCNodeVisitorTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 ASTPositionTest setTraitComposition: {TASTParsingTest} asTraitComposition!
 AbstractCodeGeneratorInstallTest setTraitComposition: {TASTCompilingTest} asTraitComposition!
 CodeGeneratorInstallTest setTraitComposition: {TCTNonInlined} asTraitComposition!
 InliningCodeGeneratorInstallTest setTraitComposition: {TCTInlined} asTraitComposition!
-InterpretedJSGTest setTraitComposition: {TCTNonInlined. TCTInterpreted} asTraitComposition!
-DebuggedJSGTest setTraitComposition: {TCTNonInlined. TCTDebugged} asTraitComposition!
 ! !
 

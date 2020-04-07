@@ -872,11 +872,26 @@ IRPragmator subclass: #IRLatePragmator
 !IRLatePragmator methodsFor: 'pragmas'!
 
 jsOverride: aString
+	self irMethod arguments ifNotEmpty: [
+		CompilerError signal: 'Must use <jsOverride:> in unary method.' ].
 	self irMethod attachments
 		at: aString
 		put: (NativeFunction
 			constructorNamed: #Function
 			value: 'return this.', irMethod selector asJavaScriptMethodName, '()')
+!
+
+jsOverride: aString args: aCollection
+	| argList |
+	self irMethod arguments = aCollection ifFalse: [
+		CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].
+	argList := ',' join: aCollection.
+	self irMethod attachments
+		at: aString
+		put: (NativeFunction
+			constructorNamed: #Function
+			value: argList
+			value: 'return this.', irMethod selector asJavaScriptMethodName, '(', argList, ')')
 ! !
 
 ParentFakingPathDagVisitor subclass: #IRVisitor
