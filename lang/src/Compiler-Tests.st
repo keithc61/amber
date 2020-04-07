@@ -1,9 +1,13 @@
 Smalltalk createPackage: 'Compiler-Tests'!
 TestCase subclass: #ASTMethodRunningTest
-	slots: {#receiver}
+	slots: {#receiver. #arguments}
 	package: 'Compiler-Tests'!
 
 !ASTMethodRunningTest methodsFor: 'accessing'!
+
+arguments
+	^ arguments
+!
 
 receiver
 	^ receiver
@@ -12,6 +16,7 @@ receiver
 !ASTMethodRunningTest methodsFor: 'initialization'!
 
 setUp
+	arguments := #().
 	receiver := DoIt new
 ! !
 
@@ -489,42 +494,46 @@ testDyadicSuperDifferentNames
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
 	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar: anObject baz: anotherObject
-		<jsOverride: #foo args: #(anObject anotherObject)>
-		^ super bar: anObject baz: anotherObject' should: [
-		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
-		self assert: (receiver bar: 4 baz: true) equals: '4,true' ]
+	arguments := #(4 true).
+	self
+		should: 'bar: anObject baz: anotherObject
+			<jsOverride: #foo args: #(anObject anotherObject)>
+			^ super bar: anObject baz: anotherObject'
+		return: '4,true'
 !
 
 testDyadicSuperDifferentNamesNested
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
 	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar: anObject baz: anotherObject
-		<jsOverride: #foo args: #(anObject anotherObject)>
-		^ [ super bar: anObject baz: anotherObject ] value' should: [
-		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
-		self assert: (receiver bar: 4 baz: true) equals: '4,true' ]
+	arguments := #(4 true).
+	self
+		should: 'bar: anObject baz: anotherObject
+			<jsOverride: #foo args: #(anObject anotherObject)>
+			^ [ super bar: anObject baz: anotherObject ] value'
+		return: '4,true'
 !
 
 testDyadicSuperDifferentNamesPermutated
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
 	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar: anObject baz: anotherObject
-		<jsOverride: #foo args: #(anotherObject anObject)>
-		^ super bar: anObject baz: anotherObject' should: [
-		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
-		self assert: (receiver bar: 4 baz: true) equals: 'true,4' ]
+	arguments := #(4 true).
+	self
+		should: 'bar: anObject baz: anotherObject
+			<jsOverride: #foo args: #(anotherObject anObject)>
+			^ super bar: anObject baz: anotherObject'
+		return: 'true,4'
 !
 
 testMonadicSuperDifferentNames
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
 	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject' should: [
-		self shouldnt: [ receiver bar: 3 ] raise: Error.
-		self assert: (receiver bar: 4) equals: '4,undefined' ]
+	arguments := #(4).
+	self
+		should: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject'
+		return: '4,undefined'
 !
 
 testNiladicSuper
@@ -539,10 +548,10 @@ testNiladicSuper
 testNiladicSuperDifferentNames
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
-	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar <jsOverride: #foo> ^ super bar' should: [
-		self shouldnt: [ receiver bar ] raise: Error.
-		self assert: receiver bar equals: 'undefined,undefined' ]
+	self
+		should: 'bar <jsOverride: #foo> ^ super bar'
+		receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)
+		return: 'undefined,undefined'
 !
 
 testNiladicSuperNested
@@ -558,11 +567,12 @@ testTriadicSuperDifferentNamesPermutated
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
 	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
-	self while: 'bar: anObject baz: anotherObject moo: yao
-		<jsOverride: #foo args: #(yao anObject anotherObject)>
-		^ super bar: anObject baz: anotherObject moo: yao' should: [
-		self shouldnt: [ receiver bar: 3 baz: 4 moo: 5 ] raise: Error.
-		self assert: (receiver bar: 4 baz: true moo: 'hello') equals: 'hello,4' ]
+	arguments := #(4 true 'hello').
+	self
+		should: 'bar: anObject baz: anotherObject moo: yao
+			<jsOverride: #foo args: #(yao anObject anotherObject)>
+			^ super bar: anObject baz: anotherObject moo: yao'
+		return: 'hello,4'
 ! !
 
 !AbstractJavaScriptGatewayTest class methodsFor: 'testing'!
@@ -1221,7 +1231,7 @@ while: aString inClass: aClass should: aBlock
 		while: aString
 		inClass: aClass
 		should: [ :method | aBlock value: [
-			self receiver perform: method selector ] ]
+			self receiver perform: method selector withArguments: self arguments ] ]
 ! !
 
 Trait named: #TCTInlined
@@ -1248,7 +1258,7 @@ interpret: aString forClass: aClass receiver: anObject withArguments: aDictionar
 	^ ctx interpreter proceed; result
 !
 
-prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary
+prepareContextFor: aString class: aClass receiver: anObject withArguments: anArray
 	"The food is a methodNode. Interpret the sequenceNode only"
 	
 	| ctx ast |
@@ -1265,9 +1275,9 @@ prepareContextFor: aString class: aClass receiver: anObject withArguments: aDict
 	ast sequenceNode ifNotNil: [ :sequence |
 		sequence temps do: [ :each |
 			ctx defineLocal: each ] ].
-		
-	aDictionary keysAndValuesDo: [ :key :value |
-		ctx localAt: key put: value ].
+
+	ast arguments with: anArray do: [ :key :value |
+		ctx defineLocal: key; localAt: key put: value ].
 	
 	ctx interpreter
 		context: ctx;
@@ -1288,7 +1298,7 @@ while: aString inClass: aClass should: aBlock
 				interpret: aString
 				forClass: aClass
 				receiver: self receiver
-				withArguments: #{} ] ]
+				withArguments: self arguments ] ]
 ! !
 
 Trait named: #TCTNonInlined

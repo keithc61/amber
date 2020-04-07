@@ -4,7 +4,25 @@ var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
+$core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver", "arguments"], "Compiler-Tests");
+$core.addMethod(
+$core.method({
+selector: "arguments",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "arguments\x0a\x09^ arguments",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.arguments;
+
+}; }),
+$globals.ASTMethodRunningTest);
+
 $core.addMethod(
 $core.method({
 selector: "receiver",
@@ -29,7 +47,7 @@ selector: "setUp",
 protocol: "initialization",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "setUp\x0a\x09receiver := DoIt new",
+source: "setUp\x0a\x09arguments := #().\x0a\x09receiver := DoIt new",
 referencedClasses: ["DoIt"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -39,6 +57,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+$self.arguments=[];
 $self.receiver=$recv($globals.DoIt)._new();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1871,11 +1890,11 @@ selector: "testDyadicSuperDifferentNames",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testDyadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: '4,true' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testDyadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09arguments := #(4 true).\x0a\x09self\x0a\x09\x09should: 'bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject'\x0a\x09\x09return: '4,true'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "should:return:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1887,28 +1906,8 @@ $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
 $self.receiver=$recv($1)._yourself();
-$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar_baz_((3),(4))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar:baz:"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"4,true");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self.arguments=[(4), true];
+$self._should_return_("bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject","4,true");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNames",{})});
@@ -1922,11 +1921,11 @@ selector: "testDyadicSuperDifferentNamesNested",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testDyadicSuperDifferentNamesNested\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ [ super bar: anObject baz: anotherObject ] value' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: '4,true' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testDyadicSuperDifferentNamesNested\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09arguments := #(4 true).\x0a\x09self\x0a\x09\x09should: 'bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09\x09^ [ super bar: anObject baz: anotherObject ] value'\x0a\x09\x09return: '4,true'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "should:return:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1938,28 +1937,8 @@ $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
 $self.receiver=$recv($1)._yourself();
-$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09^ [ super bar: anObject baz: anotherObject ] value",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar_baz_((3),(4))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar:baz:"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"4,true");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self.arguments=[(4), true];
+$self._should_return_("bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anObject anotherObject)>\x0a\x09\x09\x09^ [ super bar: anObject baz: anotherObject ] value","4,true");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNamesNested",{})});
@@ -1973,11 +1952,11 @@ selector: "testDyadicSuperDifferentNamesPermutated",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testDyadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: 'true,4' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testDyadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09arguments := #(4 true).\x0a\x09self\x0a\x09\x09should: 'bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject'\x0a\x09\x09return: 'true,4'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "should:return:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1989,28 +1968,8 @@ $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
 $self.receiver=$recv($1)._yourself();
-$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar_baz_((3),(4))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar:baz:"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"true,4");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self.arguments=[(4), true];
+$self._should_return_("bar: anObject baz: anotherObject\x0a\x09\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject","true,4");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNamesPermutated",{})});
@@ -2024,11 +1983,11 @@ selector: "testMonadicSuperDifferentNames",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMonadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4) equals: '4,undefined' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testMonadicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09arguments := #(4).\x0a\x09self\x0a\x09\x09should: 'bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject'\x0a\x09\x09return: '4,undefined'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "should:return:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2040,28 +1999,8 @@ $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
 $self.receiver=$recv($1)._yourself();
-$self._while_should_("bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar_((3))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar:"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar_((4)),"4,undefined");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self.arguments=[(4)];
+$self._should_return_("bar: anObject <jsOverride: #foo args: #(anObject)> ^ super bar: anObject","4,undefined");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testMonadicSuperDifferentNames",{})});
@@ -2104,11 +2043,11 @@ selector: "testNiladicSuperDifferentNames",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testNiladicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar <jsOverride: #foo> ^ super bar' should: [\x0a\x09\x09self shouldnt: [ receiver bar ] raise: Error.\x0a\x09\x09self assert: receiver bar equals: 'undefined,undefined' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testNiladicSuperDifferentNames\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09self\x0a\x09\x09should: 'bar <jsOverride: #foo> ^ super bar'\x0a\x09\x09receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)\x0a\x09\x09return: 'undefined,undefined'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "should:receiver:return:", "foo:", "new", "yourself"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2119,29 +2058,7 @@ $self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2"
 $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
-$self.receiver=$recv($1)._yourself();
-$self._while_should_("bar <jsOverride: #foo> ^ super bar",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar(),"undefined,undefined");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self._should_receiver_return_("bar <jsOverride: #foo> ^ super bar",$recv($1)._yourself(),"undefined,undefined");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNiladicSuperDifferentNames",{})});
@@ -2184,11 +2101,11 @@ selector: "testTriadicSuperDifferentNamesPermutated",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testTriadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject moo: yao\x0a\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject moo: yao' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 moo: 5 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true moo: 'hello') equals: 'hello,4' ]",
-referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+source: "testTriadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09arguments := #(4 true 'hello').\x0a\x09self\x0a\x09\x09should: 'bar: anObject baz: anotherObject moo: yao\x0a\x09\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject moo: yao'\x0a\x09\x09return: 'hello,4'",
+referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:moo:", "assert:equals:"]
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "should:return:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2200,28 +2117,8 @@ $recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
 $1=$recv($globals.ObjectMock2)._new();
 $recv($1)._foo_("should be shadowed");
 $self.receiver=$recv($1)._yourself();
-$self._while_should_("bar: anObject baz: anotherObject moo: yao\x0a\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject moo: yao",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$self._shouldnt_raise_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.receiver)._bar_baz_moo_((3),(4),(5))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["bar:baz:moo:"]=1
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}),$globals.Error);
-return $self._assert_equals_($recv($self.receiver)._bar_baz_moo_((4),true,"hello"),"hello,4");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+$self.arguments=[(4), true, "hello"];
+$self._should_return_("bar: anObject baz: anotherObject moo: yao\x0a\x09\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09\x09^ super bar: anObject baz: anotherObject moo: yao","hello,4");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testTriadicSuperDifferentNamesPermutated",{})});
@@ -4714,11 +4611,11 @@ selector: "while:inClass:should:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09super\x0a\x09\x09while: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [\x0a\x09\x09\x09self receiver perform: method selector ] ]",
+source: "while: aString inClass: aClass should: aBlock\x0a\x09super\x0a\x09\x09while: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ :method | aBlock value: [\x0a\x09\x09\x09self receiver perform: method selector withArguments: self arguments ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["while:inClass:should:", "value:", "perform:", "receiver", "selector"]
+messageSends: ["while:inClass:should:", "value:", "perform:withArguments:", "receiver", "selector", "arguments"]
 }, function ($methodClass){ return function (aString,aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4736,7 +4633,7 @@ return $recv(aBlock)._value_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($self._receiver())._perform_($recv(method)._selector());
+return $recv($self._receiver())._perform_withArguments_($recv(method)._selector(),$self._arguments());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
@@ -4811,19 +4708,19 @@ $core.method({
 selector: "prepareContextFor:class:receiver:withArguments:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString", "aClass", "anObject", "aDictionary"],
-source: "prepareContextFor: aString class: aClass receiver: anObject withArguments: aDictionary\x0a\x09\x22The food is a methodNode. Interpret the sequenceNode only\x22\x0a\x09\x0a\x09| ctx ast |\x0a\x09\x0a\x09ast := self parse: aString forClass: aClass.\x0a\x09\x0a\x09ctx := AIContext new\x0a\x09\x09receiver: anObject;\x0a\x09\x09selector: ast selector;\x0a\x09\x09interpreter: ASTInterpreter new;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09ctx defineLocal: each ] ].\x0a\x09\x09\x0a\x09aDictionary keysAndValuesDo: [ :key :value |\x0a\x09\x09ctx localAt: key put: value ].\x0a\x09\x0a\x09ctx interpreter\x0a\x09\x09context: ctx;\x0a\x09\x09node: ast;\x0a\x09\x09enterNode.\x0a\x09\x0a\x09^ctx",
+args: ["aString", "aClass", "anObject", "anArray"],
+source: "prepareContextFor: aString class: aClass receiver: anObject withArguments: anArray\x0a\x09\x22The food is a methodNode. Interpret the sequenceNode only\x22\x0a\x09\x0a\x09| ctx ast |\x0a\x09\x0a\x09ast := self parse: aString forClass: aClass.\x0a\x09\x0a\x09ctx := AIContext new\x0a\x09\x09receiver: anObject;\x0a\x09\x09selector: ast selector;\x0a\x09\x09interpreter: ASTInterpreter new;\x0a\x09\x09yourself.\x0a\x09\x09\x0a\x09\x22Define locals for the context\x22\x0a\x09ast sequenceNode ifNotNil: [ :sequence |\x0a\x09\x09sequence temps do: [ :each |\x0a\x09\x09\x09ctx defineLocal: each ] ].\x0a\x0a\x09ast arguments with: anArray do: [ :key :value |\x0a\x09\x09ctx defineLocal: key; localAt: key put: value ].\x0a\x09\x0a\x09ctx interpreter\x0a\x09\x09context: ctx;\x0a\x09\x09node: ast;\x0a\x09\x09enterNode.\x0a\x09\x0a\x09^ctx",
 referencedClasses: ["AIContext", "ASTInterpreter"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parse:forClass:", "receiver:", "new", "selector:", "selector", "interpreter:", "yourself", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "keysAndValuesDo:", "localAt:put:", "context:", "interpreter", "node:", "enterNode"]
-}, function ($methodClass){ return function (aString,aClass,anObject,aDictionary){
+messageSends: ["parse:forClass:", "receiver:", "new", "selector:", "selector", "interpreter:", "yourself", "ifNotNil:", "sequenceNode", "do:", "temps", "defineLocal:", "with:do:", "arguments", "localAt:put:", "context:", "interpreter", "node:", "enterNode"]
+}, function ($methodClass){ return function (aString,aClass,anObject,anArray){
 var self=this,$self=this;
 var ctx,ast;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2,$3;
+var $1,$2,$3,$4;
 ast=$self._parse_forClass_(aString,aClass);
 $1=[$recv($globals.AIContext)._new()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4844,28 +4741,34 @@ $recv($recv(sequence)._temps())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(ctx)._defineLocal_(each);
+return [$recv(ctx)._defineLocal_(each)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["defineLocal:"]=1
+//>>excludeEnd("ctx");
+][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 }
-$recv(aDictionary)._keysAndValuesDo_((function(key,value){
+$recv($recv(ast)._arguments())._with_do_(anArray,(function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv(ctx)._localAt_put_(key,value);
+$3=ctx;
+$recv($3)._defineLocal_(key);
+return $recv($3)._localAt_put_(key,value);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
-$3=$recv(ctx)._interpreter();
-$recv($3)._context_(ctx);
-$recv($3)._node_(ast);
-$recv($3)._enterNode();
+$4=$recv(ctx)._interpreter();
+$recv($4)._context_(ctx);
+$recv($4)._node_(ast);
+$recv($4)._enterNode();
 return ctx;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"prepareContextFor:class:receiver:withArguments:",{aString:aString,aClass:aClass,anObject:anObject,aDictionary:aDictionary,ctx:ctx,ast:ast})});
+}, function($ctx1) {$ctx1.fill(self,"prepareContextFor:class:receiver:withArguments:",{aString:aString,aClass:aClass,anObject:anObject,anArray:anArray,ctx:ctx,ast:ast})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TCTInterpreted);
@@ -4876,11 +4779,11 @@ selector: "while:inClass:should:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass", "aBlock"],
-source: "while: aString inClass: aClass should: aBlock\x0a\x09super\x0a\x09\x09while: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ aBlock value: [\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09interpret: aString\x0a\x09\x09\x09\x09forClass: aClass\x0a\x09\x09\x09\x09receiver: self receiver\x0a\x09\x09\x09\x09withArguments: #{} ] ]",
+source: "while: aString inClass: aClass should: aBlock\x0a\x09super\x0a\x09\x09while: aString\x0a\x09\x09inClass: aClass\x0a\x09\x09should: [ aBlock value: [\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09interpret: aString\x0a\x09\x09\x09\x09forClass: aClass\x0a\x09\x09\x09\x09receiver: self receiver\x0a\x09\x09\x09\x09withArguments: self arguments ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["while:inClass:should:", "value:", "interpret:forClass:receiver:withArguments:", "receiver"]
+messageSends: ["while:inClass:should:", "value:", "interpret:forClass:receiver:withArguments:", "receiver", "arguments"]
 }, function ($methodClass){ return function (aString,aClass,aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -4898,7 +4801,7 @@ return $recv(aBlock)._value_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $self._interpret_forClass_receiver_withArguments_(aString,aClass,$self._receiver(),$globals.HashedCollection._newFromPairs_([]));
+return $self._interpret_forClass_receiver_withArguments_(aString,aClass,$self._receiver(),$self._arguments());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 //>>excludeEnd("ctx");
