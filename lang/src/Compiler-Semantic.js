@@ -4,7 +4,81 @@ var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "property"], "Compiler-Semantic");
+$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "arguments", "property", "args"], "Compiler-Semantic");
+$core.addMethod(
+$core.method({
+selector: "args",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "args\x0a\x09^ args",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.args;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "args:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "args: aCollection\x0a\x09args := aCollection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aCollection){
+var self=this,$self=this;
+$self.args=aCollection;
+return self;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "arguments",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "arguments\x0a\x09^ arguments",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.arguments;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
+selector: "arguments:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "arguments: aCollection\x0a\x09arguments := aCollection",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aCollection){
+var self=this,$self=this;
+$self.arguments=aCollection;
+return self;
+
+}; }),
+$globals.JSSuperSendVisitor);
+
 $core.addMethod(
 $core.method({
 selector: "property",
@@ -81,21 +155,53 @@ $globals.JSSuperSendVisitor);
 
 $core.addMethod(
 $core.method({
+selector: "switcherFrom:to:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection", "anotherCollection"],
+source: "switcherFrom: aCollection to: anotherCollection\x0a\x09^ NativeFunction\x0a\x09\x09constructorNamed: #Function\x0a\x09\x09value: (',' join: aCollection)\x0a\x09\x09value: 'return [', (',' join: anotherCollection), ']'",
+referencedClasses: ["NativeFunction"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["constructorNamed:value:value:", "join:", ","]
+}, function ($methodClass){ return function (aCollection,anotherCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.NativeFunction)._constructorNamed_value_value_("Function",[","._join_(aCollection)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["join:"]=1
+//>>excludeEnd("ctx");
+][0],[$recv("return [".__comma(","._join_(anotherCollection))).__comma("]")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0]);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"switcherFrom:to:",{aCollection:aCollection,anotherCollection:anotherCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSSuperSendVisitor);
+
+$core.addMethod(
+$core.method({
 selector: "visitMethodNode:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self selector: aNode selector.\x0a\x09^ super visitMethodNode: aNode",
+source: "visitMethodNode: aNode\x0a\x09self selector: aNode selector.\x0a\x09self arguments: aNode arguments.\x0a\x09^ super visitMethodNode: aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["selector:", "selector", "visitMethodNode:"]
+messageSends: ["selector:", "selector", "arguments:", "arguments", "visitMethodNode:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._selector_($recv(aNode)._selector());
+$self._arguments_($recv(aNode)._arguments());
 return [(
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 $ctx1.supercall = true,
@@ -117,25 +223,29 @@ selector: "visitSendNode:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isSuper ifTrue: [\x0a\x09\x09aNode selector = self selector ifTrue: [\x0a\x09\x09\x09| old |\x0a\x09\x09\x09old := receiver binding.\x0a\x09\x09\x09receiver binding: (\x0a\x09\x09\x09\x09JavaScriptSuperVar new\x0a\x09\x09\x09\x09\x09scope: old scope;\x0a\x09\x09\x09\x09\x09name: old name;\x0a\x09\x09\x09\x09\x09yourself ).\x0a\x09\x09\x09aNode javaScriptSelector: self property ] ].\x0a\x09^ super visitSendNode: aNode",
+source: "visitSendNode: aNode\x0a\x09| receiver |\x0a\x09receiver := aNode receiver.\x0a\x09receiver isSuper ifTrue: [\x0a\x09\x09aNode selector = self selector ifTrue: [\x0a\x09\x09\x09| old |\x0a\x09\x09\x09old := receiver binding.\x0a\x09\x09\x09receiver binding: (\x0a\x09\x09\x09\x09JavaScriptSuperVar new\x0a\x09\x09\x09\x09\x09scope: old scope;\x0a\x09\x09\x09\x09\x09name: old name;\x0a\x09\x09\x09\x09\x09yourself ).\x0a\x09\x09\x09self args ifNotNil: [ :myArgs |\x0a\x09\x09\x09\x09myArgs = self arguments ifFalse: [\x0a\x09\x09\x09\x09\x09aNode argumentSwitcher:\x0a\x09\x09\x09\x09\x09\x09(self switcherFrom: self arguments to: myArgs) ] ].\x0a\x09\x09\x09aNode javaScriptSelector: self property ] ].\x0a\x09^ super visitSendNode: aNode",
 referencedClasses: ["JavaScriptSuperVar"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["receiver", "ifTrue:", "isSuper", "=", "selector", "binding", "binding:", "scope:", "new", "scope", "name:", "name", "yourself", "javaScriptSelector:", "property", "visitSendNode:"]
+messageSends: ["receiver", "ifTrue:", "isSuper", "=", "selector", "binding", "binding:", "scope:", "new", "scope", "name:", "name", "yourself", "ifNotNil:", "args", "ifFalse:", "arguments", "argumentSwitcher:", "switcherFrom:to:", "javaScriptSelector:", "property", "visitSendNode:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3;
 receiver=$recv(aNode)._receiver();
 if($core.assert($recv(receiver)._isSuper())){
-if($core.assert($recv([$recv(aNode)._selector()
+if($core.assert([$recv([$recv(aNode)._selector()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["selector"]=1
 //>>excludeEnd("ctx");
-][0]).__eq($self._selector()))){
+][0]).__eq($self._selector())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["="]=1
+//>>excludeEnd("ctx");
+][0])){
 var old;
 old=$recv(receiver)._binding();
 $1=receiver;
@@ -143,6 +253,20 @@ $2=$recv($globals.JavaScriptSuperVar)._new();
 $recv($2)._scope_($recv(old)._scope());
 $recv($2)._name_($recv(old)._name());
 $recv($1)._binding_($recv($2)._yourself());
+$3=$self._args();
+if($3 == null || $3.a$nil){
+$3;
+} else {
+var myArgs;
+myArgs=$3;
+if(!$core.assert($recv(myArgs).__eq([$self._arguments()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["arguments"]=1
+//>>excludeEnd("ctx");
+][0]))){
+$recv(aNode)._argumentSwitcher_($self._switcherFrom_to_($self._arguments(),myArgs));
+}
+}
 $recv(aNode)._javaScriptSelector_($self._property());
 }
 }
@@ -2940,17 +3064,22 @@ selector: "jsOverride:args:",
 protocol: "*Compiler-Semantic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aCollection"],
-source: "jsOverride: aString args: aCollection\x0a\x09^ self jsOverride: aString",
-referencedClasses: [],
+source: "jsOverride: aString args: aCollection\x0a\x09(JSSuperSendVisitor new property: aString; args: aCollection; yourself)\x0a\x09\x09visit: self methodNode",
+referencedClasses: ["JSSuperSendVisitor"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["jsOverride:"]
+messageSends: ["visit:", "property:", "new", "args:", "yourself", "methodNode"]
 }, function ($methodClass){ return function (aString,aCollection){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._jsOverride_(aString);
+var $1;
+$1=$recv($globals.JSSuperSendVisitor)._new();
+$recv($1)._property_(aString);
+$recv($1)._args_(aCollection);
+$recv($recv($1)._yourself())._visit_($self._methodNode());
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"jsOverride:args:",{aString:aString,aCollection:aCollection})});
 //>>excludeEnd("ctx");

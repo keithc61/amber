@@ -256,12 +256,20 @@ acceptDagVisitor: aVisitor
 ! !
 
 ExpressionNode subclass: #SendNode
-	slots: {#selector. #arguments. #receiver. #index. #javaScriptSelector. #isSideEffect}
+	slots: {#selector. #arguments. #receiver. #index. #javaScriptSelector. #argumentSwitcher. #isSideEffect}
 	package: 'Compiler-AST'!
 !SendNode commentStamp!
 I represent an message send node.!
 
 !SendNode methodsFor: 'accessing'!
+
+argumentSwitcher
+	^ argumentSwitcher
+!
+
+argumentSwitcher: aJSFunction
+	argumentSwitcher := aJSFunction
+!
 
 arguments
 	^ arguments ifNil: [ arguments := #() ]

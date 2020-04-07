@@ -863,11 +863,11 @@ selector: "visitSendNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| send |\x0a\x09send := IRSend new.\x0a\x09send\x0a\x09\x09selector: aNode selector;\x0a\x09\x09javaScriptSelector: aNode javaScriptSelector;\x0a\x09\x09index: aNode index.\x0a\x09\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].\x0a\x0a\x09^ send",
+source: "visitSendNode: aNode\x0a\x09| send |\x0a\x09send := IRSend new.\x0a\x09send\x0a\x09\x09selector: aNode selector;\x0a\x09\x09javaScriptSelector: aNode javaScriptSelector;\x0a\x09\x09argumentSwitcher: aNode argumentSwitcher;\x0a\x09\x09index: aNode index.\x0a\x09\x0a\x09(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].\x0a\x0a\x09^ send",
 referencedClasses: ["IRSend"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "selector:", "selector", "javaScriptSelector:", "javaScriptSelector", "index:", "index", "do:", "aliasTemporally:", "dagChildren", "add:"]
+messageSends: ["new", "selector:", "selector", "javaScriptSelector:", "javaScriptSelector", "argumentSwitcher:", "argumentSwitcher", "index:", "index", "do:", "aliasTemporally:", "dagChildren", "add:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var send;
@@ -879,6 +879,7 @@ send=$recv($globals.IRSend)._new();
 $1=send;
 $recv($1)._selector_($recv(aNode)._selector());
 $recv($1)._javaScriptSelector_($recv(aNode)._javaScriptSelector());
+$recv($1)._argumentSwitcher_($recv(aNode)._argumentSwitcher());
 $recv($1)._index_($recv(aNode)._index());
 $recv($self._aliasTemporally_($recv(aNode)._dagChildren()))._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2659,7 +2660,7 @@ $globals.IRTempDeclaration);
 
 
 
-$core.addClass("IRSend", $globals.IRInstruction, ["selector", "javaScriptSelector", "index"], "Compiler-IR");
+$core.addClass("IRSend", $globals.IRInstruction, ["selector", "javaScriptSelector", "argumentSwitcher", "index"], "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSend.comment="I am a message send instruction.";
 //>>excludeEnd("ide");
@@ -2683,6 +2684,43 @@ return $recv(aVisitor)._visitIRSend_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "argumentSwitcher",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "argumentSwitcher\x0a\x09^ argumentSwitcher",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.argumentSwitcher;
+
+}; }),
+$globals.IRSend);
+
+$core.addMethod(
+$core.method({
+selector: "argumentSwitcher:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aJSFunction"],
+source: "argumentSwitcher: aJSFunction\x0a\x09argumentSwitcher := aJSFunction",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aJSFunction){
+var self=this,$self=this;
+$self.argumentSwitcher=aJSFunction;
+return self;
+
 }; }),
 $globals.IRSend);
 
@@ -3365,41 +3403,84 @@ selector: "jsOverride:args:",
 protocol: "pragmas",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aCollection"],
-source: "jsOverride: aString args: aCollection\x0a\x09| argList |\x0a\x09self irMethod arguments = aCollection ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09argList := ',' join: aCollection.\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: argList\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', argList, ')')",
+source: "jsOverride: aString args: aCollection\x0a\x09| myArgs |\x0a\x09myArgs := self irMethod arguments.\x0a\x09myArgs size = aCollection size ifFalse: [\x0a\x09\x09CompilerError signal: 'Should have ', self irMethod arguments size, ' args in <jsOverride:args:>.' ].\x0a\x09myArgs asSet = aCollection asSet ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: (',' join: aCollection)\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')",
 referencedClasses: ["CompilerError", "NativeFunction"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "=", "arguments", "irMethod", "signal:", "join:", "at:put:", "attachments", "constructorNamed:value:value:", ",", "asJavaScriptMethodName", "selector"]
+messageSends: ["arguments", "irMethod", "ifFalse:", "=", "size", "signal:", ",", "asSet", "at:put:", "attachments", "constructorNamed:value:value:", "join:", "asJavaScriptMethodName", "selector"]
 }, function ($methodClass){ return function (aString,aCollection){
 var self=this,$self=this;
-var argList;
+var myArgs;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv($recv([$self._irMethod()
+myArgs=[$recv([$self._irMethod()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["irMethod"]=1
 //>>excludeEnd("ctx");
-][0])._arguments()).__eq(aCollection))){
-$recv($globals.CompilerError)._signal_("Argument mismatch in <jsOverride:args:>.");
-}
-argList=","._join_(aCollection);
-$recv($recv($self._irMethod())._attachments())._at_put_(aString,$recv($globals.NativeFunction)._constructorNamed_value_value_("Function",argList,[$recv([$recv([$recv("return this.".__comma($recv($recv($self.irMethod)._selector())._asJavaScriptMethodName())).__comma("(")
+][0])._arguments()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=3
+,$ctx1.sendIdx["arguments"]=1
 //>>excludeEnd("ctx");
-][0]).__comma(argList)
+][0];
+if(!$core.assert([$recv([$recv(myArgs)._size()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["size"]=1
+//>>excludeEnd("ctx");
+][0]).__eq([$recv(aCollection)._size()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["size"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["="]=1
+//>>excludeEnd("ctx");
+][0])){
+[$recv($globals.CompilerError)._signal_([$recv(["Should have ".__comma($recv($recv([$self._irMethod()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["irMethod"]=2
+//>>excludeEnd("ctx");
+][0])._arguments())._size())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
-][0]).__comma(")")
+][0]).__comma(" args in <jsOverride:args:>.")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["signal:"]=1
+//>>excludeEnd("ctx");
+][0];
+}
+if(!$core.assert($recv([$recv(myArgs)._asSet()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["asSet"]=1
+//>>excludeEnd("ctx");
+][0]).__eq($recv(aCollection)._asSet()))){
+$recv($globals.CompilerError)._signal_("Argument mismatch in <jsOverride:args:>.");
+}
+$recv($recv($self._irMethod())._attachments())._at_put_(aString,$recv($globals.NativeFunction)._constructorNamed_value_value_("Function",[","._join_(aCollection)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["join:"]=1
+//>>excludeEnd("ctx");
+][0],[$recv([$recv([$recv("return this.".__comma($recv($recv($self.irMethod)._selector())._asJavaScriptMethodName())).__comma("(")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=5
+//>>excludeEnd("ctx");
+][0]).__comma(","._join_(myArgs))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=4
+//>>excludeEnd("ctx");
+][0]).__comma(")")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");
 ][0]));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"jsOverride:args:",{aString:aString,aCollection:aCollection,argList:argList})});
+}, function($ctx1) {$ctx1.fill(self,"jsOverride:args:",{aString:aString,aCollection:aCollection,myArgs:myArgs})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.IRLatePragmator);
@@ -4654,18 +4735,22 @@ selector: "visitSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector, '.call'.\x0a\x09self\x0a\x09\x09visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments\x0a\x09\x09enclosedBetween: '(' and: ')'",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector.\x0a\x09anIRSend arguments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09ifNotEmpty: [\x0a\x09\x09\x09anIRSend argumentSwitcher\x0a\x09\x09\x09\x09ifNil: [\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',' and: ')' ]\x0a\x09\x09\x09\x09ifNotNil: [ :switcher |\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.apply('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',(', switcher asJavaScriptSource, ')('\x0a\x09\x09\x09\x09\x09\x09and: '))' ] ]\x0a",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["nextPutAll:", "stream", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "visitInstructionList:enclosedBetween:and:", "asReceiver", "arguments"]
+messageSends: ["nextPutAll:", "stream", ",", "lookupAsJavaScriptSource", "variable", "receiver", "javaScriptSelector", "ifEmpty:ifNotEmpty:", "arguments", "visitReceiver:", "ifNil:ifNotNil:", "argumentSwitcher", "visitInstructionList:enclosedBetween:and:", "asJavaScriptSource"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$self._stream();
+var $1,$2;
+$1=[$self._stream()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["stream"]=1
+//>>excludeEnd("ctx");
+][0];
 [$recv($1)._nextPutAll_([$recv($recv($recv([$recv(anIRSend)._receiver()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["receiver"]=1
@@ -4679,12 +4764,97 @@ $1=$self._stream();
 ,$ctx1.sendIdx["nextPutAll:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($1)._nextPutAll_([$recv($recv(anIRSend)._javaScriptSelector()).__comma(".call")
+[$recv($1)._nextPutAll_($recv(anIRSend)._javaScriptSelector())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=2
+,$ctx1.sendIdx["nextPutAll:"]=2
 //>>excludeEnd("ctx");
-][0]);
-$self._visitInstructionList_enclosedBetween_and_($recv([$recv($recv(anIRSend)._receiver())._asReceiver()]).__comma($recv(anIRSend)._arguments()),"(",")");
+][0];
+$recv([$recv(anIRSend)._arguments()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["arguments"]=1
+//>>excludeEnd("ctx");
+][0])._ifEmpty_ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$recv([$self._stream()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["stream"]=2
+//>>excludeEnd("ctx");
+][0])._nextPutAll_(".call(")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["nextPutAll:"]=3
+//>>excludeEnd("ctx");
+][0];
+[$self._visitReceiver_([$recv(anIRSend)._receiver()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["receiver"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["visitReceiver:"]=1
+//>>excludeEnd("ctx");
+][0];
+return [$recv([$self._stream()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["stream"]=3
+//>>excludeEnd("ctx");
+][0])._nextPutAll_(")")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["nextPutAll:"]=4
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$2=$recv(anIRSend)._argumentSwitcher();
+if($2 == null || $2.a$nil){
+[$recv([$self._stream()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["stream"]=4
+//>>excludeEnd("ctx");
+][0])._nextPutAll_(".call(")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["nextPutAll:"]=5
+//>>excludeEnd("ctx");
+][0];
+[$self._visitReceiver_([$recv(anIRSend)._receiver()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["receiver"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["visitReceiver:"]=2
+//>>excludeEnd("ctx");
+][0];
+return [$self._visitInstructionList_enclosedBetween_and_([$recv(anIRSend)._arguments()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["arguments"]=2
+//>>excludeEnd("ctx");
+][0],",",")")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["visitInstructionList:enclosedBetween:and:"]=1
+//>>excludeEnd("ctx");
+][0];
+} else {
+var switcher;
+switcher=$2;
+$recv($self._stream())._nextPutAll_(".apply(");
+$self._visitReceiver_($recv(anIRSend)._receiver());
+return $self._visitInstructionList_enclosedBetween_and_($recv(anIRSend)._arguments(),[$recv(",(".__comma($recv(switcher)._asJavaScriptSource())).__comma(")(")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0],"))");
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"visitSuperSend:",{anIRSend:anIRSend})});

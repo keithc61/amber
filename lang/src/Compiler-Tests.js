@@ -1969,6 +1969,57 @@ $globals.AbstractJavaScriptGatewayTest);
 
 $core.addMethod(
 $core.method({
+selector: "testDyadicSuperDifferentNamesPermutated",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true) equals: 'true,4' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar: anObject baz: anotherObject\x0a\x09\x09<jsOverride: #foo args: #(anotherObject anObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar_baz_((3),(4))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar:baz:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar_baz_((4),true),"true,4");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicSuperDifferentNamesPermutated",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
 selector: "testMonadicSuperDifferentNames",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2123,6 +2174,57 @@ $self._should_receiver_return_("foo <jsOverride: #foo> ^ [ super foo ] value",$r
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testNiladicSuperNested",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractJavaScriptGatewayTest);
+
+$core.addMethod(
+$core.method({
+selector: "testTriadicSuperDifferentNamesPermutated",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTriadicSuperDifferentNamesPermutated\x0a\x09theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.\x0a\x09theClass beJavaScriptSubclassOf: self jsConstructor.\x0a\x09receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.\x0a\x09self while: 'bar: anObject baz: anotherObject moo: yao\x0a\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject moo: yao' should: [\x0a\x09\x09self shouldnt: [ receiver bar: 3 baz: 4 moo: 5 ] raise: Error.\x0a\x09\x09self assert: (receiver bar: 4 baz: true moo: 'hello') equals: 'hello,4' ]",
+referencedClasses: ["ObjectMock", "ObjectMock2", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclass:slots:package:", "beJavaScriptSubclassOf:", "jsConstructor", "foo:", "new", "yourself", "while:should:", "shouldnt:raise:", "bar:baz:moo:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$self.theClass=$recv($globals.ObjectMock)._subclass_slots_package_("ObjectMock2",[],"Compiler-Tests");
+$recv($self.theClass)._beJavaScriptSubclassOf_($self._jsConstructor());
+$1=$recv($globals.ObjectMock2)._new();
+$recv($1)._foo_("should be shadowed");
+$self.receiver=$recv($1)._yourself();
+$self._while_should_("bar: anObject baz: anotherObject moo: yao\x0a\x09\x09<jsOverride: #foo args: #(yao anObject anotherObject)>\x0a\x09\x09^ super bar: anObject baz: anotherObject moo: yao",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._shouldnt_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($self.receiver)._bar_baz_moo_((3),(4),(5))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["bar:baz:moo:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._bar_baz_moo_((4),true,"hello"),"hello,4");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testTriadicSuperDifferentNamesPermutated",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AbstractJavaScriptGatewayTest);
@@ -2731,6 +2833,85 @@ $globals.AbstractCodeGeneratorInstallTest);
 
 $core.addMethod(
 $core.method({
+selector: "testDyadicJSOverrideDifferentNamesPermutated",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testDyadicJSOverrideDifferentNamesPermutated\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anotherInteger anInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)' should: [\x0a\x09\x09self should: [ receiver mux ] raise: MessageNotUnderstood.\x0a\x09\x09self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.\x0a\x09\x09self assert: (receiver basicPerform: #mux withArguments: #(-2 2)) equals: 6.\x0a\x09\x09self assert: (receiver quux: 1 foo: 4) equals: 10.\x0a\x09\x09self should: [ receiver basicPerform: #quux ] raise: Error.\x0a\x09\x09self assert: receiver foo equals: 10 ]",
+referencedClasses: ["ObjectMock", "MessageNotUnderstood", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "should:raise:", "mux", "mux:and:", "assert:equals:", "basicPerform:withArguments:", "quux:foo:", "basicPerform:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("quux: anInteger foo: anotherInteger\x0a\x09\x09<jsOverride: #mux args: #(anotherInteger anInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux_and_((2),(-1));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._basicPerform_withArguments_("mux",[(-2), (2)]),(6))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._quux_foo_((1),(4)),(10))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._basicPerform_("quux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._foo(),(10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testDyadicJSOverrideDifferentNamesPermutated",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
 selector: "testDyadicJSOverrideInOneArg",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3174,6 +3355,85 @@ $self._shouldntInstall_andRaise_("foo ^ [ < fooBar > 4 ] value",$globals.ParseEr
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPragmaInBlock",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCodeGeneratorInstallTest);
+
+$core.addMethod(
+$core.method({
+selector: "testTriadicJSOverrideDifferentNamesPermutated",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTriadicJSOverrideDifferentNamesPermutated\x0a\x09receiver := ObjectMock new.\x0a\x09receiver foo: 4.\x0a\x09self while: 'quux: anInteger foo: anotherInteger bar: yaInt\x0a\x09\x09<jsOverride: #mux args: #(yaInt anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger - yaInt)' should: [\x0a\x09\x09self should: [ receiver mux ] raise: MessageNotUnderstood.\x0a\x09\x09self should: [ receiver mux: 2 and: -1 and: 0 ] raise: MessageNotUnderstood.\x0a\x09\x09self assert: (receiver basicPerform: #mux withArguments: #(5 2 3)) equals: 6.\x0a\x09\x09self assert: (receiver quux: 1 foo: 4 bar: 20) equals: -10.\x0a\x09\x09self should: [ receiver basicPerform: #quux ] raise: Error.\x0a\x09\x09self assert: receiver foo equals: -10 ]",
+referencedClasses: ["ObjectMock", "MessageNotUnderstood", "Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "foo:", "while:should:", "should:raise:", "mux", "mux:and:and:", "assert:equals:", "basicPerform:withArguments:", "quux:foo:bar:", "basicPerform:", "foo"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.receiver=$recv($globals.ObjectMock)._new();
+$recv($self.receiver)._foo_((4));
+$self._while_should_("quux: anInteger foo: anotherInteger bar: yaInt\x0a\x09\x09<jsOverride: #mux args: #(yaInt anInteger anotherInteger)>\x0a\x09\x09^ (foo := foo * anInteger + anotherInteger - yaInt)",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._mux_and_and_((2),(-1),(0));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
+//>>excludeEnd("ctx");
+}),$globals.MessageNotUnderstood)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["should:raise:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._basicPerform_withArguments_("mux",[(5), (2), (3)]),(6))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_($recv($self.receiver)._quux_foo_bar_((1),(4),(20)),(-10))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv($self.receiver)._basicPerform_("quux");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return $self._assert_equals_($recv($self.receiver)._foo(),(-10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testTriadicJSOverrideDifferentNamesPermutated",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AbstractCodeGeneratorInstallTest);

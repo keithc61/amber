@@ -507,6 +507,17 @@ testDyadicSuperDifferentNamesNested
 		self assert: (receiver bar: 4 baz: true) equals: '4,true' ]
 !
 
+testDyadicSuperDifferentNamesPermutated
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar: anObject baz: anotherObject
+		<jsOverride: #foo args: #(anotherObject anObject)>
+		^ super bar: anObject baz: anotherObject' should: [
+		self shouldnt: [ receiver bar: 3 baz: 4 ] raise: Error.
+		self assert: (receiver bar: 4 baz: true) equals: 'true,4' ]
+!
+
 testMonadicSuperDifferentNames
 	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
 	theClass beJavaScriptSubclassOf: self jsConstructor.
@@ -541,6 +552,17 @@ testNiladicSuperNested
 		should: 'foo <jsOverride: #foo> ^ [ super foo ] value'
 		receiver: (ObjectMock2 new foo: 'should be shadowed'; yourself)
 		return: 'undefined,undefined'
+!
+
+testTriadicSuperDifferentNamesPermutated
+	theClass := ObjectMock subclass: #ObjectMock2 slots: #() package: 'Compiler-Tests'.
+	theClass beJavaScriptSubclassOf: self jsConstructor.
+	receiver := ObjectMock2 new foo: 'should be shadowed'; yourself.
+	self while: 'bar: anObject baz: anotherObject moo: yao
+		<jsOverride: #foo args: #(yao anObject anotherObject)>
+		^ super bar: anObject baz: anotherObject moo: yao' should: [
+		self shouldnt: [ receiver bar: 3 baz: 4 moo: 5 ] raise: Error.
+		self assert: (receiver bar: 4 baz: true moo: 'hello') equals: 'hello,4' ]
 ! !
 
 !AbstractJavaScriptGatewayTest class methodsFor: 'testing'!
@@ -726,6 +748,20 @@ testDyadicJSOverrideDifferentNames
 		self assert: receiver foo equals: 10 ]
 !
 
+testDyadicJSOverrideDifferentNamesPermutated
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux: anInteger foo: anotherInteger
+		<jsOverride: #mux args: #(anotherInteger anInteger)>
+		^ (foo := foo * anInteger + anotherInteger)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self should: [ receiver mux: 2 and: -1 ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux withArguments: #(-2 2)) equals: 6.
+		self assert: (receiver quux: 1 foo: 4) equals: 10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: 10 ]
+!
+
 testDyadicJSOverrideInOneArg
 	receiver := ObjectMock new.
 	self
@@ -828,6 +864,20 @@ testNiladicJSOverrideInOneArg
 
 testPragmaInBlock
 	self shouldntInstall: 'foo ^ [ < fooBar > 4 ] value' andRaise: ParseError
+!
+
+testTriadicJSOverrideDifferentNamesPermutated
+	receiver := ObjectMock new.
+	receiver foo: 4.
+	self while: 'quux: anInteger foo: anotherInteger bar: yaInt
+		<jsOverride: #mux args: #(yaInt anInteger anotherInteger)>
+		^ (foo := foo * anInteger + anotherInteger - yaInt)' should: [
+		self should: [ receiver mux ] raise: MessageNotUnderstood.
+		self should: [ receiver mux: 2 and: -1 and: 0 ] raise: MessageNotUnderstood.
+		self assert: (receiver basicPerform: #mux withArguments: #(5 2 3)) equals: 6.
+		self assert: (receiver quux: 1 foo: 4 bar: 20) equals: -10.
+		self should: [ receiver basicPerform: #quux ] raise: Error.
+		self assert: receiver foo equals: -10 ]
 ! !
 
 !AbstractCodeGeneratorInstallTest class methodsFor: 'testing'!

@@ -977,7 +977,7 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "isSideEffect"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "argumentSwitcher", "isSideEffect"], "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -1001,6 +1001,43 @@ return $recv(aVisitor)._visitSendNode_(self);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "argumentSwitcher",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "argumentSwitcher\x0a\x09^ argumentSwitcher",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.argumentSwitcher;
+
+}; }),
+$globals.SendNode);
+
+$core.addMethod(
+$core.method({
+selector: "argumentSwitcher:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aJSFunction"],
+source: "argumentSwitcher: aJSFunction\x0a\x09argumentSwitcher := aJSFunction",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aJSFunction){
+var self=this,$self=this;
+$self.argumentSwitcher=aJSFunction;
+return self;
+
 }; }),
 $globals.SendNode);
 

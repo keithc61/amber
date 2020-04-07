@@ -1,9 +1,25 @@
 Smalltalk createPackage: 'Compiler-Semantic'!
 NodeVisitor subclass: #JSSuperSendVisitor
-	slots: {#selector. #property}
+	slots: {#selector. #arguments. #property. #args}
 	package: 'Compiler-Semantic'!
 
 !JSSuperSendVisitor methodsFor: 'accessing'!
+
+args
+	^ args
+!
+
+args: aCollection
+	args := aCollection
+!
+
+arguments
+	^ arguments
+!
+
+arguments: aCollection
+	arguments := aCollection
+!
 
 property
 	^ property
@@ -21,8 +37,16 @@ selector: anObject
 	selector := anObject
 !
 
+switcherFrom: aCollection to: anotherCollection
+	^ NativeFunction
+		constructorNamed: #Function
+		value: (',' join: aCollection)
+		value: 'return [', (',' join: anotherCollection), ']'
+!
+
 visitMethodNode: aNode
 	self selector: aNode selector.
+	self arguments: aNode arguments.
 	^ super visitMethodNode: aNode
 !
 
@@ -38,6 +62,10 @@ visitSendNode: aNode
 					scope: old scope;
 					name: old name;
 					yourself ).
+			self args ifNotNil: [ :myArgs |
+				myArgs = self arguments ifFalse: [
+					aNode argumentSwitcher:
+						(self switcherFrom: self arguments to: myArgs) ] ].
 			aNode javaScriptSelector: self property ] ].
 	^ super visitSendNode: aNode
 ! !
@@ -754,6 +782,7 @@ jsOverride: aString
 !
 
 jsOverride: aString args: aCollection
-	^ self jsOverride: aString
+	(JSSuperSendVisitor new property: aString; args: aCollection; yourself)
+		visit: self methodNode
 ! !
 

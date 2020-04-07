@@ -219,6 +219,7 @@ visitSendNode: aNode
 	send
 		selector: aNode selector;
 		javaScriptSelector: aNode javaScriptSelector;
+		argumentSwitcher: aNode argumentSwitcher;
 		index: aNode index.
 	
 	(self aliasTemporally: aNode dagChildren) do: [ :each | send add: each ].
@@ -676,12 +677,20 @@ acceptDagVisitor: aVisitor
 ! !
 
 IRInstruction subclass: #IRSend
-	slots: {#selector. #javaScriptSelector. #index}
+	slots: {#selector. #javaScriptSelector. #argumentSwitcher. #index}
 	package: 'Compiler-IR'!
 !IRSend commentStamp!
 I am a message send instruction.!
 
 !IRSend methodsFor: 'accessing'!
+
+argumentSwitcher
+	^ argumentSwitcher
+!
+
+argumentSwitcher: aJSFunction
+	argumentSwitcher := aJSFunction
+!
 
 arguments
 	^ self dagChildren allButFirst
@@ -882,16 +891,18 @@ jsOverride: aString
 !
 
 jsOverride: aString args: aCollection
-	| argList |
-	self irMethod arguments = aCollection ifFalse: [
+	| myArgs |
+	myArgs := self irMethod arguments.
+	myArgs size = aCollection size ifFalse: [
+		CompilerError signal: 'Should have ', self irMethod arguments size, ' args in <jsOverride:args:>.' ].
+	myArgs asSet = aCollection asSet ifFalse: [
 		CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].
-	argList := ',' join: aCollection.
 	self irMethod attachments
 		at: aString
 		put: (NativeFunction
 			constructorNamed: #Function
-			value: argList
-			value: 'return this.', irMethod selector asJavaScriptMethodName, '(', argList, ')')
+			value: (',' join: aCollection)
+			value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')
 ! !
 
 ParentFakingPathDagVisitor subclass: #IRVisitor
@@ -1135,10 +1146,27 @@ visitSend: anIRSend
 visitSuperSend: anIRSend
 	self stream
 		nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';
-		nextPutAll: anIRSend javaScriptSelector, '.call'.
-	self
-		visitInstructionList: {anIRSend receiver asReceiver}, anIRSend arguments
-		enclosedBetween: '(' and: ')'
+		nextPutAll: anIRSend javaScriptSelector.
+	anIRSend arguments
+		ifEmpty: [
+			self stream nextPutAll: '.call('.
+			self visitReceiver: anIRSend receiver.
+			self stream nextPutAll: ')' ]
+		ifNotEmpty: [
+			anIRSend argumentSwitcher
+				ifNil: [
+					self stream nextPutAll: '.call('.
+					self visitReceiver: anIRSend receiver.
+					self
+						visitInstructionList: anIRSend arguments
+						enclosedBetween: ',' and: ')' ]
+				ifNotNil: [ :switcher |
+					self stream nextPutAll: '.apply('.
+					self visitReceiver: anIRSend receiver.
+					self
+						visitInstructionList: anIRSend arguments
+						enclosedBetween: ',(', switcher asJavaScriptSource, ')('
+						and: '))' ] ]
 ! !
 
 Object subclass: #JSStream
