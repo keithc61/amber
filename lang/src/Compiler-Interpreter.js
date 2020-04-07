@@ -2829,6 +2829,52 @@ $globals.ASTInterpreter);
 
 $core.addMethod(
 $core.method({
+selector: "sendJavaScript:superMessage:switcher:to:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "aMessage", "aJSFunction", "anObject"],
+source: "sendJavaScript: aString superMessage: aMessage switcher: aJSFunction to: anObject\x0a\x09| methodBlock parent |\x0a\x09\x0a\x09parent := self context method methodClass superPrototype.\x0a\x09parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x0a\x09methodBlock := (parent at: aString)\x0a\x09\x09ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].\x0a\x09\x09\x0a\x09^ methodBlock applyTo: anObject arguments: (aJSFunction applyTo: nil arguments: aMessage arguments)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["superPrototype", "methodClass", "method", "context", "ifNil:", "messageNotUnderstood:receiver:", "at:", "applyTo:arguments:", "arguments"]
+}, function ($methodClass){ return function (aString,aMessage,aJSFunction,anObject){
+var self=this,$self=this;
+var methodBlock,parent;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+parent=$recv($recv($recv($self._context())._method())._methodClass())._superPrototype();
+$1=parent;
+if($1 == null || $1.a$nil){
+return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["messageNotUnderstood:receiver:"]=1
+//>>excludeEnd("ctx");
+][0];
+} else {
+$1;
+}
+$2=$recv(parent)._at_(aString);
+if($2 == null || $2.a$nil){
+return $self._messageNotUnderstood_receiver_(aMessage,anObject);
+} else {
+methodBlock=$2;
+}
+return [$recv(methodBlock)._applyTo_arguments_(anObject,$recv(aJSFunction)._applyTo_arguments_(nil,$recv(aMessage)._arguments()))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["applyTo:arguments:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"sendJavaScript:superMessage:switcher:to:",{aString:aString,aMessage:aMessage,aJSFunction:aJSFunction,anObject:anObject,methodBlock:methodBlock,parent:parent})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ASTInterpreter);
+
+$core.addMethod(
+$core.method({
 selector: "sendJavaScript:superMessage:to:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3347,17 +3393,18 @@ selector: "visitSendNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := aNode superSend\x0a\x09\x09ifFalse: [ message sendTo: receiver ]\x0a\x09\x09ifTrue: [ aNode receiver binding isJavaScriptSuper\x0a\x09\x09\x09ifFalse: [ self sendSuperMessage: message to: receiver ]\x0a\x09\x09\x09ifTrue: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ] ].\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09aNode isSideEffect ifFalse: [ self pop; push: result ]",
+source: "visitSendNode: aNode\x0a\x09| receiver args message result |\x0a\x09\x0a\x09args := aNode arguments collect: [ :each | self pop ].\x0a\x09receiver := self peek.\x0a\x09\x0a\x09message := self\x0a\x09\x09messageFromSendNode: aNode\x0a\x09\x09arguments: args reversed.\x0a\x09\x0a\x09result := aNode superSend\x0a\x09\x09ifFalse: [ message sendTo: receiver ]\x0a\x09\x09ifTrue: [ aNode receiver binding isJavaScriptSuper\x0a\x09\x09\x09ifFalse: [ self sendSuperMessage: message to: receiver ]\x0a\x09\x09\x09ifTrue: [ aNode argumentSwitcher\x0a\x09\x09\x09\x09ifNil: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ]\x0a\x09\x09\x09\x09ifNotNil: [ :switcher | self sendJavaScript: aNode javaScriptSelector superMessage: message switcher: switcher to: receiver ] ] ].\x0a\x09\x0a\x09\x22For cascade sends, push the reciever if the send is not the last one\x22\x0a\x09aNode isSideEffect ifFalse: [ self pop; push: result ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "ifFalse:ifTrue:", "superSend", "sendTo:", "isJavaScriptSuper", "binding", "receiver", "sendSuperMessage:to:", "sendJavaScript:superMessage:to:", "javaScriptSelector", "ifFalse:", "isSideEffect", "push:"]
+messageSends: ["collect:", "arguments", "pop", "peek", "messageFromSendNode:arguments:", "reversed", "ifFalse:ifTrue:", "superSend", "sendTo:", "isJavaScriptSuper", "binding", "receiver", "sendSuperMessage:to:", "ifNil:ifNotNil:", "argumentSwitcher", "sendJavaScript:superMessage:to:", "javaScriptSelector", "sendJavaScript:superMessage:switcher:to:", "ifFalse:", "isSideEffect", "push:"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var receiver,args,message,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 args=$recv($recv(aNode)._arguments())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3375,7 +3422,18 @@ receiver=$self._peek();
 message=$self._messageFromSendNode_arguments_(aNode,$recv(args)._reversed());
 if($core.assert($recv(aNode)._superSend())){
 if($core.assert($recv($recv($recv(aNode)._receiver())._binding())._isJavaScriptSuper())){
-result=$self._sendJavaScript_superMessage_to_($recv(aNode)._javaScriptSelector(),message,receiver);
+$1=$recv(aNode)._argumentSwitcher();
+if($1 == null || $1.a$nil){
+result=$self._sendJavaScript_superMessage_to_([$recv(aNode)._javaScriptSelector()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["javaScriptSelector"]=1
+//>>excludeEnd("ctx");
+][0],message,receiver);
+} else {
+var switcher;
+switcher=$1;
+result=$self._sendJavaScript_superMessage_switcher_to_($recv(aNode)._javaScriptSelector(),message,switcher,receiver);
+}
 } else {
 result=$self._sendSuperMessage_to_(message,receiver);
 }

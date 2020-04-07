@@ -736,6 +736,18 @@ messageNotUnderstood: aMessage receiver: anObject
 		signal
 !
 
+sendJavaScript: aString superMessage: aMessage switcher: aJSFunction to: anObject
+	| methodBlock parent |
+	
+	parent := self context method methodClass superPrototype.
+	parent ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+	
+	methodBlock := (parent at: aString)
+		ifNil: [ ^ self messageNotUnderstood: aMessage receiver: anObject ].
+		
+	^ methodBlock applyTo: anObject arguments: (aJSFunction applyTo: nil arguments: aMessage arguments)
+!
+
 sendJavaScript: aString superMessage: aMessage to: anObject
 	| methodBlock parent |
 	
@@ -888,7 +900,9 @@ visitSendNode: aNode
 		ifFalse: [ message sendTo: receiver ]
 		ifTrue: [ aNode receiver binding isJavaScriptSuper
 			ifFalse: [ self sendSuperMessage: message to: receiver ]
-			ifTrue: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ] ].
+			ifTrue: [ aNode argumentSwitcher
+				ifNil: [ self sendJavaScript: aNode javaScriptSelector superMessage: message to: receiver ]
+				ifNotNil: [ :switcher | self sendJavaScript: aNode javaScriptSelector superMessage: message switcher: switcher to: receiver ] ] ].
 	
 	"For cascade sends, push the reciever if the send is not the last one"
 	aNode isSideEffect ifFalse: [ self pop; push: result ]
