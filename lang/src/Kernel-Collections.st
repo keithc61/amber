@@ -1131,6 +1131,12 @@ shallowCopy
 
 !Array methodsFor: 'enumerating'!
 
+allIn: aBlock
+	^ aBlock valueWithPossibleArguments:
+		"collect to match #in: behaviour"
+		(self collect: [ :each | each in: [ :x | x ] ])
+!
+
 collect: aBlock
 	"Optimized version"
 	

@@ -5,6 +5,8 @@
 * Lots of changes in Compiler.
 * Added Teachable class.
 
++ Array >>
+  + allIn:
 + Behavior >>
   + alternateConstructorViaSelector:
   + applySuperConstructorOn:withArguments:

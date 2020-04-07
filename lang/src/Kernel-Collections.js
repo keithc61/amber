@@ -4467,6 +4467,40 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
+selector: "allIn:",
+protocol: "enumerating",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "allIn: aBlock\x0a\x09^ aBlock valueWithPossibleArguments:\x0a\x09\x09\x22collect to match #in: behaviour\x22\x0a\x09\x09(self collect: [ :each | each in: [ :x | x ] ])",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["valueWithPossibleArguments:", "collect:", "in:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._valueWithPossibleArguments_($self._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._in_((function(x){
+return x;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+})));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"allIn:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Array);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
