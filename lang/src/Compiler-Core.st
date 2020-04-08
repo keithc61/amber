@@ -168,17 +168,18 @@ ast: aString forClass: aClass protocol: anotherString
 !
 
 compile: aString forClass: aClass protocol: anotherString
-	| compilationResult result pragmas closureFactory |
+	| sanitizedSource compilationResult result pragmas closureFactory |
+	sanitizedSource := aString crlfSanitized.
 	compilationResult := self
-		start: aString forClass: aClass protocol: anotherString;
-		compileNode: (self parse: aString).
+		start: sanitizedSource forClass: aClass protocol: anotherString;
+		compileNode: (self parse: sanitizedSource).
 	closureFactory := self
 		eval: (self wrappedSourceOf: compilationResult)
 		forPackage: self currentPackage.
 	result := Smalltalk core method: #{
 		#selector -> compilationResult selector.
 		#protocol -> anotherString.
-		#source -> aString.
+		#source -> sanitizedSource.
 		#messageSends -> compilationResult messageSends asArray.
 		#args -> compilationResult arguments.
 		#referencedClasses -> compilationResult classReferences asArray.

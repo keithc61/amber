@@ -171,7 +171,7 @@ visitMethodNode: aNode
 	| irSequence |
 
 	self method: (IRMethod new
-		source: self source crlfSanitized;
+		source: self source;
 		pragmas: (aNode pragmas collect: [ :each |
 			Message
 				selector: each selector

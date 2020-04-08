@@ -668,11 +668,11 @@ selector: "visitMethodNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09| irSequence |\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source crlfSanitized;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self method add: (irSequence := self visit: aNode sequenceNode).\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [ irSequence\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09^ self method",
+source: "visitMethodNode: aNode\x0a\x09| irSequence |\x0a\x0a\x09self method: (IRMethod new\x0a\x09\x09source: self source;\x0a\x09\x09pragmas: (aNode pragmas collect: [ :each |\x0a\x09\x09\x09Message\x0a\x09\x09\x09\x09selector: each selector\x0a\x09\x09\x09\x09arguments: (each arguments collect: [ :eachArg |\x0a\x09\x09\x09\x09\x09eachArg isString ifTrue: [ eachArg crlfSanitized ] ifFalse: [ eachArg ]])]);\x0a\x09\x09theClass: self theClass;\x0a\x09\x09arguments: aNode arguments;\x0a\x09\x09selector: aNode selector;\x0a\x09\x09sendIndexes: aNode sendIndexes;\x0a\x09\x09requiresSmalltalkContext: aNode requiresSmalltalkContext;\x0a\x09\x09classReferences: aNode classReferences;\x0a\x09\x09scope: aNode scope;\x0a\x09\x09yourself).\x0a\x0a\x09aNode scope temps do: [ :each |\x0a\x09\x09self method add: (IRTempDeclaration new\x0a\x09\x09\x09name: each name;\x0a\x09\x09\x09scope: aNode scope;\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09self method add: (irSequence := self visit: aNode sequenceNode).\x0a\x0a\x09aNode scope hasLocalReturn ifFalse: [ irSequence\x0a\x09\x09add: (IRReturn new\x0a\x09\x09\x09add: (IRVariable new\x0a\x09\x09\x09\x09variable: (aNode scope pseudoVars at: 'self');\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself) ].\x0a\x0a\x09^ self method",
 referencedClasses: ["IRMethod", "Message", "IRTempDeclaration", "IRReturn", "IRVariable"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["method:", "source:", "new", "crlfSanitized", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "visit:", "sequenceNode", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars"]
+messageSends: ["method:", "source:", "new", "source", "pragmas:", "collect:", "pragmas", "selector:arguments:", "selector", "arguments", "ifTrue:ifFalse:", "isString", "crlfSanitized", "theClass:", "theClass", "arguments:", "selector:", "sendIndexes:", "sendIndexes", "requiresSmalltalkContext:", "requiresSmalltalkContext", "classReferences:", "classReferences", "scope:", "scope", "yourself", "do:", "temps", "add:", "method", "name:", "name", "visit:", "sequenceNode", "ifFalse:", "hasLocalReturn", "variable:", "at:", "pseudoVars"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 var irSequence;
@@ -685,11 +685,7 @@ $1=[$recv($globals.IRMethod)._new()
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-$recv($1)._source_([$recv($self._source())._crlfSanitized()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["crlfSanitized"]=1
-//>>excludeEnd("ctx");
-][0]);
+$recv($1)._source_($self._source());
 $recv($1)._pragmas_([$recv($recv(aNode)._pragmas())._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -828,7 +824,7 @@ selector: "visitReturnNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitReturnNode: aNode\x0a\x09^ (aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ])\x0a\x09\x09scope: aNode scope;\x0a\x09\x09add: (self visit: aNode expression);\x0a\x09\x09yourself\x0a",
+source: "visitReturnNode: aNode\x0a\x09^ (aNode nonLocalReturn\x0a\x09\x09ifTrue: [ IRNonLocalReturn new ]\x0a\x09\x09ifFalse: [ IRReturn new ])\x0a\x09\x09scope: aNode scope;\x0a\x09\x09add: (self visit: aNode expression);\x0a\x09\x09yourself",
 referencedClasses: ["IRNonLocalReturn", "IRReturn"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1731,7 +1727,7 @@ selector: "locals",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "locals\x0a\x09^ self arguments, (self tempDeclarations collect: [ :each | each name ])\x0a",
+source: "locals\x0a\x09^ self arguments, (self tempDeclarations collect: [ :each | each name ])",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -4735,7 +4731,7 @@ selector: "visitSuperSend:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector.\x0a\x09anIRSend arguments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09ifNotEmpty: [\x0a\x09\x09\x09anIRSend argumentSwitcher\x0a\x09\x09\x09\x09ifNil: [\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',' and: ')' ]\x0a\x09\x09\x09\x09ifNotNil: [ :switcher |\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.apply('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',(', switcher asJavaScriptSource, ')('\x0a\x09\x09\x09\x09\x09\x09and: '))' ] ]\x0a",
+source: "visitSuperSend: anIRSend\x0a\x09self stream\x0a\x09\x09nextPutAll: anIRSend receiver variable lookupAsJavaScriptSource, '.';\x0a\x09\x09nextPutAll: anIRSend javaScriptSelector.\x0a\x09anIRSend arguments\x0a\x09\x09ifEmpty: [\x0a\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09self stream nextPutAll: ')' ]\x0a\x09\x09ifNotEmpty: [\x0a\x09\x09\x09anIRSend argumentSwitcher\x0a\x09\x09\x09\x09ifNil: [\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.call('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',' and: ')' ]\x0a\x09\x09\x09\x09ifNotNil: [ :switcher |\x0a\x09\x09\x09\x09\x09self stream nextPutAll: '.apply('.\x0a\x09\x09\x09\x09\x09self visitReceiver: anIRSend receiver.\x0a\x09\x09\x09\x09\x09self\x0a\x09\x09\x09\x09\x09\x09visitInstructionList: anIRSend arguments\x0a\x09\x09\x09\x09\x09\x09enclosedBetween: ',(', switcher asJavaScriptSource, ')('\x0a\x09\x09\x09\x09\x09\x09and: '))' ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -5111,7 +5107,7 @@ selector: "nextPutBefore:with:",
 protocol: "streaming",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection", "aBlock"],
-source: "nextPutBefore: aCollection with: aBlock\x0a\x09aCollection isEmpty ifTrue: [ aBlock value ] ifFalse: [\x0a\x09\x09self nextPutAll: '('; lf; nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf.\x0a\x09\x09aCollection do: [ :each | self nextPutAll: each; nextPutAll: ',' ].\x0a\x09\x09self lf; nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf.\x0a\x09\x09aBlock value.\x0a\x09\x09self nextPutAll: ')' ]\x0a",
+source: "nextPutBefore: aCollection with: aBlock\x0a\x09aCollection isEmpty ifTrue: [ aBlock value ] ifFalse: [\x0a\x09\x09self nextPutAll: '('; lf; nextPutAll: '//>>excludeStart(\x22ctx\x22, pragmas.excludeDebugContexts);'; lf.\x0a\x09\x09aCollection do: [ :each | self nextPutAll: each; nextPutAll: ',' ].\x0a\x09\x09self lf; nextPutAll: '//>>excludeEnd(\x22ctx\x22);'; lf.\x0a\x09\x09aBlock value.\x0a\x09\x09self nextPutAll: ')' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

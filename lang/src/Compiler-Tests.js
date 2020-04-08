@@ -198,7 +198,7 @@ selector: "testAfterInliningNonLocalBlockReturnIndexSend",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testAfterInliningNonLocalBlockReturnIndexSend\x0a\x09self should: 'foo [ ^ true ifTrue: [ self class ] ] value. self class' return: DoIt.\x0a",
+source: "testAfterInliningNonLocalBlockReturnIndexSend\x0a\x09self should: 'foo [ ^ true ifTrue: [ self class ] ] value. self class' return: DoIt.",
 referencedClasses: ["DoIt"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -222,7 +222,7 @@ selector: "testAfterInliningNonLocalBlockReturnSuperSend",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testAfterInliningNonLocalBlockReturnSuperSend\x0a\x09self should: 'foo [ ^ true ifTrue: [ super class ] ] value' return: DoIt.\x0a",
+source: "testAfterInliningNonLocalBlockReturnSuperSend\x0a\x09self should: 'foo [ ^ true ifTrue: [ super class ] ] value' return: DoIt.",
 referencedClasses: ["DoIt"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2898,7 +2898,7 @@ selector: "testInvalidAssignment",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testInvalidAssignment\x0a\x09self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo console:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError\x0a",
+source: "testInvalidAssignment\x0a\x09self shouldntInstall: 'foo:a a:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo false:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo console:=1' andRaise: InvalidAssignmentError.\x0a\x09self shouldntInstall: 'foo Number:=1' andRaise: InvalidAssignmentError",
 referencedClasses: ["InvalidAssignmentError"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2961,7 +2961,7 @@ selector: "testMonadicJSOverrideArgMismatch",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testMonadicJSOverrideArgMismatch\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + aNumber)'\x0a\x09\x09andRaise: CompilerError\x0a",
+source: "testMonadicJSOverrideArgMismatch\x0a\x09receiver := ObjectMock new.\x0a\x09self\x0a\x09\x09shouldntInstall: 'quux: aNumber <jsOverride: #mux args: #(anInteger)> ^ (foo := foo + aNumber)'\x0a\x09\x09andRaise: CompilerError",
 referencedClasses: ["ObjectMock", "CompilerError"],
 //>>excludeEnd("ide");
 pragmas: [],
