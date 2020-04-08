@@ -3,6 +3,7 @@
 
 * Teachable class (in SUnit package).
 * $core.removeClass returns removed class.
+* Subclassing JS classes, <jsOverride:(args:)> pragma.
 * Both 'nil' and '$nil' compiled in method code.
   * '$nil' used as receiver, 'nil' used to pass a value.
 * Cleaned error-handling code.
