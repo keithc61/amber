@@ -47,7 +47,6 @@ var suite,worker;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $2,$1,$3,$9,$8,$12,$11,$10,$7,$6,$15,$14,$13,$5,$4,$17,$16,$19,$18,$26,$25,$24,$23,$22,$28,$27,$21,$20,$30,$29,$32,$31,$39,$38,$37,$36,$35,$34,$33;
 suite=$recv($globals.OrderedCollection)._new();
 $recv($recv($recv($globals.TestCase)._allSubclasses())._select_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -73,153 +72,147 @@ var result;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 result=$recv(ann)._result();
-$2=$recv(result)._runs();
+if($core.assert($recv([$recv(result)._runs()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["runs"]=1;
+,$ctx2.sendIdx["runs"]=1
 //>>excludeEnd("ctx");
-$1=$recv($2).__eq($recv(result)._total());
-if($core.assert($1)){
-$3=console;
-$9=$recv($recv(result)._runs())._asString();
+][0]).__eq($recv(result)._total()))){
+$recv(console)._log_([$recv([$recv([$recv([$recv([$recv([$recv($recv(result)._runs())._asString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asString"]=1;
+,$ctx2.sendIdx["asString"]=1
 //>>excludeEnd("ctx");
-$8=$recv($9).__comma(" tests run, ");
+][0]).__comma(" tests run, ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=5;
+,$ctx2.sendIdx[","]=5
 //>>excludeEnd("ctx");
-$12=$recv(result)._failures();
+][0]).__comma([$recv([$recv([$recv(result)._failures()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["failures"]=1;
+,$ctx2.sendIdx["failures"]=1
 //>>excludeEnd("ctx");
-$11=$recv($12)._size();
+][0])._size()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["size"]=1;
+,$ctx2.sendIdx["size"]=1
 //>>excludeEnd("ctx");
-$10=$recv($11)._asString();
+][0])._asString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["asString"]=2;
+,$ctx2.sendIdx["asString"]=2
 //>>excludeEnd("ctx");
-$7=$recv($8).__comma($10);
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=4;
+,$ctx2.sendIdx[","]=4
 //>>excludeEnd("ctx");
-$6=$recv($7).__comma(" failures, ");
+][0]).__comma(" failures, ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=3;
+,$ctx2.sendIdx[","]=3
 //>>excludeEnd("ctx");
-$15=$recv(result)._errors();
+][0]).__comma($recv($recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["errors"]=1;
+,$ctx2.sendIdx["errors"]=1
 //>>excludeEnd("ctx");
-$14=$recv($15)._size();
-$13=$recv($14)._asString();
-$5=$recv($6).__comma($13);
+][0])._size())._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=2;
+,$ctx2.sendIdx[","]=2
 //>>excludeEnd("ctx");
-$4=$recv($5).__comma(" errors.");
+][0]).__comma(" errors.")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=1;
+,$ctx2.sendIdx[","]=1
 //>>excludeEnd("ctx");
-$recv($3)._log_($4);
-$17=$recv(result)._failures();
+][0]);
+if(!$core.assert([$recv([$recv(result)._failures()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["failures"]=2;
+,$ctx2.sendIdx["failures"]=2
 //>>excludeEnd("ctx");
-$16=$recv($17)._isEmpty();
+][0])._isEmpty()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["isEmpty"]=1;
+,$ctx2.sendIdx["isEmpty"]=1
 //>>excludeEnd("ctx");
-if(!$core.assert($16)){
-$19=$recv(result)._failures();
+][0])){
+[$recv([$recv([$recv(result)._failures()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["failures"]=3;
+,$ctx2.sendIdx["failures"]=3
 //>>excludeEnd("ctx");
-$18=$recv($19)._first();
+][0])._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=1;
+,$ctx2.sendIdx["first"]=1
 //>>excludeEnd("ctx");
-$recv($18)._runCase();
+][0])._runCase()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["runCase"]=1;
+,$ctx2.sendIdx["runCase"]=1
 //>>excludeEnd("ctx");
-$26=$recv(result)._failures();
+][0];
+[$self._throw_([$recv([$recv([$recv([$recv([$recv([$recv([$recv(result)._failures()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["failures"]=4;
+,$ctx2.sendIdx["failures"]=4
 //>>excludeEnd("ctx");
-$25=$recv($26)._first();
+][0])._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=2;
+,$ctx2.sendIdx["first"]=2
 //>>excludeEnd("ctx");
-$24=$recv($25)._class();
+][0])._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["class"]=1;
+,$ctx2.sendIdx["class"]=1
 //>>excludeEnd("ctx");
-$23=$recv($24)._name();
+][0])._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["name"]=1;
+,$ctx2.sendIdx["name"]=1
 //>>excludeEnd("ctx");
-$22=$recv($23).__comma(" >> ");
+][0]).__comma(" >> ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=8;
+,$ctx2.sendIdx[","]=8
 //>>excludeEnd("ctx");
-$28=$recv($recv(result)._failures())._first();
+][0]).__comma([$recv([$recv($recv(result)._failures())._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=3;
+,$ctx2.sendIdx["first"]=3
 //>>excludeEnd("ctx");
-$27=$recv($28)._selector();
+][0])._selector()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["selector"]=1;
+,$ctx2.sendIdx["selector"]=1
 //>>excludeEnd("ctx");
-$21=$recv($22).__comma($27);
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=7;
+,$ctx2.sendIdx[","]=7
 //>>excludeEnd("ctx");
-$20=$recv($21).__comma(" is failing!");
+][0]).__comma(" is failing!")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=6;
+,$ctx2.sendIdx[","]=6
 //>>excludeEnd("ctx");
-$self._throw_($20);
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["throw:"]=1;
+,$ctx2.sendIdx["throw:"]=1
 //>>excludeEnd("ctx");
+][0];
 }
-$30=$recv(result)._errors();
+if(!$core.assert($recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["errors"]=2;
+,$ctx2.sendIdx["errors"]=2
 //>>excludeEnd("ctx");
-$29=$recv($30)._isEmpty();
-if(!$core.assert($29)){
-$32=$recv(result)._errors();
+][0])._isEmpty())){
+$recv([$recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["errors"]=3;
+,$ctx2.sendIdx["errors"]=3
 //>>excludeEnd("ctx");
-$31=$recv($32)._first();
+][0])._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=4;
+,$ctx2.sendIdx["first"]=4
 //>>excludeEnd("ctx");
-$recv($31)._runCase();
-$39=$recv(result)._errors();
+][0])._runCase();
+return $self._throw_([$recv([$recv($recv($recv($recv([$recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["errors"]=4;
+,$ctx2.sendIdx["errors"]=4
 //>>excludeEnd("ctx");
-$38=$recv($39)._first();
+][0])._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx["first"]=5;
+,$ctx2.sendIdx["first"]=5
 //>>excludeEnd("ctx");
-$37=$recv($38)._class();
-$36=$recv($37)._name();
-$35=$recv($36).__comma(" >> ");
-$34=$recv($35).__comma($recv($recv($recv(result)._errors())._first())._selector());
+][0])._class())._name()).__comma(" >> ")).__comma($recv($recv($recv(result)._errors())._first())._selector())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=10;
+,$ctx2.sendIdx[","]=10
 //>>excludeEnd("ctx");
-$33=$recv($34).__comma(" has errors!");
+][0]).__comma(" has errors!")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.sendIdx[","]=9;
+,$ctx2.sendIdx[","]=9
 //>>excludeEnd("ctx");
-return $self._throw_($33);
+][0]);
 }
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
