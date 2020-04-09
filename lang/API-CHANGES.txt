@@ -2,6 +2,7 @@
 
 + Collection >>
   + copyEmpty
+  + shortenedPrintString
 
 
 0.25.0:

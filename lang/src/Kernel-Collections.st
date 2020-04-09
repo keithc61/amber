@@ -374,6 +374,14 @@ errorNotFound
 	self error: 'Object is not in the collection'
 ! !
 
+!Collection methodsFor: 'printing'!
+
+shortenedPrintString
+	^ self size <= 1
+		ifTrue: [ self printString ]
+		ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]
+! !
+
 !Collection methodsFor: 'streaming'!
 
 putOn: aStream
@@ -658,6 +666,12 @@ printOn: aStream
 		do: [ :each | each printOn: aStream ]
 		separatedBy: [ aStream nextPutAll: ' , ' ].
 	aStream nextPutAll: ')'
+!
+
+shortenedPrintString
+	^ self size <= 1
+		ifTrue: [ self printString ]
+		ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]
 ! !
 
 !AssociativeCollection methodsFor: 'testing'!
@@ -1446,6 +1460,12 @@ printOn: aStream
 		nextPutAll: '''';
 		nextPutAll: (self replace: '''' with: '''''');
 		nextPutAll: ''''
+!
+
+shortenedPrintString
+	^ self printString size > 30
+		ifTrue: [ (self printString copyFrom: 1 to: 30), '...''' ]
+		ifFalse: [ self printString ]
 !
 
 symbolPrintString

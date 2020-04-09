@@ -1667,6 +1667,49 @@ $globals.Collection);
 
 $core.addMethod(
 $core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "-"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+if($core.assert($recv([$self._size()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["size"]=1
+//>>excludeEnd("ctx");
+][0]).__lt_eq((1)))){
+return [$self._printString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["printString"]=1
+//>>excludeEnd("ctx");
+][0];
+} else {
+return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0]).__comma(" more items")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0];
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
 selector: "single",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2765,6 +2808,54 @@ return $recv(copy)._at_put_(key,value);
 return copy;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{copy:copy})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AssociativeCollection);
+
+$core.addMethod(
+$core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "-"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+if($core.assert($recv([$self._size()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["size"]=1
+//>>excludeEnd("ctx");
+][0]).__lt_eq((1)))){
+return [$self._printString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["printString"]=1
+//>>excludeEnd("ctx");
+][0];
+} else {
+var key;
+key=$recv($self._keys())._anyOne();
+$1=$self._copyEmpty();
+$recv($1)._at_put_(key,$self._at_(key));
+return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0]).__comma(" more items")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0];
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AssociativeCollection);
@@ -6669,6 +6760,41 @@ messageSends: []
 var self=this,$self=this;
 return self;
 
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "shortenedPrintString\x0a\x09^ self printString size > 30\x0a\x09\x09ifTrue: [ (self printString copyFrom: 1 to: 30), '...''' ]\x0a\x09\x09ifFalse: [ self printString ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", ">", "size", "printString", ",", "copyFrom:to:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+if($core.assert($recv($recv([$self._printString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["printString"]=1
+//>>excludeEnd("ctx");
+][0])._size()).__gt((30)))){
+return $recv($recv([$self._printString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["printString"]=2
+//>>excludeEnd("ctx");
+][0])._copyFrom_to_((1),(30))).__comma("...'");
+} else {
+return $self._printString();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.String);
 

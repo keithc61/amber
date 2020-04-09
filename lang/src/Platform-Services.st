@@ -540,7 +540,7 @@ inspectOn: anInspector
 	self keysAndValuesDo: [ :key :value |
 		variables at: key put: value ].
 	anInspector
-		setLabel: self printString;
+		setLabel: self shortenedPrintString;
 		setVariables: variables
 ! !
 
@@ -553,7 +553,7 @@ inspectOn: anInspector
 	self withIndexDo: [ :each :i |
 		variables at: i put: each ].
 	anInspector
-		setLabel: self printString;
+		setLabel: self shortenedPrintString;
 		setVariables: variables
 ! !
 
@@ -619,19 +619,8 @@ inspectOn: anInspector
 		variables at: i put: each.
 		i := i + 1 ].
 	anInspector
-		setLabel: self printString;
+		setLabel: self shortenedPrintString;
 		setVariables: variables
-! !
-
-!String methodsFor: '*Platform-Services'!
-
-inspectOn: anInspector
-	| label |
-	super inspectOn: anInspector.
-	self printString size > 30
-		ifTrue: [ label := (self printString copyFrom: 1 to: 30), '...''' ]
-		ifFalse: [ label := self printString ].
-	anInspector setLabel: label
 ! !
 
 !TMethodContext methodsFor: '*Platform-Services'!

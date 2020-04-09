@@ -1952,11 +1952,11 @@ selector: "inspectOn:",
 protocol: "*Platform-Services",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#keys' put: self keys.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09variables at: key put: value ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#keys' put: self keys.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09variables at: key put: value ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "at:put:", "keys", "keysAndValuesDo:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "keys", "keysAndValuesDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
@@ -1983,7 +1983,7 @@ return $recv(variables)._at_put_(key,value);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1998,11 +1998,11 @@ selector: "inspectOn:",
 protocol: "*Platform-Services",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09variables at: i put: each ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09variables at: i put: each ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "at:put:", "withIndexDo:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "withIndexDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
@@ -2024,7 +2024,7 @@ return $recv(variables)._at_put_(i,each);
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2196,11 +2196,11 @@ selector: "inspectOn:",
 protocol: "*Platform-Services",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables i |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09i := 1.\x0a\x09self do: [ :each |\x0a\x09\x09variables at: i put: each.\x0a\x09\x09i := i + 1 ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables i |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09i := 1.\x0a\x09self do: [ :each |\x0a\x09\x09variables at: i put: each.\x0a\x09\x09i := i + 1 ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "at:put:", "do:", "+", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "do:", "+", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables,i;
@@ -2225,7 +2225,7 @@ return i;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2233,55 +2233,6 @@ return self;
 //>>excludeEnd("ctx");
 }; }),
 $globals.Set);
-
-$core.addMethod(
-$core.method({
-selector: "inspectOn:",
-protocol: "*Platform-Services",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| label |\x0a\x09super inspectOn: anInspector.\x0a\x09self printString size > 30\x0a\x09\x09ifTrue: [ label := (self printString copyFrom: 1 to: 30), '...''' ]\x0a\x09\x09ifFalse: [ label := self printString ].\x0a\x09anInspector setLabel: label",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["inspectOn:", "ifTrue:ifFalse:", ">", "size", "printString", ",", "copyFrom:to:", "setLabel:"]
-}, function ($methodClass){ return function (anInspector){
-var self=this,$self=this;
-var label;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-[(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._inspectOn_.call($self,anInspector))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.supercall = false
-//>>excludeEnd("ctx");
-][0];
-if($core.assert($recv($recv([$self._printString()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["printString"]=1
-//>>excludeEnd("ctx");
-][0])._size()).__gt((30)))){
-label=$recv($recv([$self._printString()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["printString"]=2
-//>>excludeEnd("ctx");
-][0])._copyFrom_to_((1),(30))).__comma("...'");
-label;
-} else {
-label=$self._printString();
-label;
-}
-$recv(anInspector)._setLabel_(label);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,label:label})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.String);
 
 $core.addMethod(
 $core.method({
