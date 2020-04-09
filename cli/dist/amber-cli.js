@@ -8646,6 +8646,23 @@ $globals.Collection);
 
 $core.addMethod(
 $core.method({
+selector: "copyEmpty",
+protocol: "copying",
+args: [],
+source: "copyEmpty\x0a\x09^ self class new",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["new", "class"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._class())._new();
+}, function($ctx1) {$ctx1.fill(self,"copyEmpty",{})});
+}; }),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
 selector: "copyWith:",
 protocol: "copying",
 args: ["anObject"],
@@ -9282,6 +9299,35 @@ return each;
 
 }));
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{})});
+}; }),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+args: [],
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "-"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+if($core.assert($recv([$self._size()
+,$ctx1.sendIdx["size"]=1
+][0]).__lt_eq((1)))){
+return [$self._printString()
+,$ctx1.sendIdx["printString"]=1
+][0];
+} else {
+return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+,$ctx1.sendIdx[","]=2
+][0]).__comma(" more items")
+,$ctx1.sendIdx[","]=1
+][0];
+}
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
 }; }),
 $globals.Collection);
 
@@ -10074,6 +10120,40 @@ return $recv(copy)._at_put_(key,value);
 }));
 return copy;
 }, function($ctx1) {$ctx1.fill(self,"shallowCopy",{copy:copy})});
+}; }),
+$globals.AssociativeCollection);
+
+$core.addMethod(
+$core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+args: [],
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "-"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+if($core.assert($recv([$self._size()
+,$ctx1.sendIdx["size"]=1
+][0]).__lt_eq((1)))){
+return [$self._printString()
+,$ctx1.sendIdx["printString"]=1
+][0];
+} else {
+var key;
+key=$recv($self._keys())._anyOne();
+$1=$self._copyEmpty();
+$recv($1)._at_put_(key,$self._at_(key));
+return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+,$ctx1.sendIdx[","]=2
+][0]).__comma(" more items")
+,$ctx1.sendIdx[","]=1
+][0];
+}
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
 }; }),
 $globals.AssociativeCollection);
 
@@ -12953,6 +13033,31 @@ messageSends: []
 var self=this,$self=this;
 return self;
 
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "shortenedPrintString",
+protocol: "printing",
+args: [],
+source: "shortenedPrintString\x0a\x09^ self printString size > 30\x0a\x09\x09ifTrue: [ (self printString copyFrom: 1 to: 30), '...''' ]\x0a\x09\x09ifFalse: [ self printString ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["ifTrue:ifFalse:", ">", "size", "printString", ",", "copyFrom:to:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+if($core.assert($recv($recv([$self._printString()
+,$ctx1.sendIdx["printString"]=1
+][0])._size()).__gt((30)))){
+return $recv($recv([$self._printString()
+,$ctx1.sendIdx["printString"]=2
+][0])._copyFrom_to_((1),(30))).__comma("...'");
+} else {
+return $self._printString();
+}
+}, function($ctx1) {$ctx1.fill(self,"shortenedPrintString",{})});
 }; }),
 $globals.String);
 
@@ -25767,13 +25872,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.1'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.25.0";
+return "0.25.1";
 
 }; }),
 $globals.SmalltalkImage);
@@ -29020,10 +29125,10 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#keys' put: self keys.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09variables at: key put: value ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#keys' put: self keys.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09variables at: key put: value ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 pragmas: [],
-messageSends: ["new", "at:put:", "keys", "keysAndValuesDo:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "keys", "keysAndValuesDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
@@ -29040,7 +29145,7 @@ return $core.withContext(function($ctx2) {
 return $recv(variables)._at_put_(key,value);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables})});
@@ -29052,10 +29157,10 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09variables at: i put: each ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09variables at: i put: each ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 pragmas: [],
-messageSends: ["new", "at:put:", "withIndexDo:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "withIndexDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
@@ -29069,7 +29174,7 @@ return $core.withContext(function($ctx2) {
 return $recv(variables)._at_put_(i,each);
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,1)});
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables})});
@@ -29194,10 +29299,10 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables i |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09i := 1.\x0a\x09self do: [ :each |\x0a\x09\x09variables at: i put: each.\x0a\x09\x09i := i + 1 ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+source: "inspectOn: anInspector\x0a\x09| variables i |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09i := 1.\x0a\x09self do: [ :each |\x0a\x09\x09variables at: i put: each.\x0a\x09\x09i := i + 1 ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
 referencedClasses: ["Dictionary"],
 pragmas: [],
-messageSends: ["new", "at:put:", "do:", "+", "setLabel:", "printString", "setVariables:"]
+messageSends: ["new", "at:put:", "do:", "+", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables,i;
@@ -29214,47 +29319,12 @@ i=$recv(i).__plus((1));
 return i;
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
-$recv(anInspector)._setLabel_($self._printString());
+$recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables,i:i})});
 }; }),
 $globals.Set);
-
-$core.addMethod(
-$core.method({
-selector: "inspectOn:",
-protocol: "*Platform-Services",
-args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| label |\x0a\x09super inspectOn: anInspector.\x0a\x09self printString size > 30\x0a\x09\x09ifTrue: [ label := (self printString copyFrom: 1 to: 30), '...''' ]\x0a\x09\x09ifFalse: [ label := self printString ].\x0a\x09anInspector setLabel: label",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["inspectOn:", "ifTrue:ifFalse:", ">", "size", "printString", ",", "copyFrom:to:", "setLabel:"]
-}, function ($methodClass){ return function (anInspector){
-var self=this,$self=this;
-var label;
-return $core.withContext(function($ctx1) {
-[(
-$ctx1.supercall = true,
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._inspectOn_.call($self,anInspector))
-,$ctx1.supercall = false
-][0];
-if($core.assert($recv($recv([$self._printString()
-,$ctx1.sendIdx["printString"]=1
-][0])._size()).__gt((30)))){
-label=$recv($recv([$self._printString()
-,$ctx1.sendIdx["printString"]=2
-][0])._copyFrom_to_((1),(30))).__comma("...'");
-label;
-} else {
-label=$self._printString();
-label;
-}
-$recv(anInspector)._setLabel_(label);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,label:label})});
-}; }),
-$globals.String);
 
 $core.addMethod(
 $core.method({
@@ -56996,6 +57066,46 @@ $self._assert_equals_([$recv([$self._collectionWithNewValue()
 $self._deny_($recv($recv($self._collection())._copy()).__eq($self._collectionWithNewValue()));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testCopy",{})});
+}; }),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testCopyEmpty",
+protocol: "tests",
+args: [],
+source: "testCopyEmpty\x0a\x09self assert: self collectionClass new copyEmpty equals: self collectionClass new.\x0a\x09self assert: self collection copyEmpty equals: self collectionClass new.\x0a\x09self assert: self collectionWithNewValue copyEmpty equals: self collectionClass new",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["assert:equals:", "copyEmpty", "new", "collectionClass", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+[$self._assert_equals_([$recv([$recv([$self._collectionClass()
+,$ctx1.sendIdx["collectionClass"]=1
+][0])._new()
+,$ctx1.sendIdx["new"]=1
+][0])._copyEmpty()
+,$ctx1.sendIdx["copyEmpty"]=1
+][0],[$recv([$self._collectionClass()
+,$ctx1.sendIdx["collectionClass"]=2
+][0])._new()
+,$ctx1.sendIdx["new"]=2
+][0])
+,$ctx1.sendIdx["assert:equals:"]=1
+][0];
+[$self._assert_equals_([$recv($self._collection())._copyEmpty()
+,$ctx1.sendIdx["copyEmpty"]=2
+][0],[$recv([$self._collectionClass()
+,$ctx1.sendIdx["collectionClass"]=3
+][0])._new()
+,$ctx1.sendIdx["new"]=3
+][0])
+,$ctx1.sendIdx["assert:equals:"]=2
+][0];
+$self._assert_equals_($recv($self._collectionWithNewValue())._copyEmpty(),$recv($self._collectionClass())._new());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testCopyEmpty",{})});
 }; }),
 $globals.CollectionTest);
 
