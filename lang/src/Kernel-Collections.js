@@ -757,6 +757,29 @@ $globals.Collection);
 
 $core.addMethod(
 $core.method({
+selector: "copyEmpty",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "copyEmpty\x0a\x09^ self class new",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new", "class"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._class())._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"copyEmpty",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Collection);
+
+$core.addMethod(
+$core.method({
 selector: "copyWith:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -4106,6 +4106,72 @@ $globals.CollectionTest);
 
 $core.addMethod(
 $core.method({
+selector: "testCopyEmpty",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCopyEmpty\x0a\x09self assert: self collectionClass new copyEmpty equals: self collectionClass new.\x0a\x09self assert: self collection copyEmpty equals: self collectionClass new.\x0a\x09self assert: self collectionWithNewValue copyEmpty equals: self collectionClass new",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", "copyEmpty", "new", "collectionClass", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._assert_equals_([$recv([$recv([$self._collectionClass()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionClass"]=1
+//>>excludeEnd("ctx");
+][0])._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0])._copyEmpty()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["copyEmpty"]=1
+//>>excludeEnd("ctx");
+][0],[$recv([$self._collectionClass()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionClass"]=2
+//>>excludeEnd("ctx");
+][0])._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv($self._collection())._copyEmpty()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["copyEmpty"]=2
+//>>excludeEnd("ctx");
+][0],[$recv([$self._collectionClass()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionClass"]=3
+//>>excludeEnd("ctx");
+][0])._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($recv($self._collectionWithNewValue())._copyEmpty(),$recv($self._collectionClass())._new());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testCopyEmpty",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.CollectionTest);
+
+$core.addMethod(
+$core.method({
 selector: "testCopySeparates",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

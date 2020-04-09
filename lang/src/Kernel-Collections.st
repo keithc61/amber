@@ -229,6 +229,10 @@ asSet
 		yourself
 !
 
+copyEmpty
+	^ self class new
+!
+
 copyWith: anObject
 	^ self copy add: anObject; yourself
 !

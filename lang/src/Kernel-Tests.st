@@ -810,6 +810,12 @@ testCopy
 	self deny: self collection copy = self collectionWithNewValue
 !
 
+testCopyEmpty
+	self assert: self collectionClass new copyEmpty equals: self collectionClass new.
+	self assert: self collection copyEmpty equals: self collectionClass new.
+	self assert: self collectionWithNewValue copyEmpty equals: self collectionClass new
+!
+
 testCopySeparates
 	| original copy |
 	original := self collection.

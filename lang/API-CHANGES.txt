@@ -1,3 +1,9 @@
+0.25.1:
+
++ Collection >>
+  + copyEmpty
+
+
 0.25.0:
 
 * Deprecate Behavior >> javascriptConstructor(:)
