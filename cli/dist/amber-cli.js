@@ -2587,7 +2587,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
 
             st.getThisContext = function () {
                 if (!thisContext) return null;
-                for (var frame = thisContext; frame; frame = frame.homeContext) {
+                for (var frame = thisContext; frame; frame = frame.outerContext || frame.homeContext) {
                     frame.setup(frame);
                 }
                 return thisContext;
@@ -25872,13 +25872,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.2'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.25.1";
+return "0.25.2";
 
 }; }),
 $globals.SmalltalkImage);
