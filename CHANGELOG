@@ -1,3 +1,13 @@
+11 Apr 2020 - Release 0.25.2
+===================================
+
+* Changed thisContext hydrating in kernel
+  * Set up so better stack traces are shown in debugger, esp. for async
+  * Can be breaking for code that depends on old hydration (unlikely).
+
+Commits: https://lolg.it/amber/amber/commits/0.25.2
+
+
 9 Apr 2020 - Release 0.25.1
 ===================================
 
