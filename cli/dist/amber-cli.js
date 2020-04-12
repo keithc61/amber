@@ -25880,13 +25880,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.3'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.4'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.25.3";
+return "0.25.4";
 
 }; }),
 $globals.SmalltalkImage);
@@ -53102,6 +53102,24 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
+selector: "debugCase",
+protocol: "running",
+args: [],
+source: "debugCase\x0a\x09\x22Runs a test case in isolated context, debugging all errors.\x22\x0a\x0a\x09(DebugTestContext testCase: self) start",
+referencedClasses: ["DebugTestContext"],
+pragmas: [],
+messageSends: ["start", "testCase:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv($globals.DebugTestContext)._testCase_(self))._start();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"debugCase",{})});
+}; }),
+$globals.TestCase);
+
+$core.addMethod(
+$core.method({
 selector: "deny:",
 protocol: "testing",
 args: ["aBoolean"],
@@ -53675,6 +53693,83 @@ return $recv($1)._yourself();
 }, function($ctx1) {$ctx1.fill(self,"testCase:",{aTestCase:aTestCase})});
 }; }),
 $globals.TestContext.a$cls);
+
+
+$core.addClass("DebugTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+$globals.DebugTestContext.comment="I add error debugging to `TestContext`.\x0a\x0aErrors are caught and explicitly passed to `ErrorHandler`.\x0aI am used in `TestCase >> debugCase`.";
+$core.addMethod(
+$core.method({
+selector: "execute:",
+protocol: "running",
+args: ["aBlock"],
+source: "execute: aBlock\x0a\x09self withErrorDebugging: [ super execute: aBlock ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["withErrorDebugging:", "execute:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._withErrorDebugging_((function(){
+return $core.withContext(function($ctx2) {
+return [(
+$ctx2.supercall = true,
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._execute_.call($self,aBlock))
+,$ctx2.supercall = false
+][0];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"execute:",{aBlock:aBlock})});
+}; }),
+$globals.DebugTestContext);
+
+$core.addMethod(
+$core.method({
+selector: "withErrorDebugging:",
+protocol: "private",
+args: ["aBlock"],
+source: "withErrorDebugging: aBlock\x0a\x09aBlock\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | ErrorHandler handleError: ex ]",
+referencedClasses: ["Error", "ErrorHandler"],
+pragmas: [],
+messageSends: ["on:do:", "handleError:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv(aBlock)._on_do_($globals.Error,(function(ex){
+return $core.withContext(function($ctx2) {
+return $recv($globals.ErrorHandler)._handleError_(ex);
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"withErrorDebugging:",{aBlock:aBlock})});
+}; }),
+$globals.DebugTestContext);
+
+
+$core.addMethod(
+$core.method({
+selector: "testCase:result:finished:",
+protocol: "instance creation",
+args: ["aTestCase", "aTestResult", "aBlock"],
+source: "testCase: aTestCase result: aTestResult finished: aBlock\x0a\x09^ (super testCase: aTestCase)\x0a\x09\x09result: aTestResult;\x0a\x09\x09finished: aBlock;\x0a\x09\x09yourself",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["result:", "testCase:", "finished:", "yourself"]
+}, function ($methodClass){ return function (aTestCase,aTestResult,aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=[(
+$ctx1.supercall = true,
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testCase_.call($self,aTestCase))
+,$ctx1.supercall = false
+][0];
+$recv($1)._result_(aTestResult);
+$recv($1)._finished_(aBlock);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"testCase:result:finished:",{aTestCase:aTestCase,aTestResult:aTestResult,aBlock:aBlock})});
+}; }),
+$globals.DebugTestContext.a$cls);
 
 
 $core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
