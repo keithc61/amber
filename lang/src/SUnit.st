@@ -152,6 +152,12 @@ signalFailure: aString
 
 !TestCase methodsFor: 'running'!
 
+debugCase
+	"Runs a test case in isolated context, debugging all errors."
+
+	(DebugTestContext testCase: self) start
+!
+
 performTest
 	asyncTimeout := nil.
 	self perform: self selector
@@ -302,6 +308,38 @@ start
 testCase: aTestCase
 	^ self new
 		testCase: aTestCase;
+		yourself
+! !
+
+TestContext subclass: #DebugTestContext
+	slots: {#finished. #result}
+	package: 'SUnit'!
+!DebugTestContext commentStamp!
+I add error debugging to `TestContext`.
+
+Errors are caught and explicitly passed to `ErrorHandler`.
+I am used in `TestCase >> debugCase`.!
+
+!DebugTestContext methodsFor: 'private'!
+
+withErrorDebugging: aBlock
+	aBlock
+		on: Error
+		do: [ :ex | ErrorHandler handleError: ex ]
+! !
+
+!DebugTestContext methodsFor: 'running'!
+
+execute: aBlock
+	self withErrorDebugging: [ super execute: aBlock ]
+! !
+
+!DebugTestContext class methodsFor: 'instance creation'!
+
+testCase: aTestCase result: aTestResult finished: aBlock
+	^ (super testCase: aTestCase)
+		result: aTestResult;
+		finished: aBlock;
 		yourself
 ! !
 

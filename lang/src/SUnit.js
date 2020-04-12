@@ -402,6 +402,30 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
+selector: "debugCase",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "debugCase\x0a\x09\x22Runs a test case in isolated context, debugging all errors.\x22\x0a\x0a\x09(DebugTestContext testCase: self) start",
+referencedClasses: ["DebugTestContext"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["start", "testCase:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($recv($globals.DebugTestContext)._testCase_(self))._start();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"debugCase",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TestCase);
+
+$core.addMethod(
+$core.method({
 selector: "deny:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1159,6 +1183,119 @@ return $recv($1)._yourself();
 //>>excludeEnd("ctx");
 }; }),
 $globals.TestContext.a$cls);
+
+
+$core.addClass("DebugTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.DebugTestContext.comment="I add error debugging to `TestContext`.\x0a\x0aErrors are caught and explicitly passed to `ErrorHandler`.\x0aI am used in `TestCase >> debugCase`.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "execute:",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "execute: aBlock\x0a\x09self withErrorDebugging: [ super execute: aBlock ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["withErrorDebugging:", "execute:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._withErrorDebugging_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx2.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._execute_.call($self,aBlock))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.supercall = false
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"execute:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.DebugTestContext);
+
+$core.addMethod(
+$core.method({
+selector: "withErrorDebugging:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "withErrorDebugging: aBlock\x0a\x09aBlock\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | ErrorHandler handleError: ex ]",
+referencedClasses: ["Error", "ErrorHandler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:", "handleError:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv(aBlock)._on_do_($globals.Error,(function(ex){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.ErrorHandler)._handleError_(ex);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"withErrorDebugging:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.DebugTestContext);
+
+
+$core.addMethod(
+$core.method({
+selector: "testCase:result:finished:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aTestCase", "aTestResult", "aBlock"],
+source: "testCase: aTestCase result: aTestResult finished: aBlock\x0a\x09^ (super testCase: aTestCase)\x0a\x09\x09result: aTestResult;\x0a\x09\x09finished: aBlock;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["result:", "testCase:", "finished:", "yourself"]
+}, function ($methodClass){ return function (aTestCase,aTestResult,aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=[(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._testCase_.call($self,aTestCase))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._result_(aTestResult);
+$recv($1)._finished_(aBlock);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testCase:result:finished:",{aTestCase:aTestCase,aTestResult:aTestResult,aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.DebugTestContext.a$cls);
 
 
 $core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
