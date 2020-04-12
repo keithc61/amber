@@ -2542,6 +2542,14 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
 
             var thisContext = null;
 
+            function resultWithNoErrorHandling (worker) {
+                try {
+                    return worker(thisContext);
+                } finally {
+                    thisContext = null;
+                }
+            }
+
             /*
              Runs worker function so that error handler is not set up
              if there isn't one. This is accomplished by unconditional
@@ -2555,7 +2563,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                 thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
                     ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
                 });
-                var result = worker(thisContext);
+                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
                 thisContext = oldContext;
                 return result;
             };
@@ -25872,13 +25880,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.2'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.3'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.25.2";
+return "0.25.3";
 
 }; }),
 $globals.SmalltalkImage);
