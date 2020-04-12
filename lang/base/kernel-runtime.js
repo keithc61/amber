@@ -355,6 +355,14 @@ define(['./junk-drawer'], function ($goodies) {
 
             var thisContext = null;
 
+            function resultWithNoErrorHandling (worker) {
+                try {
+                    return worker(thisContext);
+                } finally {
+                    thisContext = null;
+                }
+            }
+
             /*
              Runs worker function so that error handler is not set up
              if there isn't one. This is accomplished by unconditional
@@ -368,7 +376,7 @@ define(['./junk-drawer'], function ($goodies) {
                 thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
                     ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
                 });
-                var result = worker(thisContext);
+                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
                 thisContext = oldContext;
                 return result;
             };
