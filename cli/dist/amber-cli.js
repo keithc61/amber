@@ -2550,34 +2550,13 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                 }
             }
 
-            /*
-             Runs worker function so that error handler is not set up
-             if there isn't one. This is accomplished by unconditional
-             wrapping inside a context of a simulated `nil seamlessDoIt` call,
-             which then stops error handler setup (see st.withContext above).
-             The effect is, $core.seamless(fn)'s exceptions are not
-             handed into ST error handler and caller should process them.
-             */
+            // TODO deprecated, remove
             st.seamless = function (worker) {
-                var oldContext = thisContext;
-                thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
-                    ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
-                });
-                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
-                thisContext = oldContext;
-                return result;
+                return worker();
+                // return st.withContext(worker, new SmalltalkMethodContext(thisContext, function (ctx) {
+                //     ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
+                // }));
             };
-
-            function resultWithErrorHandling (worker) {
-                try {
-                    return worker(thisContext);
-                } catch (error) {
-                    globals.ErrorHandler._handleError_(error);
-                    thisContext = null;
-                    // Rethrow the error in any case.
-                    throw error;
-                }
-            }
 
             /*
              Standard way to run within context.
@@ -2586,7 +2565,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             st.withContext = function (worker, setup) {
                 var oldContext = thisContext;
                 thisContext = new SmalltalkMethodContext(thisContext, setup);
-                var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
+                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
                 thisContext = oldContext;
                 return result;
             };
@@ -2595,9 +2574,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
 
             st.getThisContext = function () {
                 if (!thisContext) return null;
-                for (var frame = thisContext; frame; frame = frame.outerContext || frame.homeContext) {
-                    frame.setup(frame);
-                }
+                thisContext.setup(thisContext);
                 return thisContext;
             };
         }
@@ -20990,14 +20967,41 @@ $core.method({
 selector: "home",
 protocol: "accessing",
 args: [],
-source: "home\x0a\x09^ homeContext",
+source: "home\x0a\x09^ homeContext ifNotNil: [ :c | c hydrated ]",
 referencedClasses: [],
 pragmas: [],
+messageSends: ["ifNotNil:", "hydrated"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self.homeContext;
+if($1 == null || $1.a$nil){
+return $1;
+} else {
+var c;
+c=$1;
+return $recv(c)._hydrated();
+}
+}, function($ctx1) {$ctx1.fill(self,"home",{})});
+}; }),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "hydrated",
+protocol: "accessing",
+args: [],
+source: "hydrated\x0a\x09<inlineJS: 'if (!$self.selector && !$self.outerContext) $self.setup(self); return self;'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["if (!$self.selector && !$self.outerContext) $self.setup(self); return self;"]]],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return $self.homeContext;
-
+return $core.withContext(function($ctx1) {
+if (!$self.selector && !$self.outerContext) $self.setup(self); return self;;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"hydrated",{})});
 }; }),
 $globals.MethodContext);
 
@@ -21045,10 +21049,10 @@ $core.method({
 selector: "outerContext",
 protocol: "accessing",
 args: [],
-source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ]",
+source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ] ifNotNil: [ :c | c hydrated ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifNil:", "home"]
+messageSends: ["ifNil:ifNotNil:", "home", "hydrated"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -21057,7 +21061,9 @@ $1=$self.outerContext;
 if($1 == null || $1.a$nil){
 return $self._home();
 } else {
-return $1;
+var c;
+c=$1;
+return $recv(c)._hydrated();
 }
 }, function($ctx1) {$ctx1.fill(self,"outerContext",{})});
 }; }),
@@ -22793,16 +22799,14 @@ $core.method({
 selector: "catch:",
 protocol: "promises",
 args: ["aBlock"],
-source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})'>",
+source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) { return aBlock._value_(err); })'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {return $core.seamless(function () {\x0a    return aBlock._value_(err);\x0a})})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) { return aBlock._value_(err); })"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.then(null, function (err) {return $core.seamless(function () {
-    return aBlock._value_(err);
-})});
+return self.then(null, function (err) { return aBlock._value_(err); });
 return self;
 }, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock})});
 }; }),
@@ -22813,17 +22817,17 @@ $core.method({
 selector: "on:do:",
 protocol: "promises",
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {return $core.seamless(function () {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.then(null, function (err) {return $core.seamless(function () {
+return self.then(null, function (err) {
     if (err._isKindOf_(aClass)) return aBlock._value_(err);
     else throw err;
-})});
+});
 return self;
 }, function($ctx1) {$ctx1.fill(self,"on:do:",{aClass:aClass,aBlock:aBlock})});
 }; }),
@@ -22851,9 +22855,9 @@ $core.method({
 selector: "then:",
 protocol: "promises",
 args: ["aBlockOrArray"],
-source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<inlineJS: '\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)'>",
+source: "then: aBlockOrArray\x0a\x22Accepts a block or array of blocks.\x0aEach of blocks in the array or the singleton one is\x0aused in .then call to a promise, to accept a result\x0aand transform it to the result for the next one.\x0aIn case a block has more than one argument\x0aand result is an array, first n-1 elements of the array\x0aare put into additional arguments beyond the first.\x0aThe first argument always contains the result as-is.\x22\x0a<inlineJS: '\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a       function (result) {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        } :\x0a        function (result) {\x0a            return aBlock._value_(result);\x0a        }\x0a    );\x0a}, self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a        function (result) {return $core.seamless(function () {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        })} :\x0a        function (result) {return $core.seamless(function () {\x0a            return aBlock._value_(result);\x0a        })}\x0a    );\x0a}, self)"]]],
+pragmas: [["inlineJS:", ["\x0avar array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];\x0areturn array.reduce(function (soFar, aBlock) {\x0a    return soFar.then(typeof aBlock === \x22function\x22 && aBlock.length > 1 ?\x0a       function (result) {\x0a            if (Array.isArray(result)) {\x0a                return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));\x0a            } else {\x0a                return aBlock._value_(result);\x0a            }\x0a        } :\x0a        function (result) {\x0a            return aBlock._value_(result);\x0a        }\x0a    );\x0a}, self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlockOrArray){
 var self=this,$self=this;
@@ -22862,16 +22866,16 @@ return $core.withContext(function($ctx1) {
 var array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];
 return array.reduce(function (soFar, aBlock) {
     return soFar.then(typeof aBlock === "function" && aBlock.length > 1 ?
-        function (result) {return $core.seamless(function () {
+       function (result) {
             if (Array.isArray(result)) {
                 return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));
             } else {
                 return aBlock._value_(result);
             }
-        })} :
-        function (result) {return $core.seamless(function () {
+        } :
+        function (result) {
             return aBlock._value_(result);
-        })}
+        }
     );
 }, self);
 return self;
@@ -25880,13 +25884,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.25.4'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.26.0'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.25.4";
+return "0.26.0";
 
 }; }),
 $globals.SmalltalkImage);
