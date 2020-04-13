@@ -1,3 +1,16 @@
+13 Apr 2020 - Release 0.26.0
+===================================
+
+* Kernel simplification in context and error handling.
+  * Kernel no longer handles errors.
+    * BrowserPlatform installs unhandled exception / promise handlers.
+    * Develop on modern browsers (production should not be harmed).
+  * Kernel no longer sets up thisContext chain.
+    * MethodContext takes care of the lazy initialization.
+
+Commits: https://lolg.it/amber/amber/commits/0.26.0
+
+
 12 Apr 2020 - Release 0.25.3
 ===================================
 
