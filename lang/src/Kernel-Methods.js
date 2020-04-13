@@ -2470,15 +2470,52 @@ selector: "home",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "home\x0a\x09^ homeContext",
+source: "home\x0a\x09^ homeContext ifNotNil: [ :c | c hydrated ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
+messageSends: ["ifNotNil:", "hydrated"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self.homeContext;
+if($1 == null || $1.a$nil){
+return $1;
+} else {
+var c;
+c=$1;
+return $recv(c)._hydrated();
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"home",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.MethodContext);
+
+$core.addMethod(
+$core.method({
+selector: "hydrated",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "hydrated\x0a\x09<inlineJS: 'if (!$self.selector && !$self.outerContext) $self.setup(self); return self;'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["if (!$self.selector && !$self.outerContext) $self.setup(self); return self;"]]],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return $self.homeContext;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+if (!$self.selector && !$self.outerContext) $self.setup(self); return self;;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"hydrated",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.MethodContext);
 
@@ -2535,11 +2572,11 @@ selector: "outerContext",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ]",
+source: "outerContext\x0a\x09^ outerContext ifNil: [ self home ] ifNotNil: [ :c | c hydrated ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "home"]
+messageSends: ["ifNil:ifNotNil:", "home", "hydrated"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2550,7 +2587,9 @@ $1=$self.outerContext;
 if($1 == null || $1.a$nil){
 return $self._home();
 } else {
-return $1;
+var c;
+c=$1;
+return $recv(c)._hydrated();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"outerContext",{})});

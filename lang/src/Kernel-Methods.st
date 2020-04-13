@@ -648,7 +648,11 @@ evaluatedSelector
 !
 
 home
-	^ homeContext
+	^ homeContext ifNotNil: [ :c | c hydrated ]
+!
+
+hydrated
+	<inlineJS: 'if (!!$self.selector && !!$self.outerContext) $self.setup(self); return self;'>
 !
 
 index
@@ -660,7 +664,7 @@ locals
 !
 
 outerContext
-	^ outerContext ifNil: [ self home ]
+	^ outerContext ifNil: [ self home ] ifNotNil: [ :c | c hydrated ]
 !
 
 selector

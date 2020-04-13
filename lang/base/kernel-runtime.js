@@ -387,9 +387,7 @@ define(['./junk-drawer'], function ($goodies) {
 
             st.getThisContext = function () {
                 if (!thisContext) return null;
-                for (var frame = thisContext; frame; frame = frame.outerContext || frame.homeContext) {
-                    frame.setup(frame);
-                }
+                thisContext.setup(thisContext);
                 return thisContext;
             };
         }
