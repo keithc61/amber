@@ -26,6 +26,14 @@ fetchUrl: aString options: anObject
 		ifAbsent: [ Promise signal: 'fetch not available.' ]
 !
 
+initialize
+	window
+		addEventListener: 'error'
+		do: [ :event | ErrorHandler handleError: event error ];
+		addEventListener: 'unhandledrejection'
+		do: [ :event | ErrorHandler handleError: event reason ]
+!
+
 newXhr
 	XMLHttpRequest
 		ifNotNil: [ ^ NativeFunction constructorOf: XMLHttpRequest ]

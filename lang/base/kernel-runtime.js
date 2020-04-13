@@ -363,34 +363,13 @@ define(['./junk-drawer'], function ($goodies) {
                 }
             }
 
-            /*
-             Runs worker function so that error handler is not set up
-             if there isn't one. This is accomplished by unconditional
-             wrapping inside a context of a simulated `nil seamlessDoIt` call,
-             which then stops error handler setup (see st.withContext above).
-             The effect is, $core.seamless(fn)'s exceptions are not
-             handed into ST error handler and caller should process them.
-             */
+            // TODO deprecated, remove
             st.seamless = function (worker) {
-                var oldContext = thisContext;
-                thisContext = new SmalltalkMethodContext(thisContext, function (ctx) {
-                    ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
-                });
-                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
-                thisContext = oldContext;
-                return result;
+                return worker();
+                // return st.withContext(worker, new SmalltalkMethodContext(thisContext, function (ctx) {
+                //     ctx.fill(null, "seamlessDoIt", {}, globals.UndefinedObject);
+                // }));
             };
-
-            function resultWithErrorHandling (worker) {
-                try {
-                    return worker(thisContext);
-                } catch (error) {
-                    globals.ErrorHandler._handleError_(error);
-                    thisContext = null;
-                    // Rethrow the error in any case.
-                    throw error;
-                }
-            }
 
             /*
              Standard way to run within context.
@@ -399,7 +378,7 @@ define(['./junk-drawer'], function ($goodies) {
             st.withContext = function (worker, setup) {
                 var oldContext = thisContext;
                 thisContext = new SmalltalkMethodContext(thisContext, setup);
-                var result = oldContext == null ? resultWithErrorHandling(worker) : worker(thisContext);
+                var result = oldContext == null ? resultWithNoErrorHandling(worker) : worker(thisContext);
                 thisContext = oldContext;
                 return result;
             };

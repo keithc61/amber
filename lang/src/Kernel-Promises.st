@@ -57,16 +57,14 @@ Trait named: #TThenable
 !TThenable methodsFor: 'promises'!
 
 catch: aBlock
-<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
-    return aBlock._value_(err);
-})})'>
+<inlineJS: 'return self.then(null, function (err) { return aBlock._value_(err); })'>
 !
 
 on: aClass do: aBlock
-<inlineJS: 'return self.then(null, function (err) {return $core.seamless(function () {
+<inlineJS: 'return self.then(null, function (err) {
     if (err._isKindOf_(aClass)) return aBlock._value_(err);
     else throw err;
-})})'>
+})'>
 !
 
 on: aClass do: aBlock catch: anotherBlock
@@ -86,16 +84,16 @@ The first argument always contains the result as-is."
 var array = Array.isArray(aBlockOrArray) ? aBlockOrArray : [aBlockOrArray];
 return array.reduce(function (soFar, aBlock) {
     return soFar.then(typeof aBlock === "function" && aBlock.length > 1 ?
-        function (result) {return $core.seamless(function () {
+       function (result) {
             if (Array.isArray(result)) {
                 return aBlock._valueWithPossibleArguments_([result].concat(result.slice(0, aBlock.length-1)));
             } else {
                 return aBlock._value_(result);
             }
-        })} :
-        function (result) {return $core.seamless(function () {
+        } :
+        function (result) {
             return aBlock._value_(result);
-        })}
+        }
     );
 }, self)'>
 !

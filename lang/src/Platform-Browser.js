@@ -110,6 +110,57 @@ $globals.BrowserPlatform);
 
 $core.addMethod(
 $core.method({
+selector: "initialize",
+protocol: "public API",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09window\x0a\x09\x09addEventListener: 'error'\x0a\x09\x09do: [ :event | ErrorHandler handleError: event error ];\x0a\x09\x09addEventListener: 'unhandledrejection'\x0a\x09\x09do: [ :event | ErrorHandler handleError: event reason ]",
+referencedClasses: ["ErrorHandler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["addEventListener:do:", "handleError:", "error", "reason"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=window;
+[$recv($1)._addEventListener_do_("error",(function(event){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv($globals.ErrorHandler)._handleError_($recv(event)._error())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["handleError:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({event:event},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["addEventListener:do:"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._addEventListener_do_("unhandledrejection",(function(event){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($globals.ErrorHandler)._handleError_($recv(event)._reason());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({event:event},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.BrowserPlatform);
+
+$core.addMethod(
+$core.method({
 selector: "newXhr",
 protocol: "public API",
 //>>excludeStart("ide", pragmas.excludeIdeData);
