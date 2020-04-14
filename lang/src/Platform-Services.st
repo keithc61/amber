@@ -547,11 +547,13 @@ inspectOn: anInspector
 !Collection methodsFor: '*Platform-Services'!
 
 inspectOn: anInspector
-	| variables |
+	| variables i |
 	variables := Dictionary new.
 	variables at: '#self' put: self.
-	self withIndexDo: [ :each :i |
-		variables at: i put: each ].
+	i := 1.
+	self do: [ :each |
+		variables at: i put: each.
+		i := i + 1 ].
 	anInspector
 		setLabel: self shortenedPrintString;
 		setVariables: variables
@@ -606,18 +608,14 @@ do: aBlock displayingProgress: aString
 		do: aBlock 
 		on: self 
 		displaying: aString
-! !
-
-!Set methodsFor: '*Platform-Services'!
+!
 
 inspectOn: anInspector
-	| variables i |
+	| variables |
 	variables := Dictionary new.
 	variables at: '#self' put: self.
-	i := 1.
-	self do: [ :each |
-		variables at: i put: each.
-		i := i + 1 ].
+	self withIndexDo: [ :each :i |
+		variables at: i put: each ].
 	anInspector
 		setLabel: self shortenedPrintString;
 		setVariables: variables
