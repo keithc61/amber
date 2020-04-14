@@ -23422,6 +23422,30 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "associationsOfProxy:",
+protocol: "proxy",
+args: ["aProxy"],
+source: "associationsOfProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy.jsObject, result = [];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09result.push(i.__minus_gt(jsObject[i]));\x0a\x09\x09}\x0a\x09\x09return result;\x0a\x09'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["\x0a\x09\x09var jsObject = aProxy.jsObject, result = [];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09result.push(i.__minus_gt(jsObject[i]));\x0a\x09\x09}\x0a\x09\x09return result;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (aProxy){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		var jsObject = aProxy.jsObject, result = [];
+		for(var i in jsObject) {
+			result.push(i.__minus_gt(jsObject[i]));
+		}
+		return result;
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"associationsOfProxy:",{aProxy:aProxy})});
+}; }),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "compareJSObjectOfProxy:withProxy:",
 protocol: "proxy",
 args: ["aProxy", "anotherProxy"],
@@ -25884,13 +25908,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.26.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.27.0'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.26.0";
+return "0.27.0";
 
 }; }),
 $globals.SmalltalkImage);
@@ -29137,25 +29161,24 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#keys' put: self keys.\x0a\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09variables at: key put: value ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPut: '#self' -> self;\x0a\x09\x09\x09nextPut: '#keys' -> self keys;\x0a\x09\x09\x09nextPutAll: self associations ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "keys", "keysAndValuesDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "keys", "nextPutAll:", "associations", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
-][0];
-[$recv(variables)._at_put_("#keys",$self._keys())
-,$ctx1.sendIdx["at:put:"]=2
-][0];
-$self._keysAndValuesDo_((function(key,value){
+variables=$recv($globals.Array)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
-return $recv(variables)._at_put_(key,value);
-}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
+][0];
+$recv(stream)._nextPut_("#keys".__minus_gt($self._keys()));
+return $recv(stream)._nextPutAll_($self._associations());
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 $recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
@@ -29169,22 +29192,31 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self withIndexDo: [ :each :i |\x0a\x09\x09variables at: i put: each ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09| i |\x0a\x09\x09stream nextPut: '#self' -> self.\x0a\x09\x09i := 1.\x0a\x09\x09self do: [ :each |\x0a\x09\x09\x09stream nextPut: i -> each.\x0a\x09\x09\x09i := i + 1 ] ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "withIndexDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "do:", "+", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
-][0];
-$self._withIndexDo_((function(each,i){
+variables=$recv($globals.Array)._streamContents_((function(stream){
+var i;
 return $core.withContext(function($ctx2) {
-return $recv(variables)._at_put_(i,each);
-}, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,1)});
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
+][0];
+i=(1);
+return $self._do_((function(each){
+return $core.withContext(function($ctx3) {
+$recv(stream)._nextPut_($recv(i).__minus_gt(each));
+i=$recv(i).__plus((1));
+return i;
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream,i:i},$ctx1,1)});
 }));
 $recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
@@ -29198,37 +29230,54 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#year' put: self year.\x0a\x09variables at: '#month' put: self month.\x0a\x09variables at: '#day' put: self day.\x0a\x09variables at: '#hours' put: self hours.\x0a\x09variables at: '#minutes' put: self minutes.\x0a\x09variables at: '#seconds' put: self seconds.\x0a\x09variables at: '#milliseconds' put: self milliseconds.\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPut: '#self' -> self;\x0a\x09\x09\x09nextPut: '#year' -> self year;\x0a\x09\x09\x09nextPut: '#month' -> self month;\x0a\x09\x09\x09nextPut: '#day' -> self day;\x0a\x09\x09\x09nextPut: '#hours' -> self hours;\x0a\x09\x09\x09nextPut: '#minutes' -> self minutes;\x0a\x09\x09\x09nextPut: '#seconds' -> self seconds;\x0a\x09\x09\x09nextPut: '#milliseconds' -> self milliseconds ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "year", "month", "day", "hours", "minutes", "seconds", "milliseconds", "setLabel:", "printString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "year", "month", "day", "hours", "minutes", "seconds", "milliseconds", "setLabel:", "printString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
+variables=$recv($globals.Array)._streamContents_((function(stream){
+return $core.withContext(function($ctx2) {
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
 ][0];
-[$recv(variables)._at_put_("#year",$self._year())
-,$ctx1.sendIdx["at:put:"]=2
+[$recv(stream)._nextPut_(["#year".__minus_gt($self._year())
+,$ctx2.sendIdx["->"]=2
+][0])
+,$ctx2.sendIdx["nextPut:"]=2
 ][0];
-[$recv(variables)._at_put_("#month",$self._month())
-,$ctx1.sendIdx["at:put:"]=3
+[$recv(stream)._nextPut_(["#month".__minus_gt($self._month())
+,$ctx2.sendIdx["->"]=3
+][0])
+,$ctx2.sendIdx["nextPut:"]=3
 ][0];
-[$recv(variables)._at_put_("#day",$self._day())
-,$ctx1.sendIdx["at:put:"]=4
+[$recv(stream)._nextPut_(["#day".__minus_gt($self._day())
+,$ctx2.sendIdx["->"]=4
+][0])
+,$ctx2.sendIdx["nextPut:"]=4
 ][0];
-[$recv(variables)._at_put_("#hours",$self._hours())
-,$ctx1.sendIdx["at:put:"]=5
+[$recv(stream)._nextPut_(["#hours".__minus_gt($self._hours())
+,$ctx2.sendIdx["->"]=5
+][0])
+,$ctx2.sendIdx["nextPut:"]=5
 ][0];
-[$recv(variables)._at_put_("#minutes",$self._minutes())
-,$ctx1.sendIdx["at:put:"]=6
+[$recv(stream)._nextPut_(["#minutes".__minus_gt($self._minutes())
+,$ctx2.sendIdx["->"]=6
+][0])
+,$ctx2.sendIdx["nextPut:"]=6
 ][0];
-[$recv(variables)._at_put_("#seconds",$self._seconds())
-,$ctx1.sendIdx["at:put:"]=7
+[$recv(stream)._nextPut_(["#seconds".__minus_gt($self._seconds())
+,$ctx2.sendIdx["->"]=7
+][0])
+,$ctx2.sendIdx["nextPut:"]=7
 ][0];
-$recv(variables)._at_put_("#milliseconds",$self._milliseconds());
+return $recv(stream)._nextPut_("#milliseconds".__minus_gt($self._milliseconds()));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
+}));
 $recv(anInspector)._setLabel_($self._printString());
 $recv(anInspector)._setVariables_(variables);
 return self;
@@ -29241,18 +29290,21 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self jsObject.\x0a\x09anInspector setLabel: self printString.\x0a\x09JSObjectProxy addObjectVariablesTo: variables ofProxy: self.\x0a\x09anInspector setVariables: variables",
-referencedClasses: ["Dictionary", "JSObjectProxy"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPut: '#self' -> self jsObject;\x0a\x09\x09\x09nextPutAll: (JSObjectProxy associationsOfProxy: self) ].\x0a\x09anInspector setLabel: self printString.\x0a\x09anInspector setVariables: variables",
+referencedClasses: ["Array", "JSObjectProxy"],
 pragmas: [],
-messageSends: ["new", "at:put:", "jsObject", "setLabel:", "printString", "addObjectVariablesTo:ofProxy:", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "jsObject", "nextPutAll:", "associationsOfProxy:", "setLabel:", "printString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-$recv(variables)._at_put_("#self",$self._jsObject());
+variables=$recv($globals.Array)._streamContents_((function(stream){
+return $core.withContext(function($ctx2) {
+$recv(stream)._nextPut_("#self".__minus_gt($self._jsObject()));
+return $recv(stream)._nextPutAll_($recv($globals.JSObjectProxy)._associationsOfProxy_(self));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
+}));
 $recv(anInspector)._setLabel_($self._printString());
-$recv($globals.JSObjectProxy)._addObjectVariablesTo_ofProxy_(variables,self);
 $recv(anInspector)._setVariables_(variables);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables})});
@@ -29264,22 +29316,27 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream nextPut: '#self' -> self.\x0a\x09\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09\x09stream nextPut: each -> (self instVarNamed: each) ] ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "do:", "allInstanceVariableNames", "class", "instVarNamed:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "do:", "allInstanceVariableNames", "class", "instVarNamed:", "setLabel:", "printString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
-][0];
-$recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
+variables=$recv($globals.Array)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
-return $recv(variables)._at_put_(each,$self._instVarNamed_(each));
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
+][0];
+return $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
+return $core.withContext(function($ctx3) {
+return $recv(stream)._nextPut_($recv(each).__minus_gt($self._instVarNamed_(each)));
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 $recv(anInspector)._setLabel_($self._printString());
 $recv(anInspector)._setVariables_(variables);
@@ -29311,66 +29368,81 @@ $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables i |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09i := 1.\x0a\x09self do: [ :each |\x0a\x09\x09variables at: i put: each.\x0a\x09\x09i := i + 1 ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream nextPut: '#self' -> self.\x0a\x09\x09self withIndexDo: [ :each :i |\x0a\x09\x09\x09stream nextPut: i -> each ] ].\x0a\x09anInspector\x0a\x09\x09setLabel: self shortenedPrintString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "do:", "+", "setLabel:", "shortenedPrintString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "withIndexDo:", "setLabel:", "shortenedPrintString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
-var variables,i;
+var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
-][0];
-i=(1);
-$self._do_((function(each){
+variables=$recv($globals.Array)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
-$recv(variables)._at_put_(i,each);
-i=$recv(i).__plus((1));
-return i;
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
+][0];
+return $self._withIndexDo_((function(each,i){
+return $core.withContext(function($ctx3) {
+return $recv(stream)._nextPut_($recv(i).__minus_gt(each));
+}, function($ctx3) {$ctx3.fillBlock({each:each,i:i},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 $recv(anInspector)._setLabel_($self._shortenedPrintString());
 $recv(anInspector)._setVariables_(variables);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables,i:i})});
+}, function($ctx1) {$ctx1.fill(self,"inspectOn:",{anInspector:anInspector,variables:variables})});
 }; }),
-$globals.Set);
+$globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
 selector: "inspectOn:",
 protocol: "*Platform-Services",
 args: ["anInspector"],
-source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Dictionary new.\x0a\x09variables at: '#self' put: self.\x0a\x09variables at: '#home' put: self home.\x0a\x09variables at: '#receiver' put: self receiver.\x0a\x09variables at: '#selector' put: self selector.\x0a\x09variables at: '#locals' put: self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
-referencedClasses: ["Dictionary"],
+source: "inspectOn: anInspector\x0a\x09| variables |\x0a\x09variables := Array streamContents: [ :stream |\x0a\x09\x09stream\x0a\x09\x09\x09nextPut: '#self' -> self;\x0a\x09\x09\x09nextPut: '#home' -> self home;\x0a\x09\x09\x09nextPut: '#receiver' -> self receiver;\x0a\x09\x09\x09nextPut: '#selector' -> self selector;\x0a\x09\x09\x09nextPut: '#locals' -> self locals.\x0a\x09self class instanceVariableNames do: [ :each |\x0a\x09\x09stream nextPut: each -> (self instVarNamed: each) ] ].\x0a\x09anInspector\x0a\x09\x09setLabel: self printString;\x0a\x09\x09setVariables: variables",
+referencedClasses: ["Array"],
 pragmas: [],
-messageSends: ["new", "at:put:", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarNamed:", "setLabel:", "printString", "setVariables:"]
+messageSends: ["streamContents:", "nextPut:", "->", "home", "receiver", "selector", "locals", "do:", "instanceVariableNames", "class", "instVarNamed:", "setLabel:", "printString", "setVariables:"]
 }, function ($methodClass){ return function (anInspector){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
-variables=$recv($globals.Dictionary)._new();
-[$recv(variables)._at_put_("#self",self)
-,$ctx1.sendIdx["at:put:"]=1
-][0];
-[$recv(variables)._at_put_("#home",$self._home())
-,$ctx1.sendIdx["at:put:"]=2
-][0];
-[$recv(variables)._at_put_("#receiver",$self._receiver())
-,$ctx1.sendIdx["at:put:"]=3
-][0];
-[$recv(variables)._at_put_("#selector",$self._selector())
-,$ctx1.sendIdx["at:put:"]=4
-][0];
-[$recv(variables)._at_put_("#locals",$self._locals())
-,$ctx1.sendIdx["at:put:"]=5
-][0];
-$recv($recv($self._class())._instanceVariableNames())._do_((function(each){
+variables=$recv($globals.Array)._streamContents_((function(stream){
 return $core.withContext(function($ctx2) {
-return $recv(variables)._at_put_(each,$self._instVarNamed_(each));
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+[$recv(stream)._nextPut_(["#self".__minus_gt(self)
+,$ctx2.sendIdx["->"]=1
+][0])
+,$ctx2.sendIdx["nextPut:"]=1
+][0];
+[$recv(stream)._nextPut_(["#home".__minus_gt($self._home())
+,$ctx2.sendIdx["->"]=2
+][0])
+,$ctx2.sendIdx["nextPut:"]=2
+][0];
+[$recv(stream)._nextPut_(["#receiver".__minus_gt($self._receiver())
+,$ctx2.sendIdx["->"]=3
+][0])
+,$ctx2.sendIdx["nextPut:"]=3
+][0];
+[$recv(stream)._nextPut_(["#selector".__minus_gt($self._selector())
+,$ctx2.sendIdx["->"]=4
+][0])
+,$ctx2.sendIdx["nextPut:"]=4
+][0];
+[$recv(stream)._nextPut_(["#locals".__minus_gt($self._locals())
+,$ctx2.sendIdx["->"]=5
+][0])
+,$ctx2.sendIdx["nextPut:"]=5
+][0];
+return $recv($recv($self._class())._instanceVariableNames())._do_((function(each){
+return $core.withContext(function($ctx3) {
+return $recv(stream)._nextPut_($recv(each).__minus_gt($self._instVarNamed_(each)));
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 $recv(anInspector)._setLabel_($self._printString());
 $recv(anInspector)._setVariables_(variables);
