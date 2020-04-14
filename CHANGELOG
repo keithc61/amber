@@ -1,3 +1,15 @@
+14 Apr 2020 - Release 0.27.0
+===================================
+
+* Inspectors protocol is changed.
+  * The inspectOn: now sets list of associations in setVariables:.
+    * Breaking for objects acting as inspectors that assume Dictionary.
+    * Both IDEs were updated to assoc-list first, with backward compat.
+    * Inspecting big (~10k) collections is drastically faster.
+
+Commits: https://lolg.it/amber/amber/commits/0.27.0
+
+
 13 Apr 2020 - Release 0.26.0
 ===================================
 

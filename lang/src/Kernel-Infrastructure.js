@@ -640,6 +640,36 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "associationsOfProxy:",
+protocol: "proxy",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aProxy"],
+source: "associationsOfProxy: aProxy\x0a\x09<inlineJS: '\x0a\x09\x09var jsObject = aProxy.jsObject, result = [];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09result.push(i.__minus_gt(jsObject[i]));\x0a\x09\x09}\x0a\x09\x09return result;\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09var jsObject = aProxy.jsObject, result = [];\x0a\x09\x09for(var i in jsObject) {\x0a\x09\x09\x09result.push(i.__minus_gt(jsObject[i]));\x0a\x09\x09}\x0a\x09\x09return result;\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (aProxy){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		var jsObject = aProxy.jsObject, result = [];
+		for(var i in jsObject) {
+			result.push(i.__minus_gt(jsObject[i]));
+		}
+		return result;
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"associationsOfProxy:",{aProxy:aProxy})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "compareJSObjectOfProxy:withProxy:",
 protocol: "proxy",
 //>>excludeStart("ide", pragmas.excludeIdeData);

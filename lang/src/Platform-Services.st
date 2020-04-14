@@ -534,11 +534,11 @@ show: anObject
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	variables at: '#keys' put: self keys.
-	self keysAndValuesDo: [ :key :value |
-		variables at: key put: value ].
+	variables := Array streamContents: [ :stream |
+		stream
+			nextPut: '#self' -> self;
+			nextPut: '#keys' -> self keys;
+			nextPutAll: self associations ].
 	anInspector
 		setLabel: self shortenedPrintString;
 		setVariables: variables
@@ -547,13 +547,14 @@ inspectOn: anInspector
 !Collection methodsFor: '*Platform-Services'!
 
 inspectOn: anInspector
-	| variables i |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	i := 1.
-	self do: [ :each |
-		variables at: i put: each.
-		i := i + 1 ].
+	| variables |
+	variables := Array streamContents: [ :stream |
+		| i |
+		stream nextPut: '#self' -> self.
+		i := 1.
+		self do: [ :each |
+			stream nextPut: i -> each.
+			i := i + 1 ] ].
 	anInspector
 		setLabel: self shortenedPrintString;
 		setVariables: variables
@@ -563,15 +564,16 @@ inspectOn: anInspector
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	variables at: '#year' put: self year.
-	variables at: '#month' put: self month.
-	variables at: '#day' put: self day.
-	variables at: '#hours' put: self hours.
-	variables at: '#minutes' put: self minutes.
-	variables at: '#seconds' put: self seconds.
-	variables at: '#milliseconds' put: self milliseconds.
+	variables := Array streamContents: [ :stream |
+		stream
+			nextPut: '#self' -> self;
+			nextPut: '#year' -> self year;
+			nextPut: '#month' -> self month;
+			nextPut: '#day' -> self day;
+			nextPut: '#hours' -> self hours;
+			nextPut: '#minutes' -> self minutes;
+			nextPut: '#seconds' -> self seconds;
+			nextPut: '#milliseconds' -> self milliseconds ].
 	anInspector
 		setLabel: self printString;
 		setVariables: variables
@@ -581,10 +583,11 @@ inspectOn: anInspector
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self jsObject.
+	variables := Array streamContents: [ :stream |
+		stream
+			nextPut: '#self' -> self jsObject;
+			nextPutAll: (JSObjectProxy associationsOfProxy: self) ].
 	anInspector setLabel: self printString.
-	JSObjectProxy addObjectVariablesTo: variables ofProxy: self.
 	anInspector setVariables: variables
 ! !
 
@@ -592,10 +595,10 @@ inspectOn: anInspector
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	self class allInstanceVariableNames do: [ :each |
-		variables at: each put: (self instVarNamed: each) ].
+	variables := Array streamContents: [ :stream |
+		stream nextPut: '#self' -> self.
+		self class allInstanceVariableNames do: [ :each |
+			stream nextPut: each -> (self instVarNamed: each) ] ].
 	anInspector
 		setLabel: self printString;
 		setVariables: variables
@@ -612,10 +615,10 @@ do: aBlock displayingProgress: aString
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	self withIndexDo: [ :each :i |
-		variables at: i put: each ].
+	variables := Array streamContents: [ :stream |
+		stream nextPut: '#self' -> self.
+		self withIndexDo: [ :each :i |
+			stream nextPut: i -> each ] ].
 	anInspector
 		setLabel: self shortenedPrintString;
 		setVariables: variables
@@ -625,14 +628,15 @@ inspectOn: anInspector
 
 inspectOn: anInspector
 	| variables |
-	variables := Dictionary new.
-	variables at: '#self' put: self.
-	variables at: '#home' put: self home.
-	variables at: '#receiver' put: self receiver.
-	variables at: '#selector' put: self selector.
-	variables at: '#locals' put: self locals.
+	variables := Array streamContents: [ :stream |
+		stream
+			nextPut: '#self' -> self;
+			nextPut: '#home' -> self home;
+			nextPut: '#receiver' -> self receiver;
+			nextPut: '#selector' -> self selector;
+			nextPut: '#locals' -> self locals.
 	self class instanceVariableNames do: [ :each |
-		variables at: each put: (self instVarNamed: each) ].
+		stream nextPut: each -> (self instVarNamed: each) ] ].
 	anInspector
 		setLabel: self printString;
 		setVariables: variables

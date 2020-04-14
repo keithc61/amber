@@ -209,6 +209,16 @@ addObjectVariablesTo: aDictionary ofProxy: aProxy
 	'>
 !
 
+associationsOfProxy: aProxy
+	<inlineJS: '
+		var jsObject = aProxy.jsObject, result = [];
+		for(var i in jsObject) {
+			result.push(i.__minus_gt(jsObject[i]));
+		}
+		return result;
+	'>
+!
+
 compareJSObjectOfProxy: aProxy withProxy: anotherProxy
 <inlineJS: '
 	var anotherJSObject = anotherProxy.a$cls ? anotherProxy.jsObject : anotherProxy;
