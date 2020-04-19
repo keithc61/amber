@@ -3873,11 +3873,11 @@ selector: "testComma",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
+source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
+messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3958,24 +3958,7 @@ return $core.withContext(function($ctx1) {
 ,$ctx1.sendIdx["assert:equals:"]=3
 //>>excludeEnd("ctx");
 ][0];
-$self._assert_equals_([$recv([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=5
-//>>excludeEnd("ctx");
-][0]).__comma([$self._sampleNewValueAsCollection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["sampleNewValueAsCollection"]=1
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=4
-//>>excludeEnd("ctx");
-][0],[$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-//>>excludeEnd("ctx");
-][0]);
-$self._assertSameContents_as_($recv($self._sampleNewValueAsCollection()).__comma($self._collection()),$self._collectionWithNewValue());
+$self._assert_equals_($recv($self._collection()).__comma($self._sampleNewValueAsCollection()),$self._collectionWithNewValue());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testComma",{})});
@@ -5670,85 +5653,6 @@ $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
-selector: "testComma",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-[(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.supercall = false
-//>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=1
-//>>excludeEnd("ctx");
-][0]).__comma([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=2
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=1
-//>>excludeEnd("ctx");
-][0],[$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=3
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:equals:"]=1
-//>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=4
-//>>excludeEnd("ctx");
-][0]).__comma([$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=2
-//>>excludeEnd("ctx");
-][0],[$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=2
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:equals:"]=2
-//>>excludeEnd("ctx");
-][0];
-$self._assert_equals_($recv([$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=3
-//>>excludeEnd("ctx");
-][0]).__comma($self._collection()),$self._collectionWithNewValue());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testComma",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.AssociativeCollectionTest);
-
-$core.addMethod(
-$core.method({
 selector: "testFrom",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -6091,6 +5995,93 @@ $self._assert_equals_($recv($1)._yourself(),$self._collection());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testRemoveKeyIfAbsent",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AssociativeCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUnorderedComma",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUnorderedComma\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", ",", "collection", "sampleNewValueAsCollection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._assert_equals_([$recv([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=1
+//>>excludeEnd("ctx");
+][0]).__comma([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0],[$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv($self._sampleNewValueAsCollection()).__comma([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=4
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0],[$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=5
+//>>excludeEnd("ctx");
+][0]).__comma([$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=3
+//>>excludeEnd("ctx");
+][0],[$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=3
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($recv([$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=4
+//>>excludeEnd("ctx");
+][0]).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testUnorderedComma",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AssociativeCollectionTest);
@@ -7431,6 +7422,30 @@ return $recv($self._collection())._last_((33));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLastN",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SequenceableCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testOrderedComma",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testOrderedComma\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assertSameContents:as:", ",", "sampleNewValueAsCollection", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assertSameContents_as_($recv($self._sampleNewValueAsCollection()).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testOrderedComma",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SequenceableCollectionTest);
@@ -9694,85 +9709,6 @@ $globals.SetTest);
 
 $core.addMethod(
 $core.method({
-selector: "testComma",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-[(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.supercall = false
-//>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=1
-//>>excludeEnd("ctx");
-][0]).__comma([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=2
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=1
-//>>excludeEnd("ctx");
-][0],[$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=3
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:equals:"]=1
-//>>excludeEnd("ctx");
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collection"]=4
-//>>excludeEnd("ctx");
-][0]).__comma([$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=2
-//>>excludeEnd("ctx");
-][0],[$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=2
-//>>excludeEnd("ctx");
-][0])
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:equals:"]=2
-//>>excludeEnd("ctx");
-][0];
-$self._assert_equals_($recv([$self._collectionWithNewValue()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["collectionWithNewValue"]=3
-//>>excludeEnd("ctx");
-][0]).__comma($self._collection()),$self._collectionWithNewValue());
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testComma",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SetTest);
-
-$core.addMethod(
-$core.method({
 selector: "testComparing",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -10150,6 +10086,93 @@ $self._assert_equals_($recv(set)._asArray(),[(21), "hello"]);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testUnicity",{set:set})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUnorderedComma",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testUnorderedComma\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:", ",", "collection", "sampleNewValueAsCollection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._assert_equals_([$recv([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=1
+//>>excludeEnd("ctx");
+][0]).__comma([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0],[$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv($self._sampleNewValueAsCollection()).__comma([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=4
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0],[$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv([$self._collection()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collection"]=5
+//>>excludeEnd("ctx");
+][0]).__comma([$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=2
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx[","]=3
+//>>excludeEnd("ctx");
+][0],[$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=3
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=3
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($recv([$self._collectionWithNewValue()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["collectionWithNewValue"]=4
+//>>excludeEnd("ctx");
+][0]).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testUnorderedComma",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SetTest);

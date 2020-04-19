@@ -796,8 +796,7 @@ testComma
 	self assert: self collection, self collectionClass new equals: self collection.
 	self assert: self collectionClass new, self collection equals: self collection.
 	self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.
-	self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.
-	self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue
+	self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue
 !
 
 testCopy
@@ -1002,13 +1001,6 @@ testAsHashedCollection
 self assert: ( self collectionClass new asHashedCollection isMemberOf: HashedCollection ).
 !
 
-testComma
-	super testComma.
-	self assert: self collection, self collection equals: self collection.
-	self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.
-	self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue
-!
-
 testFrom
 "Accept a collection of associations."
 | associations |
@@ -1068,6 +1060,13 @@ testRemoveKeyIfAbsent
 	self
 		assert: (self collectionWithNewValue removeKey: self sampleNewIndex ifAbsent: [ self assert: false ]; yourself)
 		equals: self collection
+!
+
+testUnorderedComma
+	self assert: self collection, self collection equals: self collection.
+	self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.
+	self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.
+	self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue
 !
 
 testValues
@@ -1347,6 +1346,10 @@ testLastN
 		equals: self collection.
 
 	self should: [ self collection last: 33 ] raise: Error
+!
+
+testOrderedComma
+	self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue
 !
 
 testSecond
@@ -1797,13 +1800,6 @@ testCollect
 	self assert: (#(5 6 8) asSet collect: [ :x | x \\ 3 ]) equals: #(0 2) asSet
 !
 
-testComma
-	super testComma.
-	self assert: self collection, self collection equals: self collection.
-	self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.
-	self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue
-!
-
 testComparing
 	self assert: #(0 2) asSet equals: #(0 2) asSet.
 	self assert: #(2 0) asSet equals: #(0 2) asSet.
@@ -1864,6 +1860,13 @@ testUnicity
 	self assert: set size equals: 2.
 
 	self assert: set asArray equals: #(21 'hello')
+!
+
+testUnorderedComma
+	self assert: self collection, self collection equals: self collection.
+	self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.
+	self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.
+	self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue
 ! !
 
 !SetTest class methodsFor: 'fixture'!
