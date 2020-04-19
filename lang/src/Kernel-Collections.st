@@ -677,7 +677,7 @@ printOn: aStream
 shortenedPrintString
 	^ self size <= 1
 		ifTrue: [ self printString ]
-		ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) size, ' more items' ]
+		ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) asString, ' more items' ]
 ! !
 
 !AssociativeCollection methodsFor: 'testing'!

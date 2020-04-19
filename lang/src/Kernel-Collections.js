@@ -2851,11 +2851,11 @@ selector: "shortenedPrintString",
 protocol: "printing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) size, ' more items' ]",
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) asString, ' more items' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "-"]
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "asString", "-"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2877,11 +2877,7 @@ var key;
 key=$recv($self._keys())._anyOne();
 $1=$self._copyEmpty();
 $recv($1)._at_put_(key,$self._at_(key));
-return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma([$recv($recv($self._size()).__minus((1)))._size()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["size"]=2
-//>>excludeEnd("ctx");
-][0])
+return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($recv($self._size()).__minus((1)))._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
