@@ -1048,8 +1048,18 @@ even
 	^ 0 = (self \\ 2)
 !
 
+isFinite
+	"Answer whether the receiver is finite"
+	<inlineJS: 'return Number.isFinite(self)'>
+!
+
 isImmutable
 	^ true
+!
+
+isNaN
+	"Answer whether the receiver is IEEE-754 not-a-number"
+	<inlineJS: 'return Number.isNaN(self)'>
 !
 
 isNumber
@@ -1092,8 +1102,16 @@ e
 	<inlineJS: 'return Math.E;'>
 !
 
+negativeInfinity
+	<inlineJS: 'return Number.NEGATIVE_INFINITY'>
+!
+
 pi
 	<inlineJS: 'return Math.PI'>
+!
+
+positiveInfinity
+	<inlineJS: 'return Number.POSITIVE_INFINITY'>
 !
 
 radiansPerDegree

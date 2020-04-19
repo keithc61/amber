@@ -3828,6 +3828,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "isFinite",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isFinite\x0a\x09\x22Answer whether the receiver is finite\x22\x0a\x09<inlineJS: 'return Number.isFinite(self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Number.isFinite(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Number.isFinite(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isFinite",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3841,6 +3865,30 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNaN",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isNaN\x0a\x09\x22Answer whether the receiver is IEEE-754 not-a-number\x22\x0a\x09<inlineJS: 'return Number.isNaN(self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Number.isNaN(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Number.isNaN(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNaN",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Number);
 
@@ -4826,6 +4874,30 @@ $globals.Number.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "negativeInfinity",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "negativeInfinity\x0a\x09<inlineJS: 'return Number.NEGATIVE_INFINITY'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Number.NEGATIVE_INFINITY"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Number.NEGATIVE_INFINITY;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"negativeInfinity",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "pi",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4844,6 +4916,30 @@ return Math.PI;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"pi",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "positiveInfinity",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "positiveInfinity\x0a\x09<inlineJS: 'return Number.POSITIVE_INFINITY'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return Number.POSITIVE_INFINITY"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return Number.POSITIVE_INFINITY;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"positiveInfinity",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Number.a$cls);
