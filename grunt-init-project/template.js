@@ -119,7 +119,7 @@ exports.template = function (grunt, init, done) {
             "@ambers/contrib-jquery": "^0.6.0",
             "@ambers/contrib-web": "^0.8.2",
             "@ambers/domite": "^0.9.0",
-            "@ambers/lang": "^0.27.0",
+            "@ambers/lang": "^0.28.0",
             "@ambers/silk": "^0.6.0",
             "es6-promise": "^4.2.6"
         };
