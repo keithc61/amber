@@ -770,11 +770,11 @@ selector: "handlePUTRequest:respondTo:",
 protocol: "request handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRequest", "aResponse"],
-source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
+source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
+messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var file,stream;
@@ -809,7 +809,7 @@ return $core.withContext(function($ctx2) {
 ,$ctx2.sendIdx["warn:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$recv(console)._warn_("    The exact error is: ".__comma(error));
+$recv(console)._warn_("    The exact error is: ".__comma($recv(error)._asString()));
 return $self._respondNotCreatedTo_(aResponse);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
@@ -1501,11 +1501,11 @@ selector: "start",
 protocol: "starting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "start\x0a\x09\x22Checks if required directory layout is present (issue warning if not).\x0a\x09 Afterwards start the server.\x22\x0a\x09self checkDirectoryLayout.\x0a\x09(http createServer: [:request :response |\x0a\x09      self handleRequest: request respondTo: response])\x0a\x09      on: 'error' do: [:error | console log: 'Error starting server: ', error];\x0a\x09      on: 'listening' do: [console log: 'Starting file server on http://', self host, ':', self port asString];\x0a\x09      listen: self port host: self host.",
+source: "start\x0a\x09\x22Checks if required directory layout is present (issue warning if not).\x0a\x09 Afterwards start the server.\x22\x0a\x09self checkDirectoryLayout.\x0a\x09(http createServer: [:request :response |\x0a\x09      self handleRequest: request respondTo: response])\x0a\x09      on: 'error' do: [:error | console log: 'Error starting server: ', error asString];\x0a\x09      on: 'listening' do: [console log: 'Starting file server on http://', self host, ':', self port asString];\x0a\x09      listen: self port host: self host.",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["checkDirectoryLayout", "on:do:", "createServer:", "handleRequest:respondTo:", "log:", ",", "host", "asString", "port", "listen:host:"]
+messageSends: ["checkDirectoryLayout", "on:do:", "createServer:", "handleRequest:respondTo:", "log:", ",", "asString", "host", "port", "listen:host:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1526,7 +1526,11 @@ return $self._handleRequest_respondTo_(request,response);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return [$recv(console)._log_(["Error starting server: ".__comma(error)
+return [$recv(console)._log_(["Error starting server: ".__comma([$recv(error)._asString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["asString"]=1
+//>>excludeEnd("ctx");
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=1
 //>>excludeEnd("ctx");
@@ -1796,11 +1800,11 @@ selector: "createServerWithArguments:",
 protocol: "initialization",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["options"],
-source: "createServerWithArguments: options\x0a\x09\x22If options are empty return a default FileServer instance.\x0a\x09 If options are given loop through them and set the passed in values\x0a\x09 on the FileServer instance.\x0a\x09 \x0a\x09 Commanline options map directly to methods in the 'accessing' protocol\x0a\x09 taking one parameter.\x0a\x09 Adding a method to this protocol makes it directly settable through\x0a\x09 command line options.\x0a\x09 \x22\x0a\x09| server popFront front optionName optionValue switches |\x0a\x0a\x09switches := self commandLineSwitches.\x0a\x0a\x09server := self new.\x0a\x0a\x09options ifEmpty: [^server].\x0a\x0a\x09(options size even) ifFalse: [\x0a\x09\x09console log: 'Using default parameters.'.\x0a\x09\x09console log: 'Wrong commandline options or not enough arguments for: ' , options.\x0a\x09\x09console log: 'Use any of the following ones: ', switches.\x0a\x09\x09^server].\x0a\x0a\x09popFront := [:args |\x0a\x09\x09front := args first.\x0a\x09\x09args remove: front.\x0a\x09\x09front].\x0a\x0a\x09[options notEmpty] whileTrue: [\x0a\x09\x09optionName  := popFront value: options.\x0a\x09\x09optionValue := popFront value: options.\x0a\x0a\x09\x09(switches includes: optionName) ifTrue: [\x0a\x09\x09\x09optionName := self selectorForCommandLineSwitch: optionName.\x0a\x09\x09\x09server perform: optionName withArguments: { optionValue } ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09console log: optionName, ' is not a valid commandline option'.\x0a\x09\x09\x09\x09console log: 'Use any of the following ones: ', switches ]].\x0a\x09^ server.",
+source: "createServerWithArguments: options\x0a\x09\x22If options are empty return a default FileServer instance.\x0a\x09 If options are given loop through them and set the passed in values\x0a\x09 on the FileServer instance.\x0a\x09 \x0a\x09 Commanline options map directly to methods in the 'accessing' protocol\x0a\x09 taking one parameter.\x0a\x09 Adding a method to this protocol makes it directly settable through\x0a\x09 command line options.\x0a\x09 \x22\x0a\x09| server popFront front optionName optionValue switches |\x0a\x0a\x09switches := self commandLineSwitches.\x0a\x0a\x09server := self new.\x0a\x0a\x09options ifEmpty: [^server].\x0a\x0a\x09(options size even) ifFalse: [\x0a\x09\x09console log: 'Using default parameters.'.\x0a\x09\x09console log: 'Wrong commandline options or not enough arguments for: ' , (' ' join: options).\x0a\x09\x09console log: 'Use any of the following ones: ', (',' join: switches).\x0a\x09\x09^server].\x0a\x0a\x09popFront := [:args |\x0a\x09\x09front := args first.\x0a\x09\x09args remove: front.\x0a\x09\x09front].\x0a\x0a\x09[options notEmpty] whileTrue: [\x0a\x09\x09optionName  := popFront value: options.\x0a\x09\x09optionValue := popFront value: options.\x0a\x0a\x09\x09(switches includes: optionName) ifTrue: [\x0a\x09\x09\x09optionName := self selectorForCommandLineSwitch: optionName.\x0a\x09\x09\x09server perform: optionName withArguments: { optionValue } ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09console log: optionName, ' is not a valid commandline option'.\x0a\x09\x09\x09\x09console log: 'Use any of the following ones: ', (',' join: switches) ]].\x0a\x09^ server.",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["commandLineSwitches", "new", "ifEmpty:", "ifFalse:", "even", "size", "log:", ",", "first", "remove:", "whileTrue:", "notEmpty", "value:", "ifTrue:ifFalse:", "includes:", "selectorForCommandLineSwitch:", "perform:withArguments:"]
+messageSends: ["commandLineSwitches", "new", "ifEmpty:", "ifFalse:", "even", "size", "log:", ",", "join:", "first", "remove:", "whileTrue:", "notEmpty", "value:", "ifTrue:ifFalse:", "includes:", "selectorForCommandLineSwitch:", "perform:withArguments:"]
 }, function ($methodClass){ return function (options){
 var self=this,$self=this;
 var server,popFront,front,optionName,optionValue,switches;
@@ -1821,7 +1825,11 @@ if(!$core.assert($recv($recv(options)._size())._even())){
 ,$ctx1.sendIdx["log:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$recv(console)._log_(["Wrong commandline options or not enough arguments for: ".__comma(options)
+[$recv(console)._log_(["Wrong commandline options or not enough arguments for: ".__comma([" "._join_(options)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["join:"]=1
+//>>excludeEnd("ctx");
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
@@ -1830,7 +1838,11 @@ if(!$core.assert($recv($recv(options)._size())._even())){
 ,$ctx1.sendIdx["log:"]=2
 //>>excludeEnd("ctx");
 ][0];
-[$recv(console)._log_(["Use any of the following ones: ".__comma(switches)
+[$recv(console)._log_(["Use any of the following ones: ".__comma([","._join_(switches)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["join:"]=2
+//>>excludeEnd("ctx");
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
@@ -1883,7 +1895,7 @@ return $recv(server)._perform_withArguments_(optionName,[optionValue]);
 ,$ctx2.sendIdx["log:"]=4
 //>>excludeEnd("ctx");
 ][0];
-return $recv(console)._log_("Use any of the following ones: ".__comma(switches));
+return $recv(console)._log_("Use any of the following ones: ".__comma(","._join_(switches)));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});

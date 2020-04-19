@@ -894,7 +894,7 @@ jsOverride: aString args: aCollection
 	| myArgs |
 	myArgs := self irMethod arguments.
 	myArgs size = aCollection size ifFalse: [
-		CompilerError signal: 'Should have ', self irMethod arguments size, ' args in <jsOverride:args:>.' ].
+		CompilerError signal: 'Should have ', self irMethod arguments size asString, ' args in <jsOverride:args:>.' ].
 	myArgs asSet = aCollection asSet ifFalse: [
 		CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].
 	self irMethod attachments

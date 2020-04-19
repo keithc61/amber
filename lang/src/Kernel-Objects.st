@@ -242,6 +242,10 @@ asJavaScriptSource
 
 !Object methodsFor: 'copying'!
 
+appendToString: aString
+	self error: 'Cannot add self to a string.'
+!
+
 copy
 	^ self shallowCopy postCopy
 !

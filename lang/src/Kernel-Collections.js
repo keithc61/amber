@@ -1671,11 +1671,11 @@ selector: "shortenedPrintString",
 protocol: "printing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]",
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1) asString, ' more items' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "-"]
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "asString", "-"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1692,7 +1692,7 @@ return [$self._printString()
 //>>excludeEnd("ctx");
 ][0];
 } else {
-return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($recv($self._size()).__minus((1)))._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
@@ -2851,7 +2851,7 @@ selector: "shortenedPrintString",
 protocol: "printing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]",
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) size, ' more items' ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2877,7 +2877,11 @@ var key;
 key=$recv($self._keys())._anyOne();
 $1=$self._copyEmpty();
 $recv($1)._at_put_(key,$self._at_(key));
-return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma([$recv($recv($self._size()).__minus((1)))._size()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["size"]=2
+//>>excludeEnd("ctx");
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
@@ -4648,6 +4652,38 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
+selector: "appendToString:",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "appendToString: aString\x0a<inlineJS: '\x0a\x09for (var i = 0, l = $self.length; i < l; ++i) {\x0a\x09\x09var el = $self[i];\x0a\x09\x09if ((typeof el === \x22string\x22) || $recv(el)._isString()) {\x0a\x09\x09\x09if (el.length === 1) { aString += el; continue; }\x0a\x09\x09}\x0a\x09\x09$self._error_(\x22Not a character.\x22);\x0a\x09}\x0a\x09return aString'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09for (var i = 0, l = $self.length; i < l; ++i) {\x0a\x09\x09var el = $self[i];\x0a\x09\x09if ((typeof el === \x22string\x22) || $recv(el)._isString()) {\x0a\x09\x09\x09if (el.length === 1) { aString += el; continue; }\x0a\x09\x09}\x0a\x09\x09$self._error_(\x22Not a character.\x22);\x0a\x09}\x0a\x09return aString"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+	for (var i = 0, l = $self.length; i < l; ++i) {
+		var el = $self[i];
+		if ((typeof el === "string") || $recv(el)._isString()) {
+			if (el.length === 1) { aString += el; continue; }
+		}
+		$self._error_("Not a character.");
+	}
+	return aString;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Array);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5315,17 +5351,19 @@ selector: ",",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: ", aString\x0a\x09<inlineJS: 'return String(self) + aString'>",
+source: ", aString\x0a\x09<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09\x09String(self) + aString :\x0a\x09\x09$recv(aString)._appendToString_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return String(self) + aString"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09\x09String(self) + aString :\x0a\x09\x09$recv(aString)._appendToString_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return String(self) + aString;
+return typeof aString === "string" ?
+		String(self) + aString :
+		$recv(aString)._appendToString_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,",",{aString:aString})});
@@ -5500,6 +5538,30 @@ $self._errorReadOnly();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "appendToString:",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "appendToString: aString\x0a\x09<inlineJS: 'return aString + self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString + self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString + self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.String);

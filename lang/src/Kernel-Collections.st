@@ -379,7 +379,7 @@ errorNotFound
 shortenedPrintString
 	^ self size <= 1
 		ifTrue: [ self printString ]
-		ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]
+		ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1) asString, ' more items' ]
 ! !
 
 !Collection methodsFor: 'streaming'!
@@ -677,7 +677,7 @@ printOn: aStream
 shortenedPrintString
 	^ self size <= 1
 		ifTrue: [ self printString ]
-		ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]
+		ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) size, ' more items' ]
 ! !
 
 !AssociativeCollection methodsFor: 'testing'!
@@ -1137,6 +1137,18 @@ reversed
 
 !Array methodsFor: 'copying'!
 
+appendToString: aString
+<inlineJS: '
+	for (var i = 0, l = $self.length; i < l; ++i) {
+		var el = $self[i];
+		if ((typeof el === "string") || $recv(el)._isString()) {
+			if (el.length === 1) { aString += el; continue; }
+		}
+		$self._error_("Not a character.");
+	}
+	return aString'>
+!
+
 copyFrom: anIndex to: anotherIndex
 <inlineJS: '
 	if (anIndex >= 1 && anotherIndex <= self.length) {
@@ -1415,7 +1427,13 @@ uriEncoded
 !String methodsFor: 'copying'!
 
 , aString
-	<inlineJS: 'return String(self) + aString'>
+	<inlineJS: 'return typeof aString === "string" ?
+		String(self) + aString :
+		$recv(aString)._appendToString_(String(self))'>
+!
+
+appendToString: aString
+	<inlineJS: 'return aString + self'>
 !
 
 copyFrom: anIndex to: anotherIndex

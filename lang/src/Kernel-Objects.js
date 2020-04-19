@@ -680,6 +680,30 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "appendToString:",
+protocol: "copying",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "appendToString: aString\x0a\x09self error: 'Cannot add self to a string.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("Cannot add self to a string.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "asJSONString",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);

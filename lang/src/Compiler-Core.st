@@ -291,8 +291,8 @@ parseError: anException parsing: aString
 		ifNotNil: [ :loc |
 			^ ParseError new 
 				messageText: 
-					'Parse error on line ', loc start line ,
-					' column ' , loc start column ,
+					'Parse error on line ', loc start line asString,
+					' column ' , loc start column asString,
 					' : Unexpected character ', (anException basicAt: 'found');
 				yourself ]
 ! !

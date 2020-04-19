@@ -328,7 +328,7 @@ handlePUTRequest: aRequest respondTo: aResponse
 	stream on: 'error' do: [:error |
 		console warn: 'Error creating WriteStream for file ', file.
 		console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.
-		console warn: '    The exact error is: ', error.
+		console warn: '    The exact error is: ', error asString.
 		self respondNotCreatedTo: aResponse].
 
 	stream on: 'close' do: [
@@ -437,7 +437,7 @@ start
 	self checkDirectoryLayout.
 	(http createServer: [:request :response |
 	      self handleRequest: request respondTo: response])
-	      on: 'error' do: [:error | console log: 'Error starting server: ', error];
+	      on: 'error' do: [:error | console log: 'Error starting server: ', error asString];
 	      on: 'listening' do: [console log: 'Starting file server on http://', self host, ':', self port asString];
 	      listen: self port host: self host.
 !
@@ -939,8 +939,8 @@ createServerWithArguments: options
 
 	(options size even) ifFalse: [
 		console log: 'Using default parameters.'.
-		console log: 'Wrong commandline options or not enough arguments for: ' , options.
-		console log: 'Use any of the following ones: ', switches.
+		console log: 'Wrong commandline options or not enough arguments for: ' , (' ' join: options).
+		console log: 'Use any of the following ones: ', (',' join: switches).
 		^server].
 
 	popFront := [:args |
@@ -957,7 +957,7 @@ createServerWithArguments: options
 			server perform: optionName withArguments: { optionValue } ]
 			ifFalse: [
 				console log: optionName, ' is not a valid commandline option'.
-				console log: 'Use any of the following ones: ', switches ]].
+				console log: 'Use any of the following ones: ', (',' join: switches) ]].
 	^ server.
 !
 

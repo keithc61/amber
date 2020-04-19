@@ -950,11 +950,11 @@ selector: "parseError:parsing:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
 }, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -972,15 +972,19 @@ return $recv(anException)._pass();
 var loc;
 loc=$1;
 $2=$recv($globals.ParseError)._new();
-$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma($recv([$recv(loc)._start()
+$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["start"]=1
 //>>excludeEnd("ctx");
-][0])._line())).__comma(" column ")
+][0])._line())._asString()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["asString"]=1
+//>>excludeEnd("ctx");
+][0])).__comma(" column ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=4
 //>>excludeEnd("ctx");
-][0]).__comma($recv($recv(loc)._start())._column())
+][0]).__comma($recv($recv($recv(loc)._start())._column())._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
 //>>excludeEnd("ctx");

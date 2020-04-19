@@ -3399,11 +3399,11 @@ selector: "jsOverride:args:",
 protocol: "pragmas",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aCollection"],
-source: "jsOverride: aString args: aCollection\x0a\x09| myArgs |\x0a\x09myArgs := self irMethod arguments.\x0a\x09myArgs size = aCollection size ifFalse: [\x0a\x09\x09CompilerError signal: 'Should have ', self irMethod arguments size, ' args in <jsOverride:args:>.' ].\x0a\x09myArgs asSet = aCollection asSet ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: (',' join: aCollection)\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')",
+source: "jsOverride: aString args: aCollection\x0a\x09| myArgs |\x0a\x09myArgs := self irMethod arguments.\x0a\x09myArgs size = aCollection size ifFalse: [\x0a\x09\x09CompilerError signal: 'Should have ', self irMethod arguments size asString, ' args in <jsOverride:args:>.' ].\x0a\x09myArgs asSet = aCollection asSet ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: (',' join: aCollection)\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')",
 referencedClasses: ["CompilerError", "NativeFunction"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["arguments", "irMethod", "ifFalse:", "=", "size", "signal:", ",", "asSet", "at:put:", "attachments", "constructorNamed:value:value:", "join:", "asJavaScriptMethodName", "selector"]
+messageSends: ["arguments", "irMethod", "ifFalse:", "=", "size", "signal:", ",", "asString", "asSet", "at:put:", "attachments", "constructorNamed:value:value:", "join:", "asJavaScriptMethodName", "selector"]
 }, function ($methodClass){ return function (aString,aCollection){
 var self=this,$self=this;
 var myArgs;
@@ -3432,11 +3432,11 @@ if(!$core.assert([$recv([$recv(myArgs)._size()
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
 ][0])){
-[$recv($globals.CompilerError)._signal_([$recv(["Should have ".__comma($recv($recv([$self._irMethod()
+[$recv($globals.CompilerError)._signal_([$recv(["Should have ".__comma($recv($recv($recv([$self._irMethod()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["irMethod"]=2
 //>>excludeEnd("ctx");
-][0])._arguments())._size())
+][0])._arguments())._size())._asString())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
 //>>excludeEnd("ctx");
