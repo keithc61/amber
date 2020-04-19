@@ -220,7 +220,7 @@ allTestSelectors
 	selectors := self testSelectors.
 	self shouldInheritSelectors ifTrue: [
 		selectors addAll: self superclass allTestSelectors ].
-	^ selectors
+	^ selectors asSet
 !
 
 buildSuite

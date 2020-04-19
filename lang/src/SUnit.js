@@ -814,11 +814,11 @@ selector: "allTestSelectors",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "allTestSelectors\x0a\x09| selectors |\x0a\x09selectors := self testSelectors.\x0a\x09self shouldInheritSelectors ifTrue: [\x0a\x09\x09selectors addAll: self superclass allTestSelectors ].\x0a\x09^ selectors",
+source: "allTestSelectors\x0a\x09| selectors |\x0a\x09selectors := self testSelectors.\x0a\x09self shouldInheritSelectors ifTrue: [\x0a\x09\x09selectors addAll: self superclass allTestSelectors ].\x0a\x09^ selectors asSet",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass"]
+messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass", "asSet"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var selectors;
@@ -829,7 +829,7 @@ selectors=$self._testSelectors();
 if($core.assert($self._shouldInheritSelectors())){
 $recv(selectors)._addAll_($recv($self._superclass())._allTestSelectors());
 }
-return selectors;
+return $recv(selectors)._asSet();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors})});
 //>>excludeEnd("ctx");
