@@ -7,10 +7,12 @@
   + negativeInfinity
   + positiveInfinity
 
+
 0.27.0:
 
 + JSObjectProxy class >>
   + associationsOfProxy:
+
 
 0.26.0:
 
@@ -18,6 +20,7 @@
 
 + MethodContext >>
   + hydrated
+
 
 0.25.4:
 
