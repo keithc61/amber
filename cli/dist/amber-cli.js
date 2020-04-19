@@ -3807,6 +3807,42 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "andSelfToNumber:",
+protocol: "converting",
+args: ["aNumber"],
+source: "andSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"andSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "appendToString:",
+protocol: "copying",
+args: ["aString"],
+source: "appendToString: aString\x0a\x09self error: 'Cannot add self to a string.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("Cannot add self to a string.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "asJSONString",
 protocol: "converting",
 args: [],
@@ -4072,6 +4108,42 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "divideBySelfToNumber:",
+protocol: "accessing",
+args: ["aNumber"],
+source: "divideBySelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"divideBySelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "divisionRemainderBySelfToNumber:",
+protocol: "accessing",
+args: ["aNumber"],
+source: "divisionRemainderBySelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"divisionRemainderBySelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "error:",
 protocol: "error handling",
 args: ["aString"],
@@ -4158,6 +4230,86 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "isNumberEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberGreaterThanOrEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberGreaterThanSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberLessThanOrEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberLessThanSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "isParseFailure",
 protocol: "testing",
 args: [],
@@ -4169,6 +4321,140 @@ messageSends: []
 var self=this,$self=this;
 return false;
 
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringGreaterThanOrEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringGreaterThanSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringLessThanOrEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringLessThanSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "minusSelfToNumber:",
+protocol: "accessing",
+args: ["aNumber"],
+source: "minusSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"minusSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "orSelfToNumber:",
+protocol: "converting",
+args: ["aNumber"],
+source: "orSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"orSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "plusSelfToNumber:",
+protocol: "accessing",
+args: ["aNumber"],
+source: "plusSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"plusSelfToNumber:",{aNumber:aNumber})});
 }; }),
 $globals.Object);
 
@@ -4303,6 +4589,24 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "timesSelfToNumber:",
+protocol: "accessing",
+args: ["aNumber"],
+source: "timesSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"timesSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "value",
 protocol: "evaluating",
 args: [],
@@ -4316,6 +4620,24 @@ return $core.withContext(function($ctx1) {
 return self.valueOf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"value",{})});
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "xorSelfToNumber:",
+protocol: "converting",
+args: ["aNumber"],
+source: "xorSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._error_("I am not a number.");
+return self;
+}, function($ctx1) {$ctx1.fill(self,"xorSelfToNumber:",{aNumber:aNumber})});
 }; }),
 $globals.Object);
 
@@ -5527,15 +5849,14 @@ $core.method({
 selector: "&",
 protocol: "converting",
 args: ["aNumber"],
-source: "& aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+source: "& aNumber\x0a\x09^ self bitAnd: aNumber",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self & aNumber"]]],
-messageSends: []
+pragmas: [],
+messageSends: ["bitAnd:"]
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self & aNumber;
-return self;
+return $self._bitAnd_(aNumber);
 }, function($ctx1) {$ctx1.fill(self,"&",{aNumber:aNumber})});
 }; }),
 $globals.Number);
@@ -5545,14 +5866,16 @@ $core.method({
 selector: "*",
 protocol: "arithmetic",
 args: ["aNumber"],
-source: "* aNumber\x0a\x09<inlineJS: 'return self * aNumber'>",
+source: "* aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self * aNumber :\x0a\x09\x09$recv(aNumber)._timesSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self * aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self * aNumber :\x0a\x09\x09$recv(aNumber)._timesSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self * aNumber;
+return typeof aNumber === "number" ?
+		self * aNumber :
+		$recv(aNumber)._timesSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"*",{aNumber:aNumber})});
 }; }),
@@ -5580,14 +5903,16 @@ $core.method({
 selector: "+",
 protocol: "arithmetic",
 args: ["aNumber"],
-source: "+ aNumber\x0a\x09<inlineJS: 'return self + aNumber'>",
+source: "+ aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self + aNumber :\x0a\x09\x09$recv(aNumber)._plusSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self + aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self + aNumber :\x0a\x09\x09$recv(aNumber)._plusSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self + aNumber;
+return typeof aNumber === "number" ?
+		self + aNumber :
+		$recv(aNumber)._plusSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"+",{aNumber:aNumber})});
 }; }),
@@ -5598,14 +5923,16 @@ $core.method({
 selector: "-",
 protocol: "arithmetic",
 args: ["aNumber"],
-source: "- aNumber\x0a\x09<inlineJS: 'return self - aNumber'>",
+source: "- aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self - aNumber :\x0a\x09\x09$recv(aNumber)._minusSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self - aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self - aNumber :\x0a\x09\x09$recv(aNumber)._minusSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self - aNumber;
+return typeof aNumber === "number" ?
+		self - aNumber :
+		$recv(aNumber)._minusSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"-",{aNumber:aNumber})});
 }; }),
@@ -5616,14 +5943,16 @@ $core.method({
 selector: "/",
 protocol: "arithmetic",
 args: ["aNumber"],
-source: "/ aNumber\x0a\x09<inlineJS: 'return self / aNumber'>",
+source: "/ aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self / aNumber :\x0a\x09\x09$recv(aNumber)._divideBySelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self / aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self / aNumber :\x0a\x09\x09$recv(aNumber)._divideBySelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self / aNumber;
+return typeof aNumber === "number" ?
+		self / aNumber :
+		$recv(aNumber)._divideBySelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"/",{aNumber:aNumber})});
 }; }),
@@ -5651,14 +5980,16 @@ $core.method({
 selector: "<",
 protocol: "comparing",
 args: ["aNumber"],
-source: "< aNumber\x0a\x09<inlineJS: 'return self < aNumber'>",
+source: "< aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) < aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanSelf_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self < aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) < aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self < aNumber;
+return typeof aNumber === "number" ?
+	Number(self) < aNumber :
+	$recv(aNumber)._isNumberLessThanSelf_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"<",{aNumber:aNumber})});
 }; }),
@@ -5669,14 +6000,16 @@ $core.method({
 selector: "<=",
 protocol: "comparing",
 args: ["aNumber"],
-source: "<= aNumber\x0a\x09<inlineJS: 'return self <= aNumber'>",
+source: "<= aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) <= aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self <= aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) <= aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self <= aNumber;
+return typeof aNumber === "number" ?
+	Number(self) <= aNumber :
+	$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"<=",{aNumber:aNumber})});
 }; }),
@@ -5687,17 +6020,16 @@ $core.method({
 selector: "==",
 protocol: "comparing",
 args: ["aNumber"],
-source: "== aNumber\x0a<inlineJS: '\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) === aNumber :\x0a\x09$recv(aNumber)._isNumberEqualToSelf_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) === aNumber :\x0a\x09$recv(aNumber)._isNumberEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-	if (typeof aNumber === "number") return Number(self) === aNumber;
-	else if (aNumber != null && typeof aNumber === "object") return Number(self) === aNumber.valueOf();
-	else return false;;
+return typeof aNumber === "number" ?
+	Number(self) === aNumber :
+	$recv(aNumber)._isNumberEqualToSelf_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aNumber:aNumber})});
 }; }),
@@ -5708,14 +6040,16 @@ $core.method({
 selector: ">",
 protocol: "comparing",
 args: ["aNumber"],
-source: "> aNumber\x0a\x09<inlineJS: 'return self > aNumber'>",
+source: "> aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) > aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanSelf_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self > aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) > aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self > aNumber;
+return typeof aNumber === "number" ?
+	Number(self) > aNumber :
+	$recv(aNumber)._isNumberGreaterThanSelf_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,">",{aNumber:aNumber})});
 }; }),
@@ -5726,14 +6060,16 @@ $core.method({
 selector: ">=",
 protocol: "comparing",
 args: ["aNumber"],
-source: ">= aNumber\x0a\x09<inlineJS: 'return self >= aNumber'>",
+source: ">= aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) >= aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self >= aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) >= aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self >= aNumber;
+return typeof aNumber === "number" ?
+	Number(self) >= aNumber :
+	$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,">=",{aNumber:aNumber})});
 }; }),
@@ -5761,14 +6097,16 @@ $core.method({
 selector: "\x5c\x5c",
 protocol: "arithmetic",
 args: ["aNumber"],
-source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return self % aNumber'>",
+source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self % aNumber :\x0a\x09\x09$recv(aNumber)._divisionRemainderBySelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self % aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self % aNumber :\x0a\x09\x09$recv(aNumber)._divisionRemainderBySelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self % aNumber;
+return typeof aNumber === "number" ?
+		self % aNumber :
+		$recv(aNumber)._divisionRemainderBySelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"\x5c\x5c",{aNumber:aNumber})});
 }; }),
@@ -5789,6 +6127,24 @@ return $core.withContext(function($ctx1) {
 return Math.abs(self);;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"abs",{})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "andSelfToNumber:",
+protocol: "converting",
+args: ["aNumber"],
+source: "andSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber & self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber & self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber & self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"andSelfToNumber:",{aNumber:aNumber})});
 }; }),
 $globals.Number);
 
@@ -5993,14 +6349,16 @@ $core.method({
 selector: "bitAnd:",
 protocol: "converting",
 args: ["aNumber"],
-source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self & aNumber :\x0a\x09\x09$recv(aNumber)._andSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self & aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self & aNumber :\x0a\x09\x09$recv(aNumber)._andSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self & aNumber;
+return typeof aNumber === "number" ?
+		self & aNumber :
+		$recv(aNumber)._andSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"bitAnd:",{aNumber:aNumber})});
 }; }),
@@ -6029,14 +6387,16 @@ $core.method({
 selector: "bitOr:",
 protocol: "converting",
 args: ["aNumber"],
-source: "bitOr: aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+source: "bitOr: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self | aNumber :\x0a\x09\x09$recv(aNumber)._orSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self | aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self | aNumber :\x0a\x09\x09$recv(aNumber)._orSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self | aNumber;
+return typeof aNumber === "number" ?
+		self | aNumber :
+		$recv(aNumber)._orSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"bitOr:",{aNumber:aNumber})});
 }; }),
@@ -6047,14 +6407,16 @@ $core.method({
 selector: "bitXor:",
 protocol: "converting",
 args: ["aNumber"],
-source: "bitXor: aNumber\x0a\x09<inlineJS: 'return self ^ aNumber'>",
+source: "bitXor: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self ^ aNumber :\x0a\x09\x09$recv(aNumber)._xorSelfToNumber_(self)'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self ^ aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self ^ aNumber :\x0a\x09\x09$recv(aNumber)._xorSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self ^ aNumber;
+return typeof aNumber === "number" ?
+		self ^ aNumber :
+		$recv(aNumber)._xorSelfToNumber_(self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"bitXor:",{aNumber:aNumber})});
 }; }),
@@ -6143,6 +6505,42 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $self.__star($recv($globals.Number)._radiansPerDegree());
 }, function($ctx1) {$ctx1.fill(self,"degreesToRadians",{})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "divideBySelfToNumber:",
+protocol: "arithmetic",
+args: ["aNumber"],
+source: "divideBySelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber / self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber / self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber / self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"divideBySelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "divisionRemainderBySelfToNumber:",
+protocol: "arithmetic",
+args: ["aNumber"],
+source: "divisionRemainderBySelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber % self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber % self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber % self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"divisionRemainderBySelfToNumber:",{aNumber:aNumber})});
 }; }),
 $globals.Number);
 
@@ -6246,6 +6644,96 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber === Number(self)'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber === Number(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber === Number(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNumberEqualToSelf:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberGreaterThanOrEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber >= self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber >= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber >= self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNumberGreaterThanOrEqualToSelf:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberGreaterThanSelf: aNumber\x0a\x09<inlineJS: 'return aNumber > self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber > self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber > self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNumberGreaterThanSelf:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberLessThanOrEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber <= self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber <= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber <= self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNumberLessThanOrEqualToSelf:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanSelf:",
+protocol: "comparing",
+args: ["aNumber"],
+source: "isNumberLessThanSelf: aNumber\x0a\x09<inlineJS: 'return aNumber < self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber < self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber < self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNumberLessThanSelf:",{aNumber:aNumber})});
 }; }),
 $globals.Number);
 
@@ -6393,6 +6881,24 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "minusSelfToNumber:",
+protocol: "arithmetic",
+args: ["aNumber"],
+source: "minusSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber - self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber - self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber - self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"minusSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "negated",
 protocol: "arithmetic",
 args: [],
@@ -6439,6 +6945,42 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($self._even())._not();
 }, function($ctx1) {$ctx1.fill(self,"odd",{})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "orSelfToNumber:",
+protocol: "converting",
+args: ["aNumber"],
+source: "orSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber | self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber | self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber | self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"orSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "plusSelfToNumber:",
+protocol: "arithmetic",
+args: ["aNumber"],
+source: "plusSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber + self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber + self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber + self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"plusSelfToNumber:",{aNumber:aNumber})});
 }; }),
 $globals.Number);
 
@@ -6694,6 +7236,24 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "timesSelfToNumber:",
+protocol: "arithmetic",
+args: ["aNumber"],
+source: "timesSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber * self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aNumber * self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aNumber * self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"timesSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "to:",
 protocol: "converting",
 args: ["aNumber"],
@@ -6898,18 +7458,35 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
-selector: "|",
+selector: "xorSelfToNumber:",
 protocol: "converting",
 args: ["aNumber"],
-source: "| aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+source: "xorSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber ^ self'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self | aNumber"]]],
+pragmas: [["inlineJS:", ["return aNumber ^ self"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self | aNumber;
+return aNumber ^ self;
 return self;
+}, function($ctx1) {$ctx1.fill(self,"xorSelfToNumber:",{aNumber:aNumber})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "|",
+protocol: "converting",
+args: ["aNumber"],
+source: "| aNumber\x0a\x09^ self bitOr: aNumber",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["bitOr:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._bitOr_(aNumber);
 }, function($ctx1) {$ctx1.fill(self,"|",{aNumber:aNumber})});
 }; }),
 $globals.Number);
@@ -9364,10 +9941,10 @@ $core.method({
 selector: "shortenedPrintString",
 protocol: "printing",
 args: [],
-source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1), ' more items' ]",
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ (self copyEmpty copyWith: self anyOne) printString, ' ... ', (self size - 1) asString, ' more items' ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "-"]
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", ",", "copyWith:", "copyEmpty", "anyOne", "asString", "-"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -9378,7 +9955,7 @@ return [$self._printString()
 ,$ctx1.sendIdx["printString"]=1
 ][0];
 } else {
-return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+return [$recv([$recv($recv($recv($recv($self._copyEmpty())._copyWith_($self._anyOne()))._printString()).__comma(" ... ")).__comma($recv($recv($self._size()).__minus((1)))._asString())
 ,$ctx1.sendIdx[","]=2
 ][0]).__comma(" more items")
 ,$ctx1.sendIdx[","]=1
@@ -10206,10 +10783,10 @@ $core.method({
 selector: "shortenedPrintString",
 protocol: "printing",
 args: [],
-source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1), ' more items' ]",
+source: "shortenedPrintString\x0a\x09^ self size <= 1\x0a\x09\x09ifTrue: [ self printString ]\x0a\x09\x09ifFalse: [ | key | key := self keys anyOne. (self copyEmpty at: key put: (self at: key); yourself) printString, ' ... ', (self size - 1) asString, ' more items' ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "-"]
+messageSends: ["ifTrue:ifFalse:", "<=", "size", "printString", "anyOne", "keys", ",", "at:put:", "copyEmpty", "at:", "yourself", "asString", "-"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -10225,7 +10802,7 @@ var key;
 key=$recv($self._keys())._anyOne();
 $1=$self._copyEmpty();
 $recv($1)._at_put_(key,$self._at_(key));
-return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($self._size()).__minus((1)))
+return [$recv([$recv($recv($recv($recv($1)._yourself())._printString()).__comma(" ... ")).__comma($recv($recv($self._size()).__minus((1)))._asString())
 ,$ctx1.sendIdx[","]=2
 ][0]).__comma(" more items")
 ,$ctx1.sendIdx[","]=1
@@ -11532,6 +12109,32 @@ $globals.Array);
 
 $core.addMethod(
 $core.method({
+selector: "appendToString:",
+protocol: "copying",
+args: ["aString"],
+source: "appendToString: aString\x0a<inlineJS: '\x0a\x09for (var i = 0, l = $self.length; i < l; ++i) {\x0a\x09\x09var el = $self[i];\x0a\x09\x09if ((typeof el === \x22string\x22) || $recv(el)._isString()) {\x0a\x09\x09\x09if (el.length === 1) { aString += el; continue; }\x0a\x09\x09}\x0a\x09\x09$self._error_(\x22Not a character.\x22);\x0a\x09}\x0a\x09return aString'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["\x0a\x09for (var i = 0, l = $self.length; i < l; ++i) {\x0a\x09\x09var el = $self[i];\x0a\x09\x09if ((typeof el === \x22string\x22) || $recv(el)._isString()) {\x0a\x09\x09\x09if (el.length === 1) { aString += el; continue; }\x0a\x09\x09}\x0a\x09\x09$self._error_(\x22Not a character.\x22);\x0a\x09}\x0a\x09return aString"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+	for (var i = 0, l = $self.length; i < l; ++i) {
+		var el = $self[i];
+		if ((typeof el === "string") || $recv(el)._isString()) {
+			if (el.length === 1) { aString += el; continue; }
+		}
+		$self._error_("Not a character.");
+	}
+	return aString;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
+}; }),
+$globals.Array);
+
+$core.addMethod(
+$core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 args: [],
@@ -12022,14 +12625,16 @@ $core.method({
 selector: ",",
 protocol: "copying",
 args: ["aString"],
-source: ", aString\x0a\x09<inlineJS: 'return String(self) + aString'>",
+source: ", aString\x0a\x09<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09\x09String(self) + aString :\x0a\x09\x09$recv(aString)._appendToString_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return String(self) + aString"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09\x09String(self) + aString :\x0a\x09\x09$recv(aString)._appendToString_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return String(self) + aString;
+return typeof aString === "string" ?
+		String(self) + aString :
+		$recv(aString)._appendToString_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,",",{aString:aString})});
 }; }),
@@ -12040,14 +12645,16 @@ $core.method({
 selector: "<",
 protocol: "comparing",
 args: ["aString"],
-source: "< aString\x0a\x09<inlineJS: 'return String(self) < aString._asString()'>",
+source: "< aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) < aString :\x0a\x09$recv(aString)._isStringLessThanSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return String(self) < aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) < aString :\x0a\x09$recv(aString)._isStringLessThanSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return String(self) < aString._asString();
+return typeof aString === "string" ?
+	String(self) < aString :
+	$recv(aString)._isStringLessThanSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"<",{aString:aString})});
 }; }),
@@ -12058,14 +12665,16 @@ $core.method({
 selector: "<=",
 protocol: "comparing",
 args: ["aString"],
-source: "<= aString\x0a\x09<inlineJS: 'return String(self) <= aString._asString()'>",
+source: "<= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) <= aString :\x0a\x09$recv(aString)._isStringLessThanOrEqualToSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return String(self) <= aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) <= aString :\x0a\x09$recv(aString)._isStringLessThanOrEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return String(self) <= aString._asString();
+return typeof aString === "string" ?
+	String(self) <= aString :
+	$recv(aString)._isStringLessThanOrEqualToSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"<=",{aString:aString})});
 }; }),
@@ -12076,14 +12685,16 @@ $core.method({
 selector: "=",
 protocol: "comparing",
 args: ["aString"],
-source: "= aString\x0a<inlineJS:\x0a\x09'return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())'>",
+source: "= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return aString != null && String(self) === (typeof aString === "string" ? aString : aString.valueOf());
+return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"=",{aString:aString})});
 }; }),
@@ -12094,17 +12705,16 @@ $core.method({
 selector: "==",
 protocol: "comparing",
 args: ["aString"],
-source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-
-	if (typeof aString === "string") return String(self) === aString;
-	else if (aString != null && typeof aString === "object") return String(self) === aString.valueOf();
-	else return false;;
+return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"==",{aString:aString})});
 }; }),
@@ -12115,14 +12725,16 @@ $core.method({
 selector: ">",
 protocol: "comparing",
 args: ["aString"],
-source: "> aString\x0a\x09<inlineJS: 'return String(self) > aString._asString()'>",
+source: "> aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) > aString :\x0a\x09$recv(aString)._isStringGreaterThanSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return String(self) > aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) > aString :\x0a\x09$recv(aString)._isStringGreaterThanSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return String(self) > aString._asString();
+return typeof aString === "string" ?
+	String(self) > aString :
+	$recv(aString)._isStringGreaterThanSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,">",{aString:aString})});
 }; }),
@@ -12133,14 +12745,16 @@ $core.method({
 selector: ">=",
 protocol: "comparing",
 args: ["aString"],
-source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
+source: ">= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) >= aString :\x0a\x09$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self))'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return String(self) >= aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) >= aString :\x0a\x09$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return String(self) >= aString._asString();
+return typeof aString === "string" ?
+	String(self) >= aString :
+	$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self));
 return self;
 }, function($ctx1) {$ctx1.fill(self,">=",{aString:aString})});
 }; }),
@@ -12161,6 +12775,24 @@ return $core.withContext(function($ctx1) {
 $self._errorReadOnly();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"add:",{anObject:anObject})});
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "appendToString:",
+protocol: "copying",
+args: ["aString"],
+source: "appendToString: aString\x0a\x09<inlineJS: 'return aString + self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString + self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString + self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"appendToString:",{aString:aString})});
 }; }),
 $globals.String);
 
@@ -12681,6 +13313,96 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringEqualToSelf: aString\x0a\x09<inlineJS: 'return aString === String(self)'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString === String(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString === String(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isStringEqualToSelf:",{aString:aString})});
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringGreaterThanOrEqualToSelf: aString\x0a\x09<inlineJS: 'return aString >= self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString >= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString >= self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isStringGreaterThanOrEqualToSelf:",{aString:aString})});
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringGreaterThanSelf: aString\x0a\x09<inlineJS: 'return aString > self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString > self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString > self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isStringGreaterThanSelf:",{aString:aString})});
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanOrEqualToSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringLessThanOrEqualToSelf: aString\x0a\x09<inlineJS: 'return aString <= self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString <= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString <= self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isStringLessThanOrEqualToSelf:",{aString:aString})});
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanSelf:",
+protocol: "comparing",
+args: ["aString"],
+source: "isStringLessThanSelf: aString\x0a\x09<inlineJS: 'return aString < self'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return aString < self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return aString < self;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isStringLessThanSelf:",{aString:aString})});
 }; }),
 $globals.String);
 
@@ -26001,13 +26723,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.27.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.28.0'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.27.1";
+return "0.28.0";
 
 }; }),
 $globals.SmalltalkImage);
@@ -37728,10 +38450,10 @@ $core.method({
 selector: "parseError:parsing:",
 protocol: "error handling",
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line ,\x0a\x09\x09\x09\x09\x09' column ' , loc start column ,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
 referencedClasses: ["ParseError"],
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "line", "start", "column", "yourself"]
+messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
 }, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -37745,11 +38467,13 @@ return $recv(anException)._pass();
 var loc;
 loc=$1;
 $2=$recv($globals.ParseError)._new();
-$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma($recv([$recv(loc)._start()
+$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
 ,$ctx1.sendIdx["start"]=1
-][0])._line())).__comma(" column ")
+][0])._line())._asString()
+,$ctx1.sendIdx["asString"]=1
+][0])).__comma(" column ")
 ,$ctx1.sendIdx[","]=4
-][0]).__comma($recv($recv(loc)._start())._column())
+][0]).__comma($recv($recv($recv(loc)._start())._column())._asString())
 ,$ctx1.sendIdx[","]=3
 ][0]).__comma(" : Unexpected character ")
 ,$ctx1.sendIdx[","]=2
@@ -45734,10 +46458,10 @@ $core.method({
 selector: "jsOverride:args:",
 protocol: "pragmas",
 args: ["aString", "aCollection"],
-source: "jsOverride: aString args: aCollection\x0a\x09| myArgs |\x0a\x09myArgs := self irMethod arguments.\x0a\x09myArgs size = aCollection size ifFalse: [\x0a\x09\x09CompilerError signal: 'Should have ', self irMethod arguments size, ' args in <jsOverride:args:>.' ].\x0a\x09myArgs asSet = aCollection asSet ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: (',' join: aCollection)\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')",
+source: "jsOverride: aString args: aCollection\x0a\x09| myArgs |\x0a\x09myArgs := self irMethod arguments.\x0a\x09myArgs size = aCollection size ifFalse: [\x0a\x09\x09CompilerError signal: 'Should have ', self irMethod arguments size asString, ' args in <jsOverride:args:>.' ].\x0a\x09myArgs asSet = aCollection asSet ifFalse: [\x0a\x09\x09CompilerError signal: 'Argument mismatch in <jsOverride:args:>.' ].\x0a\x09self irMethod attachments\x0a\x09\x09at: aString\x0a\x09\x09put: (NativeFunction\x0a\x09\x09\x09constructorNamed: #Function\x0a\x09\x09\x09value: (',' join: aCollection)\x0a\x09\x09\x09value: 'return this.', irMethod selector asJavaScriptMethodName, '(', (',' join: myArgs), ')')",
 referencedClasses: ["CompilerError", "NativeFunction"],
 pragmas: [],
-messageSends: ["arguments", "irMethod", "ifFalse:", "=", "size", "signal:", ",", "asSet", "at:put:", "attachments", "constructorNamed:value:value:", "join:", "asJavaScriptMethodName", "selector"]
+messageSends: ["arguments", "irMethod", "ifFalse:", "=", "size", "signal:", ",", "asString", "asSet", "at:put:", "attachments", "constructorNamed:value:value:", "join:", "asJavaScriptMethodName", "selector"]
 }, function ($methodClass){ return function (aString,aCollection){
 var self=this,$self=this;
 var myArgs;
@@ -45754,9 +46478,9 @@ if(!$core.assert([$recv([$recv(myArgs)._size()
 ][0])
 ,$ctx1.sendIdx["="]=1
 ][0])){
-[$recv($globals.CompilerError)._signal_([$recv(["Should have ".__comma($recv($recv([$self._irMethod()
+[$recv($globals.CompilerError)._signal_([$recv(["Should have ".__comma($recv($recv($recv([$self._irMethod()
 ,$ctx1.sendIdx["irMethod"]=2
-][0])._arguments())._size())
+][0])._arguments())._size())._asString())
 ,$ctx1.sendIdx[","]=2
 ][0]).__comma(" args in <jsOverride:args:>.")
 ,$ctx1.sendIdx[","]=1
@@ -71450,10 +72174,10 @@ $core.method({
 selector: "handlePUTRequest:respondTo:",
 protocol: "request handling",
 args: ["aRequest", "aResponse"],
-source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
+source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
+messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var file,stream;
@@ -71476,7 +72200,7 @@ return $core.withContext(function($ctx2) {
 [$recv(console)._warn_("    Did you forget to create the necessary directory in your project (often /src)?")
 ,$ctx2.sendIdx["warn:"]=2
 ][0];
-$recv(console)._warn_("    The exact error is: ".__comma(error));
+$recv(console)._warn_("    The exact error is: ".__comma($recv(error)._asString()));
 return $self._respondNotCreatedTo_(aResponse);
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
 }))
@@ -71989,10 +72713,10 @@ $core.method({
 selector: "start",
 protocol: "starting",
 args: [],
-source: "start\x0a\x09\x22Checks if required directory layout is present (issue warning if not).\x0a\x09 Afterwards start the server.\x22\x0a\x09self checkDirectoryLayout.\x0a\x09(http createServer: [:request :response |\x0a\x09      self handleRequest: request respondTo: response])\x0a\x09      on: 'error' do: [:error | console log: 'Error starting server: ', error];\x0a\x09      on: 'listening' do: [console log: 'Starting file server on http://', self host, ':', self port asString];\x0a\x09      listen: self port host: self host.",
+source: "start\x0a\x09\x22Checks if required directory layout is present (issue warning if not).\x0a\x09 Afterwards start the server.\x22\x0a\x09self checkDirectoryLayout.\x0a\x09(http createServer: [:request :response |\x0a\x09      self handleRequest: request respondTo: response])\x0a\x09      on: 'error' do: [:error | console log: 'Error starting server: ', error asString];\x0a\x09      on: 'listening' do: [console log: 'Starting file server on http://', self host, ':', self port asString];\x0a\x09      listen: self port host: self host.",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["checkDirectoryLayout", "on:do:", "createServer:", "handleRequest:respondTo:", "log:", ",", "host", "asString", "port", "listen:host:"]
+messageSends: ["checkDirectoryLayout", "on:do:", "createServer:", "handleRequest:respondTo:", "log:", ",", "asString", "host", "port", "listen:host:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -72005,7 +72729,9 @@ return $self._handleRequest_respondTo_(request,response);
 }));
 [$recv($1)._on_do_("error",(function(error){
 return $core.withContext(function($ctx2) {
-return [$recv(console)._log_(["Error starting server: ".__comma(error)
+return [$recv(console)._log_(["Error starting server: ".__comma([$recv(error)._asString()
+,$ctx2.sendIdx["asString"]=1
+][0])
 ,$ctx2.sendIdx[","]=1
 ][0])
 ,$ctx2.sendIdx["log:"]=1
@@ -72188,10 +72914,10 @@ $core.method({
 selector: "createServerWithArguments:",
 protocol: "initialization",
 args: ["options"],
-source: "createServerWithArguments: options\x0a\x09\x22If options are empty return a default FileServer instance.\x0a\x09 If options are given loop through them and set the passed in values\x0a\x09 on the FileServer instance.\x0a\x09 \x0a\x09 Commanline options map directly to methods in the 'accessing' protocol\x0a\x09 taking one parameter.\x0a\x09 Adding a method to this protocol makes it directly settable through\x0a\x09 command line options.\x0a\x09 \x22\x0a\x09| server popFront front optionName optionValue switches |\x0a\x0a\x09switches := self commandLineSwitches.\x0a\x0a\x09server := self new.\x0a\x0a\x09options ifEmpty: [^server].\x0a\x0a\x09(options size even) ifFalse: [\x0a\x09\x09console log: 'Using default parameters.'.\x0a\x09\x09console log: 'Wrong commandline options or not enough arguments for: ' , options.\x0a\x09\x09console log: 'Use any of the following ones: ', switches.\x0a\x09\x09^server].\x0a\x0a\x09popFront := [:args |\x0a\x09\x09front := args first.\x0a\x09\x09args remove: front.\x0a\x09\x09front].\x0a\x0a\x09[options notEmpty] whileTrue: [\x0a\x09\x09optionName  := popFront value: options.\x0a\x09\x09optionValue := popFront value: options.\x0a\x0a\x09\x09(switches includes: optionName) ifTrue: [\x0a\x09\x09\x09optionName := self selectorForCommandLineSwitch: optionName.\x0a\x09\x09\x09server perform: optionName withArguments: { optionValue } ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09console log: optionName, ' is not a valid commandline option'.\x0a\x09\x09\x09\x09console log: 'Use any of the following ones: ', switches ]].\x0a\x09^ server.",
+source: "createServerWithArguments: options\x0a\x09\x22If options are empty return a default FileServer instance.\x0a\x09 If options are given loop through them and set the passed in values\x0a\x09 on the FileServer instance.\x0a\x09 \x0a\x09 Commanline options map directly to methods in the 'accessing' protocol\x0a\x09 taking one parameter.\x0a\x09 Adding a method to this protocol makes it directly settable through\x0a\x09 command line options.\x0a\x09 \x22\x0a\x09| server popFront front optionName optionValue switches |\x0a\x0a\x09switches := self commandLineSwitches.\x0a\x0a\x09server := self new.\x0a\x0a\x09options ifEmpty: [^server].\x0a\x0a\x09(options size even) ifFalse: [\x0a\x09\x09console log: 'Using default parameters.'.\x0a\x09\x09console log: 'Wrong commandline options or not enough arguments for: ' , (' ' join: options).\x0a\x09\x09console log: 'Use any of the following ones: ', (',' join: switches).\x0a\x09\x09^server].\x0a\x0a\x09popFront := [:args |\x0a\x09\x09front := args first.\x0a\x09\x09args remove: front.\x0a\x09\x09front].\x0a\x0a\x09[options notEmpty] whileTrue: [\x0a\x09\x09optionName  := popFront value: options.\x0a\x09\x09optionValue := popFront value: options.\x0a\x0a\x09\x09(switches includes: optionName) ifTrue: [\x0a\x09\x09\x09optionName := self selectorForCommandLineSwitch: optionName.\x0a\x09\x09\x09server perform: optionName withArguments: { optionValue } ]\x0a\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09console log: optionName, ' is not a valid commandline option'.\x0a\x09\x09\x09\x09console log: 'Use any of the following ones: ', (',' join: switches) ]].\x0a\x09^ server.",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["commandLineSwitches", "new", "ifEmpty:", "ifFalse:", "even", "size", "log:", ",", "first", "remove:", "whileTrue:", "notEmpty", "value:", "ifTrue:ifFalse:", "includes:", "selectorForCommandLineSwitch:", "perform:withArguments:"]
+messageSends: ["commandLineSwitches", "new", "ifEmpty:", "ifFalse:", "even", "size", "log:", ",", "join:", "first", "remove:", "whileTrue:", "notEmpty", "value:", "ifTrue:ifFalse:", "includes:", "selectorForCommandLineSwitch:", "perform:withArguments:"]
 }, function ($methodClass){ return function (options){
 var self=this,$self=this;
 var server,popFront,front,optionName,optionValue,switches;
@@ -72208,12 +72934,16 @@ if(!$core.assert($recv($recv(options)._size())._even())){
 [$recv(console)._log_("Using default parameters.")
 ,$ctx1.sendIdx["log:"]=1
 ][0];
-[$recv(console)._log_(["Wrong commandline options or not enough arguments for: ".__comma(options)
+[$recv(console)._log_(["Wrong commandline options or not enough arguments for: ".__comma([" "._join_(options)
+,$ctx1.sendIdx["join:"]=1
+][0])
 ,$ctx1.sendIdx[","]=1
 ][0])
 ,$ctx1.sendIdx["log:"]=2
 ][0];
-[$recv(console)._log_(["Use any of the following ones: ".__comma(switches)
+[$recv(console)._log_(["Use any of the following ones: ".__comma([","._join_(switches)
+,$ctx1.sendIdx["join:"]=2
+][0])
 ,$ctx1.sendIdx[","]=2
 ][0])
 ,$ctx1.sendIdx["log:"]=3
@@ -72246,7 +72976,7 @@ return $recv(server)._perform_withArguments_(optionName,[optionValue]);
 ][0])
 ,$ctx2.sendIdx["log:"]=4
 ][0];
-return $recv(console)._log_("Use any of the following ones: ".__comma(switches));
+return $recv(console)._log_("Use any of the following ones: ".__comma(","._join_(switches)));
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
