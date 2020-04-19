@@ -680,6 +680,30 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "andSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "andSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"andSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "appendToString:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1365,6 +1389,30 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "orSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "orSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"orSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "plusSelfToNumber:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1598,6 +1646,30 @@ return self.valueOf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"value",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "xorSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "xorSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"xorSelfToNumber:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Object);
@@ -3563,6 +3635,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "andSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "andSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber & self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber & self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber & self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"andSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "arcCos",
 protocol: "mathematical functions",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3827,17 +3923,19 @@ selector: "bitAnd:",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+source: "bitAnd: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self & aNumber :\x0a\x09\x09$recv(aNumber)._andSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self & aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self & aNumber :\x0a\x09\x09$recv(aNumber)._andSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self & aNumber;
+return typeof aNumber === "number" ?
+		self & aNumber :
+		$recv(aNumber)._andSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"bitAnd:",{aNumber:aNumber})});
@@ -3875,17 +3973,19 @@ selector: "bitOr:",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "bitOr: aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+source: "bitOr: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self | aNumber :\x0a\x09\x09$recv(aNumber)._orSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self | aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self | aNumber :\x0a\x09\x09$recv(aNumber)._orSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self | aNumber;
+return typeof aNumber === "number" ?
+		self | aNumber :
+		$recv(aNumber)._orSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"bitOr:",{aNumber:aNumber})});
@@ -3899,17 +3999,19 @@ selector: "bitXor:",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "bitXor: aNumber\x0a\x09<inlineJS: 'return self ^ aNumber'>",
+source: "bitXor: aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self ^ aNumber :\x0a\x09\x09$recv(aNumber)._xorSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self ^ aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self ^ aNumber :\x0a\x09\x09$recv(aNumber)._xorSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self ^ aNumber;
+return typeof aNumber === "number" ?
+		self ^ aNumber :
+		$recv(aNumber)._xorSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"bitXor:",{aNumber:aNumber})});
@@ -4613,6 +4715,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "orSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "orSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber | self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber | self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber | self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"orSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "plusSelfToNumber:",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -5291,6 +5417,30 @@ return $core.withContext(function($ctx1) {
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"truncated",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "xorSelfToNumber:",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "xorSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber ^ self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber ^ self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber ^ self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"xorSelfToNumber:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Number);

@@ -266,6 +266,10 @@ isNumberLessThanSelf: aNumber
 	^ Association key: self value: anObject
 !
 
+andSelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
 asJSONString
 	^ JSON stringify: self asJavaScriptObject
 !
@@ -280,6 +284,14 @@ asJavaScriptObject
 
 asJavaScriptSource
 	^ self asString
+!
+
+orSelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
+xorSelfToNumber: aNumber
+	self error: 'I am not a number.'
 ! !
 
 !Object methodsFor: 'copying'!
@@ -908,6 +920,10 @@ isNumberLessThanSelf: aNumber
 	^ Point x: self y: aNumber
 !
 
+andSelfToNumber: aNumber
+	<inlineJS: 'return aNumber & self'>
+!
+
 asJavaScriptObject
 	^ self
 !
@@ -933,7 +949,9 @@ atRandom
 !
 
 bitAnd: aNumber
-	<inlineJS: 'return self & aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self & aNumber :
+		$recv(aNumber)._andSelfToNumber_(self)'>
 !
 
 bitNot
@@ -941,11 +959,15 @@ bitNot
 !
 
 bitOr: aNumber
-	<inlineJS: 'return self | aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self | aNumber :
+		$recv(aNumber)._orSelfToNumber_(self)'>
 !
 
 bitXor: aNumber
-	<inlineJS: 'return self ^ aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self ^ aNumber :
+		$recv(aNumber)._xorSelfToNumber_(self)'>
 !
 
 ceiling
@@ -958,6 +980,10 @@ degreesToRadians
 
 floor
 	<inlineJS: 'return Math.floor(self);'>
+!
+
+orSelfToNumber: aNumber
+	<inlineJS: 'return aNumber | self'>
 !
 
 printStringBase: aBase
@@ -1011,6 +1037,10 @@ truncated
 			return Math.floor(self * (-1)) * (-1);
 		};
 	'>
+!
+
+xorSelfToNumber: aNumber
+	<inlineJS: 'return aNumber ^ self'>
 !
 
 | aNumber
