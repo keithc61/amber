@@ -554,10 +554,10 @@ removeKey: aKey ifAbsent: aBlock
 
 !AssociativeCollection methodsFor: 'comparing'!
 
-= anAssocitativeCollection
-	self class = anAssocitativeCollection class ifFalse: [ ^ false ].
-	self size = anAssocitativeCollection size ifFalse: [ ^ false ].
-	^ self associations = anAssocitativeCollection associations
+= anAssociativeCollection
+	self class = anAssociativeCollection class ifFalse: [ ^ false ].
+	self size = anAssociativeCollection size ifFalse: [ ^ false ].
+	^ self associations = anAssociativeCollection associations
 ! !
 
 !AssociativeCollection methodsFor: 'converting'!

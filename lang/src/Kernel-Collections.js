@@ -1942,13 +1942,13 @@ $core.method({
 selector: "=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anAssocitativeCollection"],
-source: "= anAssocitativeCollection\x0a\x09self class = anAssocitativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssocitativeCollection size ifFalse: [ ^ false ].\x0a\x09^ self associations = anAssocitativeCollection associations",
+args: ["anAssociativeCollection"],
+source: "= anAssociativeCollection\x0a\x09self class = anAssociativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssociativeCollection size ifFalse: [ ^ false ].\x0a\x09^ self associations = anAssociativeCollection associations",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["ifFalse:", "=", "class", "size", "associations"]
-}, function ($methodClass){ return function (anAssocitativeCollection){
+}, function ($methodClass){ return function (anAssociativeCollection){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
@@ -1957,7 +1957,7 @@ if(!$core.assert([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
-][0]).__eq($recv(anAssocitativeCollection)._class())
+][0]).__eq($recv(anAssociativeCollection)._class())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
@@ -1968,7 +1968,7 @@ if(!$core.assert([$recv([$self._size()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["size"]=1
 //>>excludeEnd("ctx");
-][0]).__eq($recv(anAssocitativeCollection)._size())
+][0]).__eq($recv(anAssociativeCollection)._size())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=2
 //>>excludeEnd("ctx");
@@ -1979,9 +1979,9 @@ return $recv([$self._associations()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["associations"]=1
 //>>excludeEnd("ctx");
-][0]).__eq($recv(anAssocitativeCollection)._associations());
+][0]).__eq($recv(anAssociativeCollection)._associations());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssocitativeCollection:anAssocitativeCollection})});
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AssociativeCollection);
