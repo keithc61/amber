@@ -208,14 +208,56 @@ basicDelete: aString
 	<inlineJS: 'delete self[aString]; return aString'>
 !
 
+divideBySelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
+divisionRemainderBySelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
+minusSelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
+plusSelfToNumber: aNumber
+	self error: 'I am not a number.'
+!
+
 size
 	self error: 'Object not indexable'
+!
+
+timesSelfToNumber: aNumber
+	self error: 'I am not a number.'
 ! !
 
 !Object methodsFor: 'browsing'!
 
 browse
 	Finder findClass: self class
+! !
+
+!Object methodsFor: 'comparing'!
+
+isNumberEqualToSelf: aNumber
+	^ false
+!
+
+isNumberGreaterThanOrEqualToSelf: aNumber
+	^ false
+!
+
+isNumberGreaterThanSelf: aNumber
+	^ false
+!
+
+isNumberLessThanOrEqualToSelf: aNumber
+	^ false
+!
+
+isNumberLessThanSelf: aNumber
+	^ false
 ! !
 
 !Object methodsFor: 'converting'!
@@ -731,19 +773,27 @@ My instances can also be used to evaluate a block a fixed number of times:
 !Number methodsFor: 'arithmetic'!
 
 * aNumber
-	<inlineJS: 'return self * aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self * aNumber :
+		$recv(aNumber)._timesSelfToNumber_(self)'>
 !
 
 + aNumber
-	<inlineJS: 'return self + aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self + aNumber :
+		$recv(aNumber)._plusSelfToNumber_(self)'>
 !
 
 - aNumber
-	<inlineJS: 'return self - aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self - aNumber :
+		$recv(aNumber)._minusSelfToNumber_(self)'>
 !
 
 / aNumber
-	<inlineJS: 'return self / aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self / aNumber :
+		$recv(aNumber)._divideBySelfToNumber_(self)'>
 !
 
 // aNumber
@@ -751,11 +801,21 @@ My instances can also be used to evaluate a block a fixed number of times:
 !
 
 \\ aNumber
-	<inlineJS: 'return self % aNumber'>
+	<inlineJS: 'return typeof aNumber === "number" ?
+		self % aNumber :
+		$recv(aNumber)._divisionRemainderBySelfToNumber_(self)'>
 !
 
 abs
 	<inlineJS: 'return Math.abs(self);'>
+!
+
+divideBySelfToNumber: aNumber
+	<inlineJS: 'return aNumber / self'>
+!
+
+divisionRemainderBySelfToNumber: aNumber
+	<inlineJS: 'return aNumber % self'>
 !
 
 max: aNumber
@@ -770,40 +830,78 @@ min: aMin max: aMax
 	^ (self min: aMin) max: aMax
 !
 
+minusSelfToNumber: aNumber
+	<inlineJS: 'return aNumber - self'>
+!
+
 negated
 	^ 0 - self
+!
+
+plusSelfToNumber: aNumber
+	<inlineJS: 'return aNumber + self'>
+!
+
+timesSelfToNumber: aNumber
+	<inlineJS: 'return aNumber * self'>
 ! !
 
 !Number methodsFor: 'comparing'!
 
 < aNumber
-	<inlineJS: 'return self < aNumber'>
+<inlineJS: 'return typeof aNumber === "number" ?
+	Number(self) < aNumber :
+	$recv(aNumber)._isNumberLessThanSelf_(self)'>
 !
 
 <= aNumber
-	<inlineJS: 'return self <= aNumber'>
+<inlineJS: 'return typeof aNumber === "number" ?
+	Number(self) <= aNumber :
+	$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self)'>
 !
 
 == aNumber
-<inlineJS: '
-	if (typeof aNumber === "number") return Number(self) === aNumber;
-	else if (aNumber !!= null && typeof aNumber === "object") return Number(self) === aNumber.valueOf();
-	else return false;
-'>
+<inlineJS: 'return typeof aNumber === "number" ?
+	Number(self) === aNumber :
+	$recv(aNumber)._isNumberEqualToSelf_(self)'>
 !
 
 > aNumber
-	<inlineJS: 'return self > aNumber'>
+<inlineJS: 'return typeof aNumber === "number" ?
+	Number(self) > aNumber :
+	$recv(aNumber)._isNumberGreaterThanSelf_(self)'>
 !
 
 >= aNumber
-	<inlineJS: 'return self >= aNumber'>
+<inlineJS: 'return typeof aNumber === "number" ?
+	Number(self) >= aNumber :
+	$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self)'>
+!
+
+isNumberEqualToSelf: aNumber
+	<inlineJS: 'return aNumber === Number(self)'>
+!
+
+isNumberGreaterThanOrEqualToSelf: aNumber
+	<inlineJS: 'return aNumber >= self'>
+!
+
+isNumberGreaterThanSelf: aNumber
+	<inlineJS: 'return aNumber > self'>
+!
+
+isNumberLessThanOrEqualToSelf: aNumber
+	<inlineJS: 'return aNumber <= self'>
+!
+
+isNumberLessThanSelf: aNumber
+	<inlineJS: 'return aNumber < self'>
 ! !
 
 !Number methodsFor: 'converting'!
 
 & aNumber
-	<inlineJS: 'return self & aNumber'>
+	^ self bitAnd: aNumber
 !
 
 @ aNumber
@@ -916,7 +1014,7 @@ truncated
 !
 
 | aNumber
-	<inlineJS: 'return self | aNumber'>
+	^ self bitOr: aNumber
 ! !
 
 !Number methodsFor: 'copying'!

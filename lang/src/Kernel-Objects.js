@@ -1073,6 +1073,54 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "divideBySelfToNumber:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "divideBySelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"divideBySelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "divisionRemainderBySelfToNumber:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "divisionRemainderBySelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"divisionRemainderBySelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "error:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1185,6 +1233,96 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "isNumberEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberGreaterThanOrEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberGreaterThanSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberLessThanOrEqualToSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberLessThanSelf: aNumber\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "isParseFailure",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1198,6 +1336,54 @@ messageSends: []
 var self=this,$self=this;
 return false;
 
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "minusSelfToNumber:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "minusSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"minusSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "plusSelfToNumber:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "plusSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"plusSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Object);
 
@@ -1364,6 +1550,30 @@ $self._error_("This method is a responsibility of a subclass");
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclassResponsibility",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "timesSelfToNumber:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "timesSelfToNumber: aNumber\x0a\x09self error: 'I am not a number.'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["error:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._error_("I am not a number.");
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"timesSelfToNumber:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Object);
@@ -2981,18 +3191,17 @@ selector: "&",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "& aNumber\x0a\x09<inlineJS: 'return self & aNumber'>",
+source: "& aNumber\x0a\x09^ self bitAnd: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self & aNumber"]]],
-messageSends: []
+pragmas: [],
+messageSends: ["bitAnd:"]
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self & aNumber;
-return self;
+return $self._bitAnd_(aNumber);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"&",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
@@ -3005,17 +3214,19 @@ selector: "*",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "* aNumber\x0a\x09<inlineJS: 'return self * aNumber'>",
+source: "* aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self * aNumber :\x0a\x09\x09$recv(aNumber)._timesSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self * aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self * aNumber :\x0a\x09\x09$recv(aNumber)._timesSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self * aNumber;
+return typeof aNumber === "number" ?
+		self * aNumber :
+		$recv(aNumber)._timesSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"*",{aNumber:aNumber})});
@@ -3052,17 +3263,19 @@ selector: "+",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "+ aNumber\x0a\x09<inlineJS: 'return self + aNumber'>",
+source: "+ aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self + aNumber :\x0a\x09\x09$recv(aNumber)._plusSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self + aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self + aNumber :\x0a\x09\x09$recv(aNumber)._plusSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self + aNumber;
+return typeof aNumber === "number" ?
+		self + aNumber :
+		$recv(aNumber)._plusSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"+",{aNumber:aNumber})});
@@ -3076,17 +3289,19 @@ selector: "-",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "- aNumber\x0a\x09<inlineJS: 'return self - aNumber'>",
+source: "- aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self - aNumber :\x0a\x09\x09$recv(aNumber)._minusSelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self - aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self - aNumber :\x0a\x09\x09$recv(aNumber)._minusSelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self - aNumber;
+return typeof aNumber === "number" ?
+		self - aNumber :
+		$recv(aNumber)._minusSelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"-",{aNumber:aNumber})});
@@ -3100,17 +3315,19 @@ selector: "/",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "/ aNumber\x0a\x09<inlineJS: 'return self / aNumber'>",
+source: "/ aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self / aNumber :\x0a\x09\x09$recv(aNumber)._divideBySelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self / aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self / aNumber :\x0a\x09\x09$recv(aNumber)._divideBySelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self / aNumber;
+return typeof aNumber === "number" ?
+		self / aNumber :
+		$recv(aNumber)._divideBySelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"/",{aNumber:aNumber})});
@@ -3147,17 +3364,19 @@ selector: "<",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "< aNumber\x0a\x09<inlineJS: 'return self < aNumber'>",
+source: "< aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) < aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanSelf_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self < aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) < aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self < aNumber;
+return typeof aNumber === "number" ?
+	Number(self) < aNumber :
+	$recv(aNumber)._isNumberLessThanSelf_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"<",{aNumber:aNumber})});
@@ -3171,17 +3390,19 @@ selector: "<=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "<= aNumber\x0a\x09<inlineJS: 'return self <= aNumber'>",
+source: "<= aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) <= aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self <= aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) <= aNumber :\x0a\x09$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self <= aNumber;
+return typeof aNumber === "number" ?
+	Number(self) <= aNumber :
+	$recv(aNumber)._isNumberLessThanOrEqualToSelf_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"<=",{aNumber:aNumber})});
@@ -3195,20 +3416,19 @@ selector: "==",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "== aNumber\x0a<inlineJS: '\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) === aNumber :\x0a\x09$recv(aNumber)._isNumberEqualToSelf_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aNumber === \x22number\x22) return Number(self) === aNumber;\x0a\x09else if (aNumber != null && typeof aNumber === \x22object\x22) return Number(self) === aNumber.valueOf();\x0a\x09else return false;"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) === aNumber :\x0a\x09$recv(aNumber)._isNumberEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-	if (typeof aNumber === "number") return Number(self) === aNumber;
-	else if (aNumber != null && typeof aNumber === "object") return Number(self) === aNumber.valueOf();
-	else return false;;
+return typeof aNumber === "number" ?
+	Number(self) === aNumber :
+	$recv(aNumber)._isNumberEqualToSelf_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"==",{aNumber:aNumber})});
@@ -3222,17 +3442,19 @@ selector: ">",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "> aNumber\x0a\x09<inlineJS: 'return self > aNumber'>",
+source: "> aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) > aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanSelf_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self > aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) > aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self > aNumber;
+return typeof aNumber === "number" ?
+	Number(self) > aNumber :
+	$recv(aNumber)._isNumberGreaterThanSelf_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,">",{aNumber:aNumber})});
@@ -3246,17 +3468,19 @@ selector: ">=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: ">= aNumber\x0a\x09<inlineJS: 'return self >= aNumber'>",
+source: ">= aNumber\x0a<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) >= aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self >= aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09Number(self) >= aNumber :\x0a\x09$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self >= aNumber;
+return typeof aNumber === "number" ?
+	Number(self) >= aNumber :
+	$recv(aNumber)._isNumberGreaterThanOrEqualToSelf_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,">=",{aNumber:aNumber})});
@@ -3293,17 +3517,19 @@ selector: "\x5c\x5c",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return self % aNumber'>",
+source: "\x5c\x5c aNumber\x0a\x09<inlineJS: 'return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self % aNumber :\x0a\x09\x09$recv(aNumber)._divisionRemainderBySelfToNumber_(self)'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self % aNumber"]]],
+pragmas: [["inlineJS:", ["return typeof aNumber === \x22number\x22 ?\x0a\x09\x09self % aNumber :\x0a\x09\x09$recv(aNumber)._divisionRemainderBySelfToNumber_(self)"]]],
 messageSends: []
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self % aNumber;
+return typeof aNumber === "number" ?
+		self % aNumber :
+		$recv(aNumber)._divisionRemainderBySelfToNumber_(self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"\x5c\x5c",{aNumber:aNumber})});
@@ -3805,6 +4031,54 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "divideBySelfToNumber:",
+protocol: "arithmetic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "divideBySelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber / self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber / self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber / self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"divideBySelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "divisionRemainderBySelfToNumber:",
+protocol: "arithmetic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "divisionRemainderBySelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber % self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber % self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber % self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"divisionRemainderBySelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "even",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3931,6 +4205,126 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber === Number(self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber === Number(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber === Number(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNumberEqualToSelf:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberGreaterThanOrEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber >= self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber >= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber >= self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNumberGreaterThanOrEqualToSelf:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberGreaterThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberGreaterThanSelf: aNumber\x0a\x09<inlineJS: 'return aNumber > self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber > self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber > self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNumberGreaterThanSelf:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberLessThanOrEqualToSelf: aNumber\x0a\x09<inlineJS: 'return aNumber <= self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber <= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber <= self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNumberLessThanOrEqualToSelf:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNumberLessThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "isNumberLessThanSelf: aNumber\x0a\x09<inlineJS: 'return aNumber < self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber < self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber < self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isNumberLessThanSelf:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Number);
 
@@ -4126,6 +4520,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "minusSelfToNumber:",
+protocol: "arithmetic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "minusSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber - self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber - self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber - self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"minusSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "negated",
 protocol: "arithmetic",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4189,6 +4607,30 @@ return $core.withContext(function($ctx1) {
 return $recv($self._even())._not();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"odd",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "plusSelfToNumber:",
+protocol: "arithmetic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "plusSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber + self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber + self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber + self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"plusSelfToNumber:",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Number);
@@ -4531,6 +4973,30 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "timesSelfToNumber:",
+protocol: "arithmetic",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "timesSelfToNumber: aNumber\x0a\x09<inlineJS: 'return aNumber * self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aNumber * self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aNumber * self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"timesSelfToNumber:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "to:",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -4835,18 +5301,17 @@ selector: "|",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNumber"],
-source: "| aNumber\x0a\x09<inlineJS: 'return self | aNumber'>",
+source: "| aNumber\x0a\x09^ self bitOr: aNumber",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self | aNumber"]]],
-messageSends: []
+pragmas: [],
+messageSends: ["bitOr:"]
 }, function ($methodClass){ return function (aNumber){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self | aNumber;
-return self;
+return $self._bitOr_(aNumber);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"|",{aNumber:aNumber})});
 //>>excludeEnd("ctx");
