@@ -1943,13 +1943,14 @@ selector: "=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anAssociativeCollection"],
-source: "= anAssociativeCollection\x0a\x09self class = anAssociativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssociativeCollection size ifFalse: [ ^ false ].\x0a\x09^ self associations = anAssociativeCollection associations",
-referencedClasses: [],
+source: "= anAssociativeCollection\x0a\x09| comparisons |\x0a\x09self class = anAssociativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssociativeCollection size ifFalse: [ ^ false ].\x0a\x09comparisons := OrderedCollection new.\x0a\x09(self associations allSatisfy: [ :each |\x0a\x09\x09anAssociativeCollection at: each key\x0a\x09\x09\x09ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]\x0a\x09\x09\x09ifAbsent: [ false ] ]) ifFalse: [ ^ false ].\x0a\x09^ comparisons allSatisfy: [ :each | each first = each second ]",
+referencedClasses: ["OrderedCollection"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "=", "class", "size", "associations"]
+messageSends: ["ifFalse:", "=", "class", "size", "new", "allSatisfy:", "associations", "at:ifPresent:ifAbsent:", "key", "add:", "value", "first", "second"]
 }, function ($methodClass){ return function (anAssociativeCollection){
 var self=this,$self=this;
+var comparisons;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
@@ -1975,13 +1976,45 @@ if(!$core.assert([$recv([$self._size()
 ][0])){
 return false;
 }
-return $recv([$self._associations()
+comparisons=$recv($globals.OrderedCollection)._new();
+if(!$core.assert([$recv($self._associations())._allSatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["associations"]=1
+return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-][0]).__eq($recv(anAssociativeCollection)._associations());
+return $recv(anAssociativeCollection)._at_ifPresent_ifAbsent_($recv(each)._key(),(function(otherValue){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection})});
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$recv(comparisons)._add_([$recv(each)._value(),otherValue]);
+return true;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({otherValue:otherValue},$ctx2,4)});
+//>>excludeEnd("ctx");
+}),(function(){
+return false;
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["allSatisfy:"]=1
+//>>excludeEnd("ctx");
+][0])){
+return false;
+}
+return $recv(comparisons)._allSatisfy_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(each)._first()).__eq($recv(each)._second());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,7)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection,comparisons:comparisons})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.AssociativeCollection);

@@ -555,9 +555,15 @@ removeKey: aKey ifAbsent: aBlock
 !AssociativeCollection methodsFor: 'comparing'!
 
 = anAssociativeCollection
+	| comparisons |
 	self class = anAssociativeCollection class ifFalse: [ ^ false ].
 	self size = anAssociativeCollection size ifFalse: [ ^ false ].
-	^ self associations = anAssociativeCollection associations
+	comparisons := OrderedCollection new.
+	(self associations allSatisfy: [ :each |
+		anAssociativeCollection at: each key
+			ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]
+			ifAbsent: [ false ] ]) ifFalse: [ ^ false ].
+	^ comparisons allSatisfy: [ :each | each first = each second ]
 ! !
 
 !AssociativeCollection methodsFor: 'converting'!
