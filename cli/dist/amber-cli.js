@@ -6183,6 +6183,24 @@ $globals.Number);
 
 $core.addMethod(
 $core.method({
+selector: "isFinite",
+protocol: "testing",
+args: [],
+source: "isFinite\x0a\x09\x22Answer whether the receiver is finite\x22\x0a\x09<inlineJS: 'return Number.isFinite(self)'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return Number.isFinite(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Number.isFinite(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isFinite",{})});
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
 selector: "isImmutable",
 protocol: "testing",
 args: [],
@@ -6194,6 +6212,24 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.Number);
+
+$core.addMethod(
+$core.method({
+selector: "isNaN",
+protocol: "testing",
+args: [],
+source: "isNaN\x0a\x09\x22Answer whether the receiver is IEEE-754 not-a-number\x22\x0a\x09<inlineJS: 'return Number.isNaN(self)'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return Number.isNaN(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Number.isNaN(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNaN",{})});
 }; }),
 $globals.Number);
 
@@ -6915,6 +6951,24 @@ $globals.Number.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "negativeInfinity",
+protocol: "instance creation",
+args: [],
+source: "negativeInfinity\x0a\x09<inlineJS: 'return Number.NEGATIVE_INFINITY'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return Number.NEGATIVE_INFINITY"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Number.NEGATIVE_INFINITY;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"negativeInfinity",{})});
+}; }),
+$globals.Number.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "pi",
 protocol: "instance creation",
 args: [],
@@ -6928,6 +6982,24 @@ return $core.withContext(function($ctx1) {
 return Math.PI;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"pi",{})});
+}; }),
+$globals.Number.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "positiveInfinity",
+protocol: "instance creation",
+args: [],
+source: "positiveInfinity\x0a\x09<inlineJS: 'return Number.POSITIVE_INFINITY'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return Number.POSITIVE_INFINITY"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Number.POSITIVE_INFINITY;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"positiveInfinity",{})});
 }; }),
 $globals.Number.a$cls);
 
@@ -9491,32 +9563,53 @@ $core.addMethod(
 $core.method({
 selector: "=",
 protocol: "comparing",
-args: ["anAssocitativeCollection"],
-source: "= anAssocitativeCollection\x0a\x09self class = anAssocitativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssocitativeCollection size ifFalse: [ ^ false ].\x0a\x09^ self associations = anAssocitativeCollection associations",
-referencedClasses: [],
+args: ["anAssociativeCollection"],
+source: "= anAssociativeCollection\x0a\x09| comparisons |\x0a\x09self class = anAssociativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssociativeCollection size ifFalse: [ ^ false ].\x0a\x09comparisons := OrderedCollection new.\x0a\x09(self associations allSatisfy: [ :each |\x0a\x09\x09anAssociativeCollection at: each key\x0a\x09\x09\x09ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]\x0a\x09\x09\x09ifAbsent: [ false ] ]) ifFalse: [ ^ false ].\x0a\x09^ comparisons allSatisfy: [ :each | each first = each second ]",
+referencedClasses: ["OrderedCollection"],
 pragmas: [],
-messageSends: ["ifFalse:", "=", "class", "size", "associations"]
-}, function ($methodClass){ return function (anAssocitativeCollection){
+messageSends: ["ifFalse:", "=", "class", "size", "new", "allSatisfy:", "associations", "at:ifPresent:ifAbsent:", "key", "add:", "value", "first", "second"]
+}, function ($methodClass){ return function (anAssociativeCollection){
 var self=this,$self=this;
+var comparisons;
 return $core.withContext(function($ctx1) {
 if(!$core.assert([$recv([$self._class()
 ,$ctx1.sendIdx["class"]=1
-][0]).__eq($recv(anAssocitativeCollection)._class())
+][0]).__eq($recv(anAssociativeCollection)._class())
 ,$ctx1.sendIdx["="]=1
 ][0])){
 return false;
 }
 if(!$core.assert([$recv([$self._size()
 ,$ctx1.sendIdx["size"]=1
-][0]).__eq($recv(anAssocitativeCollection)._size())
+][0]).__eq($recv(anAssociativeCollection)._size())
 ,$ctx1.sendIdx["="]=2
 ][0])){
 return false;
 }
-return $recv([$self._associations()
-,$ctx1.sendIdx["associations"]=1
-][0]).__eq($recv(anAssocitativeCollection)._associations());
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssocitativeCollection:anAssocitativeCollection})});
+comparisons=$recv($globals.OrderedCollection)._new();
+if(!$core.assert([$recv($self._associations())._allSatisfy_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv(anAssociativeCollection)._at_ifPresent_ifAbsent_($recv(each)._key(),(function(otherValue){
+return $core.withContext(function($ctx3) {
+$recv(comparisons)._add_([$recv(each)._value(),otherValue]);
+return true;
+}, function($ctx3) {$ctx3.fillBlock({otherValue:otherValue},$ctx2,4)});
+}),(function(){
+return false;
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
+}))
+,$ctx1.sendIdx["allSatisfy:"]=1
+][0])){
+return false;
+}
+return $recv(comparisons)._allSatisfy_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv($recv(each)._first()).__eq($recv(each)._second());
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,7)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection,comparisons:comparisons})});
 }; }),
 $globals.AssociativeCollection);
 
@@ -25908,13 +26001,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.27.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.27.1'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.27.0";
+return "0.27.1";
 
 }; }),
 $globals.SmalltalkImage);
@@ -53497,10 +53590,10 @@ $core.method({
 selector: "allTestSelectors",
 protocol: "accessing",
 args: [],
-source: "allTestSelectors\x0a\x09| selectors |\x0a\x09selectors := self testSelectors.\x0a\x09self shouldInheritSelectors ifTrue: [\x0a\x09\x09selectors addAll: self superclass allTestSelectors ].\x0a\x09^ selectors",
+source: "allTestSelectors\x0a\x09| selectors |\x0a\x09selectors := self testSelectors.\x0a\x09self shouldInheritSelectors ifTrue: [\x0a\x09\x09selectors addAll: self superclass allTestSelectors ].\x0a\x09^ selectors asSet",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass"]
+messageSends: ["testSelectors", "ifTrue:", "shouldInheritSelectors", "addAll:", "allTestSelectors", "superclass", "asSet"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var selectors;
@@ -53509,7 +53602,7 @@ selectors=$self._testSelectors();
 if($core.assert($self._shouldInheritSelectors())){
 $recv(selectors)._addAll_($recv($self._superclass())._allTestSelectors());
 }
-return selectors;
+return $recv(selectors)._asSet();
 }, function($ctx1) {$ctx1.fill(self,"allTestSelectors",{selectors:selectors})});
 }; }),
 $globals.TestCase.a$cls);
@@ -57118,10 +57211,10 @@ $core.method({
 selector: "testComma",
 protocol: "tests",
 args: [],
-source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue.\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
+source: "testComma\x0a\x09self assert: self collection, self collectionClass new equals: self collection.\x0a\x09self assert: self collectionClass new, self collection equals: self collection.\x0a\x09self assert: self collectionClass new, self collectionClass new equals: self collectionClass new.\x0a\x09self assert: self collection, self sampleNewValueAsCollection equals: self collectionWithNewValue",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue", "assertSameContents:as:"]
+messageSends: ["assert:equals:", ",", "collection", "new", "collectionClass", "sampleNewValueAsCollection", "collectionWithNewValue"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -57164,16 +57257,7 @@ return $core.withContext(function($ctx1) {
 ][0],$recv($self._collectionClass())._new())
 ,$ctx1.sendIdx["assert:equals:"]=3
 ][0];
-$self._assert_equals_([$recv([$self._collection()
-,$ctx1.sendIdx["collection"]=5
-][0]).__comma([$self._sampleNewValueAsCollection()
-,$ctx1.sendIdx["sampleNewValueAsCollection"]=1
-][0])
-,$ctx1.sendIdx[","]=4
-][0],[$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-][0]);
-$self._assertSameContents_as_($recv($self._sampleNewValueAsCollection()).__comma($self._collection()),$self._collectionWithNewValue());
+$self._assert_equals_($recv($self._collection()).__comma($self._sampleNewValueAsCollection()),$self._collectionWithNewValue());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testComma",{})});
 }; }),
@@ -58274,53 +58358,6 @@ $globals.AssociativeCollectionTest);
 
 $core.addMethod(
 $core.method({
-selector: "testComma",
-protocol: "tests",
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-[(
-$ctx1.supercall = true,
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self))
-,$ctx1.supercall = false
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-,$ctx1.sendIdx["collection"]=1
-][0]).__comma([$self._collection()
-,$ctx1.sendIdx["collection"]=2
-][0])
-,$ctx1.sendIdx[","]=1
-][0],[$self._collection()
-,$ctx1.sendIdx["collection"]=3
-][0])
-,$ctx1.sendIdx["assert:equals:"]=1
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-,$ctx1.sendIdx["collection"]=4
-][0]).__comma([$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-][0])
-,$ctx1.sendIdx[","]=2
-][0],[$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=2
-][0])
-,$ctx1.sendIdx["assert:equals:"]=2
-][0];
-$self._assert_equals_($recv([$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=3
-][0]).__comma($self._collection()),$self._collectionWithNewValue());
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testComma",{})});
-}; }),
-$globals.AssociativeCollectionTest);
-
-$core.addMethod(
-$core.method({
 selector: "testFrom",
 protocol: "tests",
 args: [],
@@ -58542,6 +58579,57 @@ return $self._assert_(false);
 $self._assert_equals_($recv($1)._yourself(),$self._collection());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testRemoveKeyIfAbsent",{})});
+}; }),
+$globals.AssociativeCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUnorderedComma",
+protocol: "tests",
+args: [],
+source: "testUnorderedComma\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["assert:equals:", ",", "collection", "sampleNewValueAsCollection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+[$self._assert_equals_([$recv([$self._collection()
+,$ctx1.sendIdx["collection"]=1
+][0]).__comma([$self._collection()
+,$ctx1.sendIdx["collection"]=2
+][0])
+,$ctx1.sendIdx[","]=1
+][0],[$self._collection()
+,$ctx1.sendIdx["collection"]=3
+][0])
+,$ctx1.sendIdx["assert:equals:"]=1
+][0];
+[$self._assert_equals_([$recv($self._sampleNewValueAsCollection()).__comma([$self._collection()
+,$ctx1.sendIdx["collection"]=4
+][0])
+,$ctx1.sendIdx[","]=2
+][0],[$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=1
+][0])
+,$ctx1.sendIdx["assert:equals:"]=2
+][0];
+[$self._assert_equals_([$recv([$self._collection()
+,$ctx1.sendIdx["collection"]=5
+][0]).__comma([$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=2
+][0])
+,$ctx1.sendIdx[","]=3
+][0],[$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=3
+][0])
+,$ctx1.sendIdx["assert:equals:"]=3
+][0];
+$self._assert_equals_($recv([$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=4
+][0]).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testUnorderedComma",{})});
 }; }),
 $globals.AssociativeCollectionTest);
 
@@ -59496,6 +59584,24 @@ return $recv($self._collection())._last_((33));
 }),$globals.Error);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testLastN",{})});
+}; }),
+$globals.SequenceableCollectionTest);
+
+$core.addMethod(
+$core.method({
+selector: "testOrderedComma",
+protocol: "tests",
+args: [],
+source: "testOrderedComma\x0a\x09self assertSameContents: self sampleNewValueAsCollection, self collection as: self collectionWithNewValue",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["assertSameContents:as:", ",", "sampleNewValueAsCollection", "collection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._assertSameContents_as_($recv($self._sampleNewValueAsCollection()).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testOrderedComma",{})});
 }; }),
 $globals.SequenceableCollectionTest);
 
@@ -61154,53 +61260,6 @@ $globals.SetTest);
 
 $core.addMethod(
 $core.method({
-selector: "testComma",
-protocol: "tests",
-args: [],
-source: "testComma\x0a\x09super testComma.\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["testComma", "assert:equals:", ",", "collection", "collectionWithNewValue"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-[(
-$ctx1.supercall = true,
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._testComma.call($self))
-,$ctx1.supercall = false
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-,$ctx1.sendIdx["collection"]=1
-][0]).__comma([$self._collection()
-,$ctx1.sendIdx["collection"]=2
-][0])
-,$ctx1.sendIdx[","]=1
-][0],[$self._collection()
-,$ctx1.sendIdx["collection"]=3
-][0])
-,$ctx1.sendIdx["assert:equals:"]=1
-][0];
-[$self._assert_equals_([$recv([$self._collection()
-,$ctx1.sendIdx["collection"]=4
-][0]).__comma([$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=1
-][0])
-,$ctx1.sendIdx[","]=2
-][0],[$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=2
-][0])
-,$ctx1.sendIdx["assert:equals:"]=2
-][0];
-$self._assert_equals_($recv([$self._collectionWithNewValue()
-,$ctx1.sendIdx["collectionWithNewValue"]=3
-][0]).__comma($self._collection()),$self._collectionWithNewValue());
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testComma",{})});
-}; }),
-$globals.SetTest);
-
-$core.addMethod(
-$core.method({
 selector: "testComparing",
 protocol: "tests",
 args: [],
@@ -61457,6 +61516,57 @@ $recv(set)._add_("hello");
 $self._assert_equals_($recv(set)._asArray(),[(21), "hello"]);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testUnicity",{set:set})});
+}; }),
+$globals.SetTest);
+
+$core.addMethod(
+$core.method({
+selector: "testUnorderedComma",
+protocol: "tests",
+args: [],
+source: "testUnorderedComma\x0a\x09self assert: self collection, self collection equals: self collection.\x0a\x09self assert: self sampleNewValueAsCollection, self collection equals: self collectionWithNewValue.\x0a\x09self assert: self collection, self collectionWithNewValue equals: self collectionWithNewValue.\x0a\x09self assert: self collectionWithNewValue, self collection equals: self collectionWithNewValue",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["assert:equals:", ",", "collection", "sampleNewValueAsCollection", "collectionWithNewValue"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+[$self._assert_equals_([$recv([$self._collection()
+,$ctx1.sendIdx["collection"]=1
+][0]).__comma([$self._collection()
+,$ctx1.sendIdx["collection"]=2
+][0])
+,$ctx1.sendIdx[","]=1
+][0],[$self._collection()
+,$ctx1.sendIdx["collection"]=3
+][0])
+,$ctx1.sendIdx["assert:equals:"]=1
+][0];
+[$self._assert_equals_([$recv($self._sampleNewValueAsCollection()).__comma([$self._collection()
+,$ctx1.sendIdx["collection"]=4
+][0])
+,$ctx1.sendIdx[","]=2
+][0],[$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=1
+][0])
+,$ctx1.sendIdx["assert:equals:"]=2
+][0];
+[$self._assert_equals_([$recv([$self._collection()
+,$ctx1.sendIdx["collection"]=5
+][0]).__comma([$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=2
+][0])
+,$ctx1.sendIdx[","]=3
+][0],[$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=3
+][0])
+,$ctx1.sendIdx["assert:equals:"]=3
+][0];
+$self._assert_equals_($recv([$self._collectionWithNewValue()
+,$ctx1.sendIdx["collectionWithNewValue"]=4
+][0]).__comma($self._collection()),$self._collectionWithNewValue());
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testUnorderedComma",{})});
 }; }),
 $globals.SetTest);
 
