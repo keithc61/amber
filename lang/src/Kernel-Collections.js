@@ -5373,17 +5373,19 @@ selector: "<",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "< aString\x0a\x09<inlineJS: 'return String(self) < aString._asString()'>",
+source: "< aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) < aString :\x0a\x09$recv(aString)._isStringLessThanSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return String(self) < aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) < aString :\x0a\x09$recv(aString)._isStringLessThanSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return String(self) < aString._asString();
+return typeof aString === "string" ?
+	String(self) < aString :
+	$recv(aString)._isStringLessThanSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"<",{aString:aString})});
@@ -5397,17 +5399,19 @@ selector: "<=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "<= aString\x0a\x09<inlineJS: 'return String(self) <= aString._asString()'>",
+source: "<= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) <= aString :\x0a\x09$recv(aString)._isStringLessThanOrEqualToSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return String(self) <= aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) <= aString :\x0a\x09$recv(aString)._isStringLessThanOrEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return String(self) <= aString._asString();
+return typeof aString === "string" ?
+	String(self) <= aString :
+	$recv(aString)._isStringLessThanOrEqualToSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"<=",{aString:aString})});
@@ -5421,17 +5425,19 @@ selector: "=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "= aString\x0a<inlineJS:\x0a\x09'return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())'>",
+source: "= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return aString != null && String(self) === (typeof aString === \x22string\x22 ? aString : aString.valueOf())"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return aString != null && String(self) === (typeof aString === "string" ? aString : aString.valueOf());
+return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"=",{aString:aString})});
@@ -5445,20 +5451,19 @@ selector: "==",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "== aString\x0a<inlineJS: '\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;\x0a'>",
+source: "== aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09if (typeof aString === \x22string\x22) return String(self) === aString;\x0a\x09else if (aString != null && typeof aString === \x22object\x22) return String(self) === aString.valueOf();\x0a\x09else return false;"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) === aString :\x0a\x09$recv(aString)._isStringEqualToSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-
-	if (typeof aString === "string") return String(self) === aString;
-	else if (aString != null && typeof aString === "object") return String(self) === aString.valueOf();
-	else return false;;
+return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"==",{aString:aString})});
@@ -5472,17 +5477,19 @@ selector: ">",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "> aString\x0a\x09<inlineJS: 'return String(self) > aString._asString()'>",
+source: "> aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) > aString :\x0a\x09$recv(aString)._isStringGreaterThanSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return String(self) > aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) > aString :\x0a\x09$recv(aString)._isStringGreaterThanSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return String(self) > aString._asString();
+return typeof aString === "string" ?
+	String(self) > aString :
+	$recv(aString)._isStringGreaterThanSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,">",{aString:aString})});
@@ -5496,17 +5503,19 @@ selector: ">=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: ">= aString\x0a\x09<inlineJS: 'return String(self) >= aString._asString()'>",
+source: ">= aString\x0a<inlineJS: 'return typeof aString === \x22string\x22 ?\x0a\x09String(self) >= aString :\x0a\x09$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self))'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return String(self) >= aString._asString()"]]],
+pragmas: [["inlineJS:", ["return typeof aString === \x22string\x22 ?\x0a\x09String(self) >= aString :\x0a\x09$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self))"]]],
 messageSends: []
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return String(self) >= aString._asString();
+return typeof aString === "string" ?
+	String(self) >= aString :
+	$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,">=",{aString:aString})});
@@ -6241,6 +6250,126 @@ messageSends: []
 var self=this,$self=this;
 return true;
 
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringEqualToSelf: aString\x0a\x09<inlineJS: 'return aString === String(self)'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString === String(self)"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString === String(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isStringEqualToSelf:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringGreaterThanOrEqualToSelf: aString\x0a\x09<inlineJS: 'return aString >= self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString >= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString >= self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isStringGreaterThanOrEqualToSelf:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringGreaterThanSelf: aString\x0a\x09<inlineJS: 'return aString > self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString > self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString > self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isStringGreaterThanSelf:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringLessThanOrEqualToSelf: aString\x0a\x09<inlineJS: 'return aString <= self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString <= self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString <= self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isStringLessThanOrEqualToSelf:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.String);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringLessThanSelf: aString\x0a\x09<inlineJS: 'return aString < self'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return aString < self"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return aString < self;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isStringLessThanSelf:",{aString:aString})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.String);
 

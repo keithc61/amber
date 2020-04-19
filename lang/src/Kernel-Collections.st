@@ -1309,32 +1309,59 @@ remove: anObject ifAbsent: aBlock
 !String methodsFor: 'comparing'!
 
 < aString
-	<inlineJS: 'return String(self) < aString._asString()'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) < aString :
+	$recv(aString)._isStringLessThanSelf_(String(self))'>
 !
 
 <= aString
-	<inlineJS: 'return String(self) <= aString._asString()'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) <= aString :
+	$recv(aString)._isStringLessThanOrEqualToSelf_(String(self))'>
 !
 
 = aString
-<inlineJS:
-	'return aString !!= null && String(self) === (typeof aString === "string" ? aString : aString.valueOf())'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self))'>
 !
 
 == aString
-<inlineJS: '
-	if (typeof aString === "string") return String(self) === aString;
-	else if (aString !!= null && typeof aString === "object") return String(self) === aString.valueOf();
-	else return false;
-'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) === aString :
+	$recv(aString)._isStringEqualToSelf_(String(self))'>
 !
 
 > aString
-	<inlineJS: 'return String(self) > aString._asString()'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) > aString :
+	$recv(aString)._isStringGreaterThanSelf_(String(self))'>
 !
 
 >= aString
-	<inlineJS: 'return String(self) >= aString._asString()'>
+<inlineJS: 'return typeof aString === "string" ?
+	String(self) >= aString :
+	$recv(aString)._isStringGreaterThanOrEqualSelf_(String(self))'>
+!
+
+isStringEqualToSelf: aString
+	<inlineJS: 'return aString === String(self)'>
+!
+
+isStringGreaterThanOrEqualToSelf: aString
+	<inlineJS: 'return aString >= self'>
+!
+
+isStringGreaterThanSelf: aString
+	<inlineJS: 'return aString > self'>
+!
+
+isStringLessThanOrEqualToSelf: aString
+	<inlineJS: 'return aString <= self'>
+!
+
+isStringLessThanSelf: aString
+	<inlineJS: 'return aString < self'>
 ! !
 
 !String methodsFor: 'converting'!

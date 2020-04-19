@@ -1365,6 +1365,96 @@ $globals.Object);
 
 $core.addMethod(
 $core.method({
+selector: "isStringEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringGreaterThanOrEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringGreaterThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringGreaterThanSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanOrEqualToSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringLessThanOrEqualToSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
+selector: "isStringLessThanSelf:",
+protocol: "comparing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "isStringLessThanSelf: aString\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.Object);
+
+$core.addMethod(
+$core.method({
 selector: "minusSelfToNumber:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

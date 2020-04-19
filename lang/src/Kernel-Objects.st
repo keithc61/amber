@@ -258,6 +258,26 @@ isNumberLessThanOrEqualToSelf: aNumber
 
 isNumberLessThanSelf: aNumber
 	^ false
+!
+
+isStringEqualToSelf: aString
+	^ false
+!
+
+isStringGreaterThanOrEqualToSelf: aString
+	^ false
+!
+
+isStringGreaterThanSelf: aString
+	^ false
+!
+
+isStringLessThanOrEqualToSelf: aString
+	^ false
+!
+
+isStringLessThanSelf: aString
+	^ false
 ! !
 
 !Object methodsFor: 'converting'!

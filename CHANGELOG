@@ -3,6 +3,7 @@
 
 * Fixing bugs related to lack of typechecking binary operations.
   * String >> , now only accepts strings and character arrays.
+  * String comparisons return false for non-strings.
   * Number arithmetics and bit manipulations only accept numbers.
   * Number comparisons return false for non-numbers.
 
