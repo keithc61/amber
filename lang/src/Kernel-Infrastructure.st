@@ -878,7 +878,7 @@ settings
 version
 	"Answer the version string of Amber"
 	
-	^ '0.28.0'
+	^ '0.28.1-pre'
 ! !
 
 !SmalltalkImage methodsFor: 'accessing amd'!
