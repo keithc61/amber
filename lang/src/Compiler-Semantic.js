@@ -2118,16 +2118,25 @@ selector: "isVariableKnown:inPackage:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aPackage"],
-source: "isVariableKnown: aString inPackage: aPackage\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof(', aString, ')!== \x22undefined\x22||(function(){try{return(', aString, ',true)}catch(_){return false}})()'\x0a\x09\x09forPackage: aPackage",
+source: "isVariableKnown: aString inPackage: aPackage\x0a\x09aPackage ifNotNil: [\x0a\x09\x09| packageKnownVars |\x0a\x09\x09packageKnownVars := (aPackage imports reject: #isString) collect: #key.\x0a\x09\x09(packageKnownVars includes: aString) ifTrue: [ ^ true ] ].\x0a\x09^ Compiler new\x0a\x09\x09eval: 'typeof(', aString, ')!== \x22undefined\x22||(function(){try{return(', aString, ',true)}catch(_){return false}})()'\x0a\x09\x09forPackage: aPackage",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["eval:forPackage:", "new", ","]
+messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includes:", "eval:forPackage:", "new", ","]
 }, function ($methodClass){ return function (aString,aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+if(aPackage == null || aPackage.a$nil){
+aPackage;
+} else {
+var packageKnownVars;
+packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
+if($core.assert($recv(packageKnownVars)._includes_(aString))){
+return true;
+}
+}
 return $recv($recv($globals.Compiler)._new())._eval_forPackage_([$recv([$recv([$recv("typeof(".__comma(aString)).__comma(")!== \x22undefined\x22||(function(){try{return(")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=3
