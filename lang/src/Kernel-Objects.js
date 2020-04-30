@@ -385,11 +385,11 @@ selector: "isKindOf:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass"],
-source: "isKindOf: aClass\x0a\x09^ (self isMemberOf: aClass)\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: [ self class inheritsFrom: aClass ]",
+source: "isKindOf: aClass\x0a\x09^ (self isMemberOf: aClass) or: [ self class inheritsFrom: aClass ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isMemberOf:", "inheritsFrom:", "class"]
+messageSends: ["or:", "isMemberOf:", "inheritsFrom:", "class"]
 }, function ($methodClass){ return function (aClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

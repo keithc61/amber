@@ -555,15 +555,15 @@ removeKey: aKey ifAbsent: aBlock
 !AssociativeCollection methodsFor: 'comparing'!
 
 = anAssociativeCollection
-	| comparisons |
-	self class = anAssociativeCollection class ifFalse: [ ^ false ].
-	self size = anAssociativeCollection size ifFalse: [ ^ false ].
-	comparisons := OrderedCollection new.
-	(self associations allSatisfy: [ :each |
-		anAssociativeCollection at: each key
-			ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]
-			ifAbsent: [ false ] ]) ifFalse: [ ^ false ].
-	^ comparisons allSatisfy: [ :each | each first = each second ]
+	^ self class = anAssociativeCollection class and: [
+		self size = anAssociativeCollection size and: [
+			| comparisons |
+			comparisons := OrderedCollection new.
+			(self associations allSatisfy: [ :each |
+				anAssociativeCollection at: each key
+					ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]
+					ifAbsent: [ false ] ]) and: [
+						comparisons allSatisfy: [ :each | each first = each second ] ] ] ]
 ! !
 
 !AssociativeCollection methodsFor: 'converting'!
@@ -1811,10 +1811,9 @@ removeAll
 !Set methodsFor: 'comparing'!
 
 = aCollection
-	self class = aCollection class ifFalse: [ ^ false ].
-	self size = aCollection size ifFalse: [ ^ false ].
-	self do: [ :each | (aCollection includes: each) ifFalse: [ ^ false ] ].
-	^ true
+	^ self class = aCollection class and: [
+		self size = aCollection size and: [
+			self allSatisfy: [ :each | aCollection includes: each ] ] ]
 ! !
 
 !Set methodsFor: 'enumerating'!

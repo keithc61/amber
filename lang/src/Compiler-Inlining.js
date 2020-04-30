@@ -2046,22 +2046,18 @@ selector: "shouldInline:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anIRSend"],
-source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09anIRSend receiver isSuper ifTrue: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
+source: "shouldInline: anIRSend\x0a\x09^ (self inlinedSelectors includes: anIRSend selector) and: [\x0a\x09\x09anIRSend receiver isSuper not and: [\x0a\x09\x09\x09anIRSend arguments allSatisfy: [ :each | each isClosure ] ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "ifTrue:", "isSuper", "receiver", "allSatisfy:", "arguments", "isClosure"]
+messageSends: ["and:", "includes:", "inlinedSelectors", "selector", "not", "isSuper", "receiver", "allSatisfy:", "arguments", "isClosure"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector()))){
-return false;
-}
-if($core.assert($recv($recv(anIRSend)._receiver())._isSuper())){
-return false;
-}
+if($core.assert($recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector()))){
+if($core.assert($recv($recv($recv(anIRSend)._receiver())._isSuper())._not())){
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -2071,6 +2067,12 @@ return $recv(each)._isClosure();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return false;
+}
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend})});
 //>>excludeEnd("ctx");

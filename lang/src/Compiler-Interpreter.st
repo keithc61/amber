@@ -801,9 +801,7 @@ push: anObject
 !ASTInterpreter methodsFor: 'testing'!
 
 atEnd
-	forceAtEnd ifTrue: [ ^ true ].
-	
-	^ self hasReturned or: [ self node isNil ]
+	^ forceAtEnd or: [ self hasReturned or: [ self node isNil ] ]
 !
 
 hasReturned

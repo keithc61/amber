@@ -77,11 +77,11 @@ selector: "aliasTemporally:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09false ] ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias or: [\x0a\x09\x09\x09\x09each shouldBeAliased or: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements or: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09false ] ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "shouldBeAliased", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
+messageSends: ["detect:ifNone:", "reversed", "or:", "shouldBeAliased", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "ifTrue:ifFalse:", "==", "alias:", "visit:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 var threshold,shouldAlias;
@@ -140,7 +140,7 @@ return $self._alias_(each);
 return $self._visit_(each);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,11)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,8)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6145,11 +6145,11 @@ selector: "subtreeNeedsAliasing",
 protocol: "*Compiler-IR",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self dagChildren anySatisfy: [ :each |\x0a\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09each hasOpeningStatements ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each subtreeNeedsAliasing ] ] ]",
+source: "subtreeNeedsAliasing\x0a\x09^ self dagChildren anySatisfy: [ :each |\x0a\x09\x09each shouldBeAliased or: [\x0a\x09\x09\x09each hasOpeningStatements or: [\x0a\x09\x09\x09\x09each subtreeNeedsAliasing ] ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["anySatisfy:", "dagChildren", "ifTrue:ifFalse:", "shouldBeAliased", "hasOpeningStatements", "subtreeNeedsAliasing"]
+messageSends: ["anySatisfy:", "dagChildren", "or:", "shouldBeAliased", "hasOpeningStatements", "subtreeNeedsAliasing"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

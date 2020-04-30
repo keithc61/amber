@@ -530,9 +530,9 @@ inlinedSelectorsNeedingIdempotentReceiver
 !
 
 shouldInline: anIRSend
-	(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].
-	anIRSend receiver isSuper ifTrue: [ ^ false ].
-	^ anIRSend arguments allSatisfy: [ :each | each isClosure ]
+	^ (self inlinedSelectors includes: anIRSend selector) and: [
+		anIRSend receiver isSuper not and: [
+			anIRSend arguments allSatisfy: [ :each | each isClosure ] ] ]
 ! !
 
 IRSendInliner subclass: #IRAssignmentInliner

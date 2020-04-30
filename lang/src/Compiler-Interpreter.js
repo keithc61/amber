@@ -2220,11 +2220,11 @@ selector: "atEnd",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "atEnd\x0a\x09forceAtEnd ifTrue: [ ^ true ].\x0a\x09\x0a\x09^ self hasReturned or: [ self node isNil ]",
+source: "atEnd\x0a\x09^ forceAtEnd or: [ self hasReturned or: [ self node isNil ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:", "or:", "hasReturned", "isNil", "node"]
+messageSends: ["or:", "hasReturned", "isNil", "node"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2232,11 +2232,12 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 if($core.assert($self.forceAtEnd)){
 return true;
-}
+} else {
 if($core.assert($self._hasReturned())){
 return true;
 } else {
 return $recv($self._node())._isNil();
+}
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"atEnd",{})});

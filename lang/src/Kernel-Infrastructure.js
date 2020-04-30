@@ -119,24 +119,25 @@ selector: "=",
 protocol: "comparing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "= anObject\x0a\x09anObject class == self class ifFalse: [ ^ false ].\x0a\x09^ JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject",
+source: "= anObject\x0a\x09^ anObject class == self class and: [\x0a\x09\x09JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject ]",
 referencedClasses: ["JSObjectProxy"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "==", "class", "compareJSObjectOfProxy:withProxy:"]
+messageSends: ["and:", "==", "class", "compareJSObjectOfProxy:withProxy:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv([$recv(anObject)._class()
+if($core.assert($recv([$recv(anObject)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
 ][0]).__eq_eq($self._class()))){
+return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
+} else {
 return false;
 }
-return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"=",{anObject:anObject})});
 //>>excludeEnd("ctx");

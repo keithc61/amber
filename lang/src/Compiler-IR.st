@@ -79,9 +79,9 @@ aliasTemporally: aCollection
 	shouldAlias := false.
 	threshold := aCollection reversed
 		detect: [ :each |
-			shouldAlias ifTrue: [ true ] ifFalse: [
-				each shouldBeAliased ifTrue: [ true ] ifFalse: [
-					(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].
+			shouldAlias or: [
+				each shouldBeAliased or: [
+					(each hasOpeningStatements or: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].
 					false ] ] ]
 		ifNone: [ nil ].
 	threshold ifNil: [ ^ self visitAll: aCollection ].
@@ -1423,8 +1423,8 @@ hasOpeningStatements
 
 subtreeNeedsAliasing
 	^ self dagChildren anySatisfy: [ :each |
-		each shouldBeAliased ifTrue: [ true ] ifFalse: [
-			each hasOpeningStatements ifTrue: [ true ] ifFalse: [
+		each shouldBeAliased or: [
+			each hasOpeningStatements or: [
 				each subtreeNeedsAliasing ] ] ]
 ! !
 

@@ -136,9 +136,7 @@ ifNotNil: aBlock ifNil: anotherBlock
 !
 
 isKindOf: aClass
-	^ (self isMemberOf: aClass)
-		ifTrue: [ true ]
-		ifFalse: [ self class inheritsFrom: aClass ]
+	^ (self isMemberOf: aClass) or: [ self class inheritsFrom: aClass ]
 !
 
 isNil

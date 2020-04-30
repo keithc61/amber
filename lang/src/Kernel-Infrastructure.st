@@ -103,8 +103,8 @@ removeKey: aString
 !JSObjectProxy methodsFor: 'comparing'!
 
 = anObject
-	anObject class == self class ifFalse: [ ^ false ].
-	^ JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject
+	^ anObject class == self class and: [
+		JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject ]
 ! !
 
 !JSObjectProxy methodsFor: 'converting'!
