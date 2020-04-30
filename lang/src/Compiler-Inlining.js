@@ -2010,7 +2010,7 @@ selector: "inlinedSelectors",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "inlinedSelectors\x0a\x09^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:' 'and:' 'or:')",
+source: "inlinedSelectors\x0a\x09^ #(\x0a\x09\x09ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:\x0a\x09\x09ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:\x0a\x09\x09and: or:\x0a\x09)",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -2028,7 +2028,7 @@ selector: "inlinedSelectorsNeedingIdempotentReceiver",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "inlinedSelectorsNeedingIdempotentReceiver\x0a\x09^ #('ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')",
+source: "inlinedSelectorsNeedingIdempotentReceiver\x0a\x09^ #(\x0a\x09\x09ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:\x0a\x09)",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],

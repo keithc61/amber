@@ -516,11 +516,17 @@ mustBeNiladicOrUnaryClosure: anIRInstruction
 !IRSendInliner class methodsFor: 'accessing'!
 
 inlinedSelectors
-	^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:' 'and:' 'or:')
+	^ #(
+		ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:
+		ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:
+		and: or:
+	)
 !
 
 inlinedSelectorsNeedingIdempotentReceiver
-	^ #('ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')
+	^ #(
+		ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:
+	)
 !
 
 shouldInline: anIRSend
