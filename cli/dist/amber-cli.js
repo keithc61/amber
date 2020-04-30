@@ -3581,10 +3581,10 @@ $core.method({
 selector: "isKindOf:",
 protocol: "testing",
 args: ["aClass"],
-source: "isKindOf: aClass\x0a\x09^ (self isMemberOf: aClass)\x0a\x09\x09ifTrue: [ true ]\x0a\x09\x09ifFalse: [ self class inheritsFrom: aClass ]",
+source: "isKindOf: aClass\x0a\x09^ (self isMemberOf: aClass) or: [ self class inheritsFrom: aClass ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isMemberOf:", "inheritsFrom:", "class"]
+messageSends: ["or:", "isMemberOf:", "inheritsFrom:", "class"]
 }, function ($methodClass){ return function (aClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -5165,17 +5165,17 @@ messageSends: ["and:", "==", "class", "asMilliseconds"]
 }, function ($methodClass){ return function (aDate){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$recv(aDate)._class()
+if($core.assert([$recv([$recv(aDate)._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq_eq($self._class())
 ,$ctx1.sendIdx["=="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$self._asMilliseconds()
-,$ctx2.sendIdx["asMilliseconds"]=1
+,$ctx1.sendIdx["asMilliseconds"]=1
 ][0]).__eq_eq($recv(aDate)._asMilliseconds());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"=",{aDate:aDate})});
 }; }),
 $globals.Date);
@@ -6335,11 +6335,11 @@ messageSends: ["and:", ">=", "<="]
 }, function ($methodClass){ return function (min,max){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self.__gt_eq(min))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self.__gt_eq(min))){
 return $self.__lt_eq(max);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"between:and:",{min:min,max:max})});
 }; }),
 $globals.Number);
@@ -7712,17 +7712,17 @@ messageSends: ["and:", "<", "x", "y"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$self._x()
+if($core.assert([$recv([$self._x()
 ,$ctx1.sendIdx["x"]=1
 ][0]).__lt($recv(aPoint)._x())
 ,$ctx1.sendIdx["<"]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$self._y()
-,$ctx2.sendIdx["y"]=1
+,$ctx1.sendIdx["y"]=1
 ][0]).__lt($recv(aPoint)._y());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"<",{aPoint:aPoint})});
 }; }),
 $globals.Point);
@@ -7739,17 +7739,17 @@ messageSends: ["and:", "<=", "x", "y"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$self._x()
+if($core.assert([$recv([$self._x()
 ,$ctx1.sendIdx["x"]=1
 ][0]).__lt_eq($recv(aPoint)._x())
 ,$ctx1.sendIdx["<="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$self._y()
-,$ctx2.sendIdx["y"]=1
+,$ctx1.sendIdx["y"]=1
 ][0]).__lt_eq($recv(aPoint)._y());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"<=",{aPoint:aPoint})});
 }; }),
 $globals.Point);
@@ -7766,21 +7766,21 @@ messageSends: ["and:", "=", "class", "&", "x", "y"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$recv(aPoint)._class()
+if($core.assert([$recv([$recv(aPoint)._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq($self._class())
 ,$ctx1.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$recv([$recv(aPoint)._x()
-,$ctx2.sendIdx["x"]=1
+,$ctx1.sendIdx["x"]=1
 ][0]).__eq($self._x())
-,$ctx2.sendIdx["="]=2
+,$ctx1.sendIdx["="]=2
 ][0]).__and($recv([$recv(aPoint)._y()
-,$ctx2.sendIdx["y"]=1
+,$ctx1.sendIdx["y"]=1
 ][0]).__eq($self._y()));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"=",{aPoint:aPoint})});
 }; }),
 $globals.Point);
@@ -7797,17 +7797,17 @@ messageSends: ["and:", ">", "x", "y"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$self._x()
+if($core.assert([$recv([$self._x()
 ,$ctx1.sendIdx["x"]=1
 ][0]).__gt($recv(aPoint)._x())
 ,$ctx1.sendIdx[">"]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$self._y()
-,$ctx2.sendIdx["y"]=1
+,$ctx1.sendIdx["y"]=1
 ][0]).__gt($recv(aPoint)._y());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,">",{aPoint:aPoint})});
 }; }),
 $globals.Point);
@@ -7824,17 +7824,17 @@ messageSends: ["and:", ">=", "x", "y"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv([$self._x()
+if($core.assert([$recv([$self._x()
 ,$ctx1.sendIdx["x"]=1
 ][0]).__gt_eq($recv(aPoint)._x())
 ,$ctx1.sendIdx[">="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv([$self._y()
-,$ctx2.sendIdx["y"]=1
+,$ctx1.sendIdx["y"]=1
 ][0]).__gt_eq($recv(aPoint)._y());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,">=",{aPoint:aPoint})});
 }; }),
 $globals.Point);
@@ -8020,15 +8020,17 @@ messageSends: ["printOn:", "nextPutAll:", "ifTrue:", "and:", "notNil", "negative
 }, function ($methodClass){ return function (aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 [$recv($self.x)._printOn_(aStream)
 ,$ctx1.sendIdx["printOn:"]=1
 ][0];
 $recv(aStream)._nextPutAll_("@");
-if($core.assert($recv($recv($self.y)._notNil())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($self.y)._negative();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))){
+if($core.assert($recv($self.y)._notNil())){
+$1=$recv($self.y)._negative();
+} else {
+$1=false;
+}
+if($core.assert($1)){
 $recv(aStream)._space();
 }
 $recv($self.y)._printOn_(aStream);
@@ -8254,13 +8256,13 @@ messageSends: ["and:", "=", "origin", "corner"]
 }, function ($methodClass){ return function (aRectangle){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv([$recv($self.origin).__eq($recv(aRectangle)._origin())
+if($core.assert([$recv($self.origin).__eq($recv(aRectangle)._origin())
 ,$ctx1.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
+][0])){
 return $recv($self.corner).__eq($recv(aRectangle)._corner());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"=",{aRectangle:aRectangle})});
 }; }),
 $globals.Rectangle);
@@ -8277,11 +8279,11 @@ messageSends: ["and:", "<=", ">="]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self.origin).__lt_eq(aPoint))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($self.origin).__lt_eq(aPoint))){
 return $recv($self.corner).__gt_eq(aPoint);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"containsPoint:",{aPoint:aPoint})});
 }; }),
 $globals.Rectangle);
@@ -8298,11 +8300,11 @@ messageSends: ["and:", ">=", "origin", "<=", "corner"]
 }, function ($methodClass){ return function (aRect){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($recv(aRect)._origin()).__gt_eq($self.origin))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($recv(aRect)._origin()).__gt_eq($self.origin))){
 return $recv($recv(aRect)._corner()).__lt_eq($self.corner);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"containsRect:",{aRect:aRect})});
 }; }),
 $globals.Rectangle);
@@ -8731,27 +8733,25 @@ messageSends: ["and:", "=", "class", "key", "value"]
 }, function ($methodClass){ return function (anAssociation){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return [$recv([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq($recv(anAssociation)._class())
 ,$ctx1.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv([$recv([$self._key()
-,$ctx2.sendIdx["key"]=1
+][0])){
+if($core.assert([$recv([$self._key()
+,$ctx1.sendIdx["key"]=1
 ][0]).__eq($recv(anAssociation)._key())
-,$ctx2.sendIdx["="]=2
-][0])._and_((function(){
-return $core.withContext(function($ctx3) {
+,$ctx1.sendIdx["="]=2
+][0])){
 return $recv([$self._value()
-,$ctx3.sendIdx["value"]=1
+,$ctx1.sendIdx["value"]=1
 ][0]).__eq($recv(anAssociation)._value());
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))
-,$ctx1.sendIdx["and:"]=1
-][0];
+} else {
+return false;
+}
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"=",{anAssociation:anAssociation})});
 }; }),
 $globals.Association);
@@ -9653,17 +9653,19 @@ messageSends: ["asSet", "new", "do:", "ifTrue:", "and:", "includes:", "not", "ad
 var self=this,$self=this;
 var set,outputSet;
 return $core.withContext(function($ctx1) {
+var $1;
 set=$self._asSet();
 outputSet=$recv($globals.Set)._new();
 $recv(aCollection)._do_((function(each){
 return $core.withContext(function($ctx2) {
-if($core.assert($recv([$recv(set)._includes_(each)
+if($core.assert([$recv(set)._includes_(each)
 ,$ctx2.sendIdx["includes:"]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv(outputSet)._includes_(each))._not();
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-})))){
+][0])){
+$1=$recv($recv(outputSet)._includes_(each))._not();
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return $recv(outputSet)._add_(each);
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -10141,30 +10143,26 @@ $core.method({
 selector: "=",
 protocol: "comparing",
 args: ["anAssociativeCollection"],
-source: "= anAssociativeCollection\x0a\x09| comparisons |\x0a\x09self class = anAssociativeCollection class ifFalse: [ ^ false ].\x0a\x09self size = anAssociativeCollection size ifFalse: [ ^ false ].\x0a\x09comparisons := OrderedCollection new.\x0a\x09(self associations allSatisfy: [ :each |\x0a\x09\x09anAssociativeCollection at: each key\x0a\x09\x09\x09ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]\x0a\x09\x09\x09ifAbsent: [ false ] ]) ifFalse: [ ^ false ].\x0a\x09^ comparisons allSatisfy: [ :each | each first = each second ]",
+source: "= anAssociativeCollection\x0a\x09^ self class = anAssociativeCollection class and: [\x0a\x09\x09self size = anAssociativeCollection size and: [\x0a\x09\x09\x09| comparisons |\x0a\x09\x09\x09comparisons := OrderedCollection new.\x0a\x09\x09\x09(self associations allSatisfy: [ :each |\x0a\x09\x09\x09\x09anAssociativeCollection at: each key\x0a\x09\x09\x09\x09\x09ifPresent: [ :otherValue | comparisons add: { each value. otherValue }. true ]\x0a\x09\x09\x09\x09\x09ifAbsent: [ false ] ]) and: [\x0a\x09\x09\x09\x09\x09\x09comparisons allSatisfy: [ :each | each first = each second ] ] ] ]",
 referencedClasses: ["OrderedCollection"],
 pragmas: [],
-messageSends: ["ifFalse:", "=", "class", "size", "new", "allSatisfy:", "associations", "at:ifPresent:ifAbsent:", "key", "add:", "value", "first", "second"]
+messageSends: ["and:", "=", "class", "size", "new", "allSatisfy:", "associations", "at:ifPresent:ifAbsent:", "key", "add:", "value", "first", "second"]
 }, function ($methodClass){ return function (anAssociativeCollection){
 var self=this,$self=this;
-var comparisons;
 return $core.withContext(function($ctx1) {
-if(!$core.assert([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq($recv(anAssociativeCollection)._class())
 ,$ctx1.sendIdx["="]=1
 ][0])){
-return false;
-}
-if(!$core.assert([$recv([$self._size()
+if($core.assert([$recv([$self._size()
 ,$ctx1.sendIdx["size"]=1
 ][0]).__eq($recv(anAssociativeCollection)._size())
 ,$ctx1.sendIdx["="]=2
 ][0])){
-return false;
-}
+var comparisons;
 comparisons=$recv($globals.OrderedCollection)._new();
-if(!$core.assert([$recv($self._associations())._allSatisfy_((function(each){
+if($core.assert([$recv($self._associations())._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(anAssociativeCollection)._at_ifPresent_ifAbsent_($recv(each)._key(),(function(otherValue){
 return $core.withContext(function($ctx3) {
@@ -10179,14 +10177,21 @@ return false;
 }))
 ,$ctx1.sendIdx["allSatisfy:"]=1
 ][0])){
-return false;
-}
 return $recv(comparisons)._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($recv(each)._first()).__eq($recv(each)._second());
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,7)});
 }));
-}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection,comparisons:comparisons})});
+} else {
+return false;
+}
+} else {
+return false;
+}
+} else {
+return false;
+}
+}, function($ctx1) {$ctx1.fill(self,"=",{anAssociativeCollection:anAssociativeCollection})});
 }; }),
 $globals.AssociativeCollection);
 
@@ -11458,21 +11463,23 @@ messageSends: ["ifFalse:", "and:", "=", "class", "size", "withIndexDo:", "at:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 var $early={};
 try {
-if(!$core.assert($recv([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq($recv(aCollection)._class())
 ,$ctx1.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
-return [$recv([$self._size()
-,$ctx2.sendIdx["size"]=1
+][0])){
+$1=[$recv([$self._size()
+,$ctx1.sendIdx["size"]=1
 ][0]).__eq($recv(aCollection)._size())
-,$ctx2.sendIdx["="]=2
+,$ctx1.sendIdx["="]=2
 ][0];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))){
+} else {
+$1=false;
+}
+if(!$core.assert($1)){
 return false;
 }
 $self._withIndexDo_((function(each,i){
@@ -13143,11 +13150,13 @@ messageSends: ["ifFalse:", "and:", "isString", "=", "size", "error:", ",", "name
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(!$core.assert($recv($recv(anObject)._isString())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($recv(anObject)._size()).__eq((1));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))){
+var $1;
+if($core.assert($recv(anObject)._isString())){
+$1=$recv($recv(anObject)._size()).__eq((1));
+} else {
+$1=false;
+}
+if(!$core.assert($1)){
 $self._error_([$recv(["Cannot put ".__comma($recv($recv(anObject)._class())._name())
 ,$ctx1.sendIdx[","]=2
 ][0]).__comma(" in a String")
@@ -13418,11 +13427,11 @@ messageSends: ["and:", "=", "size", "includes:", "asLowercase"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self._size()).__eq((1)))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($self._size()).__eq((1)))){
 return "aeiou"._includes_($self._asLowercase());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"isVowel",{})});
 }; }),
 $globals.String);
@@ -13471,6 +13480,7 @@ messageSends: ["size", "cr", "indexOf:startingAt:", "lf", "whileTrue:", "<=", "i
 var self=this,$self=this;
 var cr,lf,start,sz,nextLF,nextCR;
 return $core.withContext(function($ctx1) {
+var $1,$2;
 var $early={};
 try {
 start=(1);
@@ -13489,35 +13499,35 @@ return $recv(start).__lt_eq(sz);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._whileTrue_((function(){
 return $core.withContext(function($ctx2) {
-if($core.assert([$recv([$recv(nextLF).__eq((0))
+if($core.assert([$recv(nextLF).__eq((0))
 ,$ctx2.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx3) {
-return [$recv(nextCR).__eq((0))
-,$ctx3.sendIdx["="]=2
-][0];
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-}))
-,$ctx2.sendIdx["and:"]=1
 ][0])){
+$1=[$recv(nextCR).__eq((0))
+,$ctx2.sendIdx["="]=2
+][0];
+} else {
+$1=false;
+}
+if($core.assert($1)){
 [$recv(aBlock)._value_value_value_(start,sz,sz)
 ,$ctx2.sendIdx["value:value:value:"]=1
 ][0];
 throw $early=[self];
 }
-if($core.assert($recv([$recv(nextCR).__eq((0))
+if($core.assert([$recv(nextCR).__eq((0))
 ,$ctx2.sendIdx["="]=3
-][0])._or_((function(){
-return $core.withContext(function($ctx3) {
-return $recv([(0).__lt(nextLF)
-,$ctx3.sendIdx["<"]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx4) {
-return $recv(nextLF).__lt(nextCR);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
-}));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
-})))){
+][0])){
+$2=true;
+} else {
+if($core.assert([(0).__lt(nextLF)
+,$ctx2.sendIdx["<"]=1
+][0])){
+$2=$recv(nextLF).__lt(nextCR);
+} else {
+$2=false;
+}
+}
+if($core.assert($2)){
 [$recv(aBlock)._value_value_value_(start,[$recv(nextLF).__minus((1))
 ,$ctx2.sendIdx["-"]=1
 ][0],nextLF)
@@ -14358,37 +14368,32 @@ $core.method({
 selector: "=",
 protocol: "comparing",
 args: ["aCollection"],
-source: "= aCollection\x0a\x09self class = aCollection class ifFalse: [ ^ false ].\x0a\x09self size = aCollection size ifFalse: [ ^ false ].\x0a\x09self do: [ :each | (aCollection includes: each) ifFalse: [ ^ false ] ].\x0a\x09^ true",
+source: "= aCollection\x0a\x09^ self class = aCollection class and: [\x0a\x09\x09self size = aCollection size and: [\x0a\x09\x09\x09self allSatisfy: [ :each | aCollection includes: each ] ] ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifFalse:", "=", "class", "size", "do:", "includes:"]
+messageSends: ["and:", "=", "class", "size", "allSatisfy:", "includes:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $early={};
-try {
-if(!$core.assert([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq($recv(aCollection)._class())
 ,$ctx1.sendIdx["="]=1
 ][0])){
-return false;
-}
-if(!$core.assert($recv([$self._size()
+if($core.assert($recv([$self._size()
 ,$ctx1.sendIdx["size"]=1
 ][0]).__eq($recv(aCollection)._size()))){
-return false;
-}
-$self._do_((function(each){
+return $self._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($recv(aCollection)._includes_(each))){
-throw $early=[false];
-}
+return $recv(aCollection)._includes_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
-return true;
+} else {
+return false;
 }
-catch(e) {if(e===$early)return e[0]; throw e}
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"=",{aCollection:aCollection})});
 }; }),
 $globals.Set);
@@ -14990,11 +14995,11 @@ messageSends: ["and:", "atStart", "atEnd"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._atStart())._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self._atStart())){
 return $self._atEnd();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"isEmpty",{})});
 }; }),
 $globals.ProtoStream);
@@ -16760,8 +16765,9 @@ messageSends: ["or:", "includesSelector:", "asString", "ifNil:ifNotNil:", "super
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-return $recv($self._includesSelector_($recv(aSelector)._asString()))._or_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self._includesSelector_($recv(aSelector)._asString()))){
+return true;
+} else {
 $1=$self._superclass();
 if($1 == null || $1.a$nil){
 return false;
@@ -16770,8 +16776,7 @@ var superClass;
 superClass=$1;
 return $recv(superClass)._canUnderstand_(aSelector);
 }
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+}
 }, function($ctx1) {$ctx1.fill(self,"canUnderstand:",{aSelector:aSelector})});
 }; }),
 $globals.Behavior);
@@ -16788,11 +16793,11 @@ messageSends: ["or:", "==", "inheritsFrom:"]
 }, function ($methodClass){ return function (aClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self.__eq_eq(aClass))._or_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self.__eq_eq(aClass))){
+return true;
+} else {
 return $self._inheritsFrom_(aClass);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+}
 }, function($ctx1) {$ctx1.fill(self,"includesBehavior:",{aClass:aClass})});
 }; }),
 $globals.Behavior);
@@ -22745,13 +22750,15 @@ messageSends: ["ifTrue:ifFalse:", "and:", "isBlockContext", "notNil", "outerCont
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if($core.assert($recv($self._isBlockContext())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv([$self._outerContext()
-,$ctx2.sendIdx["outerContext"]=1
+var $1;
+if($core.assert($self._isBlockContext())){
+$1=$recv([$self._outerContext()
+,$ctx1.sendIdx["outerContext"]=1
 ][0])._notNil();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return $recv($self._outerContext())._receiver();
 } else {
 return $self._basicReceiver();
@@ -23839,19 +23846,20 @@ $core.method({
 selector: "=",
 protocol: "comparing",
 args: ["anObject"],
-source: "= anObject\x0a\x09anObject class == self class ifFalse: [ ^ false ].\x0a\x09^ JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject",
+source: "= anObject\x0a\x09^ anObject class == self class and: [\x0a\x09\x09JSObjectProxy compareJSObjectOfProxy: self withProxy: anObject ]",
 referencedClasses: ["JSObjectProxy"],
 pragmas: [],
-messageSends: ["ifFalse:", "==", "class", "compareJSObjectOfProxy:withProxy:"]
+messageSends: ["and:", "==", "class", "compareJSObjectOfProxy:withProxy:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(!$core.assert($recv([$recv(anObject)._class()
+if($core.assert($recv([$recv(anObject)._class()
 ,$ctx1.sendIdx["class"]=1
 ][0]).__eq_eq($self._class()))){
+return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
+} else {
 return false;
 }
-return $recv($globals.JSObjectProxy)._compareJSObjectOfProxy_withProxy_(self,anObject);
 }, function($ctx1) {$ctx1.fill(self,"=",{anObject:anObject})});
 }; }),
 $globals.JSObjectProxy);
@@ -25143,11 +25151,11 @@ return $recv(each)._superclass();
 return $core.withContext(function($ctx2) {
 return $recv($recv([each,$recv(each)._theMetaClass()])._copyWithout_(nil))._anySatisfy_((function(any){
 return $core.withContext(function($ctx3) {
-return $recv($recv($recv(any)._protocols())._includes_(starCategoryName))._and_((function(){
-return $core.withContext(function($ctx4) {
+if($core.assert($recv($recv(any)._protocols())._includes_(starCategoryName))){
 return $recv($recv(any)._ownMethodsInProtocol_(starCategoryName))._notEmpty();
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-}));
+} else {
+return false;
+}
 }, function($ctx3) {$ctx3.fillBlock({any:any},$ctx2,3)});
 }));
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
@@ -25306,23 +25314,23 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($recv($self._imports())._asArray())._sorted_((function(a,b){
 return $core.withContext(function($ctx2) {
-return $recv($recv($recv([$recv(a)._isString()
+if($core.assert($recv($recv([$recv(a)._isString()
 ,$ctx2.sendIdx["isString"]=1
 ][0])._not()).__and([$recv(b)._isString()
 ,$ctx2.sendIdx["isString"]=2
-][0]))._or_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv([$recv(a)._isString()
-,$ctx3.sendIdx["isString"]=3
-][0]).__eq($recv(b)._isString()))._and_((function(){
-return $core.withContext(function($ctx4) {
+][0]))){
+return true;
+} else {
+if($core.assert($recv([$recv(a)._isString()
+,$ctx2.sendIdx["isString"]=3
+][0]).__eq($recv(b)._isString()))){
 return $recv([$recv(a)._value()
-,$ctx4.sendIdx["value"]=1
+,$ctx2.sendIdx["value"]=1
 ][0]).__lt_eq($recv(b)._value());
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-}));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
+} else {
+return false;
+}
+}
 }, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"sortedImportsAsArray",{})});
@@ -26265,11 +26273,11 @@ messageSends: ["and:", "isSmalltalkObject:", "isError"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._isSmalltalkObject_(anObject))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self._isSmalltalkObject_(anObject))){
 return $recv(anObject)._isError();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
 }; }),
 $globals.SmalltalkImage);
@@ -26723,13 +26731,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.28.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.0'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.28.1";
+return "0.29.0";
 
 }; }),
 $globals.SmalltalkImage);
@@ -27226,17 +27234,19 @@ messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class"]
 }, function ($methodClass){ return function (aContext){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 return $recv(aContext)._findContextSuchThat_((function(one){
 return $core.withContext(function($ctx2) {
-return $recv($recv([$recv([$recv(one)._receiver()
+if($core.assert([$recv([$recv(one)._receiver()
 ,$ctx2.sendIdx["receiver"]=1
 ][0]).__eq_eq(self)
 ,$ctx2.sendIdx["=="]=1
-][0])._or_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv(one)._receiver()).__eq_eq($self._class());
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-})))._not();
+][0])){
+$1=true;
+} else {
+$1=$recv($recv(one)._receiver()).__eq_eq($self._class());
+}
+return $recv($1)._not();
 }, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext})});
@@ -27342,23 +27352,23 @@ messageSends: ["findContextSuchThat:", "not", "or:", "==", "receiver", "class", 
 }, function ($methodClass){ return function (aContext){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+var $1;
 return $recv(aContext)._findContextSuchThat_((function(one){
 return $core.withContext(function($ctx2) {
-return $recv([$recv([$recv([$recv(one)._receiver()
+if($core.assert([$recv([$recv(one)._receiver()
 ,$ctx2.sendIdx["receiver"]=1
 ][0]).__eq_eq(self)
 ,$ctx2.sendIdx["=="]=1
-][0])._or_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv($recv(one)._receiver()).__eq_eq($self._class()))._or_((function(){
-return $core.withContext(function($ctx4) {
-return $recv($recv($recv(one)._method())._selector()).__eq("halt");
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-}));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}))
-,$ctx2.sendIdx["or:"]=1
-][0])._not();
+][0])){
+$1=true;
+} else {
+if($core.assert($recv($recv(one)._receiver()).__eq_eq($self._class()))){
+$1=true;
+} else {
+$1=$recv($recv($recv(one)._method())._selector()).__eq("halt");
+}
+}
+return $recv($1)._not();
 }, function($ctx2) {$ctx2.fillBlock({one:one},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"signalerContextFrom:",{aContext:aContext})});
@@ -36381,18 +36391,20 @@ messageSends: ["newXhr", "open:url:async:", "onreadystatechange:", "ifTrue:", "=
 var self=this,$self=this;
 var xhr;
 return $core.withContext(function($ctx1) {
+var $1;
 xhr=$recv($globals.Platform)._newXhr();
 $recv(xhr)._open_url_async_("PUT",aURL,true);
 $recv(xhr)._onreadystatechange_((function(){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv($recv(xhr)._readyState()).__eq((4)))){
-return $recv($recv($recv([$recv(xhr)._status()
+if($core.assert($recv([$recv(xhr)._status()
 ,$ctx2.sendIdx["status"]=1
-][0]).__gt_eq((200)))._and_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($recv(xhr)._status()).__lt((300));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-})))._ifTrue_ifFalse_(aBlock,anotherBlock);
+][0]).__gt_eq((200)))){
+$1=$recv($recv(xhr)._status()).__lt((300));
+} else {
+$1=false;
+}
+return $recv($1)._ifTrue_ifFalse_(aBlock,anotherBlock);
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -38948,11 +38960,11 @@ messageSends: ["and:", "<=", "positionStart", ">=", "positionEnd"]
 }, function ($methodClass){ return function (aPoint){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self._positionStart()).__lt_eq(aPoint))._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($self._positionStart()).__lt_eq(aPoint))){
 return $recv($self._positionEnd()).__gt_eq(aPoint);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"inPosition:",{aPoint:aPoint})});
 }; }),
 $globals.ASTNode);
@@ -39026,11 +39038,11 @@ var $early={};
 try {
 children=$recv($self._allDagChildren())._select_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($recv(each)._isNavigationNode())._and_((function(){
-return $core.withContext(function($ctx3) {
+if($core.assert($recv(each)._isNavigationNode())){
 return $recv(each)._inPosition_(aPoint);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
+} else {
+return false;
+}
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
 $recv(children)._ifEmpty_((function(){
@@ -41797,11 +41809,11 @@ messageSends: ["and:", "isInlined", "canFlattenNonLocalReturns", "outerScope"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($self._isInlined())._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($self._isInlined())){
 return $recv($self._outerScope())._canFlattenNonLocalReturns();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"canFlattenNonLocalReturns",{})});
 }; }),
 $globals.LexicalScope);
@@ -42927,7 +42939,7 @@ messageSends: ["ifTrue:", "isCapitalized", "add:", "classReferences", "name:", "
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1,$2,$3;
 if($core.assert($recv(aString)._isCapitalized())){
 $recv($self._classReferences())._add_(aString);
 $1=[$recv($globals.ClassRefVar)._new()
@@ -42940,14 +42952,15 @@ return [$recv($1)._yourself()
 ,$ctx1.sendIdx["yourself"]=1
 ][0];
 }
-if($core.assert($recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
-return $core.withContext(function($ctx2) {
-return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-})))){
-$2=$recv($globals.ExternallyKnownVar)._new();
-$recv($2)._name_(aString);
-return $recv($2)._yourself();
+if($core.assert($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))){
+$2=true;
+} else {
+$2=$self._isVariableKnown_inPackage_(aString,$self._thePackage());
+}
+if($core.assert($2)){
+$3=$recv($globals.ExternallyKnownVar)._new();
+$recv($3)._name_(aString);
+return $recv($3)._yourself();
 }
 $self._errorUnknownVariable_(aString);
 return self;
@@ -43855,10 +43868,10 @@ $core.method({
 selector: "aliasTemporally:",
 protocol: "visiting",
 args: ["aCollection"],
-source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements ifTrue: [ true ] ifFalse: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09false ] ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
+source: "aliasTemporally: aCollection\x0a\x09\x22https://lolg.it/amber/amber/issues/296\x0a\x09\x0a\x09If a node is aliased, all preceding ones are aliased as well.\x0a\x09The tree is iterated twice. First we get the aliasing dependency,\x0a\x09then the aliasing itself is done\x22\x0a\x0a\x09| threshold shouldAlias |\x0a\x09shouldAlias := false.\x0a\x09threshold := aCollection reversed\x0a\x09\x09detect: [ :each |\x0a\x09\x09\x09shouldAlias or: [\x0a\x09\x09\x09\x09each shouldBeAliased or: [\x0a\x09\x09\x09\x09\x09(each hasOpeningStatements or: [ each subtreeNeedsAliasing ]) ifTrue: [ shouldAlias := true ].\x0a\x09\x09\x09\x09\x09false ] ] ]\x0a\x09\x09ifNone: [ nil ].\x0a\x09threshold ifNil: [ ^ self visitAll: aCollection ].\x0a\x0a\x09shouldAlias := true.\x0a\x09^ aCollection collect: [ :each |\x0a\x09\x09shouldAlias\x0a\x09\x09\x09ifTrue: [ each == threshold ifTrue: [ shouldAlias := false ]. self alias: each ]\x0a\x09\x09\x09ifFalse: [ self visit: each ] ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["detect:ifNone:", "reversed", "ifTrue:ifFalse:", "shouldBeAliased", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "==", "alias:", "visit:"]
+messageSends: ["detect:ifNone:", "reversed", "or:", "shouldBeAliased", "ifTrue:", "hasOpeningStatements", "subtreeNeedsAliasing", "ifNil:", "visitAll:", "collect:", "ifTrue:ifFalse:", "==", "alias:", "visit:"]
 }, function ($methodClass){ return function (aCollection){
 var self=this,$self=this;
 var threshold,shouldAlias;
@@ -43908,7 +43921,7 @@ return $self._alias_(each);
 } else {
 return $self._visit_(each);
 }
-}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,11)});
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,8)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"aliasTemporally:",{aCollection:aCollection,threshold:threshold,shouldAlias:shouldAlias})});
 }; }),
@@ -48349,10 +48362,10 @@ $core.method({
 selector: "subtreeNeedsAliasing",
 protocol: "*Compiler-IR",
 args: [],
-source: "subtreeNeedsAliasing\x0a\x09^ self dagChildren anySatisfy: [ :each |\x0a\x09\x09each shouldBeAliased ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09each hasOpeningStatements ifTrue: [ true ] ifFalse: [\x0a\x09\x09\x09\x09each subtreeNeedsAliasing ] ] ]",
+source: "subtreeNeedsAliasing\x0a\x09^ self dagChildren anySatisfy: [ :each |\x0a\x09\x09each shouldBeAliased or: [\x0a\x09\x09\x09each hasOpeningStatements or: [\x0a\x09\x09\x09\x09each subtreeNeedsAliasing ] ] ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["anySatisfy:", "dagChildren", "ifTrue:ifFalse:", "shouldBeAliased", "hasOpeningStatements", "subtreeNeedsAliasing"]
+messageSends: ["anySatisfy:", "dagChildren", "or:", "shouldBeAliased", "hasOpeningStatements", "subtreeNeedsAliasing"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -48841,19 +48854,17 @@ messageSends: ["and:", "not", "isInlined", "isSend", "right", "shouldInlineSend:
 }, function ($methodClass){ return function (anIRAssignment){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return [$recv($recv($recv(anIRAssignment)._isInlined())._not())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($recv([$recv(anIRAssignment)._right()
-,$ctx2.sendIdx["right"]=1
-][0])._isSend())._and_((function(){
-return $core.withContext(function($ctx3) {
+if($core.assert($recv($recv(anIRAssignment)._isInlined())._not())){
+if($core.assert($recv([$recv(anIRAssignment)._right()
+,$ctx1.sendIdx["right"]=1
+][0])._isSend())){
 return $self._shouldInlineSend_($recv(anIRAssignment)._right());
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))
-,$ctx1.sendIdx["and:"]=1
-][0];
+} else {
+return false;
+}
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineAssignment:",{anIRAssignment:anIRAssignment})});
 }; }),
 $globals.IRInliner);
@@ -48870,19 +48881,17 @@ messageSends: ["and:", "not", "isInlined", "isSend", "expression", "shouldInline
 }, function ($methodClass){ return function (anIRReturn){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return [$recv($recv($recv(anIRReturn)._isInlined())._not())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($recv([$recv(anIRReturn)._expression()
-,$ctx2.sendIdx["expression"]=1
-][0])._isSend())._and_((function(){
-return $core.withContext(function($ctx3) {
+if($core.assert($recv($recv(anIRReturn)._isInlined())._not())){
+if($core.assert($recv([$recv(anIRReturn)._expression()
+,$ctx1.sendIdx["expression"]=1
+][0])._isSend())){
 return $self._shouldInlineSend_($recv(anIRReturn)._expression());
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))
-,$ctx1.sendIdx["and:"]=1
-][0];
+} else {
+return false;
+}
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineReturn:",{anIRReturn:anIRReturn})});
 }; }),
 $globals.IRInliner);
@@ -48899,11 +48908,11 @@ messageSends: ["and:", "not", "isInlined", "shouldInline:"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($recv(anIRSend)._isInlined())._not())._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($recv(anIRSend)._isInlined())._not())){
 return $recv($globals.IRSendInliner)._shouldInline_(anIRSend);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldInlineSend:",{anIRSend:anIRSend})});
 }; }),
 $globals.IRInliner);
@@ -49225,6 +49234,45 @@ $globals.IRInliningJSTranslator);
 
 $core.addClass("IRSendInliner", $globals.Object, ["send", "translator"], "Compiler-Inlining");
 $globals.IRSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
+$core.addMethod(
+$core.method({
+selector: "and:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "and: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: (IRValue new value: false; yourself);\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence", "IRValue"],
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "value:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3,$4;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+$3=[$recv($globals.IRBlockSequence)._new()
+,$ctx1.sendIdx["new"]=3
+][0];
+$4=$recv($globals.IRValue)._new();
+$recv($4)._value_(false);
+$recv($3)._add_([$recv($4)._yourself()
+,$ctx1.sendIdx["yourself"]=1
+][0]);
+[$recv($2)._add_([$recv($3)._yourself()
+,$ctx1.sendIdx["yourself"]=2
+][0])
+,$ctx1.sendIdx["add:"]=1
+][0];
+return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$recv($2)._yourself());
+}, function($ctx1) {$ctx1.fill(self,"and:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRSendInliner);
+
 $core.addMethod(
 $core.method({
 selector: "ifFalse:",
@@ -49743,6 +49791,45 @@ $globals.IRSendInliner);
 
 $core.addMethod(
 $core.method({
+selector: "or:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "or: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: (IRValue new value: true; yourself);\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence", "IRValue"],
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "value:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3,$4;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+$3=[$recv($globals.IRBlockSequence)._new()
+,$ctx1.sendIdx["new"]=3
+][0];
+$4=$recv($globals.IRValue)._new();
+$recv($4)._value_(true);
+$recv($3)._add_([$recv($4)._yourself()
+,$ctx1.sendIdx["yourself"]=1
+][0]);
+[$recv($2)._add_([$recv($3)._yourself()
+,$ctx1.sendIdx["yourself"]=2
+][0])
+,$ctx1.sendIdx["add:"]=1
+][0];
+return $self._inlinedSend_withBlock_withBlock_($1,$recv($2)._yourself(),anIRInstruction);
+}, function($ctx1) {$ctx1.fill(self,"or:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRSendInliner);
+
+$core.addMethod(
+$core.method({
 selector: "send",
 protocol: "accessing",
 args: [],
@@ -49813,13 +49900,13 @@ $core.method({
 selector: "inlinedSelectors",
 protocol: "accessing",
 args: [],
-source: "inlinedSelectors\x0a\x09^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')",
+source: "inlinedSelectors\x0a\x09^ #(\x0a\x09\x09ifTrue: ifFalse: ifTrue:ifFalse: ifFalse:ifTrue:\x0a\x09\x09ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:\x0a\x09\x09and: or:\x0a\x09)",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return ["ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:", "ifNil:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:"];
+return ["ifTrue:", "ifFalse:", "ifTrue:ifFalse:", "ifFalse:ifTrue:", "ifNil:", "ifNotNil:", "ifNil:ifNotNil:", "ifNotNil:ifNil:", "and:", "or:"];
 
 }; }),
 $globals.IRSendInliner.a$cls);
@@ -49829,7 +49916,7 @@ $core.method({
 selector: "inlinedSelectorsNeedingIdempotentReceiver",
 protocol: "accessing",
 args: [],
-source: "inlinedSelectorsNeedingIdempotentReceiver\x0a\x09^ #('ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')",
+source: "inlinedSelectorsNeedingIdempotentReceiver\x0a\x09^ #(\x0a\x09\x09ifNil: ifNotNil: ifNil:ifNotNil: ifNotNil:ifNil:\x0a\x09)",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
@@ -49845,24 +49932,26 @@ $core.method({
 selector: "shouldInline:",
 protocol: "accessing",
 args: ["anIRSend"],
-source: "shouldInline: anIRSend\x0a\x09(self inlinedSelectors includes: anIRSend selector) ifFalse: [ ^ false ].\x0a\x09anIRSend receiver isSuper ifTrue: [ ^ false ].\x0a\x09^ anIRSend arguments allSatisfy: [ :each | each isClosure ]",
+source: "shouldInline: anIRSend\x0a\x09^ (self inlinedSelectors includes: anIRSend selector) and: [\x0a\x09\x09anIRSend receiver isSuper not and: [\x0a\x09\x09\x09anIRSend arguments allSatisfy: [ :each | each isClosure ] ] ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifFalse:", "includes:", "inlinedSelectors", "selector", "ifTrue:", "isSuper", "receiver", "allSatisfy:", "arguments", "isClosure"]
+messageSends: ["and:", "includes:", "inlinedSelectors", "selector", "not", "isSuper", "receiver", "allSatisfy:", "arguments", "isClosure"]
 }, function ($methodClass){ return function (anIRSend){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(!$core.assert($recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector()))){
-return false;
-}
-if($core.assert($recv($recv(anIRSend)._receiver())._isSuper())){
-return false;
-}
+if($core.assert($recv($self._inlinedSelectors())._includes_($recv(anIRSend)._selector()))){
+if($core.assert($recv($recv($recv(anIRSend)._receiver())._isSuper())._not())){
 return $recv($recv(anIRSend)._arguments())._allSatisfy_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv(each)._isClosure();
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
+} else {
+return false;
+}
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"shouldInline:",{anIRSend:anIRSend})});
 }; }),
 $globals.IRSendInliner.a$cls);
@@ -51510,11 +51599,11 @@ return true;
 } else {
 $1;
 }
-return $recv($recv($self._interpreter())._atEnd())._and_((function(){
-return $core.withContext(function($ctx2) {
+if($core.assert($recv($self._interpreter())._atEnd())){
 return $recv($self._context())._isTopContext();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-}));
+} else {
+return false;
+}
 }, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 }; }),
 $globals.ASTDebugger);
@@ -51942,21 +52031,22 @@ $core.method({
 selector: "atEnd",
 protocol: "testing",
 args: [],
-source: "atEnd\x0a\x09forceAtEnd ifTrue: [ ^ true ].\x0a\x09\x0a\x09^ self hasReturned or: [ self node isNil ]",
+source: "atEnd\x0a\x09^ forceAtEnd or: [ self hasReturned or: [ self node isNil ] ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifTrue:", "or:", "hasReturned", "isNil", "node"]
+messageSends: ["or:", "hasReturned", "isNil", "node"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 if($core.assert($self.forceAtEnd)){
 return true;
-}
-return $recv($self._hasReturned())._or_((function(){
-return $core.withContext(function($ctx2) {
+} else {
+if($core.assert($self._hasReturned())){
+return true;
+} else {
 return $recv($self._node())._isNil();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-}));
+}
+}
 }, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 }; }),
 $globals.ASTInterpreter);
@@ -52603,13 +52693,13 @@ return $core.withContext(function($ctx1) {
 ][0];
 $recv((function(){
 return $core.withContext(function($ctx2) {
-return $recv($recv([$self._node()
+if($core.assert($recv([$self._node()
 ,$ctx2.sendIdx["node"]=1
-][0])._isNil())._or_((function(){
-return $core.withContext(function($ctx3) {
+][0])._isNil())){
+return true;
+} else {
 return $recv($self._node())._isSteppingNode();
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-}));
+}
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._whileFalse_((function(){
 return $core.withContext(function($ctx2) {
@@ -54503,6 +54593,7 @@ messageSends: ["context:", "ensure:", "value", "ifTrue:", "and:", "isAsync", "fi
 var self=this,$self=this;
 var failed;
 return $core.withContext(function($ctx1) {
+var $1;
 [$recv($self.testCase)._context_(self)
 ,$ctx1.sendIdx["context:"]=1
 ][0];
@@ -54516,13 +54607,14 @@ return failed;
 }))._ensure_((function(){
 return $core.withContext(function($ctx2) {
 $recv($self.testCase)._context_(nil);
-if($core.assert($recv(failed)._and_((function(){
-return $core.withContext(function($ctx3) {
-return [$recv($self.testCase)._isAsync()
-,$ctx3.sendIdx["isAsync"]=1
+if($core.assert(failed)){
+$1=[$recv($self.testCase)._isAsync()
+,$ctx2.sendIdx["isAsync"]=1
 ][0];
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 $recv($self.testCase)._finished();
 }
 if(!$core.assert($recv($self.testCase)._isAsync())){
@@ -56468,128 +56560,129 @@ messageSends: ["assert:", "and:", "deny:", "or:", ">"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-[$self._assert_([true._and_((function(){
-return true;
-
-}))
-,$ctx1.sendIdx["and:"]=1
-][0])
+var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14;
+if($core.assert(true)){
+$1=true;
+} else {
+$1=false;
+}
+[$self._assert_($1)
 ,$ctx1.sendIdx["assert:"]=1
 ][0];
-[$self._deny_([true._and_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["and:"]=2
-][0])
+if($core.assert(true)){
+$2=false;
+} else {
+$2=false;
+}
+[$self._deny_($2)
 ,$ctx1.sendIdx["deny:"]=1
 ][0];
-[$self._deny_([false._and_((function(){
-return true;
-
-}))
-,$ctx1.sendIdx["and:"]=3
-][0])
+if($core.assert(false)){
+$3=true;
+} else {
+$3=false;
+}
+[$self._deny_($3)
 ,$ctx1.sendIdx["deny:"]=2
 ][0];
-[$self._deny_([false._and_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["and:"]=4
-][0])
+if($core.assert(false)){
+$4=false;
+} else {
+$4=false;
+}
+[$self._deny_($4)
 ,$ctx1.sendIdx["deny:"]=3
 ][0];
-[$self._assert_([true._or_((function(){
-return true;
-
-}))
-,$ctx1.sendIdx["or:"]=1
-][0])
+if($core.assert(true)){
+$5=true;
+} else {
+$5=true;
+}
+[$self._assert_($5)
 ,$ctx1.sendIdx["assert:"]=2
 ][0];
-[$self._assert_([true._or_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["or:"]=2
-][0])
+if($core.assert(true)){
+$6=true;
+} else {
+$6=false;
+}
+[$self._assert_($6)
 ,$ctx1.sendIdx["assert:"]=3
 ][0];
-[$self._assert_([false._or_((function(){
-return true;
-
-}))
-,$ctx1.sendIdx["or:"]=3
-][0])
+if($core.assert(false)){
+$7=true;
+} else {
+$7=true;
+}
+[$self._assert_($7)
 ,$ctx1.sendIdx["assert:"]=4
 ][0];
-[$self._deny_([false._or_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["or:"]=4
-][0])
+if($core.assert(false)){
+$8=true;
+} else {
+$8=false;
+}
+[$self._deny_($8)
 ,$ctx1.sendIdx["deny:"]=4
 ][0];
-[$self._assert_([true._and_((function(){
-return $core.withContext(function($ctx2) {
-return [(1).__gt((0))
-,$ctx2.sendIdx[">"]=1
+if($core.assert(true)){
+$9=[(1).__gt((0))
+,$ctx1.sendIdx[">"]=1
 ][0];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,9)});
-}))
-,$ctx1.sendIdx["and:"]=5
-][0])
+} else {
+$9=false;
+}
+[$self._assert_($9)
 ,$ctx1.sendIdx["assert:"]=5
 ][0];
-[$self._deny_([$recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 ,$ctx1.sendIdx[">"]=2
-][0])._and_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["and:"]=6
-][0])
+][0])){
+$10=false;
+} else {
+$10=false;
+}
+[$self._deny_($10)
 ,$ctx1.sendIdx["deny:"]=5
 ][0];
-$self._deny_($recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 ,$ctx1.sendIdx[">"]=3
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
-return [(1).__gt((2))
-,$ctx2.sendIdx[">"]=4
+][0])){
+$11=[(1).__gt((2))
+,$ctx1.sendIdx[">"]=4
 ][0];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,11)});
-})));
-[$self._assert_([false._or_((function(){
-return $core.withContext(function($ctx2) {
-return [(1).__gt((0))
-,$ctx2.sendIdx[">"]=5
+} else {
+$11=false;
+}
+$self._deny_($11);
+if($core.assert(false)){
+$12=true;
+} else {
+$12=[(1).__gt((0))
+,$ctx1.sendIdx[">"]=5
 ][0];
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,12)});
-}))
-,$ctx1.sendIdx["or:"]=5
-][0])
+}
+[$self._assert_($12)
 ,$ctx1.sendIdx["assert:"]=6
 ][0];
-[$self._assert_([$recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 ,$ctx1.sendIdx[">"]=6
-][0])._or_((function(){
-return false;
-
-}))
-,$ctx1.sendIdx["or:"]=6
-][0])
+][0])){
+$13=true;
+} else {
+$13=false;
+}
+[$self._assert_($13)
 ,$ctx1.sendIdx["assert:"]=7
 ][0];
-$self._assert_($recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 ,$ctx1.sendIdx[">"]=7
-][0])._or_((function(){
-return $core.withContext(function($ctx2) {
-return (1).__gt((2));
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,14)});
-})));
+][0])){
+$14=true;
+} else {
+$14=(1).__gt((2));
+}
+$self._assert_($14);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testLogicKeywords",{})});
 }; }),
@@ -72358,54 +72451,54 @@ messageSends: ["ifTrue:", "and:", "isNil", "ifNil:", "at:", "headers", "ifEmpty:
 var self=this,$self=this;
 var header,token,auth,parts;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1,$2,$3,$4;
 var $early={};
 try {
-if($core.assert([$recv([$recv($self.username)._isNil()
+if($core.assert([$recv($self.username)._isNil()
 ,$ctx1.sendIdx["isNil"]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($self.password)._isNil();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))
-,$ctx1.sendIdx["and:"]=1
 ][0])){
+$1=$recv($self.password)._isNil();
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return true;
 }
-$1=[$recv($recv(aRequest)._headers())._at_("authorization")
+$2=[$recv($recv(aRequest)._headers())._at_("authorization")
 ,$ctx1.sendIdx["at:"]=1
 ][0];
-if($1 == null || $1.a$nil){
+if($2 == null || $2.a$nil){
 header="";
 } else {
-header=$1;
+header=$2;
 }
 $recv(header)._ifEmpty_ifNotEmpty_((function(){
 throw $early=[false];
 
 }),(function(){
 return $core.withContext(function($ctx2) {
-$2=[$recv(header)._tokenize_(" ")
+$3=[$recv(header)._tokenize_(" ")
 ,$ctx2.sendIdx["tokenize:"]=1
 ][0];
-if($2 == null || $2.a$nil){
+if($3 == null || $3.a$nil){
 token="";
 } else {
-token=$2;
+token=$3;
 }
 auth=$self._base64Decode_([$recv(token)._at_((2))
 ,$ctx2.sendIdx["at:"]=2
 ][0]);
 parts=$recv(auth)._tokenize_(":");
-if($core.assert($recv([$recv($self.username).__eq([$recv(parts)._at_((1))
+if($core.assert([$recv($self.username).__eq([$recv(parts)._at_((1))
 ,$ctx2.sendIdx["at:"]=3
 ][0])
 ,$ctx2.sendIdx["="]=1
-][0])._and_((function(){
-return $core.withContext(function($ctx3) {
-return $recv($self.password).__eq($recv(parts)._at_((2)));
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
-})))){
+][0])){
+$4=$recv($self.password).__eq($recv(parts)._at_((2)));
+} else {
+$4=false;
+}
+if($core.assert($4)){
 throw $early=[true];
 } else {
 throw $early=[false];
@@ -73616,11 +73709,11 @@ return result;
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
 }))._tryIfTrue_catch_((function(e){
 return $core.withContext(function($ctx3) {
-return $recv($recv($recv($globals.Smalltalk)._isError_(e))._not())._or_((function(){
-return $core.withContext(function($ctx4) {
+if($core.assert($recv($recv($globals.Smalltalk)._isError_(e))._not())){
+return true;
+} else {
 return $recv($recv(e)._context())._isNil();
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-}));
+}
 }, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 }),(function(e){
 return $core.withContext(function($ctx3) {
@@ -73788,11 +73881,13 @@ messageSends: ["ifTrue:", "and:", "ctrl", "=", "name", "clearScreen"]
 }, function ($methodClass){ return function (key){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if($core.assert($recv($recv(key)._ctrl())._and_((function(){
-return $core.withContext(function($ctx2) {
-return $recv($recv(key)._name()).__eq("l");
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-})))){
+var $1;
+if($core.assert($recv(key)._ctrl())){
+$1=$recv($recv(key)._name()).__eq("l");
+} else {
+$1=false;
+}
+if($core.assert($1)){
 $self._clearScreen();
 }
 return self;
@@ -73813,18 +73908,20 @@ messageSends: ["collect:", "tokenize:", "trimBoth", "ifTrue:ifFalse:", "and:", "
 var self=this,$self=this;
 var assignment;
 return $core.withContext(function($ctx1) {
+var $1;
 assignment=$recv($recv(aString)._tokenize_(":="))._collect_((function(s){
 return $core.withContext(function($ctx2) {
 return $recv(s)._trimBoth();
 }, function($ctx2) {$ctx2.fillBlock({s:s},$ctx1,1)});
 }));
-if($core.assert($recv($recv($recv(assignment)._size()).__eq((2)))._and_((function(){
-return $core.withContext(function($ctx2) {
-return $self._isIdentifier_([$recv(assignment)._first()
-,$ctx2.sendIdx["first"]=1
+if($core.assert($recv($recv(assignment)._size()).__eq((2)))){
+$1=$self._isIdentifier_([$recv(assignment)._first()
+,$ctx1.sendIdx["first"]=1
 ][0]);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return [$recv(aBlock)._value_value_($recv(assignment)._first(),$recv(assignment)._last())
 ,$ctx1.sendIdx["value:value:"]=1
 ][0];
