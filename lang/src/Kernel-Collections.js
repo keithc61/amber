@@ -24,7 +24,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return [$recv([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
@@ -32,39 +32,27 @@ return [$recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
+][0])){
+if($core.assert([$recv([$self._key()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv([$recv([$self._key()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["key"]=1
+,$ctx1.sendIdx["key"]=1
 //>>excludeEnd("ctx");
 ][0]).__eq($recv(anAssociation)._key())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["="]=2
+,$ctx1.sendIdx["="]=2
 //>>excludeEnd("ctx");
-][0])._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
+][0])){
 return $recv([$self._value()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["value"]=1
+,$ctx1.sendIdx["value"]=1
 //>>excludeEnd("ctx");
 ][0]).__eq($recv(anAssociation)._value());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=1
-//>>excludeEnd("ctx");
-][0];
+} else {
+return false;
+}
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"=",{anAssociation:anAssociation})});
 //>>excludeEnd("ctx");
@@ -1268,25 +1256,23 @@ var set,outputSet;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 set=$self._asSet();
 outputSet=$recv($globals.Set)._new();
 $recv(aCollection)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if($core.assert($recv([$recv(set)._includes_(each)
+if($core.assert([$recv(set)._includes_(each)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["includes:"]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($recv(outputSet)._includes_(each))._not();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-})))){
+][0])){
+$1=$recv($recv(outputSet)._includes_(each))._not();
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return $recv(outputSet)._add_(each);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3767,9 +3753,10 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 var $early={};
 try {
-if(!$core.assert($recv([$recv([$self._class()
+if($core.assert([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
@@ -3777,23 +3764,20 @@ if(!$core.assert($recv([$recv([$self._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
+][0])){
+$1=[$recv([$self._size()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [$recv([$self._size()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["size"]=1
+,$ctx1.sendIdx["size"]=1
 //>>excludeEnd("ctx");
 ][0]).__eq($recv(aCollection)._size())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["="]=2
+,$ctx1.sendIdx["="]=2
 //>>excludeEnd("ctx");
 ][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))){
+} else {
+$1=false;
+}
+if(!$core.assert($1)){
 return false;
 }
 $self._withIndexDo_((function(each,i){
@@ -6022,15 +6006,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv($recv(anObject)._isString())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(anObject)._size()).__eq((1));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))){
+var $1;
+if($core.assert($recv(anObject)._isString())){
+$1=$recv($recv(anObject)._size()).__eq((1));
+} else {
+$1=false;
+}
+if(!$core.assert($1)){
 $self._error_([$recv(["Cannot put ".__comma($recv($recv(anObject)._class())._name())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=2
@@ -6389,15 +6371,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self._size()).__eq((1)))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($recv($self._size()).__eq((1)))){
 return "aeiou"._includes_($self._asLowercase());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isVowel",{})});
 //>>excludeEnd("ctx");
@@ -6472,6 +6450,7 @@ var cr,lf,start,sz,nextLF,nextCR;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
 var $early={};
 try {
 start=(1);
@@ -6500,27 +6479,20 @@ return $recv(start).__lt_eq(sz);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if($core.assert([$recv([$recv(nextLF).__eq((0))
+if($core.assert([$recv(nextLF).__eq((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
+][0])){
+$1=[$recv(nextCR).__eq((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv(nextCR).__eq((0))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["="]=2
+,$ctx2.sendIdx["="]=2
 //>>excludeEnd("ctx");
 ][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["and:"]=1
-//>>excludeEnd("ctx");
-][0])){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 [$recv(aBlock)._value_value_value_(start,sz,sz)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["value:value:value:"]=1
@@ -6528,31 +6500,24 @@ return [$recv(nextCR).__eq((0))
 ][0];
 throw $early=[self];
 }
-if($core.assert($recv([$recv(nextCR).__eq((0))
+if($core.assert([$recv(nextCR).__eq((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["="]=3
 //>>excludeEnd("ctx");
-][0])._or_((function(){
+][0])){
+$2=true;
+} else {
+if($core.assert([(0).__lt(nextLF)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+,$ctx2.sendIdx["<"]=1
 //>>excludeEnd("ctx");
-return $recv([(0).__lt(nextLF)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["<"]=1
-//>>excludeEnd("ctx");
-][0])._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
-return $recv(nextLF).__lt(nextCR);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
-//>>excludeEnd("ctx");
-})))){
+][0])){
+$2=$recv(nextLF).__lt(nextCR);
+} else {
+$2=false;
+}
+}
+if($core.assert($2)){
 [$recv(aBlock)._value_value_value_(start,[$recv(nextLF).__minus((1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["-"]=1
@@ -8541,15 +8506,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._atStart())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self._atStart())){
 return $self._atEnd();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isEmpty",{})});
 //>>excludeEnd("ctx");

@@ -336,10 +336,9 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-return $recv($self._includesSelector_($recv(aSelector)._asString()))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self._includesSelector_($recv(aSelector)._asString()))){
+return true;
+} else {
 $1=$self._superclass();
 if($1 == null || $1.a$nil){
 return false;
@@ -348,10 +347,7 @@ var superClass;
 superClass=$1;
 return $recv(superClass)._canUnderstand_(aSelector);
 }
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"canUnderstand:",{aSelector:aSelector})});
 //>>excludeEnd("ctx");
@@ -374,15 +370,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self.__eq_eq(aClass))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self.__eq_eq(aClass))){
+return true;
+} else {
 return $self._inheritsFrom_(aClass);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"includesBehavior:",{aClass:aClass})});
 //>>excludeEnd("ctx");

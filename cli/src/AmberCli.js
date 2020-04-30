@@ -1018,37 +1018,30 @@ var header,token,auth,parts;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3,$4;
 var $early={};
 try {
-if($core.assert([$recv([$recv($self.username)._isNil()
+if($core.assert([$recv($self.username)._isNil()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["isNil"]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($self.password)._isNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=1
-//>>excludeEnd("ctx");
 ][0])){
+$1=$recv($self.password)._isNil();
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return true;
 }
-$1=[$recv($recv(aRequest)._headers())._at_("authorization")
+$2=[$recv($recv(aRequest)._headers())._at_("authorization")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
+if($2 == null || $2.a$nil){
 header="";
 } else {
-header=$1;
+header=$2;
 }
 $recv(header)._ifEmpty_ifNotEmpty_((function(){
 throw $early=[false];
@@ -1057,15 +1050,15 @@ throw $early=[false];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$2=[$recv(header)._tokenize_(" ")
+$3=[$recv(header)._tokenize_(" ")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["tokenize:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($2 == null || $2.a$nil){
+if($3 == null || $3.a$nil){
 token="";
 } else {
-token=$2;
+token=$3;
 }
 auth=$self._base64Decode_([$recv(token)._at_((2))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1073,7 +1066,7 @@ auth=$self._base64Decode_([$recv(token)._at_((2))
 //>>excludeEnd("ctx");
 ][0]);
 parts=$recv(auth)._tokenize_(":");
-if($core.assert($recv([$recv($self.username).__eq([$recv(parts)._at_((1))
+if($core.assert([$recv($self.username).__eq([$recv(parts)._at_((1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["at:"]=3
 //>>excludeEnd("ctx");
@@ -1081,15 +1074,12 @@ if($core.assert($recv([$recv($self.username).__eq([$recv(parts)._at_((1))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["="]=1
 //>>excludeEnd("ctx");
-][0])._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($self.password).__eq($recv(parts)._at_((2)));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,7)});
-//>>excludeEnd("ctx");
-})))){
+][0])){
+$4=$recv($self.password).__eq($recv(parts)._at_((2)));
+} else {
+$4=false;
+}
+if($core.assert($4)){
 throw $early=[true];
 } else {
 throw $early=[false];
@@ -2756,15 +2746,11 @@ return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv($globals.Smalltalk)._isError_(e))._not())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
+if($core.assert($recv($recv($globals.Smalltalk)._isError_(e))._not())){
+return true;
+} else {
 return $recv($recv(e)._context())._isNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-//>>excludeEnd("ctx");
-}));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({e:e},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -2996,15 +2982,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if($core.assert($recv($recv(key)._ctrl())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($recv(key)._name()).__eq("l");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))){
+var $1;
+if($core.assert($recv(key)._ctrl())){
+$1=$recv($recv(key)._name()).__eq("l");
+} else {
+$1=false;
+}
+if($core.assert($1)){
 $self._clearScreen();
 }
 return self;
@@ -3031,6 +3015,7 @@ var assignment;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 assignment=$recv($recv(aString)._tokenize_(":="))._collect_((function(s){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3040,19 +3025,16 @@ return $recv(s)._trimBoth();
 }, function($ctx2) {$ctx2.fillBlock({s:s},$ctx1,1)});
 //>>excludeEnd("ctx");
 }));
-if($core.assert($recv($recv($recv(assignment)._size()).__eq((2)))._and_((function(){
+if($core.assert($recv($recv(assignment)._size()).__eq((2)))){
+$1=$self._isIdentifier_([$recv(assignment)._first()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._isIdentifier_([$recv(assignment)._first()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["first"]=1
+,$ctx1.sendIdx["first"]=1
 //>>excludeEnd("ctx");
 ][0]);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return [$recv(aBlock)._value_value_($recv(assignment)._first(),$recv(assignment)._last())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["value:value:"]=1

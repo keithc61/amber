@@ -2982,6 +2982,7 @@ var xhr;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 xhr=$recv($globals.Platform)._newXhr();
 $recv(xhr)._open_url_async_("PUT",aURL,true);
 $recv(xhr)._onreadystatechange_((function(){
@@ -2989,19 +2990,16 @@ $recv(xhr)._onreadystatechange_((function(){
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv($recv(xhr)._readyState()).__eq((4)))){
-return $recv($recv($recv([$recv(xhr)._status()
+if($core.assert($recv([$recv(xhr)._status()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["status"]=1
 //>>excludeEnd("ctx");
-][0]).__gt_eq((200)))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv($recv(xhr)._status()).__lt((300));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-})))._ifTrue_ifFalse_(aBlock,anotherBlock);
+][0]).__gt_eq((200)))){
+$1=$recv($recv(xhr)._status()).__lt((300));
+} else {
+$1=false;
+}
+return $recv($1)._ifTrue_ifFalse_(aBlock,anotherBlock);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});

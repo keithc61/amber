@@ -1661,15 +1661,11 @@ return true;
 } else {
 $1;
 }
-return $recv($recv($self._interpreter())._atEnd())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($recv($self._interpreter())._atEnd())){
 return $recv($self._context())._isTopContext();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
@@ -2237,15 +2233,11 @@ return $core.withContext(function($ctx1) {
 if($core.assert($self.forceAtEnd)){
 return true;
 }
-return $recv($self._hasReturned())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self._hasReturned())){
+return true;
+} else {
 return $recv($self._node())._isNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"atEnd",{})});
 //>>excludeEnd("ctx");
@@ -3092,19 +3084,15 @@ $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv([$self._node()
+if($core.assert($recv([$self._node()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["node"]=1
 //>>excludeEnd("ctx");
-][0])._isNil())._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
+][0])._isNil())){
+return true;
+} else {
 return $recv($self._node())._isSteppingNode();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");

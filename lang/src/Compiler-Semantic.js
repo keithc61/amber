@@ -543,15 +543,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._isInlined())._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self._isInlined())){
 return $recv($self._outerScope())._canFlattenNonLocalReturns();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"canFlattenNonLocalReturns",{})});
 //>>excludeEnd("ctx");
@@ -1961,7 +1957,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3;
 if($core.assert($recv(aString)._isCapitalized())){
 $recv($self._classReferences())._add_(aString);
 $1=[$recv($globals.ClassRefVar)._new()
@@ -1980,18 +1976,15 @@ return [$recv($1)._yourself()
 //>>excludeEnd("ctx");
 ][0];
 }
-if($core.assert($recv($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._isVariableKnown_inPackage_(aString,$self._thePackage());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-})))){
-$2=$recv($globals.ExternallyKnownVar)._new();
-$recv($2)._name_(aString);
-return $recv($2)._yourself();
+if($core.assert($recv($recv($globals.Smalltalk)._globalJsVariables())._includes_(aString))){
+$2=true;
+} else {
+$2=$self._isVariableKnown_inPackage_(aString,$self._thePackage());
+}
+if($core.assert($2)){
+$3=$recv($globals.ExternallyKnownVar)._new();
+$recv($3)._name_(aString);
+return $recv($3)._yourself();
 }
 $self._errorUnknownVariable_(aString);
 return self;

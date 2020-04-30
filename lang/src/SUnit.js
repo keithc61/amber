@@ -1055,6 +1055,7 @@ var failed;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 [$recv($self.testCase)._context_(self)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["context:"]=1
@@ -1076,19 +1077,16 @@ return failed;
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $recv($self.testCase)._context_(nil);
-if($core.assert($recv(failed)._and_((function(){
+if($core.assert(failed)){
+$1=[$recv($self.testCase)._isAsync()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return [$recv($self.testCase)._isAsync()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["isAsync"]=1
+,$ctx2.sendIdx["isAsync"]=1
 //>>excludeEnd("ctx");
 ][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,3)});
-//>>excludeEnd("ctx");
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 $recv($self.testCase)._finished();
 }
 if(!$core.assert($recv($self.testCase)._isAsync())){

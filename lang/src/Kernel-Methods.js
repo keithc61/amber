@@ -3724,19 +3724,17 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if($core.assert($recv($self._isBlockContext())._and_((function(){
+var $1;
+if($core.assert($self._isBlockContext())){
+$1=$recv([$self._outerContext()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv([$self._outerContext()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["outerContext"]=1
+,$ctx1.sendIdx["outerContext"]=1
 //>>excludeEnd("ctx");
 ][0])._notNil();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-})))){
+} else {
+$1=false;
+}
+if($core.assert($1)){
 return $recv($self._outerContext())._receiver();
 } else {
 return $self._basicReceiver();

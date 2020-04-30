@@ -1856,15 +1856,11 @@ return $recv($recv([each,$recv(each)._theMetaClass()])._copyWithout_(nil))._anyS
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv(any)._protocols())._includes_(starCategoryName))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
+if($core.assert($recv($recv(any)._protocols())._includes_(starCategoryName))){
 return $recv($recv(any)._ownMethodsInProtocol_(starCategoryName))._notEmpty();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,4)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({any:any},$ctx2,3)});
 //>>excludeEnd("ctx");
@@ -2085,7 +2081,7 @@ return $recv($recv($self._imports())._asArray())._sorted_((function(a,b){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($recv($recv([$recv(a)._isString()
+if($core.assert($recv($recv([$recv(a)._isString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["isString"]=1
 //>>excludeEnd("ctx");
@@ -2093,31 +2089,23 @@ return $recv($recv($recv([$recv(a)._isString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["isString"]=2
 //>>excludeEnd("ctx");
-][0]))._or_((function(){
+][0]))){
+return true;
+} else {
+if($core.assert($recv([$recv(a)._isString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+,$ctx2.sendIdx["isString"]=3
 //>>excludeEnd("ctx");
-return $recv($recv([$recv(a)._isString()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["isString"]=3
-//>>excludeEnd("ctx");
-][0]).__eq($recv(b)._isString()))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx4) {
-//>>excludeEnd("ctx");
+][0]).__eq($recv(b)._isString()))){
 return $recv([$recv(a)._value()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx4.sendIdx["value"]=1
+,$ctx2.sendIdx["value"]=1
 //>>excludeEnd("ctx");
 ][0]).__lt_eq($recv(b)._value());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({a:a,b:b},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -3374,15 +3362,11 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($self._isSmalltalkObject_(anObject))._and_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
+if($core.assert($self._isSmalltalkObject_(anObject))){
 return $recv(anObject)._isError();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+} else {
+return false;
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
 //>>excludeEnd("ctx");

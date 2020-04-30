@@ -1724,206 +1724,167 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-[$self._assert_([true._and_((function(){
-return true;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=1
-//>>excludeEnd("ctx");
-][0])
+var $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14;
+if($core.assert(true)){
+$1=true;
+} else {
+$1=false;
+}
+[$self._assert_($1)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._deny_([true._and_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=2
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(true)){
+$2=false;
+} else {
+$2=false;
+}
+[$self._deny_($2)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._deny_([false._and_((function(){
-return true;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=3
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(false)){
+$3=true;
+} else {
+$3=false;
+}
+[$self._deny_($3)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=2
 //>>excludeEnd("ctx");
 ][0];
-[$self._deny_([false._and_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=4
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(false)){
+$4=false;
+} else {
+$4=false;
+}
+[$self._deny_($4)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=3
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([true._or_((function(){
-return true;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=1
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(true)){
+$5=true;
+} else {
+$5=true;
+}
+[$self._assert_($5)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=2
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([true._or_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=2
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(true)){
+$6=true;
+} else {
+$6=false;
+}
+[$self._assert_($6)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=3
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([false._or_((function(){
-return true;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=3
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(false)){
+$7=true;
+} else {
+$7=true;
+}
+[$self._assert_($7)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=4
 //>>excludeEnd("ctx");
 ][0];
-[$self._deny_([false._or_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=4
-//>>excludeEnd("ctx");
-][0])
+if($core.assert(false)){
+$8=true;
+} else {
+$8=false;
+}
+[$self._deny_($8)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=4
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([true._and_((function(){
+if($core.assert(true)){
+$9=[(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [(1).__gt((0))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[">"]=1
+,$ctx1.sendIdx[">"]=1
 //>>excludeEnd("ctx");
 ][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,9)});
-//>>excludeEnd("ctx");
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=5
-//>>excludeEnd("ctx");
-][0])
+} else {
+$9=false;
+}
+[$self._assert_($9)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=5
 //>>excludeEnd("ctx");
 ][0];
-[$self._deny_([$recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[">"]=2
 //>>excludeEnd("ctx");
-][0])._and_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["and:"]=6
-//>>excludeEnd("ctx");
-][0])
+][0])){
+$10=false;
+} else {
+$10=false;
+}
+[$self._deny_($10)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["deny:"]=5
 //>>excludeEnd("ctx");
 ][0];
-$self._deny_($recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[">"]=3
 //>>excludeEnd("ctx");
-][0])._and_((function(){
+][0])){
+$11=[(1).__gt((2))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [(1).__gt((2))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[">"]=4
+,$ctx1.sendIdx[">"]=4
 //>>excludeEnd("ctx");
 ][0];
+} else {
+$11=false;
+}
+$self._deny_($11);
+if($core.assert(false)){
+$12=true;
+} else {
+$12=[(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,11)});
-//>>excludeEnd("ctx");
-})));
-[$self._assert_([false._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [(1).__gt((0))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx[">"]=5
+,$ctx1.sendIdx[">"]=5
 //>>excludeEnd("ctx");
 ][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,12)});
-//>>excludeEnd("ctx");
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=5
-//>>excludeEnd("ctx");
-][0])
+}
+[$self._assert_($12)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=6
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([$recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[">"]=6
 //>>excludeEnd("ctx");
-][0])._or_((function(){
-return false;
-
-}))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["or:"]=6
-//>>excludeEnd("ctx");
-][0])
+][0])){
+$13=true;
+} else {
+$13=false;
+}
+[$self._assert_($13)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=7
 //>>excludeEnd("ctx");
 ][0];
-$self._assert_($recv([(1).__gt((0))
+if($core.assert([(1).__gt((0))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[">"]=7
 //>>excludeEnd("ctx");
-][0])._or_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return (1).__gt((2));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,14)});
-//>>excludeEnd("ctx");
-})));
+][0])){
+$14=true;
+} else {
+$14=(1).__gt((2));
+}
+$self._assert_($14);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testLogicKeywords",{})});

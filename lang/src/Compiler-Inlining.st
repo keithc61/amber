@@ -315,6 +315,19 @@ inlinedSequence
 
 !IRSendInliner methodsFor: 'inlining'!
 
+and: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	^ self
+		inlinedSend: IRInlinedIfTrueIfFalse new
+		withBlock: anIRInstruction
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: (IRBlockSequence new
+				add: (IRValue new value: false; yourself);
+				yourself);
+			yourself)
+!
+
 ifFalse: anIRInstruction
 	self mustBeNiladicClosure: anIRInstruction.
 	^ self inlinedSend: IRInlinedIfFalse new withBlock: anIRInstruction
@@ -432,6 +445,19 @@ inlinedClosure: closure wrapFinalValueIn: aBlock
 	final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].
 
 	^ closure
+!
+
+or: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	^ self
+		inlinedSend: IRInlinedIfTrueIfFalse new
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: (IRBlockSequence new
+				add: (IRValue new value: true; yourself);
+				yourself);
+			yourself)
+		withBlock: anIRInstruction
 ! !
 
 !IRSendInliner methodsFor: 'private'!
@@ -490,7 +516,7 @@ mustBeNiladicOrUnaryClosure: anIRInstruction
 !IRSendInliner class methodsFor: 'accessing'!
 
 inlinedSelectors
-	^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:')
+	^ #('ifTrue:' 'ifFalse:' 'ifTrue:ifFalse:' 'ifFalse:ifTrue:' 'ifNil:' 'ifNotNil:' 'ifNil:ifNotNil:' 'ifNotNil:ifNil:' 'and:' 'or:')
 !
 
 inlinedSelectorsNeedingIdempotentReceiver
