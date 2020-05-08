@@ -1,7 +1,6 @@
 define(["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.imports = ["amber/core/Platform-Services"];
 //>>excludeStart("imports", pragmas.excludeImports);
 $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/Platform-Services"], function () {resolve();}, reject); });

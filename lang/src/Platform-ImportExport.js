@@ -1,7 +1,6 @@
 define(["amber/boot", "require", "amber/core/Kernel-Classes", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-ImportExport");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
@@ -1565,18 +1564,26 @@ selector: "exportPackageContextOf:on:",
 protocol: "output",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage", "aStream"],
-source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '$pkg.innerEval = function (expr) { return eval(expr); };';\x0a\x09\x09lf",
+source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aPackage contextFunctionSource ifNotNil: [ :source |\x0a\x09\x09aStream\x0a\x09\x09\x09write: { '$pkg.context = '. source. ';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["write:", "lf"]
+messageSends: ["ifNotNil:", "contextFunctionSource", "write:", "lf"]
 }, function ($methodClass){ return function (aPackage,aStream){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-$recv(aStream)._write_("$pkg.innerEval = function (expr) { return eval(expr); };");
+var $1;
+$1=$recv(aPackage)._contextFunctionSource();
+if($1 == null || $1.a$nil){
+$1;
+} else {
+var source;
+source=$1;
+$recv(aStream)._write_(["$pkg.context = ",source,";"]);
 $recv(aStream)._lf();
+}
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportPackageContextOf:on:",{aPackage:aPackage,aStream:aStream})});

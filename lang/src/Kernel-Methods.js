@@ -1,7 +1,6 @@
 define(["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Methods");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");

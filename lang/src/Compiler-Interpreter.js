@@ -1,7 +1,6 @@
 define(["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-Semantic", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Interpreter");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");

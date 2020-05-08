@@ -1,3 +1,15 @@
+? May 2020 - Release 0.29.1
+===================================
+
+* Change to JS format.
+  * Old code loadable, package saves in new format (no recompile needed).
+  * New format loadable with old versions, but you may fail to compile methods.
+  * Packages return context snapshot and `eval` is only used inside compiler.
+  * Old `eval`-using function `innerEval` that was in each package was removed.
+
+Commits: https://lolg.it/amber/amber/commits/0.29.1.
+
+
 30 Apr 2020 - Release 0.29.0
 ===================================
 

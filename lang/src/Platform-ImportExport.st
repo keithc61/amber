@@ -377,9 +377,10 @@ exportPackageBodyBlockPrologueOf: aPackage on: aStream
 !
 
 exportPackageContextOf: aPackage on: aStream
-	aStream
-		write: '$pkg.innerEval = function (expr) { return eval(expr); };';
-		lf
+	aPackage contextFunctionSource ifNotNil: [ :source |
+		aStream
+			write: { '$pkg.context = '. source. ';' };
+			lf ]
 !
 
 exportPackageDefinitionOf: aPackage on: aStream

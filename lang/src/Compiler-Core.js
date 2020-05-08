@@ -1,7 +1,7 @@
 define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Core");
-$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.context = function () { return {smalltalkParser:smalltalkParser}; };
 $pkg.imports = ["smalltalkParser=amber/parser"];
 //>>excludeStart("imports", pragmas.excludeImports);
 var smalltalkParser;
