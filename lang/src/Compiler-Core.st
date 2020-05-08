@@ -411,6 +411,19 @@ processPragmas: aCollection
 	aCollection do: [ :each | self processPragma: each ]
 ! !
 
+!Package methodsFor: '*Compiler-Core'!
+
+eval: aString
+	^ self context
+		ifEmpty: [ Compiler eval: aString ]
+		ifNotEmpty: [ :context |
+			| wrapperSource |
+			wrapperSource :=
+				'(function(', (',' join: context keys), '){return(', aString, ');})'.
+			(Compiler eval: wrapperSource)
+				valueWithPossibleArguments: context values ]
+! !
+
 !String methodsFor: '*Compiler-Core'!
 
 asVariableName

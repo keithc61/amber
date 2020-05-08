@@ -323,7 +323,7 @@ Organizer subclass: #PackageOrganizer
 I am an organizer specific to packages. I hold classes categorization information.!
 
 Object subclass: #Package
-	slots: {#evalBlock. #basicTransport. #name. #transport. #imports. #dirty. #organization. #isReady}
+	slots: {#contextBlock. #basicTransport. #name. #transport. #imports. #dirty. #organization. #isReady}
 	package: 'Kernel-Infrastructure'!
 !Package commentStamp!
 I am similar to a "class category" typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.
@@ -368,20 +368,39 @@ classTemplate
 		tab; write: 'package: '; print: self name ]
 !
 
+context
+	^ self contextBlock
+		ifNil: [ #{} ]
+		ifNotNil: [ :block |
+			| result |
+			result := Dictionary new.
+			block value keysAndValuesDo: [ :key :value | result at: key put: value ].
+			result ]
+!
+
+contextBlock
+	^ contextBlock
+!
+
+contextBlock: aBlock
+	contextBlock := aBlock
+!
+
+contextFunctionSource
+	^ (self imports reject: #isString)
+		ifEmpty: [ nil ]
+		ifNotEmpty: [ :namedImports |
+			'function () { return {',
+			(',' join: (namedImports collect: [ :each | each key, ':', each key ])),
+			'}; }' ]
+!
+
 definition
 	^ String streamContents: [ :stream | stream
 		write: self class name; lf;
 		tab; write: 'named: '; print: self name; lf;
 		tab; write: { 'imports: '. self importsDefinition }; lf;
 		tab; write: { 'transport: ('. self transport definition. ')' } ]
-!
-
-evalBlock
-	^ evalBlock
-!
-
-evalBlock: aBlock
-	evalBlock := aBlock
 !
 
 imports
@@ -413,16 +432,21 @@ isReady: aPromise
 !
 
 javaScriptDescriptor: anObject
-	| basicEval basicImports |
+	| basicEval basicContext basicImports |
 
-	basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].
 	basicImports := anObject at: 'imports' ifAbsent: [ #() ].
+	self imports: (self importsFromJson: basicImports).
+
 	basicTransport := anObject at: 'transport' ifAbsent: [].
 	anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].
 
-	self
-		evalBlock: basicEval;
-		imports: (self importsFromJson: basicImports)
+	"TODO remove, backward compatibility"
+	anObject at: 'innerEval' ifPresent: [ :evalBlock |
+		self contextFunctionSource ifNotNil: [ :source |
+			anObject at: 'context' put: (evalBlock value: '(', source, ')') ] ].
+
+	basicContext := anObject at: 'context' ifAbsent: [ nil asJavaScriptObject ].
+	self contextBlock: basicContext
 !
 
 name
@@ -526,21 +550,13 @@ traitCompositions
 	^ traitCompositions reject: [ :each | each isEmpty ]
 ! !
 
-!Package methodsFor: 'evaluating'!
-
-eval: aString
-	^ evalBlock
-		ifNotNil: [ evalBlock value: aString ]
-		ifNil: [ Compiler eval: aString ]
-! !
-
 !Package methodsFor: 'initialization'!
 
 initialize
 	super initialize.
 
 	organization := PackageOrganizer new.
-	evalBlock := nil.
+	contextBlock := nil.
 	dirty := nil.
 	imports := nil.
 	isReady := Promise new.

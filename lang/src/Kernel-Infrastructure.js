@@ -1102,7 +1102,7 @@ $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hol
 //>>excludeEnd("ide");
 
 
-$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 //>>excludeEnd("ide");
@@ -1261,6 +1261,142 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "context",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "context\x0a\x09^ self contextBlock\x0a\x09\x09ifNil: [ #{} ]\x0a\x09\x09ifNotNil: [ :block |\x0a\x09\x09\x09| result |\x0a\x09\x09\x09result := Dictionary new.\x0a\x09\x09\x09block value keysAndValuesDo: [ :key :value | result at: key put: value ].\x0a\x09\x09\x09result ]",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:ifNotNil:", "contextBlock", "new", "keysAndValuesDo:", "value", "at:put:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._contextBlock();
+if($1 == null || $1.a$nil){
+return $globals.HashedCollection._newFromPairs_([]);
+} else {
+var result,block;
+block=$1;
+result=$recv($globals.Dictionary)._new();
+$recv($recv(block)._value())._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(result)._at_put_(key,value);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+return result;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"context",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextBlock",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "contextBlock\x0a\x09^ contextBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.contextBlock;
+
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextBlock:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "contextBlock: aBlock\x0a\x09contextBlock := aBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+$self.contextBlock=aBlock;
+return self;
+
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextFunctionSource",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "contextFunctionSource\x0a\x09^ (self imports reject: #isString)\x0a\x09\x09ifEmpty: [ nil ]\x0a\x09\x09ifNotEmpty: [ :namedImports |\x0a\x09\x09\x09'function () { return {',\x0a\x09\x09\x09(',' join: (namedImports collect: [ :each | each key, ':', each key ])),\x0a\x09\x09\x09'}; }' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifEmpty:ifNotEmpty:", "reject:", "imports", ",", "join:", "collect:", "key"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv($self._imports())._reject_("isString"))._ifEmpty_ifNotEmpty_((function(){
+return nil;
+
+}),(function(namedImports){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv(["function () { return {".__comma(","._join_($recv(namedImports)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return [$recv($recv([$recv(each)._key()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["key"]=1
+//>>excludeEnd("ctx");
+][0]).__comma(":")).__comma($recv(each)._key())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx[","]=3
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+//>>excludeEnd("ctx");
+}))))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0]).__comma("}; }")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({namedImports:namedImports},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"contextFunctionSource",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "definition",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1329,72 +1465,6 @@ return $recv(stream)._write_(["transport: (",$recv($self._transport())._definiti
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"definition",{})});
 //>>excludeEnd("ctx");
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "eval:",
-protocol: "evaluating",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "eval: aString\x0a\x09^ evalBlock\x0a\x09\x09ifNotNil: [ evalBlock value: aString ]\x0a\x09\x09ifNil: [ Compiler eval: aString ]",
-referencedClasses: ["Compiler"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:ifNil:", "value:", "eval:"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self.evalBlock;
-if($1 == null || $1.a$nil){
-return $recv($globals.Compiler)._eval_(aString);
-} else {
-return $recv($self.evalBlock)._value_(aString);
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "evalBlock",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "evalBlock\x0a\x09^ evalBlock",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.evalBlock;
-
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "evalBlock:",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "evalBlock: aBlock\x0a\x09evalBlock := aBlock",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-$self.evalBlock=aBlock;
-return self;
-
 }; }),
 $globals.Package);
 
@@ -1596,7 +1666,7 @@ selector: "initialize",
 protocol: "initialization",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09isReady := Promise new.\x0a\x09transport := nil",
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09contextBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09isReady := Promise new.\x0a\x09transport := nil",
 referencedClasses: ["PackageOrganizer", "Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1620,7 +1690,7 @@ $self.organization=[$recv($globals.PackageOrganizer)._new()
 ,$ctx1.sendIdx["new"]=1
 //>>excludeEnd("ctx");
 ][0];
-$self.evalBlock=nil;
+$self.contextBlock=nil;
 $self.dirty=nil;
 $self.imports=nil;
 $self.isReady=$recv($globals.Promise)._new();
@@ -1722,55 +1792,80 @@ selector: "javaScriptDescriptor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicContext basicImports |\x0a\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09self imports: (self importsFromJson: basicImports).\x0a\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09\x22TODO remove, backward compatibility\x22\x0a\x09anObject at: 'innerEval' ifPresent: [ :evalBlock |\x0a\x09\x09self contextFunctionSource ifNotNil: [ :source |\x0a\x09\x09\x09anObject at: 'context' put: (evalBlock value: '(', source, ')') ] ].\x0a\x0a\x09basicContext := anObject at: 'context' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09self contextBlock: basicContext",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "at:ifPresent:", "isReady:", "evalBlock:", "imports:", "importsFromJson:"]
+messageSends: ["at:ifAbsent:", "imports:", "importsFromJson:", "at:ifPresent:", "isReady:", "ifNotNil:", "contextFunctionSource", "at:put:", "value:", ",", "asJavaScriptObject", "contextBlock:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports;
+var basicEval,basicContext,basicImports;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-basicEval=[$recv(anObject)._at_ifAbsent_("innerEval",(function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $nil._asJavaScriptObject();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
+var $1;
+basicImports=[$recv(anObject)._at_ifAbsent_("imports",(function(){
+return [];
+
 }))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:ifAbsent:"]=1
 //>>excludeEnd("ctx");
 ][0];
-basicImports=[$recv(anObject)._at_ifAbsent_("imports",(function(){
-return [];
+$self._imports_($self._importsFromJson_(basicImports));
+$self.basicTransport=[$recv(anObject)._at_ifAbsent_("transport",(function(){
 
 }))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["at:ifAbsent:"]=2
 //>>excludeEnd("ctx");
 ][0];
-$self.basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
-
-}));
-$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
+[$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._isReady_(aPromise);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,3)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["at:ifPresent:"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv(anObject)._at_ifPresent_("innerEval",(function(evalBlock){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=$self._contextFunctionSource();
+if($1 == null || $1.a$nil){
+return $1;
+} else {
+var source;
+source=$1;
+return $recv(anObject)._at_put_("context",$recv(evalBlock)._value_([$recv("(".__comma(source)).__comma(")")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0]));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({evalBlock:evalBlock},$ctx1,4)});
 //>>excludeEnd("ctx");
 }));
-$self._evalBlock_(basicEval);
-$self._imports_($self._importsFromJson_(basicImports));
+basicContext=$recv(anObject)._at_ifAbsent_("context",(function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $nil._asJavaScriptObject();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,6)});
+//>>excludeEnd("ctx");
+}));
+$self._contextBlock_(basicContext);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports})});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicContext:basicContext,basicImports:basicImports})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Package);

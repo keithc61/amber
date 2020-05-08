@@ -1,4 +1,4 @@
-define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define(["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Core");
 $pkg.innerEval = function (expr) { return eval(expr); };
@@ -1595,6 +1595,63 @@ return self;
 //>>excludeEnd("ctx");
 }; }),
 $globals.TPragmator);
+
+$core.addMethod(
+$core.method({
+selector: "eval:",
+protocol: "*Compiler-Core",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "eval: aString\x0a\x09^ self context\x0a\x09\x09ifEmpty: [ Compiler eval: aString ]\x0a\x09\x09ifNotEmpty: [ :context |\x0a\x09\x09\x09| wrapperSource |\x0a\x09\x09\x09wrapperSource :=\x0a\x09\x09\x09\x09'(function(', (',' join: context keys), '){return(', aString, ');})'.\x0a\x09\x09\x09(Compiler eval: wrapperSource)\x0a\x09\x09\x09\x09valueWithPossibleArguments: context values ]",
+referencedClasses: ["Compiler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifEmpty:ifNotEmpty:", "context", "eval:", ",", "join:", "keys", "valueWithPossibleArguments:", "values"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._context())._ifEmpty_ifNotEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv($globals.Compiler)._eval_(aString)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["eval:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),(function(context){
+var wrapperSource;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+wrapperSource=[$recv([$recv([$recv("(function(".__comma(","._join_($recv(context)._keys()))).__comma("){return(")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=3
+//>>excludeEnd("ctx");
+][0]).__comma(aString)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=2
+//>>excludeEnd("ctx");
+][0]).__comma(");})")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx[","]=1
+//>>excludeEnd("ctx");
+][0];
+return $recv($recv($globals.Compiler)._eval_(wrapperSource))._valueWithPossibleArguments_($recv(context)._values());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({context:context,wrapperSource:wrapperSource},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Package);
 
 $core.addMethod(
 $core.method({
