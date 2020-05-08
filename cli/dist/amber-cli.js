@@ -2837,7 +2837,6 @@ define('amber/helpers',["./boot", "./junk-drawer", "require"], function (boot, $
 define('amber/core/Kernel-Helpers',["amber/boot", "require"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Helpers");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addTrait("TIsInGroup", "Kernel-Helpers");
@@ -3284,7 +3283,6 @@ $globals.TSubclassable);
 define('amber/core/Kernel-Objects',["amber/boot", "require", "amber/core/Kernel-Helpers"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Objects");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ProtoObject", null, [], "Kernel-Objects");
@@ -8716,7 +8714,6 @@ $core.setTraitComposition([{trait: $globals.TSubclassable}], $globals.UndefinedO
 define('amber/core/Kernel-Collections',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Collections");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
@@ -16514,7 +16511,6 @@ $core.setTraitComposition([{trait: $globals.TNativeZeroBasedCollection}], $globa
 define('amber/core/Kernel-Classes',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Helpers", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Classes");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Behavior", $globals.Object, ["organization", "slots", "fn", "superclass"], "Kernel-Classes");
@@ -19875,7 +19871,6 @@ $globals.String);
 define('amber/core/Kernel-Methods',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Methods");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");
@@ -22911,7 +22906,6 @@ $core.setTraitComposition([{trait: $globals.TMethodContext}], $globals.MethodCon
 define('amber/core/Kernel-Dag',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Dag");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
@@ -23481,7 +23475,6 @@ $globals.Object);
 define('amber/core/Kernel-Promises',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Promises");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
@@ -23763,7 +23756,6 @@ $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
 define('amber/core/Kernel-Infrastructure',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Helpers", "amber/core/Kernel-Objects", "amber/core/Kernel-Promises"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Infrastructure");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
@@ -24598,7 +24590,7 @@ $core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructur
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 
 
-$core.addClass("Package", $globals.Object, ["evalBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 $core.addMethod(
 $core.method({
@@ -24717,6 +24709,106 @@ $globals.Package);
 
 $core.addMethod(
 $core.method({
+selector: "context",
+protocol: "accessing",
+args: [],
+source: "context\x0a\x09^ self contextBlock\x0a\x09\x09ifNil: [ #{} ]\x0a\x09\x09ifNotNil: [ :block |\x0a\x09\x09\x09| result |\x0a\x09\x09\x09result := Dictionary new.\x0a\x09\x09\x09block value keysAndValuesDo: [ :key :value | result at: key put: value ].\x0a\x09\x09\x09result ]",
+referencedClasses: ["Dictionary"],
+pragmas: [],
+messageSends: ["ifNil:ifNotNil:", "contextBlock", "new", "keysAndValuesDo:", "value", "at:put:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self._contextBlock();
+if($1 == null || $1.a$nil){
+return $globals.HashedCollection._newFromPairs_([]);
+} else {
+var result,block;
+block=$1;
+result=$recv($globals.Dictionary)._new();
+$recv($recv(block)._value())._keysAndValuesDo_((function(key,value){
+return $core.withContext(function($ctx2) {
+return $recv(result)._at_put_(key,value);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,3)});
+}));
+return result;
+}
+}, function($ctx1) {$ctx1.fill(self,"context",{})});
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextBlock",
+protocol: "accessing",
+args: [],
+source: "contextBlock\x0a\x09^ contextBlock",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.contextBlock;
+
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextBlock:",
+protocol: "accessing",
+args: ["aBlock"],
+source: "contextBlock: aBlock\x0a\x09contextBlock := aBlock",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+$self.contextBlock=aBlock;
+return self;
+
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
+selector: "contextFunctionSource",
+protocol: "accessing",
+args: [],
+source: "contextFunctionSource\x0a\x09^ (self imports reject: #isString)\x0a\x09\x09ifEmpty: [ nil ]\x0a\x09\x09ifNotEmpty: [ :namedImports |\x0a\x09\x09\x09'function () { return {',\x0a\x09\x09\x09(',' join: (namedImports collect: [ :each | each key, ':', each key ])),\x0a\x09\x09\x09'}; }' ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["ifEmpty:ifNotEmpty:", "reject:", "imports", ",", "join:", "collect:", "key"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv($self._imports())._reject_("isString"))._ifEmpty_ifNotEmpty_((function(){
+return nil;
+
+}),(function(namedImports){
+return $core.withContext(function($ctx2) {
+return [$recv(["function () { return {".__comma(","._join_($recv(namedImports)._collect_((function(each){
+return $core.withContext(function($ctx3) {
+return [$recv($recv([$recv(each)._key()
+,$ctx3.sendIdx["key"]=1
+][0]).__comma(":")).__comma($recv(each)._key())
+,$ctx3.sendIdx[","]=3
+][0];
+}, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
+}))))
+,$ctx2.sendIdx[","]=2
+][0]).__comma("}; }")
+,$ctx2.sendIdx[","]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({namedImports:namedImports},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"contextFunctionSource",{})});
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "definition",
 protocol: "accessing",
 args: [],
@@ -24759,62 +24851,6 @@ return $recv(stream)._write_(["transport: (",$recv($self._transport())._definiti
 }, function($ctx2) {$ctx2.fillBlock({stream:stream},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"definition",{})});
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "eval:",
-protocol: "evaluating",
-args: ["aString"],
-source: "eval: aString\x0a\x09^ evalBlock\x0a\x09\x09ifNotNil: [ evalBlock value: aString ]\x0a\x09\x09ifNil: [ Compiler eval: aString ]",
-referencedClasses: ["Compiler"],
-pragmas: [],
-messageSends: ["ifNotNil:ifNil:", "value:", "eval:"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$self.evalBlock;
-if($1 == null || $1.a$nil){
-return $recv($globals.Compiler)._eval_(aString);
-} else {
-return $recv($self.evalBlock)._value_(aString);
-}
-}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "evalBlock",
-protocol: "accessing",
-args: [],
-source: "evalBlock\x0a\x09^ evalBlock",
-referencedClasses: [],
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.evalBlock;
-
-}; }),
-$globals.Package);
-
-$core.addMethod(
-$core.method({
-selector: "evalBlock:",
-protocol: "accessing",
-args: ["aBlock"],
-source: "evalBlock: aBlock\x0a\x09evalBlock := aBlock",
-referencedClasses: [],
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-$self.evalBlock=aBlock;
-return self;
-
 }; }),
 $globals.Package);
 
@@ -24957,7 +24993,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 args: [],
-source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09evalBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09isReady := Promise new.\x0a\x09transport := nil",
+source: "initialize\x0a\x09super initialize.\x0a\x0a\x09organization := PackageOrganizer new.\x0a\x09contextBlock := nil.\x0a\x09dirty := nil.\x0a\x09imports := nil.\x0a\x09isReady := Promise new.\x0a\x09transport := nil",
 referencedClasses: ["PackageOrganizer", "Promise"],
 pragmas: [],
 messageSends: ["initialize", "new"]
@@ -24972,7 +25008,7 @@ $ctx1.supercall = true,
 $self.organization=[$recv($globals.PackageOrganizer)._new()
 ,$ctx1.sendIdx["new"]=1
 ][0];
-$self.evalBlock=nil;
+$self.contextBlock=nil;
 $self.dirty=nil;
 $self.imports=nil;
 $self.isReady=$recv($globals.Promise)._new();
@@ -25059,39 +25095,56 @@ $core.method({
 selector: "javaScriptDescriptor:",
 protocol: "accessing",
 args: ["anObject"],
-source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicImports |\x0a\x0a\x09basicEval := anObject at: 'innerEval' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09self\x0a\x09\x09evalBlock: basicEval;\x0a\x09\x09imports: (self importsFromJson: basicImports)",
+source: "javaScriptDescriptor: anObject\x0a\x09| basicEval basicContext basicImports |\x0a\x0a\x09basicImports := anObject at: 'imports' ifAbsent: [ #() ].\x0a\x09self imports: (self importsFromJson: basicImports).\x0a\x0a\x09basicTransport := anObject at: 'transport' ifAbsent: [].\x0a\x09anObject at: 'isReady' ifPresent: [ :aPromise | self isReady: aPromise ].\x0a\x0a\x09\x22TODO remove, backward compatibility\x22\x0a\x09anObject at: 'innerEval' ifPresent: [ :evalBlock |\x0a\x09\x09self contextFunctionSource ifNotNil: [ :source |\x0a\x09\x09\x09anObject at: 'context' put: (evalBlock value: '(', source, ')') ] ].\x0a\x0a\x09basicContext := anObject at: 'context' ifAbsent: [ nil asJavaScriptObject ].\x0a\x09self contextBlock: basicContext",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["at:ifAbsent:", "asJavaScriptObject", "at:ifPresent:", "isReady:", "evalBlock:", "imports:", "importsFromJson:"]
+messageSends: ["at:ifAbsent:", "imports:", "importsFromJson:", "at:ifPresent:", "isReady:", "ifNotNil:", "contextFunctionSource", "at:put:", "value:", ",", "asJavaScriptObject", "contextBlock:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
-var basicEval,basicImports;
+var basicEval,basicContext,basicImports;
 return $core.withContext(function($ctx1) {
-basicEval=[$recv(anObject)._at_ifAbsent_("innerEval",(function(){
-return $core.withContext(function($ctx2) {
-return $nil._asJavaScriptObject();
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))
-,$ctx1.sendIdx["at:ifAbsent:"]=1
-][0];
+var $1;
 basicImports=[$recv(anObject)._at_ifAbsent_("imports",(function(){
 return [];
 
 }))
+,$ctx1.sendIdx["at:ifAbsent:"]=1
+][0];
+$self._imports_($self._importsFromJson_(basicImports));
+$self.basicTransport=[$recv(anObject)._at_ifAbsent_("transport",(function(){
+
+}))
 ,$ctx1.sendIdx["at:ifAbsent:"]=2
 ][0];
-$self.basicTransport=$recv(anObject)._at_ifAbsent_("transport",(function(){
-
-}));
-$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
+[$recv(anObject)._at_ifPresent_("isReady",(function(aPromise){
 return $core.withContext(function($ctx2) {
 return $self._isReady_(aPromise);
-}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({aPromise:aPromise},$ctx1,3)});
+}))
+,$ctx1.sendIdx["at:ifPresent:"]=1
+][0];
+$recv(anObject)._at_ifPresent_("innerEval",(function(evalBlock){
+return $core.withContext(function($ctx2) {
+$1=$self._contextFunctionSource();
+if($1 == null || $1.a$nil){
+return $1;
+} else {
+var source;
+source=$1;
+return $recv(anObject)._at_put_("context",$recv(evalBlock)._value_([$recv("(".__comma(source)).__comma(")")
+,$ctx2.sendIdx[","]=1
+][0]));
+}
+}, function($ctx2) {$ctx2.fillBlock({evalBlock:evalBlock},$ctx1,4)});
 }));
-$self._evalBlock_(basicEval);
-$self._imports_($self._importsFromJson_(basicImports));
+basicContext=$recv(anObject)._at_ifAbsent_("context",(function(){
+return $core.withContext(function($ctx2) {
+return $nil._asJavaScriptObject();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,6)});
+}));
+$self._contextBlock_(basicContext);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicImports:basicImports})});
+}, function($ctx1) {$ctx1.fill(self,"javaScriptDescriptor:",{anObject:anObject,basicEval:basicEval,basicContext:basicContext,basicImports:basicImports})});
 }; }),
 $globals.Package);
 
@@ -26731,13 +26784,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.1'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.0";
+return "0.29.1";
 
 }; }),
 $globals.SmalltalkImage);
@@ -26939,7 +26992,6 @@ $globals.String);
 define('amber/core/Kernel-Exceptions',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Exceptions");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("Error", $globals.Object, ["message", "stack", "amberHandled", "context", "smalltalkError"], "Kernel-Exceptions");
@@ -27623,7 +27675,6 @@ $globals.NonBooleanReceiver.a$cls);
 define('amber/core/Kernel-Announcements',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Announcements");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
@@ -28516,7 +28567,6 @@ $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a
 define('amber/core/Platform-Services',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Services");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
@@ -34334,7 +34384,6 @@ define('amber/parser',["./boot"], function(__boot) {
 define('amber/core/Platform-ImportExport',["amber/boot", "require", "amber/core/Kernel-Classes", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-ImportExport");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
@@ -35385,15 +35434,23 @@ $core.method({
 selector: "exportPackageContextOf:on:",
 protocol: "output",
 args: ["aPackage", "aStream"],
-source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aStream\x0a\x09\x09write: '$pkg.innerEval = function (expr) { return eval(expr); };';\x0a\x09\x09lf",
+source: "exportPackageContextOf: aPackage on: aStream\x0a\x09aPackage contextFunctionSource ifNotNil: [ :source |\x0a\x09\x09aStream\x0a\x09\x09\x09write: { '$pkg.context = '. source. ';' };\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["write:", "lf"]
+messageSends: ["ifNotNil:", "contextFunctionSource", "write:", "lf"]
 }, function ($methodClass){ return function (aPackage,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$recv(aStream)._write_("$pkg.innerEval = function (expr) { return eval(expr); };");
+var $1;
+$1=$recv(aPackage)._contextFunctionSource();
+if($1 == null || $1.a$nil){
+$1;
+} else {
+var source;
+source=$1;
+$recv(aStream)._write_(["$pkg.context = ",source,";"]);
 $recv(aStream)._lf();
+}
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportPackageContextOf:on:",{aPackage:aPackage,aStream:aStream})});
 }; }),
@@ -37721,10 +37778,10 @@ $globals.Trait);
 
 });
 
-define('amber/core/Compiler-Core',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
+define('amber/core/Compiler-Core',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Core");
-$pkg.innerEval = function (expr) { return eval(expr); };
+$pkg.context = function () { return {smalltalkParser:smalltalkParser}; };
 $pkg.imports = ["smalltalkParser=amber/parser"];
 var smalltalkParser;
 $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser"], function ($1) {smalltalkParser=$1; resolve();}, reject); });
@@ -38919,6 +38976,41 @@ $globals.TPragmator);
 
 $core.addMethod(
 $core.method({
+selector: "eval:",
+protocol: "*Compiler-Core",
+args: ["aString"],
+source: "eval: aString\x0a\x09^ self context\x0a\x09\x09ifEmpty: [ Compiler eval: aString ]\x0a\x09\x09ifNotEmpty: [ :context |\x0a\x09\x09\x09| wrapperSource |\x0a\x09\x09\x09wrapperSource :=\x0a\x09\x09\x09\x09'(function(', (',' join: context keys), '){return(', aString, ');})'.\x0a\x09\x09\x09(Compiler eval: wrapperSource)\x0a\x09\x09\x09\x09valueWithPossibleArguments: context values ]",
+referencedClasses: ["Compiler"],
+pragmas: [],
+messageSends: ["ifEmpty:ifNotEmpty:", "context", "eval:", ",", "join:", "keys", "valueWithPossibleArguments:", "values"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._context())._ifEmpty_ifNotEmpty_((function(){
+return $core.withContext(function($ctx2) {
+return [$recv($globals.Compiler)._eval_(aString)
+,$ctx2.sendIdx["eval:"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),(function(context){
+var wrapperSource;
+return $core.withContext(function($ctx2) {
+wrapperSource=[$recv([$recv([$recv("(function(".__comma(","._join_($recv(context)._keys()))).__comma("){return(")
+,$ctx2.sendIdx[","]=3
+][0]).__comma(aString)
+,$ctx2.sendIdx[","]=2
+][0]).__comma(");})")
+,$ctx2.sendIdx[","]=1
+][0];
+return $recv($recv($globals.Compiler)._eval_(wrapperSource))._valueWithPossibleArguments_($recv(context)._values());
+}, function($ctx2) {$ctx2.fillBlock({context:context,wrapperSource:wrapperSource},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
+}; }),
+$globals.Package);
+
+$core.addMethod(
+$core.method({
 selector: "asVariableName",
 protocol: "*Compiler-Core",
 args: [],
@@ -38943,7 +39035,6 @@ $globals.String);
 define('amber/core/Compiler-AST',["amber/boot", "require", "amber/core/Compiler-Core", "amber/core/Kernel-Dag", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-AST");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source"], "Compiler-AST");
@@ -41387,7 +41478,6 @@ $globals.CompiledMethod);
 define('amber/core/Compiler-Semantic',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Semantic");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "arguments", "property", "args"], "Compiler-Semantic");
@@ -43809,7 +43899,6 @@ $globals.AstSemanticPragmator);
 define('amber/core/Compiler-IR',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-Semantic", "amber/core/Kernel-Dag", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-IR");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence"], "Compiler-IR");
@@ -48466,7 +48555,6 @@ $globals.SendNode);
 define('amber/core/Compiler-Inlining',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-IR", "amber/core/Compiler-Semantic", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Inlining");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
@@ -50311,7 +50399,6 @@ $globals.IRInstruction);
 define('amber/core/Compiler-Interpreter',["amber/boot", "require", "amber/core/Compiler-AST", "amber/core/Compiler-Core", "amber/core/Compiler-Semantic", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Methods", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Interpreter");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
@@ -53613,7 +53700,6 @@ define('amber/lang',[
 define('amber/core/Platform-DOM',["amber/boot", "require", "amber/core/Kernel-Collections", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-DOM");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
@@ -53793,7 +53879,6 @@ $globals.String);
 define('amber/core/SUnit',["amber/boot", "require", "amber/core/Kernel-Classes", "amber/core/Kernel-Exceptions", "amber/core/Kernel-Infrastructure", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("SUnit");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
@@ -55403,7 +55488,6 @@ $globals.TBehaviorDefaults);
 define('amber/core/Kernel-Tests',["amber/boot", "require", "amber/core/Kernel-Objects", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Kernel-Tests");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
@@ -67350,7 +67434,6 @@ $core.setTraitComposition([{trait: $globals.TKeyValueCollectionTest}], $globals.
 define('amber/core/Compiler-Tests',["amber/boot", "require", "amber/core/Kernel-Tests", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Compiler-Tests");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver", "arguments"], "Compiler-Tests");
@@ -70839,7 +70922,6 @@ $core.setTraitComposition([{trait: $globals.TCTInlined}], $globals.InliningCodeG
 define('amber/core/Platform-DOM-Tests',["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-DOM-Tests");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
@@ -70893,7 +70975,6 @@ $globals.PlatformDomTest);
 define('amber/core/SUnit-Tests',["amber/boot", "require", "amber/core/SUnit"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("SUnit-Tests");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
 $core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
@@ -71571,7 +71652,6 @@ define('amber/devel',[
 define('amber/core/Platform-Node',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("Platform-Node");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.imports = ["amber/core/Platform-Services"];
 $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/Platform-Services"], function () {resolve();}, reject); });
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
@@ -71712,7 +71792,6 @@ $globals.NodePlatform.a$cls);
 define('amber_cli/AmberCli',["amber/boot", "require", "amber/core/Kernel-Objects"], function($boot,requirejs){"use strict";
 var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.asReceiver,$globals=$boot.globals;
 var $pkg = $core.addPackage("AmberCli");
-$pkg.innerEval = function (expr) { return eval(expr); };
 $pkg.transport = {"type":"amd","amdNamespace":"amber_cli"};
 
 $core.addClass("AmberCli", $globals.Object, [], "AmberCli");
