@@ -204,15 +204,11 @@ define(['./junk-drawer'], function ($goodies) {
             st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
                 klass.fn = constructor;
                 detachClass(klass);
-                klass.subclasses.forEach(reprotoFn(constructor));
-            };
-
-            function reprotoFn (constructor) {
                 var prototype = constructor.prototype;
-                return function (subclass) {
+                klass.subclasses.forEach(function (subclass) {
                     Object.setPrototypeOf(subclass.fn.prototype, prototype);
-                };
-            }
+                });
+            };
         }
 
         FrameBindingBrik.deps = ["runtimeClasses"];
