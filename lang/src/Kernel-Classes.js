@@ -324,29 +324,17 @@ selector: "canUnderstand:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aSelector"],
-source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asString) or: [\x0a\x09\x09self superclass ifNil: [ false ] ifNotNil: [ :superClass | superClass canUnderstand: aSelector ]]",
+source: "canUnderstand: aSelector\x0a\x09^ (self lookupSelector: aSelector) notNil",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["or:", "includesSelector:", "asString", "ifNil:ifNotNil:", "superclass", "canUnderstand:"]
+messageSends: ["notNil", "lookupSelector:"]
 }, function ($methodClass){ return function (aSelector){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-if($core.assert($self._includesSelector_($recv(aSelector)._asString()))){
-return true;
-} else {
-$1=$self._superclass();
-if($1 == null || $1.a$nil){
-return false;
-} else {
-var superClass;
-superClass=$1;
-return $recv(superClass)._canUnderstand_(aSelector);
-}
-}
+return $recv($self._lookupSelector_(aSelector))._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"canUnderstand:",{aSelector:aSelector})});
 //>>excludeEnd("ctx");
@@ -543,46 +531,20 @@ selector: "lookupSelector:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["selector"],
-source: "lookupSelector: selector\x0a\x09\x22Look up the given selector in my methodDictionary.\x0a\x09Return the corresponding method if found.\x0a\x09Otherwise chase the superclass chain and try again.\x0a\x09Return nil if no method is found.\x22\x0a\x09\x0a\x09| lookupClass |\x0a\x09\x0a\x09lookupClass := self.\x0a\x09[ lookupClass = nil ] whileFalse: [\x0a\x09\x09(lookupClass includesSelector: selector)\x0a\x09\x09\x09\x09ifTrue: [ ^ lookupClass methodAt: selector ].\x0a\x09\x09\x09lookupClass := lookupClass superclass ].\x0a\x09^ nil",
+source: "lookupSelector: selector\x0a\x09\x22Look up the given selector in my methodDictionary.\x0a\x09Return the corresponding method if found.\x0a\x09Otherwise chase the superclass chain and try again.\x0a\x09Return nil if no method is found.\x22\x0a\x09\x0a\x09<inlineJS: 'return $self.methods[selector]'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["whileFalse:", "=", "ifTrue:", "includesSelector:", "methodAt:", "superclass"]
+pragmas: [["inlineJS:", ["return $self.methods[selector]"]]],
+messageSends: []
 }, function ($methodClass){ return function (selector){
 var self=this,$self=this;
-var lookupClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $early={};
-try {
-lookupClass=self;
-$recv((function(){
+return $self.methods[selector];
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv(lookupClass).__eq(nil);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}))._whileFalse_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-if($core.assert($recv(lookupClass)._includesSelector_(selector))){
-throw $early=[$recv(lookupClass)._methodAt_(selector)];
-}
-lookupClass=$recv(lookupClass)._superclass();
-return lookupClass;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-//>>excludeEnd("ctx");
-}));
-return nil;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"lookupSelector:",{selector:selector,lookupClass:lookupClass})});
+}, function($ctx1) {$ctx1.fill(self,"lookupSelector:",{selector:selector})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Behavior);

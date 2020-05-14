@@ -8,6 +8,8 @@ define(['./junk-drawer'], function ($goodies) {
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
 
+    var hop = Object.prototype.hasOwnProperty;
+
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
@@ -171,7 +173,8 @@ define(['./junk-drawer'], function ($goodies) {
 
             this.setupMethods = function (traitOrBehavior) {
                 traitOrBehavior.localMethods = Object.create(null);
-                traitOrBehavior.methods = Object.create(null);
+                var superclass = traitOrBehavior.superclass;
+                traitOrBehavior.methods = Object.create(superclass ? superclass.methods : null);
             };
 
             function setLocalMethods (traitOrBehavior, newLocalMethods) {
@@ -191,13 +194,19 @@ define(['./junk-drawer'], function ($goodies) {
             declareEvent("methodReplaced");
 
             function updateMethod (selector, traitOrBehavior) {
-                var oldMethod = traitOrBehavior.methods[selector],
-                    newMethod = traitOrBehavior.localMethods[selector];
-                if (oldMethod == null && newMethod == null) {
-                    console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
-                    return;
+                var oldMethod,
+                    newMethod = traitOrBehavior.localMethods[selector],
+                    methods = traitOrBehavior.methods;
+                if (hop.call(methods, selector)) {
+                    oldMethod = methods[selector];
+                    if (newMethod === oldMethod) return;
+                } else {
+                    if (newMethod == null) {
+                        console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
+                        return;
+                    }
+                    oldMethod = null;
                 }
-                if (newMethod === oldMethod) return;
                 if (newMethod != null) {
                     if (newMethod.methodClass && newMethod.methodClass !== traitOrBehavior) {
                         console.warn("Resetting methodClass of " + newMethod.methodClass.name + " >> " + selector + " to " + traitOrBehavior.name);
@@ -206,10 +215,10 @@ define(['./junk-drawer'], function ($goodies) {
                     if (newMethod.instantiateFn) {
                         newMethod.fn = newMethod.instantiateFn(traitOrBehavior);
                     }
-                    traitOrBehavior.methods[selector] = newMethod;
+                    methods[selector] = newMethod;
                     traitOrBehavior.methodAdded(newMethod);
                 } else {
-                    delete traitOrBehavior.methods[selector];
+                    delete methods[selector];
                     traitOrBehavior.methodRemoved(oldMethod);
                 }
                 emit.methodReplaced(newMethod, oldMethod, traitOrBehavior);

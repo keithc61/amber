@@ -10,6 +10,8 @@ define(['./junk-drawer'], function ($goodies) {
     var deleteKeysFrom = $goodies.deleteKeysFrom;
     var extendWithMethods = $goodies.extendWithMethods;
 
+    var hop = Object.prototype.hasOwnProperty;
+
     function cleanMethodOfJsObjectEx (obj, name) {
         var attachments;
         var old = Object.getOwnPropertyDescriptor(obj, name);
@@ -271,7 +273,7 @@ define(['./junk-drawer'], function ($goodies) {
                 var jsSelector = method.jsSelector;
                 st.traverseClassTree(klass, function (subclass, sentinel) {
                     if (subclass === exclude) return;
-                    if (subclass.methods[selector]) return sentinel;
+                    if (hop.call(subclass.methods, selector)) return sentinel;
                     if (subclass.detachedRoot) {
                         installMethodOfJsObjectEx(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                     }

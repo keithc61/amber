@@ -243,13 +243,14 @@ define(['./junk-drawer'], function ($goodies) {
             var nilAsClass = this.nilAsClass = {
                 fn: SmalltalkRoot,
                 subclasses: [],
-                a$cls: {fn: SmalltalkClass}
+                a$cls: {fn: SmalltalkClass, methods: Object.create(null)}
             };
 
             this.bootstrapHierarchy = function (realClass) {
                 nilAsClass.a$cls = realClass;
                 nilAsClass.subclasses.forEach(function (each) {
                     each.a$cls.superclass = realClass;
+                    Object.setPrototypeOf(each.a$cls.methods, realClass.methods);
                     registerToSuperclass(each.a$cls);
                 });
             };

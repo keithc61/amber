@@ -99,14 +99,7 @@ lookupSelector: selector
 	Otherwise chase the superclass chain and try again.
 	Return nil if no method is found."
 	
-	| lookupClass |
-	
-	lookupClass := self.
-	[ lookupClass = nil ] whileFalse: [
-		(lookupClass includesSelector: selector)
-				ifTrue: [ ^ lookupClass methodAt: selector ].
-			lookupClass := lookupClass superclass ].
-	^ nil
+	<inlineJS: 'return $self.methods[selector]'>
 !
 
 prototype
@@ -174,8 +167,7 @@ makeJavaScriptConstructorSubclassOf: javaScriptClass
 !Behavior methodsFor: 'testing'!
 
 canUnderstand: aSelector
-	^ (self includesSelector: aSelector asString) or: [
-		self superclass ifNil: [ false ] ifNotNil: [ :superClass | superClass canUnderstand: aSelector ]]
+	^ (self lookupSelector: aSelector) notNil
 !
 
 includesBehavior: aClass
