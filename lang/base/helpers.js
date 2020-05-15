@@ -31,7 +31,14 @@ define(["./boot", "./junk-drawer", "require"], function (boot, $goodies, require
     });
 
     function settingsInLocalStorage () {
-        var storage = 'localStorage' in global && global.localStorage;
+        var storage;
+        try {
+            storage = 'localStorage' in global && global.localStorage;
+        } catch (ex) {
+            console.warn("Access denied to localStorage, " +
+                "settings not loaded nor, subsequently, saved.");
+            return;
+        }
 
         if (storage) {
             var fromStorage;
