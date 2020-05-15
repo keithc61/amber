@@ -31,7 +31,6 @@ define(["./boot", "./junk-drawer", "require"], function (boot, $goodies, require
     });
 
     function settingsInLocalStorage () {
-        //jshint evil:true
         var storage = 'localStorage' in global && global.localStorage;
 
         if (storage) {
