@@ -2905,6 +2905,48 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRespondsTo",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRespondsTo\x0a\x09self assert: (Object new respondsTo: #class).\x0a\x09self deny: (Object new respondsTo: #foo).\x0a\x09self assert: (Object respondsTo: #new)",
+referencedClasses: ["Object"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:", "respondsTo:", "new", "deny:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._assert_([$recv([$recv($globals.Object)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0])._respondsTo_("class")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["respondsTo:"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_([$recv($recv($globals.Object)._new())._respondsTo_("foo")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["respondsTo:"]=2
+//>>excludeEnd("ctx");
+][0]);
+$self._assert_($recv($globals.Object)._respondsTo_("new"));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRespondsTo",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSetJavaScriptConstructor",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);

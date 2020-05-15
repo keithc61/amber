@@ -627,6 +627,12 @@ testMethodAttachmentsAreReplaced
 	self assert: (ObjectMock2 new basicPerform: #c) equals: 9
 !
 
+testRespondsTo
+	self assert: (Object new respondsTo: #class).
+	self deny: (Object new respondsTo: #foo).
+	self assert: (Object respondsTo: #new)
+!
+
 testSetJavaScriptConstructor
 	| instance |
 	theClass := builder copyClass: ObjectMock named: 'ObjectMock2'.
