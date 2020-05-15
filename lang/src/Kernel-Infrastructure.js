@@ -2440,20 +2440,23 @@ selector: "named:imports:transport:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "anArray", "aTransport"],
-source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg imports: anArray.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
+source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg\x0a\x09\x09imports: anArray;\x0a\x09\x09transport: aTransport;\x0a\x09\x09beDirty.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["named:", "imports:", "transport:"]
+messageSends: ["named:", "imports:", "transport:", "beDirty"]
 }, function ($methodClass){ return function (aPackageName,anArray,aTransport){
 var self=this,$self=this;
 var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 pkg=$self._named_(aPackageName);
-$recv(pkg)._imports_(anArray);
-$recv(pkg)._transport_(aTransport);
+$1=pkg;
+$recv($1)._imports_(anArray);
+$recv($1)._transport_(aTransport);
+$recv($1)._beDirty();
 return pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,pkg:pkg})});
@@ -2493,19 +2496,22 @@ selector: "named:transport:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackageName", "aTransport"],
-source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
+source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport; beDirty.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["named:", "transport:"]
+messageSends: ["named:", "transport:", "beDirty"]
 }, function ($methodClass){ return function (aPackageName,aTransport){
 var self=this,$self=this;
 var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 pkg=$self._named_(aPackageName);
-$recv(pkg)._transport_(aTransport);
+$1=pkg;
+$recv($1)._transport_(aTransport);
+$recv($1)._beDirty();
 return pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,pkg:pkg})});

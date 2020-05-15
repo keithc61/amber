@@ -635,8 +635,10 @@ named: aPackageName imports: anArray transport: aTransport
 	| pkg |
 	
 	pkg := self named: aPackageName.
-	pkg imports: anArray.
-	pkg transport: aTransport.
+	pkg
+		imports: anArray;
+		transport: aTransport;
+		beDirty.
 	
 	^ pkg
 !
@@ -645,7 +647,7 @@ named: aPackageName transport: aTransport
 	| pkg |
 	
 	pkg := self named: aPackageName.
-	pkg transport: aTransport.
+	pkg transport: aTransport; beDirty.
 	
 	^ pkg
 ! !
