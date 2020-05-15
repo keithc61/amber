@@ -3089,20 +3089,35 @@ selector: "asSmalltalkException:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ (self isError: anObject)\x0a\x09\x09ifTrue: [ anObject ]\x0a\x09\x09ifFalse: [ JavaScriptException on: anObject ]",
-referencedClasses: ["JavaScriptException"],
+source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ]",
+referencedClasses: ["Error", "JavaScriptException"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isError:", "on:"]
+messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "on:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+if(anObject == null || anObject.a$nil){
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._error_("Error: nil");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}))._on_do_($globals.Error,(function(e){
+return e;
+
+}));
+} else {
 if($core.assert($self._isError_(anObject))){
 return anObject;
 } else {
 return $recv($globals.JavaScriptException)._on_(anObject);
+}
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asSmalltalkException:",{anObject:anObject})});

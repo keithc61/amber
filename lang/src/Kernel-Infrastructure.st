@@ -937,9 +937,12 @@ asSmalltalkException: anObject
 	"A JavaScript exception may be thrown.
 	We then need to convert it back to a Smalltalk object"
 	
-	^ (self isError: anObject)
-		ifTrue: [ anObject ]
-		ifFalse: [ JavaScriptException on: anObject ]
+	^ anObject
+		ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]
+		ifNotNil: [
+			(self isError: anObject)
+				ifTrue: [ anObject ]
+				ifFalse: [ JavaScriptException on: anObject ] ]
 !
 
 try: actionBlock ifTrue: aBlock catch: anotherBlock
