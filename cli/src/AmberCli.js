@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("AmberCli");
 $pkg.transport = {"type":"amd","amdNamespace":"amber_cli"};
 
-$core.addClass("AmberCli", $globals.Object, [], "AmberCli");
+$core.addClass("AmberCli", $globals.Object, "AmberCli");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.\x0a\x0aMy responsibility is to start different Amber programs like the FileServer or the Repl.\x0aWhich program to start is determined by the first commandline parameters passed to the AmberCli executable.\x0aUse `help` to get a list of all available options.\x0aAny further commandline parameters are passed to the specific program.\x0a\x0a## Commands\x0a\x0aNew commands can be added by creating a class side method in the `commands` protocol which takes one parameter.\x0aThis parameter is an array of all commandline options + values passed on to the program.\x0aAny `camelCaseCommand` is transformed into a commandline parameter of the form `camel-case-command` and vice versa.";
 //>>excludeEnd("ide");
@@ -352,7 +352,8 @@ return self;
 $globals.AmberCli.a$cls);
 
 
-$core.addClass("BaseFileManipulator", $globals.Object, ["path", "fs"], "AmberCli");
+$core.addClass("BaseFileManipulator", $globals.Object, "AmberCli");
+$core.setSlots($globals.BaseFileManipulator, ["path", "fs"]);
 $core.addMethod(
 $core.method({
 selector: "dirname",
@@ -440,7 +441,7 @@ $globals.BaseFileManipulator);
 
 
 
-$core.addClass("Configurator", $globals.BaseFileManipulator, [], "AmberCli");
+$core.addClass("Configurator", $globals.BaseFileManipulator, "AmberCli");
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -535,7 +536,8 @@ $globals.Configurator);
 
 
 
-$core.addClass("FileServer", $globals.BaseFileManipulator, ["http", "url", "host", "port", "basePath", "util", "username", "password", "fallbackPage"], "AmberCli");
+$core.addClass("FileServer", $globals.BaseFileManipulator, "AmberCli");
+$core.setSlots($globals.FileServer, ["http", "url", "host", "port", "basePath", "util", "username", "password", "fallbackPage"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.FileServer.comment="I am the Amber Smalltalk FileServer.\x0aMy runtime requirement is a functional Node.js executable.\x0a\x0aTo start a FileServer instance on port `4000` use the following code:\x0a\x0a    FileServer new start\x0a\x0aA parameterized instance can be created with the following code:\x0a\x0a    FileServer createServerWithArguments: options\x0a\x0aHere, `options` is an array of commandline style strings each followed by a value e.g. `#('--port', '6000', '--host', '0.0.0.0')`.\x0aA list of all available parameters can be printed to the commandline by passing `--help` as parameter.\x0aSee the `Options` section for further details on how options are mapped to instance methods.\x0a\x0aAfter startup FileServer checks if the directory layout required by Amber is present and logs a warning on absence.\x0a\x0a\x0a## Options\x0a\x0aEach option is of the form `--some-option-string` which is transformed into a selector of the format `someOptionString:`.\x0aThe trailing `--` gets removed, each `-[a-z]` gets transformed into the according uppercase letter, and a `:` is appended to create a selector which takes a single argument.\x0aAfterwards, the selector gets executed on the `FileServer` instance with the value following in the options array as parameter.\x0a\x0a## Adding new commandline parameters\x0a\x0aAdding new commandline parameters to `FileServer` is as easy as adding a new single parameter method to the `accessing` protocol.";
 //>>excludeEnd("ide");
@@ -2155,7 +2157,8 @@ return $recv($recv(each)._second())._asUppercase();
 $globals.FileServer.a$cls);
 
 
-$core.addClass("Initer", $globals.BaseFileManipulator, ["childProcess", "nmPath"], "AmberCli");
+$core.addClass("Initer", $globals.BaseFileManipulator, "AmberCli");
+$core.setSlots($globals.Initer, ["childProcess", "nmPath"]);
 $core.addMethod(
 $core.method({
 selector: "finishMessage",
@@ -2412,7 +2415,8 @@ $globals.Initer);
 
 
 
-$core.addClass("Repl", $globals.Object, ["readline", "interface", "util", "session", "resultCount", "commands"], "AmberCli");
+$core.addClass("Repl", $globals.Object, "AmberCli");
+$core.setSlots($globals.Repl, ["readline", "interface", "util", "session", "resultCount", "commands"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Repl.comment="I am a class representing a REPL (Read Evaluate Print Loop) and provide a command line interface to Amber Smalltalk.\x0aOn the prompt you can type Amber statements which will be evaluated after pressing <Enter>.\x0aThe evaluation is comparable with executing a 'DoIt' in a workspace.\x0a\x0aMy runtime requirement is a functional Node.js executable with working Readline support.";
 //>>excludeEnd("ide");

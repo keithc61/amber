@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver", "arguments"], "Compiler-Tests");
+$core.addClass("ASTMethodRunningTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.ASTMethodRunningTest, ["receiver", "arguments"]);
 $core.addMethod(
 $core.method({
 selector: "arguments",
@@ -190,7 +191,7 @@ $globals.ASTMethodRunningTest);
 
 
 
-$core.addClass("AbstractCompilerTest", $globals.ASTMethodRunningTest, [], "Compiler-Tests");
+$core.addClass("AbstractCompilerTest", $globals.ASTMethodRunningTest, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAfterInliningNonLocalBlockReturnIndexSend",
@@ -1842,19 +1843,20 @@ return $recv([$self._name()
 $globals.AbstractCompilerTest.a$cls);
 
 
-$core.addClass("ASTDebuggerTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("ASTDebuggerTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("ASTInterpreterTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("ASTInterpreterTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("InliningCodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("InliningCodeGeneratorTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("AbstractJavaScriptGatewayTest", $globals.ASTMethodRunningTest, ["theClass"], "Compiler-Tests");
+$core.addClass("AbstractJavaScriptGatewayTest", $globals.ASTMethodRunningTest, "Compiler-Tests");
+$core.setSlots($globals.AbstractJavaScriptGatewayTest, ["theClass"]);
 $core.addMethod(
 $core.method({
 selector: "jsConstructor",
@@ -2172,19 +2174,19 @@ return $recv([$self._name()
 $globals.AbstractJavaScriptGatewayTest.a$cls);
 
 
-$core.addClass("DebuggedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("DebuggedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("InterpretedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("InterpretedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "astPCNodeVisitor",
@@ -2456,7 +2458,7 @@ $globals.ASTPCNodeVisitorTest);
 
 
 
-$core.addClass("ASTPositionTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ASTPositionTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testNodeAtPosition",
@@ -2534,7 +2536,8 @@ $globals.ASTPositionTest);
 
 
 
-$core.addClass("AbstractCodeGeneratorInstallTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
+$core.addClass("AbstractCodeGeneratorInstallTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.AbstractCodeGeneratorInstallTest, ["receiver"]);
 $core.addMethod(
 $core.method({
 selector: "receiver",
@@ -3363,13 +3366,13 @@ return $recv([$self._name()
 $globals.AbstractCodeGeneratorInstallTest.a$cls);
 
 
-$core.addClass("CodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, [], "Compiler-Tests");
+$core.addClass("CodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, "Compiler-Tests");
 
 
-$core.addClass("InliningCodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, [], "Compiler-Tests");
+$core.addClass("InliningCodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, "Compiler-Tests");
 
 
-$core.addClass("ScopeVarTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ScopeVarTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testClassRefVar",
@@ -3656,7 +3659,8 @@ $globals.ScopeVarTest);
 
 
 
-$core.addClass("SemanticAnalyzerTest", $globals.TestCase, ["analyzer"], "Compiler-Tests");
+$core.addClass("SemanticAnalyzerTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.SemanticAnalyzerTest, ["analyzer"]);
 $core.addMethod(
 $core.method({
 selector: "setUp",
@@ -4329,7 +4333,7 @@ $globals.SemanticAnalyzerTest);
 
 
 
-$core.addClass("AISemanticAnalyzerTest", $globals.SemanticAnalyzerTest, [], "Compiler-Tests");
+$core.addClass("AISemanticAnalyzerTest", $globals.SemanticAnalyzerTest, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "setUp",

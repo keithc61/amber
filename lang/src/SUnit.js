@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("SUnit");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
+$core.addClass("ResultAnnouncement", $globals.Object, "SUnit");
+$core.setSlots($globals.ResultAnnouncement, ["result"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
 //>>excludeEnd("ide");
@@ -46,7 +47,8 @@ $globals.ResultAnnouncement);
 
 
 
-$core.addClass("Teachable", $globals.Object, ["learnings"], "SUnit");
+$core.addClass("Teachable", $globals.Object, "SUnit");
+$core.setSlots($globals.Teachable, ["learnings"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Teachable.comment="An object you can teach how to behave. Have a look at the \x0aclass side for an example.\x0a\x0aFor more infos have a look at: http://lists.squeakfoundation.org/pipermail/squeak-dev/2002-April/038170.html";
 //>>excludeEnd("ide");
@@ -255,7 +257,8 @@ return self;
 $globals.Teachable.a$cls);
 
 
-$core.addClass("TestCase", $globals.Object, ["testSelector", "asyncTimeout", "context"], "SUnit");
+$core.addClass("TestCase", $globals.Object, "SUnit");
+$core.setSlots($globals.TestCase, ["testSelector", "asyncTimeout", "context"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestCase.comment="I am an implementation of the command pattern to run a test.\x0a\x0a## API\x0a\x0aMy instances are created with the class method `#selector:`,\x0apassing the symbol that names the method to be executed when the test case runs.\x0a\x0aWhen you discover a new fixture, subclass `TestCase` and create a `#test...` method for the first test.\x0aAs that method develops and more `#test...` methods are added, you will find yourself refactoring temps\x0ainto instance variables for the objects in the fixture and overriding `#setUp` to initialize these variables.\x0aAs required, override `#tearDown` to nil references, release objects and deallocate.";
 //>>excludeEnd("ide");
@@ -1033,7 +1036,8 @@ return $recv(each)._match_("^test");
 $globals.TestCase.a$cls);
 
 
-$core.addClass("TestContext", $globals.Object, ["testCase"], "SUnit");
+$core.addClass("TestContext", $globals.Object, "SUnit");
+$core.setSlots($globals.TestContext, ["testCase"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestContext.comment="I govern running a particular test case.\x0a\x0aMy main added value is `#execute:` method which runs a block as a part of test case (restores context, nilling it afterwards, cleaning/calling `#tearDown` as appropriate for sync/async scenario).";
 //>>excludeEnd("ide");
@@ -1182,7 +1186,8 @@ return $recv($1)._yourself();
 $globals.TestContext.a$cls);
 
 
-$core.addClass("DebugTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+$core.addClass("DebugTestContext", $globals.TestContext, "SUnit");
+$core.setSlots($globals.DebugTestContext, ["finished", "result"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DebugTestContext.comment="I add error debugging to `TestContext`.\x0a\x0aErrors are caught and explicitly passed to `ErrorHandler`.\x0aI am used in `TestCase >> debugCase`.";
 //>>excludeEnd("ide");
@@ -1295,7 +1300,8 @@ return $recv($1)._yourself();
 $globals.DebugTestContext.a$cls);
 
 
-$core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+$core.addClass("ReportingTestContext", $globals.TestContext, "SUnit");
+$core.setSlots($globals.ReportingTestContext, ["finished", "result"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ReportingTestContext.comment="I add `TestResult` reporting to `TestContext`.\x0a\x0aErrors are caught and save into a `TestResult`,\x0aWhen test case is finished (which can be later for async tests), a callback block is executed; this is used by a `TestSuiteRunner`.";
 //>>excludeEnd("ide");
@@ -1485,13 +1491,14 @@ return $recv($1)._yourself();
 $globals.ReportingTestContext.a$cls);
 
 
-$core.addClass("TestFailure", $globals.Error, [], "SUnit");
+$core.addClass("TestFailure", $globals.Error, "SUnit");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestFailure.comment="I am raised when the boolean parameter of an #`assert:` or `#deny:` call is the opposite of what the assertion claims.\x0a\x0aThe test framework distinguishes between failures and errors.\x0aA failure is an event whose possibiity is explicitly anticipated and checked for in an assertion,\x0awhereas an error is an unanticipated problem like a division by 0 or an index out of bounds.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("TestResult", $globals.Object, ["timestamp", "runs", "errors", "failures", "total"], "SUnit");
+$core.addClass("TestResult", $globals.Object, "SUnit");
+$core.setSlots($globals.TestResult, ["timestamp", "runs", "errors", "failures", "total"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestResult.comment="I implement the collecting parameter pattern for running a bunch of tests.\x0a\x0aMy instances hold tests that have run, sorted into the result categories of passed, failures and errors.\x0a\x0a`TestResult` is an interesting object to subclass or substitute. `#runCase:` is the external protocol you need to reproduce";
 //>>excludeEnd("ide");
@@ -1853,7 +1860,8 @@ $globals.TestResult);
 
 
 
-$core.addClass("TestSuiteRunner", $globals.Object, ["suite", "result", "announcer", "runNextTest"], "SUnit");
+$core.addClass("TestSuiteRunner", $globals.Object, "SUnit");
+$core.setSlots($globals.TestSuiteRunner, ["suite", "result", "announcer", "runNextTest"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TestSuiteRunner.comment="I am responsible for running a collection (`suite`) of tests.\x0a\x0a## API\x0a\x0aInstances should be created using the class-side `#on:` method, taking a collection of tests to run as parameter.\x0aTo run the test suite, use `#run`.";
 //>>excludeEnd("ide");

@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Exceptions");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Error", $globals.Object, ["message", "stack", "amberHandled", "context", "smalltalkError"], "Kernel-Exceptions");
+$core.addClass("Error", $globals.Object, "Kernel-Exceptions");
+$core.setSlots($globals.Error, ["message", "stack", "amberHandled", "context", "smalltalkError"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
 //>>excludeEnd("ide");
@@ -483,7 +484,7 @@ return $recv($self._new())._signal_(aString);
 $globals.Error.a$cls);
 
 
-$core.addClass("Halt", $globals.Error, [], "Kernel-Exceptions");
+$core.addClass("Halt", $globals.Error, "Kernel-Exceptions");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Halt.comment="I am provided to support `Object>>#halt`.";
 //>>excludeEnd("ide");
@@ -556,7 +557,8 @@ $globals.Halt);
 
 
 
-$core.addClass("JavaScriptException", $globals.Error, ["exception"], "Kernel-Exceptions");
+$core.addClass("JavaScriptException", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.JavaScriptException, ["exception"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JavaScriptException.comment="A JavaScriptException is thrown when a non-Smalltalk exception occurs while in the Smalltalk stack.\x0aSee `boot.js` `inContext()` and `BlockClosure >> on:do:`";
 //>>excludeEnd("ide");
@@ -676,7 +678,8 @@ return $recv($1)._yourself();
 $globals.JavaScriptException.a$cls);
 
 
-$core.addClass("MessageNotUnderstood", $globals.Error, ["smalltalkMessage", "receiver"], "Kernel-Exceptions");
+$core.addClass("MessageNotUnderstood", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.MessageNotUnderstood, ["smalltalkMessage", "receiver"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MessageNotUnderstood.comment="This exception is provided to support `Object>>doesNotUnderstand:`.";
 //>>excludeEnd("ide");
@@ -783,7 +786,8 @@ $globals.MessageNotUnderstood);
 
 
 
-$core.addClass("NonBooleanReceiver", $globals.Error, ["object"], "Kernel-Exceptions");
+$core.addClass("NonBooleanReceiver", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.NonBooleanReceiver, ["object"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NonBooleanReceiver.comment="NonBooleanReceiver exceptions may be thrown when executing inlined methods such as `#ifTrue:` with a non boolean receiver.";
 //>>excludeEnd("ide");

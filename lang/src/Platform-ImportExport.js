@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-ImportExport");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
+$core.addClass("AbstractExporter", $globals.Object, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
 //>>excludeEnd("ide");
@@ -128,7 +128,7 @@ $globals.AbstractExporter);
 
 
 
-$core.addClass("ChunkExporter", $globals.AbstractExporter, [], "Platform-ImportExport");
+$core.addClass("ChunkExporter", $globals.AbstractExporter, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ChunkExporter.comment="I am an exporter dedicated to outputting Amber source code in the classic Smalltalk chunk format.\x0a\x0aI do not output any compiled code.";
 //>>excludeEnd("ide");
@@ -1069,7 +1069,7 @@ $globals.ChunkExporter);
 
 
 
-$core.addClass("Exporter", $globals.AbstractExporter, [], "Platform-ImportExport");
+$core.addClass("Exporter", $globals.AbstractExporter, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Exporter.comment="I am responsible for outputting Amber code into a JavaScript string.\x0a\x0aThe generated output is enough to reconstruct the exported data, including Smalltalk source code and other metadata.\x0a\x0a## Use case\x0a\x0aI am typically used to save code outside of the Amber runtime (committing to disk, etc.).";
 //>>excludeEnd("ide");
@@ -1112,11 +1112,11 @@ selector: "exportDefinitionOf:on:",
 protocol: "output",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addClass('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.\x0a\x09\x09\x09aClass instanceVariableNames asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' }.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addClass('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' };\x0a\x09\x09lf.\x0a\x09aClass instanceVariableNames ifNotEmpty: [ :ivars | aStream\x0a\x09\x09write: { '$core.setSlots('. aClass asJavaScriptSource. ', '. ivars asJavaScriptSource. ');' };\x0a\x09\x09lf ].\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);';\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["lf", "write:", "asJavaScriptSource", "name", "ifNil:ifNotNil:", "superclass", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
+messageSends: ["lf", "write:", "asJavaScriptSource", "name", "ifNil:ifNotNil:", "superclass", "category", "ifNotEmpty:", "instanceVariableNames", "comment", "crlfSanitized"]
 }, function ($methodClass){ return function (aClass,aStream){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1145,17 +1145,48 @@ $3=[$recv(superclass)._asJavaScriptSource()
 //>>excludeEnd("ctx");
 ][0];
 }
-[$recv(aStream)._write_(["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._instanceVariableNames())._asJavaScriptSource()
+[$recv(aStream)._write_(["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._category())._asJavaScriptSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["asJavaScriptSource"]=3
-//>>excludeEnd("ctx");
-][0],", ",[$recv($recv(aClass)._category())._asJavaScriptSource()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["asJavaScriptSource"]=4
 //>>excludeEnd("ctx");
 ][0],");"])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["write:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$recv(aStream)._lf()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["lf"]=2
+//>>excludeEnd("ctx");
+][0];
+[$recv($recv(aClass)._instanceVariableNames())._ifNotEmpty_((function(ivars){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$recv(aStream)._write_(["$core.setSlots(",[$recv(aClass)._asJavaScriptSource()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["asJavaScriptSource"]=4
+//>>excludeEnd("ctx");
+][0],", ",[$recv(ivars)._asJavaScriptSource()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["asJavaScriptSource"]=5
+//>>excludeEnd("ctx");
+][0],");"])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["write:"]=2
+//>>excludeEnd("ctx");
+][0];
+return [$recv(aStream)._lf()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["lf"]=3
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({ivars:ivars},$ctx1,3)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["ifNotEmpty:"]=1
 //>>excludeEnd("ctx");
 ][0];
 $recv([$recv(aClass)._comment()
@@ -1166,26 +1197,7 @@ $recv([$recv(aClass)._comment()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-[$recv(aStream)._lf()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["lf"]=2
-//>>excludeEnd("ctx");
-][0];
 [$recv(aStream)._write_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);")
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["write:"]=2
-//>>excludeEnd("ctx");
-][0];
-[$recv(aStream)._lf()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["lf"]=3
-//>>excludeEnd("ctx");
-][0];
-[$recv(aStream)._write_([[$recv(aClass)._asJavaScriptSource()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["asJavaScriptSource"]=5
-//>>excludeEnd("ctx");
-][0],".comment=",$recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavaScriptSource(),";"])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["write:"]=3
 //>>excludeEnd("ctx");
@@ -1195,12 +1207,26 @@ return $core.withContext(function($ctx2) {
 ,$ctx2.sendIdx["lf"]=4
 //>>excludeEnd("ctx");
 ][0];
-return $recv(aStream)._write_("//>>excludeEnd(\x22ide\x22);");
+[$recv(aStream)._write_([[$recv(aClass)._asJavaScriptSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+,$ctx2.sendIdx["asJavaScriptSource"]=6
+//>>excludeEnd("ctx");
+][0],".comment=",$recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavaScriptSource(),";"])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["write:"]=4
+//>>excludeEnd("ctx");
+][0];
+[$recv(aStream)._lf()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["lf"]=5
+//>>excludeEnd("ctx");
+][0];
+$recv(aStream)._write_("//>>excludeEnd(\x22ide\x22);");
+return $recv(aStream)._lf();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
 //>>excludeEnd("ctx");
 }));
-$recv(aStream)._lf();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"exportDefinitionOf:on:",{aClass:aClass,aStream:aStream})});
@@ -1944,7 +1970,8 @@ $globals.Exporter);
 
 
 
-$core.addClass("AmdExporter", $globals.Exporter, ["namespace"], "Platform-ImportExport");
+$core.addClass("AmdExporter", $globals.Exporter, "Platform-ImportExport");
+$core.setSlots($globals.AmdExporter, ["namespace"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdExporter.comment="I am used to export Packages in an AMD (Asynchronous Module Definition) JavaScript format.";
 //>>excludeEnd("ide");
@@ -2292,7 +2319,8 @@ $globals.AmdExporter);
 
 
 
-$core.addClass("ChunkParser", $globals.Object, ["stream", "last"], "Platform-ImportExport");
+$core.addClass("ChunkParser", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ChunkParser, ["stream", "last"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ChunkParser.comment="I am responsible for parsing aStream contents in the chunk format.\x0a\x0a## API\x0a\x0a    ChunkParser new\x0a        stream: aStream;\x0a        nextChunk";
 //>>excludeEnd("ide");
@@ -2422,7 +2450,8 @@ return $recv($self._new())._stream_(aStream);
 $globals.ChunkParser.a$cls);
 
 
-$core.addClass("ClassCommentReader", $globals.Object, ["class"], "Platform-ImportExport");
+$core.addClass("ClassCommentReader", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ClassCommentReader, ["class"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassCommentReader.comment="I provide a mechanism for retrieving class comments stored on a file.\x0a\x0aSee also `ClassCategoryReader`.";
 //>>excludeEnd("ide");
@@ -2537,7 +2566,8 @@ $globals.ClassCommentReader);
 
 
 
-$core.addClass("ClassProtocolReader", $globals.Object, ["class", "category"], "Platform-ImportExport");
+$core.addClass("ClassProtocolReader", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ClassProtocolReader, ["class", "category"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassProtocolReader.comment="I provide a mechanism for retrieving class descriptions stored on a file in the Smalltalk chunk format.";
 //>>excludeEnd("ide");
@@ -2661,7 +2691,8 @@ $globals.ClassProtocolReader);
 
 
 
-$core.addClass("ExportMethodProtocol", $globals.Object, ["name", "theClass"], "Platform-ImportExport");
+$core.addClass("ExportMethodProtocol", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ExportMethodProtocol, ["name", "theClass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExportMethodProtocol.comment="I am an abstraction for a method protocol in a class / metaclass.\x0a\x0aI know of my class, name and methods.\x0aI am used when exporting a package.";
 //>>excludeEnd("ide");
@@ -2838,7 +2869,8 @@ return $recv($1)._yourself();
 $globals.ExportMethodProtocol.a$cls);
 
 
-$core.addClass("Importer", $globals.Object, ["lastSection", "lastChunk"], "Platform-ImportExport");
+$core.addClass("Importer", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.Importer, ["lastSection", "lastChunk"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Importer.comment="I can import Amber code from a string in the chunk format.\x0a\x0a## API\x0a\x0a    Importer new import: aString";
 //>>excludeEnd("ide");
@@ -2962,13 +2994,13 @@ $globals.Importer);
 
 
 
-$core.addClass("PackageCommitError", $globals.Error, [], "Platform-ImportExport");
+$core.addClass("PackageCommitError", $globals.Error, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageCommitError.comment="I get signaled when an attempt to commit a package has failed.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("PackageHandler", $globals.Object, [], "Platform-ImportExport");
+$core.addClass("PackageHandler", $globals.Object, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 //>>excludeEnd("ide");
@@ -3445,7 +3477,7 @@ $globals.PackageHandler);
 
 
 
-$core.addClass("AmdPackageHandler", $globals.PackageHandler, [], "Platform-ImportExport");
+$core.addClass("AmdPackageHandler", $globals.PackageHandler, "Platform-ImportExport");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdPackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 //>>excludeEnd("ide");
@@ -3710,7 +3742,8 @@ return self;
 $globals.AmdPackageHandler.a$cls);
 
 
-$core.addClass("PackageTransport", $globals.Object, ["package"], "Platform-ImportExport");
+$core.addClass("PackageTransport", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.PackageTransport, ["package"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageTransport.comment="I represent the transport mechanism used to commit a package.\x0a\x0aMy concrete subclasses have a `#handler` to which committing is delegated.";
 //>>excludeEnd("ide");
@@ -4204,7 +4237,8 @@ return nil;
 $globals.PackageTransport.a$cls);
 
 
-$core.addClass("AmdPackageTransport", $globals.PackageTransport, ["namespace"], "Platform-ImportExport");
+$core.addClass("AmdPackageTransport", $globals.PackageTransport, "Platform-ImportExport");
+$core.setSlots($globals.AmdPackageTransport, ["namespace"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AmdPackageTransport.comment="I am the default transport for committing packages.\x0a\x0aSee `AmdExporter` and `AmdPackageHandler`.";
 //>>excludeEnd("ide");

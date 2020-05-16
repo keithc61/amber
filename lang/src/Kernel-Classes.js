@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Classes");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Behavior", $globals.Object, ["organization", "slots", "fn", "superclass"], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.Behavior, ["organization", "slots", "fn", "superclass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
 //>>excludeEnd("ide");
@@ -783,7 +784,8 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, ["package", "subclasses"], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, "Kernel-Classes");
+$core.setSlots($globals.Class, ["package", "subclasses"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 //>>excludeEnd("ide");
@@ -1065,7 +1067,8 @@ $globals.Class);
 
 
 
-$core.addClass("Metaclass", $globals.Behavior, ["instanceClass"], "Kernel-Classes");
+$core.addClass("Metaclass", $globals.Behavior, "Kernel-Classes");
+$core.setSlots($globals.Metaclass, ["instanceClass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy instances are metaclasses, one for each real class, and have a single instance, which they hold onto: the class that they are the metaclass of.";
 //>>excludeEnd("ide");
@@ -1395,7 +1398,7 @@ $globals.Metaclass);
 
 
 
-$core.addClass("ClassBuilder", $globals.Object, [], "Kernel-Classes");
+$core.addClass("ClassBuilder", $globals.Object, "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassBuilder.comment="I am responsible for compiling new classes or modifying existing classes in the system.\x0a\x0aRather than using me directly to compile a class, use `Class >> subclass:instanceVariableNames:package:`.";
 //>>excludeEnd("ide");
@@ -3566,7 +3569,8 @@ return self;
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization", "package", "traitUsers"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.Trait, ["organization", "package", "traitUsers"]);
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -3904,7 +3908,8 @@ return trait;
 $globals.Trait.a$cls);
 
 
-$core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");
+$core.addClass("TraitTransformation", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.TraitTransformation, ["trait", "aliases", "exclusions"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TraitTransformation.comment="I am a single step in trait composition.\x0a\x0aI represent one trait including its aliases and exclusions.";
 //>>excludeEnd("ide");

@@ -7,7 +7,7 @@ $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/P
 //>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BrowserPlatform", $globals.Object, [], "Platform-Browser");
+$core.addClass("BrowserPlatform", $globals.Object, "Platform-Browser");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BrowserPlatform.comment="I am `Platform` service implementation for browser.";
 //>>excludeEnd("ide");
@@ -240,7 +240,7 @@ return self;
 $globals.BrowserPlatform.a$cls);
 
 
-$core.addClass("BrowserTerminal", $globals.Object, [], "Platform-Browser");
+$core.addClass("BrowserTerminal", $globals.Object, "Platform-Browser");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BrowserTerminal.comment="I am `Terminal` service implementation for browser.";
 //>>excludeEnd("ide");

@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAddExtensionMethod",
@@ -137,7 +137,7 @@ $globals.AnnouncementSubscriptionTest);
 
 
 
-$core.addClass("AnnouncerTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("AnnouncerTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testOnDo",
@@ -323,7 +323,7 @@ $globals.AnnouncerTest);
 
 
 
-$core.addClass("BlockClosureTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("BlockClosureTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "localReturnOnDoCatch",
@@ -1115,7 +1115,7 @@ $globals.BlockClosureTest);
 
 
 
-$core.addClass("BooleanTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("BooleanTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testEquality",
@@ -1929,7 +1929,8 @@ $globals.BooleanTest);
 
 
 
-$core.addClass("ClassBuilderTest", $globals.TestCase, ["builder", "theClass"], "Kernel-Tests");
+$core.addClass("ClassBuilderTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.ClassBuilderTest, ["builder", "theClass"]);
 $core.addMethod(
 $core.method({
 selector: "setUp",
@@ -2314,7 +2315,8 @@ $globals.ClassBuilderTest);
 
 
 
-$core.addClass("ClassTest", $globals.TestCase, ["builder", "theClass"], "Kernel-Tests");
+$core.addClass("ClassTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.ClassTest, ["builder", "theClass"]);
 $core.addMethod(
 $core.method({
 selector: "augmentMethodInstantiationOf:withAttachments:",
@@ -3092,7 +3094,8 @@ $globals.ClassTest);
 
 
 
-$core.addClass("CollectionTest", $globals.TestCase, ["sampleBlock"], "Kernel-Tests");
+$core.addClass("CollectionTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.CollectionTest, ["sampleBlock"]);
 $core.addMethod(
 $core.method({
 selector: "assertSameContents:as:",
@@ -5379,7 +5382,7 @@ return $recv($self._collectionClass())._isNil();
 $globals.CollectionTest.a$cls);
 
 
-$core.addClass("AssociativeCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("AssociativeCollectionTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionKeys",
@@ -6132,7 +6135,7 @@ $globals.AssociativeCollectionTest);
 
 
 
-$core.addClass("DictionaryTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
+$core.addClass("DictionaryTest", $globals.AssociativeCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -6620,7 +6623,7 @@ return $globals.Dictionary;
 $globals.DictionaryTest.a$cls);
 
 
-$core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
+$core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -6809,7 +6812,7 @@ return $globals.HashedCollection;
 $globals.HashedCollectionTest.a$cls);
 
 
-$core.addClass("SequenceableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("SequenceableCollectionTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionFirst",
@@ -7510,7 +7513,7 @@ $globals.SequenceableCollectionTest);
 
 
 
-$core.addClass("ArrayTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
+$core.addClass("ArrayTest", $globals.SequenceableCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -8099,7 +8102,7 @@ return $globals.Array;
 $globals.ArrayTest.a$cls);
 
 
-$core.addClass("StringTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
+$core.addClass("StringTest", $globals.SequenceableCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -9298,7 +9301,7 @@ return $globals.String;
 $globals.StringTest.a$cls);
 
 
-$core.addClass("SetTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("SetTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -10199,7 +10202,7 @@ return $globals.Set;
 $globals.SetTest.a$cls);
 
 
-$core.addClass("ConsoleTranscriptTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("ConsoleTranscriptTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testShow",
@@ -10259,7 +10262,7 @@ $globals.ConsoleTranscriptTest);
 
 
 
-$core.addClass("DateTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("DateTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testEquality",
@@ -10515,7 +10518,7 @@ $globals.DateTest);
 
 
 
-$core.addClass("JSObjectProxyTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("JSObjectProxyTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "jsObject",
@@ -11374,7 +11377,7 @@ $globals.JSObjectProxyTest);
 
 
 
-$core.addClass("JavaScriptExceptionTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("JavaScriptExceptionTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testCatchingException",
@@ -11473,7 +11476,7 @@ $globals.JavaScriptExceptionTest);
 
 
 
-$core.addClass("MessageSendTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("MessageSendTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testValue",
@@ -11545,7 +11548,8 @@ $globals.MessageSendTest);
 
 
 
-$core.addClass("MethodInheritanceTest", $globals.TestCase, ["receiverTop", "receiverMiddle", "receiverBottom", "method", "performBlock"], "Kernel-Tests");
+$core.addClass("MethodInheritanceTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.MethodInheritanceTest, ["receiverTop", "receiverMiddle", "receiverBottom", "method", "performBlock"]);
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
@@ -12246,7 +12250,7 @@ $globals.MethodInheritanceTest);
 
 
 
-$core.addClass("NumberTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("NumberTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAbs",
@@ -14419,7 +14423,8 @@ $globals.NumberTest);
 
 
 
-$core.addClass("ObjectMock", $globals.Object, ["foo", "bar"], "Kernel-Tests");
+$core.addClass("ObjectMock", $globals.Object, "Kernel-Tests");
+$core.setSlots($globals.ObjectMock, ["foo", "bar"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ObjectMock.comment="ObjectMock is there only to perform tests on classes.";
 //>>excludeEnd("ide");
@@ -14462,7 +14467,7 @@ $globals.ObjectMock);
 
 
 
-$core.addClass("ObjectTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("ObjectTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "notDefined",
@@ -14927,7 +14932,7 @@ $globals.ObjectTest);
 
 
 
-$core.addClass("PointTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("PointTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAccessing",
@@ -15666,7 +15671,7 @@ $globals.PointTest);
 
 
 
-$core.addClass("QueueTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("QueueTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testNextIfAbsent",
@@ -15761,7 +15766,7 @@ $globals.QueueTest);
 
 
 
-$core.addClass("RandomTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("RandomTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAtRandomNumber",
@@ -15894,7 +15899,7 @@ $globals.RandomTest);
 
 
 
-$core.addClass("RectangleTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("RectangleTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testContainsPoint",
@@ -16060,7 +16065,7 @@ $globals.RectangleTest);
 
 
 
-$core.addClass("StreamTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("StreamTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionClass",
@@ -16512,7 +16517,7 @@ return $recv($self._collectionClass())._isNil();
 $globals.StreamTest.a$cls);
 
 
-$core.addClass("ArrayStreamTest", $globals.StreamTest, [], "Kernel-Tests");
+$core.addClass("ArrayStreamTest", $globals.StreamTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "newCollection",
@@ -16556,7 +16561,7 @@ return $globals.Array;
 $globals.ArrayStreamTest.a$cls);
 
 
-$core.addClass("StringStreamTest", $globals.StreamTest, [], "Kernel-Tests");
+$core.addClass("StringStreamTest", $globals.StreamTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "newCollection",
@@ -17489,7 +17494,7 @@ return self;
 $globals.TKeyValueCollectionTest);
 
 
-$core.addClass("UndefinedTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("UndefinedTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testCopying",

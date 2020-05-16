@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Dag");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
+$core.addClass("AbstractDagVisitor", $globals.Object, "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
 //>>excludeEnd("ide");
@@ -191,7 +191,8 @@ $globals.AbstractDagVisitor);
 
 
 
-$core.addClass("PathDagVisitor", $globals.AbstractDagVisitor, ["path"], "Kernel-Dag");
+$core.addClass("PathDagVisitor", $globals.AbstractDagVisitor, "Kernel-Dag");
+$core.setSlots($globals.PathDagVisitor, ["path"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 //>>excludeEnd("ide");
@@ -333,7 +334,7 @@ $globals.PathDagVisitor);
 
 
 
-$core.addClass("DagNode", $globals.Object, [], "Kernel-Dag");
+$core.addClass("DagNode", $globals.Object, "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagNode.comment="I am the abstract root class of any directed acyclic graph.\x0a\x0aConcrete classes should implement `dagChildren` and `dagChildren:`\x0ato get / set direct successor nodes (aka child nodes / subnodes).";
 //>>excludeEnd("ide");
@@ -466,7 +467,8 @@ $globals.DagNode);
 
 
 
-$core.addClass("DagParentNode", $globals.DagNode, ["nodes"], "Kernel-Dag");
+$core.addClass("DagParentNode", $globals.DagNode, "Kernel-Dag");
+$core.setSlots($globals.DagParentNode, ["nodes"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagParentNode.comment="I am `DagNode` that stores a collection of its children,\x0alazy initialized to empty array.\x0a\x0aI can `addDagChild:` to add a child.";
 //>>excludeEnd("ide");
@@ -545,7 +547,7 @@ $globals.DagParentNode);
 
 
 
-$core.addClass("DagSink", $globals.DagNode, [], "Kernel-Dag");
+$core.addClass("DagSink", $globals.DagNode, "Kernel-Dag");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DagSink.comment="I am `DagNode` with no direct successors.\x0a\x0aSending `dagChildren:` with empty collection is legal.";
 //>>excludeEnd("ide");

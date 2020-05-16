@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-DOM");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
+$core.addClass("PlatformDom", $globals.Object, "Platform-DOM");
 
 $core.addMethod(
 $core.method({

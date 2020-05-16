@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("AmberBootstrapInitialization", $globals.Object, "Kernel-Infrastructure");
 
 $core.addMethod(
 $core.method({
@@ -108,7 +108,8 @@ return $recv($globals.Smalltalk)._postLoad();
 $globals.AmberBootstrapInitialization.a$cls);
 
 
-$core.addClass("JSObjectProxy", $globals.ProtoObject, ["jsObject"], "Kernel-Infrastructure");
+$core.addClass("JSObjectProxy", $globals.ProtoObject, "Kernel-Infrastructure");
+$core.setSlots($globals.JSObjectProxy, ["jsObject"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JSObjectProxy.comment="I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.\x0aMy instances make intensive use of `#doesNotUnderstand:`.\x0a\x0aMy instances are automatically created by Amber whenever a message is sent to a JavaScript object.\x0a\x0a## Usage examples\x0a\x0aJSObjectProxy objects are instanciated by Amber when a Smalltalk message is sent to a JavaScript object.\x0a\x0a\x09window alert: 'hello world'.\x0a\x09window inspect.\x0a\x09(window jQuery: 'body') append: 'hello world'\x0a\x0aAmber messages sends are converted to JavaScript function calls or object property access _(in this order)_. If n one of them match, a `MessageNotUnderstood` error will be thrown.\x0a\x0a## Message conversion rules\x0a\x0a- `someUser name` becomes `someUser.name`\x0a- `someUser name: 'John'` becomes `someUser name = \x22John\x22`\x0a- `console log: 'hello world'` becomes `console.log('hello world')`\x0a- `(window jQuery: 'foo') css: 'background' color: 'red'` becomes `window.jQuery('foo').css('background', 'red')`\x0a\x0a__Note:__ For keyword-based messages, only the first keyword is kept: `window foo: 1 bar: 2` is equivalent to `window foo: 1 baz: 2`.";
 //>>excludeEnd("ide");
@@ -843,7 +844,8 @@ return self;
 $globals.JSObjectProxy.a$cls);
 
 
-$core.addClass("Organizer", $globals.Object, ["elements"], "Kernel-Infrastructure");
+$core.addClass("Organizer", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Organizer, ["elements"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Organizer.comment="I represent categorization information. \x0a\x0a## API\x0a\x0aUse `#addElement:` and `#removeElement:` to manipulate instances.";
 //>>excludeEnd("ide");
@@ -950,7 +952,8 @@ $globals.Organizer);
 
 
 
-$core.addClass("ClassOrganizer", $globals.Organizer, ["traitOrBehavior"], "Kernel-Infrastructure");
+$core.addClass("ClassOrganizer", $globals.Organizer, "Kernel-Infrastructure");
+$core.setSlots($globals.ClassOrganizer, ["traitOrBehavior"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassOrganizer.comment="I am an organizer specific to classes. I hold method categorization information for classes.";
 //>>excludeEnd("ide");
@@ -1095,13 +1098,14 @@ return $recv($1)._yourself();
 $globals.ClassOrganizer.a$cls);
 
 
-$core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
+$core.addClass("PackageOrganizer", $globals.Organizer, "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("Package", $globals.Object, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Package, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 //>>excludeEnd("ide");
@@ -2577,7 +2581,7 @@ return $recv(stream).__lt_lt($recv($globals.ClassBuilder)._sortClasses_(classes)
 $globals.Package.a$cls);
 
 
-$core.addClass("PackageStateObserver", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("PackageStateObserver", $globals.Object, "Kernel-Infrastructure");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageStateObserver.comment="My current instance listens for any changes in the system that might affect the state of a package (being dirty).";
 //>>excludeEnd("ide");
@@ -2822,7 +2826,8 @@ return self;
 $globals.PackageStateObserver.a$cls);
 
 
-$core.addClass("Setting", $globals.Object, ["key", "defaultValue"], "Kernel-Infrastructure");
+$core.addClass("Setting", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Setting, ["key", "defaultValue"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
 //>>excludeEnd("ide");
@@ -3015,7 +3020,8 @@ return self;
 $globals.Setting.a$cls);
 
 
-$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables", "packageDictionary"], "Kernel-Infrastructure");
+$core.addClass("SmalltalkImage", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.SmalltalkImage, ["globalJsVariables", "packageDictionary"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `base/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `base/parser.js` parser file in order to work.";
 //>>excludeEnd("ide");

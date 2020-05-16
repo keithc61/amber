@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("SUnit-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
+$core.addClass("ExampleSetTest", $globals.TestCase, "SUnit-Tests");
+$core.setSlots($globals.ExampleSetTest, ["empty", "full"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
 //>>excludeEnd("ide");
@@ -235,7 +236,8 @@ $globals.ExampleSetTest);
 
 
 
-$core.addClass("SUnitAsyncTest", $globals.TestCase, ["flag"], "SUnit-Tests");
+$core.addClass("SUnitAsyncTest", $globals.TestCase, "SUnit-Tests");
+$core.setSlots($globals.SUnitAsyncTest, ["flag"]);
 $core.addMethod(
 $core.method({
 selector: "fakeError",

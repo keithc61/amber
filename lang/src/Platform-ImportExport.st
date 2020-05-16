@@ -310,16 +310,18 @@ exportDefinitionOf: aClass on: aStream
 			'$core.addClass('.
 			aClass name asJavaScriptSource. ', '.
 			aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.
-			aClass instanceVariableNames asJavaScriptSource. ', '.
 			aClass category asJavaScriptSource.
-			');' }.
+			');' };
+		lf.
+	aClass instanceVariableNames ifNotEmpty: [ :ivars | aStream
+		write: { '$core.setSlots('. aClass asJavaScriptSource. ', '. ivars asJavaScriptSource. ');' };
+		lf ].
 	aClass comment ifNotEmpty: [
 		aStream
-			lf;
 			write: '//>>excludeStart("ide", pragmas.excludeIdeData);'; lf;
 			write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;
-			write: '//>>excludeEnd("ide");' ].
-	aStream lf
+			write: '//>>excludeEnd("ide");';
+			lf ]
 !
 
 exportMetaDefinitionOf: aClass on: aStream

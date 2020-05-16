@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Methods");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");
+$core.addClass("BlockClosure", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.BlockClosure, ["prototype", "length"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 //>>excludeEnd("ide");
@@ -822,7 +823,8 @@ return self;
 $globals.BlockClosure.a$cls);
 
 
-$core.addClass("CompiledMethod", $globals.Object, ["args", "instantiateFn", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.CompiledMethod, ["args", "instantiateFn", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 //>>excludeEnd("ide");
@@ -1590,7 +1592,8 @@ $globals.CompiledMethod);
 
 
 
-$core.addClass("ForkPool", $globals.Object, ["poolSize", "maxPoolSize", "queue", "worker"], "Kernel-Methods");
+$core.addClass("ForkPool", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.ForkPool, ["poolSize", "maxPoolSize", "queue", "worker"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ForkPool.comment="I am responsible for handling forked blocks.\x0aThe pool size sets the maximum concurrent forked blocks.\x0a\x0a## API\x0a\x0aThe default instance is accessed with `#default`.\x0aThe maximum concurrent forked blocks can be set with `#maxPoolSize:`.\x0a\x0aForking is done via `BlockClosure >> #fork`";
 //>>excludeEnd("ide");
@@ -1879,7 +1882,8 @@ return self;
 $globals.ForkPool.a$cls);
 
 
-$core.addClass("Message", $globals.Object, ["selector", "arguments"], "Kernel-Methods");
+$core.addClass("Message", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.Message, ["selector", "arguments"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Message.comment="In general, the system does not use instances of me for efficiency reasons.\x0aHowever, when a message is not understood by its receiver, the interpreter will make up an instance of it in order to capture the information involved in an actual message transmission.\x0aThis instance is sent it as an argument with the message `#doesNotUnderstand:` to the receiver.\x0a\x0aSee boot.js, `messageNotUnderstood` and its counterpart `Object >> #doesNotUnderstand:`\x0a\x0a## API\x0a\x0aBesides accessing methods, `#sendTo:` provides a convenient way to send a message to an object.";
 //>>excludeEnd("ide");
@@ -2075,7 +2079,8 @@ return $recv(anObject)._doesNotUnderstand_($self._selector_arguments_(aString,an
 $globals.Message.a$cls);
 
 
-$core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
+$core.addClass("MessageSend", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.MessageSend, ["receiver", "message"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MessageSend.comment="I encapsulate message sends to objects. Arguments can be either predefined or supplied when the message send is performed. \x0a\x0a## API\x0a\x0aUse `#value` to perform a message send with its predefined arguments and `#value:*` if additonal arguments have to supplied.";
 //>>excludeEnd("ide");
@@ -2423,7 +2428,8 @@ $globals.MessageSend);
 
 
 
-$core.addClass("MethodContext", $globals.Object, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"], "Kernel-Methods");
+$core.addClass("MethodContext", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.MethodContext, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodContext.comment="I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.\x0a\x0aMy instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js`.";
 //>>excludeEnd("ide");
@@ -2668,7 +2674,7 @@ $globals.MethodContext);
 
 
 
-$core.addClass("NativeFunction", $globals.Object, [], "Kernel-Methods");
+$core.addClass("NativeFunction", $globals.Object, "Kernel-Methods");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NativeFunction.comment="I am a wrapper around native functions, such as `WebSocket`.\x0aFor 'normal' functions (whose constructor is the JavaScript `Function` object), use `BlockClosure`.\x0a\x0a## API\x0a\x0aSee the class-side `instance creation` methods for instance creation.\x0a\x0aCreated instances will most probably be instance of `JSObjectProxy`.\x0a\x0a## Usage example:\x0a\x0a\x09| ws |\x0a\x09ws := NativeFunction constructor: 'WebSocket' value: 'ws://localhost'.\x0a\x09ws at: 'onopen' put: [ ws send: 'hey there from Amber' ]";
 //>>excludeEnd("ide");
@@ -3817,7 +3823,8 @@ return self;
 $globals.TMethodContext);
 
 
-$core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
+$core.addClass("Timeout", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.Timeout, ["rawTimeout"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Timeout.comment="I am wrapping the returns from `set{Timeout,Interval}`.\x0a\x0a## Motivation\x0a\x0aNumber suffices in browsers, but node.js returns an object.";
 //>>excludeEnd("ide");

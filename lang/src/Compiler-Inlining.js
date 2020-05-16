@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Inlining");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
+$core.addClass("ASTPreInliner", $globals.NodeVisitor, "Compiler-Inlining");
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
@@ -65,7 +65,7 @@ $globals.ASTPreInliner);
 
 
 
-$core.addClass("IRInlinedClosure", $globals.IRClosure, [], "Compiler-Inlining");
+$core.addClass("IRInlinedClosure", $globals.IRClosure, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
 //>>excludeEnd("ide");
@@ -113,7 +113,7 @@ $globals.IRInlinedClosure);
 
 
 
-$core.addClass("IRInlinedSend", $globals.IRSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedSend", $globals.IRSend, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedSend.comment="I am the abstract super class of inlined message send instructions.";
 //>>excludeEnd("ide");
@@ -179,7 +179,7 @@ $globals.IRInlinedSend);
 
 
 
-$core.addClass("IRInlinedIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfFalse", $globals.IRInlinedSend, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfFalse.comment="I represent an inlined `#ifFalse:` message send instruction.";
 //>>excludeEnd("ide");
@@ -209,7 +209,7 @@ $globals.IRInlinedIfFalse);
 
 
 
-$core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
 //>>excludeEnd("ide");
@@ -239,7 +239,7 @@ $globals.IRInlinedIfNilIfNotNil);
 
 
 
-$core.addClass("IRInlinedIfTrue", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfTrue", $globals.IRInlinedSend, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfTrue.comment="I represent an inlined `#ifTrue:` message send instruction.";
 //>>excludeEnd("ide");
@@ -269,7 +269,7 @@ $globals.IRInlinedIfTrue);
 
 
 
-$core.addClass("IRInlinedIfTrueIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfTrueIfFalse", $globals.IRInlinedSend, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedIfTrueIfFalse.comment="I represent an inlined `#ifTrue:ifFalse:` message send instruction.";
 //>>excludeEnd("ide");
@@ -299,7 +299,7 @@ $globals.IRInlinedIfTrueIfFalse);
 
 
 
-$core.addClass("IRInlinedSequence", $globals.IRBlockSequence, [], "Compiler-Inlining");
+$core.addClass("IRInlinedSequence", $globals.IRBlockSequence, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInlinedSequence.comment="I represent a (block) sequence inside an inlined closure instruction (instance of `IRInlinedClosure`).";
 //>>excludeEnd("ide");
@@ -347,7 +347,7 @@ $globals.IRInlinedSequence);
 
 
 
-$core.addClass("IRInliner", $globals.IRVisitor, [], "Compiler-Inlining");
+$core.addClass("IRInliner", $globals.IRVisitor, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInliner.comment="I visit an IR tree, inlining message sends and block closures.\x0a\x0aMessage selectors that can be inlined are answered by `IRSendInliner >> #inlinedSelectors`";
 //>>excludeEnd("ide");
@@ -746,7 +746,7 @@ $globals.IRInliner);
 
 
 
-$core.addClass("IRInliningJSTranslator", $globals.IRJSTranslator, [], "Compiler-Inlining");
+$core.addClass("IRInliningJSTranslator", $globals.IRJSTranslator, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInliningJSTranslator.comment="I am a specialized JavaScript translator able to write inlined IR instructions to JavaScript stream (`JSStream` instance).";
 //>>excludeEnd("ide");
@@ -1078,7 +1078,8 @@ $globals.IRInliningJSTranslator);
 
 
 
-$core.addClass("IRSendInliner", $globals.Object, ["send", "translator"], "Compiler-Inlining");
+$core.addClass("IRSendInliner", $globals.Object, "Compiler-Inlining");
+$core.setSlots($globals.IRSendInliner, ["send", "translator"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
 //>>excludeEnd("ide");
@@ -2079,7 +2080,8 @@ return false;
 $globals.IRSendInliner.a$cls);
 
 
-$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, ["target"], "Compiler-Inlining");
+$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.setSlots($globals.IRAssignmentInliner, ["target"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
 //>>excludeEnd("ide");
@@ -2193,7 +2195,7 @@ $globals.IRAssignmentInliner);
 
 
 
-$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
+$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRNonLocalReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 //>>excludeEnd("ide");
@@ -2264,7 +2266,7 @@ $globals.IRNonLocalReturnInliner);
 
 
 
-$core.addClass("IRReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
+$core.addClass("IRReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 //>>excludeEnd("ide");
@@ -2335,7 +2337,7 @@ $globals.IRReturnInliner);
 
 
 
-$core.addClass("InliningCodeGenerator", $globals.CodeGenerator, [], "Compiler-Inlining");
+$core.addClass("InliningCodeGenerator", $globals.CodeGenerator, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InliningCodeGenerator.comment="I am a specialized code generator that uses inlining to produce more optimized JavaScript output";
 //>>excludeEnd("ide");
@@ -2455,7 +2457,7 @@ $globals.InliningCodeGenerator);
 
 
 
-$core.addClass("InliningError", $globals.SemanticError, [], "Compiler-Inlining");
+$core.addClass("InliningError", $globals.SemanticError, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InliningError.comment="Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.";
 //>>excludeEnd("ide");

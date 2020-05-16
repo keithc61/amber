@@ -9,7 +9,8 @@ $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser
 //>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
+$core.addClass("AbstractCodeGenerator", $globals.Object, "Compiler-Core");
+$core.setSlots($globals.AbstractCodeGenerator, ["currentClass", "currentPackage", "source"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
 //>>excludeEnd("ide");
@@ -248,7 +249,8 @@ $globals.AbstractCodeGenerator);
 
 
 
-$core.addClass("AstGenerator", $globals.AbstractCodeGenerator, ["transformersDictionary"], "Compiler-Core");
+$core.addClass("AstGenerator", $globals.AbstractCodeGenerator, "Compiler-Core");
+$core.setSlots($globals.AstGenerator, ["transformersDictionary"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate semantically augmented abstract syntax tree,\x0aSome initial pragmas (eg. #inlineJS:) are applied to transform the tree.";
 //>>excludeEnd("ide");
@@ -340,7 +342,7 @@ $globals.AstGenerator);
 
 
 
-$core.addClass("CodeGenerator", $globals.AstGenerator, [], "Compiler-Core");
+$core.addClass("CodeGenerator", $globals.AstGenerator, "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
 //>>excludeEnd("ide");
@@ -490,7 +492,8 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass("Compiler", $globals.Object, ["currentPackage", "codeGeneratorClass", "codeGenerator"], "Compiler-Core");
+$core.addClass("Compiler", $globals.Object, "Compiler-Core");
+$core.setSlots($globals.Compiler, ["currentPackage", "codeGeneratorClass", "codeGenerator"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 //>>excludeEnd("ide");
@@ -1404,13 +1407,13 @@ return self;
 $globals.Compiler.a$cls);
 
 
-$core.addClass("DoIt", $globals.Object, [], "Compiler-Core");
+$core.addClass("DoIt", $globals.Object, "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DoIt.comment="`DoIt` is the class used to compile and evaluate expressions. See `Compiler >> evaluateExpression:`.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("Evaluator", $globals.Object, [], "Compiler-Core");
+$core.addClass("Evaluator", $globals.Object, "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Evaluator.comment="I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.";
 //>>excludeEnd("ide");
@@ -1508,7 +1511,7 @@ return $recv($self._new())._evaluate_for_(aString,anObject);
 $globals.Evaluator.a$cls);
 
 
-$core.addClass("ParseError", $globals.Error, [], "Compiler-Core");
+$core.addClass("ParseError", $globals.Error, "Compiler-Core");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Compiler >> #parse:`";
 //>>excludeEnd("ide");

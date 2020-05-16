@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-DOM-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
+$core.addClass("PlatformDomTest", $globals.TestCase, "Platform-DOM-Tests");
+$core.setSlots($globals.PlatformDomTest, ["fixtureDiv"]);
 $core.addMethod(
 $core.method({
 selector: "testEntityConversion",

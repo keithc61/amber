@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Announcements");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
+$core.addClass("AnnouncementSubscription", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.AnnouncementSubscription, ["valuable", "announcementClass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
 //>>excludeEnd("ide");
@@ -160,7 +161,8 @@ $globals.AnnouncementSubscription);
 
 
 
-$core.addClass("AnnouncementValuable", $globals.Object, ["valuable", "receiver"], "Kernel-Announcements");
+$core.addClass("AnnouncementValuable", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.AnnouncementValuable, ["valuable", "receiver"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AnnouncementValuable.comment="I wrap `valuable` objects (typically instances of `BlockClosure`) with a `receiver` to be able to unregister subscriptions based on a `receiver`.";
 //>>excludeEnd("ide");
@@ -286,7 +288,8 @@ $globals.AnnouncementValuable);
 
 
 
-$core.addClass("Announcer", $globals.Object, ["registry", "subscriptions"], "Kernel-Announcements");
+$core.addClass("Announcer", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.Announcer, ["registry", "subscriptions"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Announcer.comment="I hold annoncement subscriptions (instances of `AnnouncementSubscription`) in a private registry.\x0aI announce (trigger) announces, which are then dispatched to all subscriptions.\x0a\x0aThe code is based on the announcements as [described by Vassili Bykov](http://www.cincomsmalltalk.com/userblogs/vbykov/blogView?searchCategory=Announcements%20Framework).\x0a\x0a## API\x0a\x0aUse `#announce:` to trigger an announcement.\x0a\x0aUse `#on:do:` or `#on:send:to:` to register subscriptions.\x0a\x0aWhen using `#on:send:to:`, unregistration can be done with `#unregister:`.\x0a\x0a## Usage example:\x0a\x0a    SystemAnnouncer current\x0a        on: ClassAdded\x0a        do: [ :ann | window alert: ann theClass name, ' added' ].";
 //>>excludeEnd("ide");
@@ -536,7 +539,7 @@ $globals.Announcer);
 
 
 
-$core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements");
+$core.addClass("SystemAnnouncer", $globals.Announcer, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 //>>excludeEnd("ide");
@@ -605,7 +608,7 @@ return self;
 $globals.SystemAnnouncer.a$cls);
 
 
-$core.addClass("SystemAnnouncement", $globals.Object, [], "Kernel-Announcements");
+$core.addClass("SystemAnnouncement", $globals.Object, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SystemAnnouncement.comment="I am the superclass of all system announcements";
 //>>excludeEnd("ide");
@@ -629,7 +632,8 @@ return "announcement";
 $globals.SystemAnnouncement.a$cls);
 
 
-$core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, ["theClass"], "Kernel-Announcements");
+$core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassAnnouncement, ["theClass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassAnnouncement.comment="I am the abstract superclass of class-related announcements.";
 //>>excludeEnd("ide");
@@ -672,25 +676,26 @@ $globals.ClassAnnouncement);
 
 
 
-$core.addClass("ClassAdded", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassAdded", $globals.ClassAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassAdded.comment="I am emitted when a class is added to the system.\x0aSee ClassBuilder >> #addSubclassOf:... methods";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ClassCommentChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassCommentChanged", $globals.ClassAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassCommentChanged.comment="I am emitted when the comment of a class changes. (Behavior >> #comment)";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ClassDefinitionChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassDefinitionChanged", $globals.ClassAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassDefinitionChanged.comment="I am emitted when the definition of a class changes.\x0aSee ClassBuilder >> #class:instanceVariableNames:";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ClassMigrated", $globals.ClassAnnouncement, ["oldClass"], "Kernel-Announcements");
+$core.addClass("ClassMigrated", $globals.ClassAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassMigrated, ["oldClass"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassMigrated.comment="I am emitted when a class is migrated.";
 //>>excludeEnd("ide");
@@ -733,7 +738,8 @@ $globals.ClassMigrated);
 
 
 
-$core.addClass("ClassMoved", $globals.ClassAnnouncement, ["oldPackage"], "Kernel-Announcements");
+$core.addClass("ClassMoved", $globals.ClassAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassMoved, ["oldPackage"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassMoved.comment="I am emitted when a class is moved from one package to another.";
 //>>excludeEnd("ide");
@@ -776,19 +782,20 @@ $globals.ClassMoved);
 
 
 
-$core.addClass("ClassRemoved", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassRemoved", $globals.ClassAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassRemoved.comment="I am emitted when a class is removed.\x0aSee Smalltalk >> #removeClass:";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ClassRenamed", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassRenamed", $globals.ClassAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassRenamed.comment="I am emitted when a class is renamed.\x0aSee ClassBuilder >> #renameClass:to:";
 //>>excludeEnd("ide");
 
 
-$core.addClass("MethodAnnouncement", $globals.SystemAnnouncement, ["method"], "Kernel-Announcements");
+$core.addClass("MethodAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodAnnouncement, ["method"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodAnnouncement.comment="I am the abstract superclass of method-related announcements.";
 //>>excludeEnd("ide");
@@ -831,13 +838,14 @@ $globals.MethodAnnouncement);
 
 
 
-$core.addClass("MethodAdded", $globals.MethodAnnouncement, [], "Kernel-Announcements");
+$core.addClass("MethodAdded", $globals.MethodAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodAdded.comment="I am emitted when a `CompiledMethod` is added to a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("MethodModified", $globals.MethodAnnouncement, ["oldMethod"], "Kernel-Announcements");
+$core.addClass("MethodModified", $globals.MethodAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodModified, ["oldMethod"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodModified.comment="I am emitted when a `CompiledMethod` is modified (a new method is installed). I hold a reference to the old method being replaced.";
 //>>excludeEnd("ide");
@@ -880,7 +888,8 @@ $globals.MethodModified);
 
 
 
-$core.addClass("MethodMoved", $globals.MethodAnnouncement, ["oldProtocol"], "Kernel-Announcements");
+$core.addClass("MethodMoved", $globals.MethodAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodMoved, ["oldProtocol"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodMoved.comment="I am emitted when a `CompiledMethod` is moved to another protocol. I hold a refernce to the old protocol of the method.";
 //>>excludeEnd("ide");
@@ -923,13 +932,14 @@ $globals.MethodMoved);
 
 
 
-$core.addClass("MethodRemoved", $globals.MethodAnnouncement, [], "Kernel-Announcements");
+$core.addClass("MethodRemoved", $globals.MethodAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodRemoved.comment="I am emitted when a `CompiledMethod` is removed from a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("PackageAnnouncement", $globals.SystemAnnouncement, ["package"], "Kernel-Announcements");
+$core.addClass("PackageAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.PackageAnnouncement, ["package"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageAnnouncement.comment="I am the abstract superclass of package-related announcements.";
 //>>excludeEnd("ide");
@@ -972,31 +982,32 @@ $globals.PackageAnnouncement);
 
 
 
-$core.addClass("PackageAdded", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageAdded", $globals.PackageAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageAdded.comment="I am emitted when a `Package` is added to the system.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("PackageClean", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageClean", $globals.PackageAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageClean.comment="I am emitted when a package is committed and becomes clean.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("PackageDirty", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageDirty", $globals.PackageAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageDirty.comment="I am emitted when a package becomes dirty.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("PackageRemoved", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageRemoved", $globals.PackageAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PackageRemoved.comment="I am emitted when a `Package` is removed from the system.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ProtocolAnnouncement", $globals.SystemAnnouncement, ["theClass", "protocol"], "Kernel-Announcements");
+$core.addClass("ProtocolAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ProtocolAnnouncement, ["theClass", "protocol"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolAnnouncement.comment="I am the abstract superclass of protocol-related announcements.";
 //>>excludeEnd("ide");
@@ -1107,13 +1118,13 @@ $globals.ProtocolAnnouncement);
 
 
 
-$core.addClass("ProtocolAdded", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ProtocolAdded", $globals.ProtocolAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolAdded.comment="I am emitted when a protocol is added to a class.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ProtocolRemoved", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ProtocolRemoved", $globals.ProtocolAnnouncement, "Kernel-Announcements");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a class.";
 //>>excludeEnd("ide");

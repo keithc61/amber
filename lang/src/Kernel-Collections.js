@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Collections");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
+$core.addClass("Association", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.Association, ["key", "value"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Association.comment="I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.\x0a\x0aInstances can be created with the class-side method `#key:value:`";
 //>>excludeEnd("ide");
@@ -191,7 +192,8 @@ return $recv($1)._yourself();
 $globals.Association.a$cls);
 
 
-$core.addClass("BucketStore", $globals.Object, ["buckets", "hashBlock"], "Kernel-Collections");
+$core.addClass("BucketStore", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.BucketStore, ["buckets", "hashBlock"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BucketStore.comment="I am an helper class for hash-based stores.\x0a\x0aI hold buckets which are selected by a hash, specified using `#hashBlock:`.\x0aThe hash can be any object, and\x0ait is used as a JS property (that is, in ES5\x0aits toString() value counts).\x0a\x0a## API\x0aI maintain a list of buckets. Client code can use this API:\x0a - `#bucketOfElement:` (to ask a bucket for element, I can return JS null if n/a)\x0a - `#do:` (to enumerate all elements of all buckets)\x0a - `#removeAll` (to remove all buckets)\x0a\x0aClient code itself should add/remove elements\x0ain a bucket. The `nil` object should not be put into any bucket.\x0a\x0aTypes of buckets are the responsibility of subclasses via `#newBucket`.";
 //>>excludeEnd("ide");
@@ -382,7 +384,7 @@ return $recv($1)._yourself();
 $globals.BucketStore.a$cls);
 
 
-$core.addClass("ArrayBucketStore", $globals.BucketStore, [], "Kernel-Collections");
+$core.addClass("ArrayBucketStore", $globals.BucketStore, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ArrayBucketStore.comment="I am a concrete `BucketStore` with buckets being instance of `Array`.";
 //>>excludeEnd("ide");
@@ -406,7 +408,7 @@ $globals.ArrayBucketStore);
 
 
 
-$core.addClass("Collection", $globals.Object, [], "Kernel-Collections");
+$core.addClass("Collection", $globals.Object, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Collection.comment="I am the abstract superclass of all classes that represent a group of elements.\x0a\x0aI provide a set of useful methods to the Collection hierarchy such as enumerating and converting methods.";
 //>>excludeEnd("ide");
@@ -1918,7 +1920,7 @@ return $recv($1)._yourself();
 $globals.Collection.a$cls);
 
 
-$core.addClass("AssociativeCollection", $globals.Collection, [], "Kernel-Collections");
+$core.addClass("AssociativeCollection", $globals.Collection, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AssociativeCollection.comment="I am a base class for object-indexed collections (Dictionary et.al.).";
 //>>excludeEnd("ide");
@@ -3088,7 +3090,8 @@ return newCollection;
 $globals.AssociativeCollection.a$cls);
 
 
-$core.addClass("Dictionary", $globals.AssociativeCollection, ["keys", "values"], "Kernel-Collections");
+$core.addClass("Dictionary", $globals.AssociativeCollection, "Kernel-Collections");
+$core.setSlots($globals.Dictionary, ["keys", "values"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Dictionary.comment="I represent a set of elements that can be viewed from one of two perspectives: a set of associations,\x0aor a container of values that are externally named where the name can be any object that responds to `=`.\x0a\x0aThe external name is referred to as the key.";
 //>>excludeEnd("ide");
@@ -3450,7 +3453,7 @@ $globals.Dictionary);
 
 
 
-$core.addClass("HashedCollection", $globals.AssociativeCollection, [], "Kernel-Collections");
+$core.addClass("HashedCollection", $globals.AssociativeCollection, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.HashedCollection.comment="I am a traditional JavaScript object, or a Smalltalk `Dictionary`.\x0a\x0aUnlike a `Dictionary`, I can only have strings as keys.";
 //>>excludeEnd("ide");
@@ -3735,7 +3738,7 @@ $globals.HashedCollection);
 
 
 
-$core.addClass("SequenceableCollection", $globals.Collection, [], "Kernel-Collections");
+$core.addClass("SequenceableCollection", $globals.Collection, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SequenceableCollection.comment="I am an IndexableCollection\x0awith numeric indexes starting with 1.";
 //>>excludeEnd("ide");
@@ -4519,7 +4522,7 @@ return $recv(stream)._contents();
 $globals.SequenceableCollection.a$cls);
 
 
-$core.addClass("Array", $globals.SequenceableCollection, [], "Kernel-Collections");
+$core.addClass("Array", $globals.SequenceableCollection, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Array.comment="I represent a collection of objects ordered by the collector. The size of arrays is dynamic.\x0a\x0aI am directly mapped to JavaScript Number.\x0a\x0a*Note* In Amber, `OrderedCollection` is an alias for `Array`.";
 //>>excludeEnd("ide");
@@ -5323,7 +5326,7 @@ return instance;
 $globals.Array.a$cls);
 
 
-$core.addClass("String", $globals.SequenceableCollection, [], "Kernel-Collections");
+$core.addClass("String", $globals.SequenceableCollection, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.String.comment="I am an indexed collection of Characters. Unlike most Smalltalk dialects, Amber doesn't provide the Character class. Instead, elements of a String are single character strings.\x0a\x0aString inherits many useful methods from its hierarchy, such as\x0a\x09`Collection >> #,`";
 //>>excludeEnd("ide");
@@ -7645,7 +7648,8 @@ return self;
 $globals.String.a$cls);
 
 
-$core.addClass("Set", $globals.Collection, ["defaultBucket", "slowBucketStores", "fastBuckets", "size"], "Kernel-Collections");
+$core.addClass("Set", $globals.Collection, "Kernel-Collections");
+$core.setSlots($globals.Set, ["defaultBucket", "slowBucketStores", "fastBuckets", "size"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Set.comment="I represent an unordered set of objects without duplicates.\x0a\x0a## Implementation notes\x0a\x0aI put elements into different stores based on their type.\x0aThe goal is to store some elements into native JS object property names to be fast.\x0a\x0aIf an unboxed element has typeof 'string', 'boolean' or 'number', or an element is nil, null or undefined,\x0aI store it as a property name in an empty (== Object.create(null)) JS object, different for each type\x0a(for simplicity, nil/null/undefined is treated as one and included with the two booleans).\x0a\x0aIf element happen to be an object, I try to store them in `ArrayBucketStore`. I have two of them by default,\x0aone hashed using the Smalltalk class name, the other one using the JS constructor name. It is possible to have more or less\x0ainstances of `ArrayBucketStores`, see `#initializeSlowBucketStores`.\x0a\x0aAs a last resort, if none of the `ArrayBucketStore` instances can find a suitable bucket, the `defaultBucket` is used,\x0awhich is an `Array`.";
 //>>excludeEnd("ide");
@@ -8347,7 +8351,7 @@ $globals.Set);
 
 
 
-$core.addClass("ProtoStream", $globals.Object, [], "Kernel-Collections");
+$core.addClass("ProtoStream", $globals.Object, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProtoStream.comment="I am the abstract base for different accessor for a sequence of objects. This sequence is referred to as my \x22contents\x22.\x0aMy instances are read/write streams modifying the contents.";
 //>>excludeEnd("ide");
@@ -8797,7 +8801,8 @@ return $recv($1)._yourself();
 $globals.ProtoStream.a$cls);
 
 
-$core.addClass("Stream", $globals.ProtoStream, ["collection", "position", "streamSize"], "Kernel-Collections");
+$core.addClass("Stream", $globals.ProtoStream, "Kernel-Collections");
+$core.setSlots($globals.Stream, ["collection", "position", "streamSize"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Stream.comment="I represent an accessor for a sequence of objects. This sequence is referred to as my \x22contents\x22.\x0aMy instances are read/write streams to the contents sequence collection.";
 //>>excludeEnd("ide");
@@ -9328,7 +9333,7 @@ return $recv($1)._yourself();
 $globals.Stream.a$cls);
 
 
-$core.addClass("StringStream", $globals.Stream, [], "Kernel-Collections");
+$core.addClass("StringStream", $globals.Stream, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.StringStream.comment="I am a Stream specific to `String` objects.";
 //>>excludeEnd("ide");
@@ -9684,7 +9689,8 @@ $globals.StringStream);
 
 
 
-$core.addClass("Queue", $globals.Object, ["read", "readIndex", "write"], "Kernel-Collections");
+$core.addClass("Queue", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.Queue, ["read", "readIndex", "write"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Queue.comment="I am a one-sided queue.\x0a\x0a## Usage\x0a\x0aUse `#nextPut:` to add items to the queue.\x0aUse `#next` or `#nextIfAbsent:` to get (and remove) the next item in the queue.\x0a\x0a## Implementation notes\x0a\x0aA Queue uses two OrderedCollections inside,\x0a`read` is at the front, is not modified and only read using `readIndex`.\x0a`write` is at the back and is appended new items.\x0aWhen `read` is exhausted, `write` is promoted to `read` and new `write` is created.\x0a\x0aAs a consequence, no data moving is done by me, write appending may do data moving\x0awhen growing `write`, but this is left to engine to implement as good as it chooses to.";
 //>>excludeEnd("ide");
@@ -9840,7 +9846,7 @@ $globals.Queue);
 
 
 
-$core.addClass("RegularExpression", $globals.Object, [], "Kernel-Collections");
+$core.addClass("RegularExpression", $globals.Object, "Kernel-Collections");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.RegularExpression.comment="I represent a regular expression object. My instances are JavaScript `RegExp` object.";
 //>>excludeEnd("ide");

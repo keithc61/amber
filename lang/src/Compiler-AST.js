@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source"], "Compiler-AST");
+$core.addClass("ASTNode", $globals.DagParentNode, "Compiler-AST");
+$core.setSlots($globals.ASTNode, ["parent", "position", "source"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 //>>excludeEnd("ide");
@@ -391,7 +392,8 @@ $globals.ASTNode);
 
 
 
-$core.addClass("ExpressionNode", $globals.ASTNode, ["shouldBeAliased"], "Compiler-AST");
+$core.addClass("ExpressionNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.ExpressionNode, ["shouldBeAliased"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExpressionNode.comment="I am the abstract root class for expression nodes.";
 //>>excludeEnd("ide");
@@ -543,7 +545,8 @@ $globals.ExpressionNode);
 
 
 
-$core.addClass("AssignmentNode", $globals.ExpressionNode, ["left", "right"], "Compiler-AST");
+$core.addClass("AssignmentNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.AssignmentNode, ["left", "right"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AssignmentNode.comment="I represent an assignment node.";
 //>>excludeEnd("ide");
@@ -669,7 +672,8 @@ $globals.AssignmentNode);
 
 
 
-$core.addClass("BlockNode", $globals.ExpressionNode, ["parameters", "scope", "sequenceNode"], "Compiler-AST");
+$core.addClass("BlockNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.BlockNode, ["parameters", "scope", "sequenceNode"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockNode.comment="I represent an block closure node.";
 //>>excludeEnd("ide");
@@ -844,7 +848,8 @@ $globals.BlockNode);
 
 
 
-$core.addClass("CascadeNode", $globals.ExpressionNode, ["receiver"], "Compiler-AST");
+$core.addClass("CascadeNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.CascadeNode, ["receiver"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CascadeNode.comment="I represent an cascade node.";
 //>>excludeEnd("ide");
@@ -910,7 +915,7 @@ $globals.CascadeNode);
 
 
 
-$core.addClass("DynamicArrayNode", $globals.ExpressionNode, [], "Compiler-AST");
+$core.addClass("DynamicArrayNode", $globals.ExpressionNode, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DynamicArrayNode.comment="I represent an dynamic array node.";
 //>>excludeEnd("ide");
@@ -939,7 +944,7 @@ $globals.DynamicArrayNode);
 
 
 
-$core.addClass("DynamicDictionaryNode", $globals.ExpressionNode, [], "Compiler-AST");
+$core.addClass("DynamicDictionaryNode", $globals.ExpressionNode, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.DynamicDictionaryNode.comment="I represent an dynamic dictionary node.";
 //>>excludeEnd("ide");
@@ -968,7 +973,8 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "argumentSwitcher", "isSideEffect"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.SendNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "argumentSwitcher", "isSideEffect"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SendNode.comment="I represent an message send node.";
 //>>excludeEnd("ide");
@@ -1389,7 +1395,8 @@ $globals.SendNode);
 
 
 
-$core.addClass("ValueNode", $globals.ExpressionNode, ["value"], "Compiler-AST");
+$core.addClass("ValueNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.ValueNode, ["value"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ValueNode.comment="I represent a value node.";
 //>>excludeEnd("ide");
@@ -1478,7 +1485,8 @@ $globals.ValueNode);
 
 
 
-$core.addClass("VariableNode", $globals.ExpressionNode, ["identifier", "assigned", "binding"], "Compiler-AST");
+$core.addClass("VariableNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.VariableNode, ["identifier", "assigned", "binding"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.VariableNode.comment="I represent an variable node.";
 //>>excludeEnd("ide");
@@ -1835,7 +1843,7 @@ $globals.VariableNode);
 
 
 
-$core.addClass("JSStatementNode", $globals.ASTNode, [], "Compiler-AST");
+$core.addClass("JSStatementNode", $globals.ASTNode, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.JSStatementNode.comment="I represent an JavaScript statement node.";
 //>>excludeEnd("ide");
@@ -1864,7 +1872,8 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes", "sequenceNode"], "Compiler-AST");
+$core.addClass("MethodNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.MethodNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes", "sequenceNode"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 //>>excludeEnd("ide");
@@ -2238,7 +2247,8 @@ $globals.MethodNode);
 
 
 
-$core.addClass("ReturnNode", $globals.ASTNode, ["scope", "expression"], "Compiler-AST");
+$core.addClass("ReturnNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.ReturnNode, ["scope", "expression"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ReturnNode.comment="I represent an return node. At the AST level, there is not difference between a local return or non-local return.";
 //>>excludeEnd("ide");
@@ -2416,7 +2426,8 @@ $globals.ReturnNode);
 
 
 
-$core.addClass("SequenceNode", $globals.ASTNode, ["temps"], "Compiler-AST");
+$core.addClass("SequenceNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.SequenceNode, ["temps"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SequenceNode.comment="I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).";
 //>>excludeEnd("ide");
@@ -2493,7 +2504,7 @@ $globals.SequenceNode);
 
 
 
-$core.addClass("BlockSequenceNode", $globals.SequenceNode, [], "Compiler-AST");
+$core.addClass("BlockSequenceNode", $globals.SequenceNode, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.BlockSequenceNode.comment="I represent an special sequence node for block scopes.";
 //>>excludeEnd("ide");
@@ -2522,7 +2533,8 @@ $globals.BlockSequenceNode);
 
 
 
-$core.addClass("AstPragmator", $globals.Object, ["methodNode"], "Compiler-AST");
+$core.addClass("AstPragmator", $globals.Object, "Compiler-AST");
+$core.setSlots($globals.AstPragmator, ["methodNode"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AstPragmator.comment="I am abstract superclass for pragma-processing transformer.\x0a\x0aMy subclasses should implement messages for each pragma\x0athey process. Pragma processing checks if a message is known\x0ato a class but not to its superclass. IOW, each and only those\x0apragmas are processed which are defined as methods in the subclass.\x0a\x0aThese messages can access sequence node in which\x0aa pragma occurred and its containing method node\x0aas `self sequenceNode` and `self methodNode`.\x0a\x0aSee `EarlyPragmator` for an example.";
 //>>excludeEnd("ide");
@@ -2590,7 +2602,7 @@ $globals.AstPragmator);
 
 
 
-$core.addClass("AstSemanticPragmator", $globals.AstPragmator, [], "Compiler-AST");
+$core.addClass("AstSemanticPragmator", $globals.AstPragmator, "Compiler-AST");
 $core.addMethod(
 $core.method({
 selector: "inlineJS:",
@@ -2638,13 +2650,14 @@ $globals.AstSemanticPragmator);
 
 
 
-$core.addClass("CompilerError", $globals.Error, [], "Compiler-AST");
+$core.addClass("CompilerError", $globals.Error, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.CompilerError.comment="I am the common superclass of all compiling errors.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, ["setParentSelector"], "Compiler-AST");
+$core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, "Compiler-AST");
+$core.setSlots($globals.ParentFakingPathDagVisitor, ["setParentSelector"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ParentFakingPathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 //>>excludeEnd("ide");
@@ -2690,7 +2703,7 @@ $globals.ParentFakingPathDagVisitor);
 
 
 
-$core.addClass("NodeVisitor", $globals.ParentFakingPathDagVisitor, [], "Compiler-AST");
+$core.addClass("NodeVisitor", $globals.ParentFakingPathDagVisitor, "Compiler-AST");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NodeVisitor.comment="I am the abstract super class of all AST node visitors.";
 //>>excludeEnd("ide");

@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Promises");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
+$core.addClass("Promise", $globals.Object, "Kernel-Promises");
 
 $core.addMethod(
 $core.method({

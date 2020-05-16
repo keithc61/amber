@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Interpreter");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
+$core.addClass("AIBlockClosure", $globals.BlockClosure, "Compiler-Interpreter");
+$core.setSlots($globals.AIBlockClosure, ["node", "outerContext"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
 //>>excludeEnd("ide");
@@ -328,7 +329,8 @@ return $recv($1)._yourself();
 $globals.AIBlockClosure.a$cls);
 
 
-$core.addClass("AIContext", $globals.Object, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
+$core.addClass("AIContext", $globals.Object, "Compiler-Interpreter");
+$core.setSlots($globals.AIContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AIContext.comment="I am like a `MethodContext`, used by the `ASTInterpreter`.\x0aUnlike a `MethodContext`, my instances are not read-only.\x0a\x0aWhen debugging, my instances are created by copying the current `MethodContext` (thisContext)";
 //>>excludeEnd("ide");
@@ -1498,7 +1500,8 @@ return $recv($1)._yourself();
 $globals.AIContext.a$cls);
 
 
-$core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, ["context"], "Compiler-Interpreter");
+$core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, "Compiler-Interpreter");
+$core.setSlots($globals.AISemanticAnalyzer, ["context"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AISemanticAnalyzer.comment="I perform the same semantic analysis than `SemanticAnalyzer`, with the difference that provided an `AIContext` context, variables are bound with the context variables.";
 //>>excludeEnd("ide");
@@ -1586,7 +1589,8 @@ $globals.AISemanticAnalyzer);
 
 
 
-$core.addClass("ASTContextVar", $globals.ScopeVar, ["context"], "Compiler-Interpreter");
+$core.addClass("ASTContextVar", $globals.ScopeVar, "Compiler-Interpreter");
+$core.setSlots($globals.ASTContextVar, ["context"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTContextVar.comment="I am a variable defined in a `context`.";
 //>>excludeEnd("ide");
@@ -1629,7 +1633,8 @@ $globals.ASTContextVar);
 
 
 
-$core.addClass("ASTDebugger", $globals.Object, ["interpreter", "context", "result"], "Compiler-Interpreter");
+$core.addClass("ASTDebugger", $globals.Object, "Compiler-Interpreter");
+$core.setSlots($globals.ASTDebugger, ["interpreter", "context", "result"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTDebugger.comment="I am a stepping debugger interface for Amber code.\x0aI internally use an instance of `ASTInterpreter` to actually step through node and interpret them.\x0a\x0aMy instances are created from an `AIContext` with `ASTDebugger class >> context:`.\x0aThey hold an `AIContext` instance internally, recursive copy of the `MethodContext`.\x0a\x0a## API\x0a\x0aUse the methods of the `'stepping'` protocol to do stepping.";
 //>>excludeEnd("ide");
@@ -2027,7 +2032,8 @@ return $recv($1)._yourself();
 $globals.ASTDebugger.a$cls);
 
 
-$core.addClass("ASTEnterNode", $globals.NodeVisitor, ["interpreter"], "Compiler-Interpreter");
+$core.addClass("ASTEnterNode", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTEnterNode, ["interpreter"]);
 $core.addMethod(
 $core.method({
 selector: "interpreter",
@@ -2185,7 +2191,8 @@ return $recv($1)._yourself();
 $globals.ASTEnterNode.a$cls);
 
 
-$core.addClass("ASTInterpreter", $globals.NodeVisitor, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"], "Compiler-Interpreter");
+$core.addClass("ASTInterpreter", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTInterpreter, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTInterpreter.comment="I visit an AST, interpreting (evaluating) nodes one after the other, using a small stack machine.\x0a\x0a## API\x0a\x0aWhile my instances should be used from within an `ASTDebugger`, which provides a more high level interface,\x0ayou can use methods from the `interpreting` protocol:\x0a\x0a- `#step` evaluates the current `node` only\x0a- `#stepOver` evaluates the AST from the current `node` up to the next stepping node (most likely the next send node)\x0a- `#proceed` evaluates eagerly the AST\x0a- `#restart` select the first node of the AST\x0a- `#skip` skips the current node, moving to the next one if any";
 //>>excludeEnd("ide");
@@ -3489,13 +3496,14 @@ $globals.ASTInterpreter);
 
 
 
-$core.addClass("ASTInterpreterError", $globals.Error, [], "Compiler-Interpreter");
+$core.addClass("ASTInterpreterError", $globals.Error, "Compiler-Interpreter");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTInterpreterError.comment="I get signaled when an AST interpreter is unable to interpret a node.";
 //>>excludeEnd("ide");
 
 
-$core.addClass("ASTPCNodeVisitor", $globals.NodeVisitor, ["index", "trackedIndex", "selector", "currentNode"], "Compiler-Interpreter");
+$core.addClass("ASTPCNodeVisitor", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTPCNodeVisitor, ["index", "trackedIndex", "selector", "currentNode"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ASTPCNodeVisitor.comment="I visit an AST until I get to the current node for the `context` and answer it.\x0a\x0a## API\x0a\x0aMy instances must be filled with a context object using `#context:`.\x0a\x0aAfter visiting the AST the current node is answered by `#currentNode`";
 //>>excludeEnd("ide");

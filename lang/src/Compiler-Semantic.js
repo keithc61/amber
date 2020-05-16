@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "arguments", "property", "args"], "Compiler-Semantic");
+$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, "Compiler-Semantic");
+$core.setSlots($globals.JSSuperSendVisitor, ["selector", "arguments", "property", "args"]);
 $core.addMethod(
 $core.method({
 selector: "args",
@@ -286,7 +287,8 @@ $globals.JSSuperSendVisitor);
 
 
 
-$core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
+$core.addClass("LexicalScope", $globals.Object, "Compiler-Semantic");
+$core.setSlots($globals.LexicalScope, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
 //>>excludeEnd("ide");
@@ -911,7 +913,8 @@ $globals.LexicalScope);
 
 
 
-$core.addClass("MethodLexicalScope", $globals.LexicalScope, ["iVars", "pseudoVars", "localReturn", "nonLocalReturns"], "Compiler-Semantic");
+$core.addClass("MethodLexicalScope", $globals.LexicalScope, "Compiler-Semantic");
+$core.setSlots($globals.MethodLexicalScope, ["iVars", "pseudoVars", "localReturn", "nonLocalReturns"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodLexicalScope.comment="I represent a method scope.";
 //>>excludeEnd("ide");
@@ -1317,7 +1320,8 @@ $globals.MethodLexicalScope);
 
 
 
-$core.addClass("ScopeVar", $globals.Object, ["scope", "name"], "Compiler-Semantic");
+$core.addClass("ScopeVar", $globals.Object, "Compiler-Semantic");
+$core.setSlots($globals.ScopeVar, ["scope", "name"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ScopeVar.comment="I am an entry in a LexicalScope that gets associated with variable nodes of the same name.\x0aThere are 4 different subclasses of vars: temp vars, local vars, args, and unknown/global vars.";
 //>>excludeEnd("ide");
@@ -1524,7 +1528,7 @@ return $recv($1)._yourself();
 $globals.ScopeVar.a$cls);
 
 
-$core.addClass("AliasVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("AliasVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.AliasVar.comment="I am an internally defined variable by the compiler";
 //>>excludeEnd("ide");
@@ -1572,7 +1576,7 @@ $globals.AliasVar);
 
 
 
-$core.addClass("ArgVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ArgVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ArgVar.comment="I am an argument of a method or block.";
 //>>excludeEnd("ide");
@@ -1596,7 +1600,7 @@ $globals.ArgVar);
 
 
 
-$core.addClass("ClassRefVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ClassRefVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ClassRefVar.comment="I am an class reference variable";
 //>>excludeEnd("ide");
@@ -1625,13 +1629,13 @@ $globals.ClassRefVar);
 
 
 
-$core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ExternallyKnownVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
 //>>excludeEnd("ide");
 
 
-$core.addClass("InstanceVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("InstanceVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InstanceVar.comment="I am an instance variable of a method or block.";
 //>>excludeEnd("ide");
@@ -1678,7 +1682,7 @@ $globals.InstanceVar);
 
 
 
-$core.addClass("PseudoVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("PseudoVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PseudoVar.comment="I am an pseudo variable.\x0a\x0aThe five Smalltalk pseudo variables are: 'self', 'super', 'nil', 'true' and 'false'";
 //>>excludeEnd("ide");
@@ -1825,7 +1829,7 @@ return $1;
 $globals.PseudoVar.a$cls);
 
 
-$core.addClass("SuperVar", $globals.PseudoVar, [], "Compiler-Semantic");
+$core.addClass("SuperVar", $globals.PseudoVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SuperVar.comment="I am a 'super' pseudo variable.";
 //>>excludeEnd("ide");
@@ -1867,7 +1871,7 @@ $globals.SuperVar);
 
 
 
-$core.addClass("JavaScriptSuperVar", $globals.SuperVar, [], "Compiler-Semantic");
+$core.addClass("JavaScriptSuperVar", $globals.SuperVar, "Compiler-Semantic");
 $core.addMethod(
 $core.method({
 selector: "lookupAsJavaScriptSource",
@@ -1888,7 +1892,7 @@ $globals.JavaScriptSuperVar);
 
 
 
-$core.addClass("ThisContextVar", $globals.PseudoVar, [], "Compiler-Semantic");
+$core.addClass("ThisContextVar", $globals.PseudoVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ThisContextVar.comment="I am a 'thisContext' pseudo variable.";
 //>>excludeEnd("ide");
@@ -1912,7 +1916,7 @@ $globals.ThisContextVar);
 
 
 
-$core.addClass("TempVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("TempVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.TempVar.comment="I am an temporary variable of a method or block.";
 //>>excludeEnd("ide");
@@ -1936,7 +1940,8 @@ $globals.TempVar);
 
 
 
-$core.addClass("SemanticAnalyzer", $globals.NodeVisitor, ["currentScope", "blockIndex", "thePackage", "theClass", "classReferences", "messageSends"], "Compiler-Semantic");
+$core.addClass("SemanticAnalyzer", $globals.NodeVisitor, "Compiler-Semantic");
+$core.setSlots($globals.SemanticAnalyzer, ["currentScope", "blockIndex", "thePackage", "theClass", "classReferences", "messageSends"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SemanticAnalyzer.comment="I semantically analyze the abstract syntax tree and annotate it with informations such as non local returns and variable scopes.";
 //>>excludeEnd("ide");
@@ -2821,13 +2826,14 @@ return $recv($1)._yourself();
 $globals.SemanticAnalyzer.a$cls);
 
 
-$core.addClass("SemanticError", $globals.CompilerError, [], "Compiler-Semantic");
+$core.addClass("SemanticError", $globals.CompilerError, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.SemanticError.comment="I represent an abstract semantic error thrown by the SemanticAnalyzer.\x0aSemantic errors can be unknown variable errors, etc.\x0aSee my subclasses for concrete errors.\x0a\x0aThe IDE should catch instances of Semantic error to deal with them when compiling";
 //>>excludeEnd("ide");
 
 
-$core.addClass("InvalidAssignmentError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("InvalidAssignmentError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.InvalidAssignmentError, ["variableName"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.InvalidAssignmentError.comment="I get signaled when a pseudo variable gets assigned.";
 //>>excludeEnd("ide");
@@ -2893,7 +2899,8 @@ $globals.InvalidAssignmentError);
 
 
 
-$core.addClass("ShadowingVariableError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("ShadowingVariableError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.ShadowingVariableError, ["variableName"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ShadowingVariableError.comment="I get signaled when a variable in a block or method scope shadows a variable of the same name in an outer scope.";
 //>>excludeEnd("ide");
@@ -2963,7 +2970,8 @@ $globals.ShadowingVariableError);
 
 
 
-$core.addClass("UnknownVariableError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("UnknownVariableError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.UnknownVariableError, ["variableName"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.UnknownVariableError.comment="I get signaled when a variable is not defined.\x0aThe default behavior is to allow it, as this is how Amber currently is able to seamlessly send messages to JavaScript objects.";
 //>>excludeEnd("ide");

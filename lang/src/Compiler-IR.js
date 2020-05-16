@@ -3,7 +3,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-IR");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence"], "Compiler-IR");
+$core.addClass("IRASTTranslator", $globals.NodeVisitor, "Compiler-IR");
+$core.setSlots($globals.IRASTTranslator, ["source", "theClass", "method", "sequence"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
 //>>excludeEnd("ide");
@@ -1017,7 +1018,8 @@ $globals.IRASTTranslator);
 
 
 
-$core.addClass("IRAliasFactory", $globals.Object, ["counter"], "Compiler-IR");
+$core.addClass("IRAliasFactory", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.IRAliasFactory, ["counter"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -1080,7 +1082,8 @@ $globals.IRAliasFactory);
 
 
 
-$core.addClass("IRInstruction", $globals.DagParentNode, ["parent"], "Compiler-IR");
+$core.addClass("IRInstruction", $globals.DagParentNode, "Compiler-IR");
+$core.setSlots($globals.IRInstruction, ["parent"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRInstruction.comment="I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.\x0aThe IR graph is used to emit JavaScript code using a JSStream.";
 //>>excludeEnd("ide");
@@ -1507,7 +1510,7 @@ return $recv($1)._yourself();
 $globals.IRInstruction.a$cls);
 
 
-$core.addClass("IRAssignment", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRAssignment", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -1579,7 +1582,7 @@ $globals.IRAssignment);
 
 
 
-$core.addClass("IRDynamicArray", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRDynamicArray", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -1605,7 +1608,7 @@ $globals.IRDynamicArray);
 
 
 
-$core.addClass("IRDynamicDictionary", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRDynamicDictionary", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -1631,7 +1634,8 @@ $globals.IRDynamicDictionary);
 
 
 
-$core.addClass("IRScopedInstruction", $globals.IRInstruction, ["scope"], "Compiler-IR");
+$core.addClass("IRScopedInstruction", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRScopedInstruction, ["scope"]);
 $core.addMethod(
 $core.method({
 selector: "scope",
@@ -1671,7 +1675,8 @@ $globals.IRScopedInstruction);
 
 
 
-$core.addClass("IRClosureInstruction", $globals.IRScopedInstruction, ["arguments", "requiresSmalltalkContext"], "Compiler-IR");
+$core.addClass("IRClosureInstruction", $globals.IRScopedInstruction, "Compiler-IR");
+$core.setSlots($globals.IRClosureInstruction, ["arguments", "requiresSmalltalkContext"]);
 $core.addMethod(
 $core.method({
 selector: "arguments",
@@ -1865,7 +1870,7 @@ $globals.IRClosureInstruction);
 
 
 
-$core.addClass("IRClosure", $globals.IRClosureInstruction, [], "Compiler-IR");
+$core.addClass("IRClosure", $globals.IRClosureInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -1932,7 +1937,8 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables", "aliasFactory"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, "Compiler-IR");
+$core.setSlots($globals.IRMethod, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables", "aliasFactory"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRMethod.comment="I am a method instruction";
 //>>excludeEnd("ide");
@@ -2417,7 +2423,7 @@ $globals.IRMethod);
 
 
 
-$core.addClass("IRReturn", $globals.IRScopedInstruction, [], "Compiler-IR");
+$core.addClass("IRReturn", $globals.IRScopedInstruction, "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRReturn.comment="I am a local return instruction.";
 //>>excludeEnd("ide");
@@ -2516,7 +2522,7 @@ $globals.IRReturn);
 
 
 
-$core.addClass("IRBlockReturn", $globals.IRReturn, [], "Compiler-IR");
+$core.addClass("IRBlockReturn", $globals.IRReturn, "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRBlockReturn.comment="Smalltalk blocks return their last statement. I am a implicit block return instruction.";
 //>>excludeEnd("ide");
@@ -2545,7 +2551,7 @@ $globals.IRBlockReturn);
 
 
 
-$core.addClass("IRNonLocalReturn", $globals.IRReturn, [], "Compiler-IR");
+$core.addClass("IRNonLocalReturn", $globals.IRReturn, "Compiler-IR");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRNonLocalReturn.comment="I am a non local return instruction.\x0aNon local returns are handled using a try/catch JavaScript statement.\x0a\x0aSee `IRNonLocalReturnHandling` class.";
 //>>excludeEnd("ide");
@@ -2574,7 +2580,8 @@ $globals.IRNonLocalReturn);
 
 
 
-$core.addClass("IRTempDeclaration", $globals.IRScopedInstruction, ["name"], "Compiler-IR");
+$core.addClass("IRTempDeclaration", $globals.IRScopedInstruction, "Compiler-IR");
+$core.setSlots($globals.IRTempDeclaration, ["name"]);
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -2655,7 +2662,8 @@ $globals.IRTempDeclaration);
 
 
 
-$core.addClass("IRSend", $globals.IRInstruction, ["selector", "javaScriptSelector", "argumentSwitcher", "index"], "Compiler-IR");
+$core.addClass("IRSend", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRSend, ["selector", "javaScriptSelector", "argumentSwitcher", "index"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRSend.comment="I am a message send instruction.";
 //>>excludeEnd("ide");
@@ -2908,7 +2916,7 @@ $globals.IRSend);
 
 
 
-$core.addClass("IRSequence", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRSequence", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -2952,7 +2960,7 @@ $globals.IRSequence);
 
 
 
-$core.addClass("IRBlockSequence", $globals.IRSequence, [], "Compiler-IR");
+$core.addClass("IRBlockSequence", $globals.IRSequence, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -2978,7 +2986,8 @@ $globals.IRBlockSequence);
 
 
 
-$core.addClass("IRValue", $globals.IRInstruction, ["value"], "Compiler-IR");
+$core.addClass("IRValue", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRValue, ["value"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRValue.comment="I am the simplest possible instruction. I represent a value.";
 //>>excludeEnd("ide");
@@ -3062,7 +3071,8 @@ $globals.IRValue);
 
 
 
-$core.addClass("IRVariable", $globals.IRInstruction, ["variable"], "Compiler-IR");
+$core.addClass("IRVariable", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRVariable, ["variable"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRVariable.comment="I am a variable instruction.";
 //>>excludeEnd("ide");
@@ -3222,7 +3232,8 @@ $globals.IRVariable);
 
 
 
-$core.addClass("IRVerbatim", $globals.IRInstruction, ["source"], "Compiler-IR");
+$core.addClass("IRVerbatim", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRVerbatim, ["source"]);
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -3285,7 +3296,8 @@ $globals.IRVerbatim);
 
 
 
-$core.addClass("IRPragmator", $globals.Object, ["irMethod"], "Compiler-IR");
+$core.addClass("IRPragmator", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.IRPragmator, ["irMethod"]);
 $core.addMethod(
 $core.method({
 selector: "irMethod",
@@ -3350,7 +3362,7 @@ $globals.IRPragmator);
 
 
 
-$core.addClass("IRLatePragmator", $globals.IRPragmator, [], "Compiler-IR");
+$core.addClass("IRLatePragmator", $globals.IRPragmator, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "jsOverride:",
@@ -3482,7 +3494,7 @@ $globals.IRLatePragmator);
 
 
 
-$core.addClass("IRVisitor", $globals.ParentFakingPathDagVisitor, [], "Compiler-IR");
+$core.addClass("IRVisitor", $globals.ParentFakingPathDagVisitor, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
@@ -3876,7 +3888,8 @@ $globals.IRVisitor);
 
 
 
-$core.addClass("IRJSTranslator", $globals.IRVisitor, ["stream", "currentClass"], "Compiler-IR");
+$core.addClass("IRJSTranslator", $globals.IRVisitor, "Compiler-IR");
+$core.setSlots($globals.IRJSTranslator, ["stream", "currentClass"]);
 $core.addMethod(
 $core.method({
 selector: "contents",
@@ -4859,7 +4872,8 @@ $globals.IRJSTranslator);
 
 
 
-$core.addClass("JSStream", $globals.Object, ["stream", "omitSemicolon"], "Compiler-IR");
+$core.addClass("JSStream", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.JSStream, ["stream", "omitSemicolon"]);
 $core.addMethod(
 $core.method({
 selector: "contents",

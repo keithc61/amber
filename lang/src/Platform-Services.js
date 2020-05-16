@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-Services");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
+$core.addClass("ConsoleErrorHandler", $globals.Object, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
 //>>excludeEnd("ide");
@@ -190,7 +190,8 @@ return self;
 $globals.ConsoleErrorHandler.a$cls);
 
 
-$core.addClass("ConsoleTranscript", $globals.Object, ["textarea"], "Platform-Services");
+$core.addClass("ConsoleTranscript", $globals.Object, "Platform-Services");
+$core.setSlots($globals.ConsoleTranscript, ["textarea"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ConsoleTranscript.comment="I am a specific transcript emitting to the JavaScript console.\x0a\x0aIf no other transcript is registered, I am the default.";
 //>>excludeEnd("ide");
@@ -298,7 +299,7 @@ return self;
 $globals.ConsoleTranscript.a$cls);
 
 
-$core.addClass("Environment", $globals.Object, [], "Platform-Services");
+$core.addClass("Environment", $globals.Object, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Environment.comment="I provide an unified entry point to manipulate Amber packages, classes and methods.\x0a\x0aTypical use cases include IDEs, remote access and restricting browsing.";
 //>>excludeEnd("ide");
@@ -1242,7 +1243,7 @@ $globals.Environment);
 
 
 
-$core.addClass("NullProgressHandler", $globals.Object, [], "Platform-Services");
+$core.addClass("NullProgressHandler", $globals.Object, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NullProgressHandler.comment="I am the default progress handler. I do not display any progress, and simply iterate over the collection.";
 //>>excludeEnd("ide");
@@ -1297,7 +1298,7 @@ return self;
 $globals.NullProgressHandler.a$cls);
 
 
-$core.addClass("Service", $globals.Object, [], "Platform-Services");
+$core.addClass("Service", $globals.Object, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 //>>excludeEnd("ide");
@@ -1395,7 +1396,7 @@ return self;
 $globals.Service.a$cls);
 
 
-$core.addClass("ErrorHandler", $globals.Service, [], "Platform-Services");
+$core.addClass("ErrorHandler", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ErrorHandler.comment="I am the service used to handle Smalltalk errors.\x0aSee `boot.js` `handleError()` function.\x0a\x0aRegistered service instances must implement `#handleError:` to perform an action on the thrown exception.";
 //>>excludeEnd("ide");
@@ -1461,7 +1462,7 @@ return self;
 $globals.ErrorHandler.a$cls);
 
 
-$core.addClass("Finder", $globals.Service, [], "Platform-Services");
+$core.addClass("Finder", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Finder.comment="I am the service responsible for finding classes/methods.\x0a__There is no default finder.__\x0a\x0a## API\x0a\x0aUse `#browse` on an object to find it.";
 //>>excludeEnd("ide");
@@ -1536,7 +1537,7 @@ return $recv($self._current())._findString_(aString);
 $globals.Finder.a$cls);
 
 
-$core.addClass("Inspector", $globals.Service, [], "Platform-Services");
+$core.addClass("Inspector", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Inspector.comment="I am the service responsible for inspecting objects.\x0a\x0aThe default inspector object is the transcript.";
 //>>excludeEnd("ide");
@@ -1565,7 +1566,7 @@ return $recv($self._current())._inspect_(anObject);
 $globals.Inspector.a$cls);
 
 
-$core.addClass("Platform", $globals.Service, [], "Platform-Services");
+$core.addClass("Platform", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a    Platform globals. \x22JS global object\x22\x0a    Platform newXHR \x22new XMLHttpRequest() or its shim\x22";
 //>>excludeEnd("ide");
@@ -1692,7 +1693,7 @@ return $recv($self._current())._newXhr();
 $globals.Platform.a$cls);
 
 
-$core.addClass("ProgressHandler", $globals.Service, [], "Platform-Services");
+$core.addClass("ProgressHandler", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.ProgressHandler.comment="I am used to manage progress in collection iterations, see `SequenceableCollection >> #do:displayingProgress:`.\x0a\x0aRegistered instances must implement `#do:on:displaying:`.\x0a\x0aThe default behavior is to simply iterate over the collection, using `NullProgressHandler`.";
 //>>excludeEnd("ide");
@@ -1722,7 +1723,7 @@ return self;
 $globals.ProgressHandler.a$cls);
 
 
-$core.addClass("Terminal", $globals.Service, [], "Platform-Services");
+$core.addClass("Terminal", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Terminal.comment="I am UI interface service.\x0a\x0a## API\x0a\x0a    Terminal alert: 'Hey, there is a problem'.\x0a    Terminal confirm: 'Affirmative?'.\x0a    Terminal prompt: 'Your name:'.";
 //>>excludeEnd("ide");
@@ -1820,7 +1821,7 @@ return $recv($self._current())._prompt_default_(aString,defaultString);
 $globals.Terminal.a$cls);
 
 
-$core.addClass("Transcript", $globals.Service, [], "Platform-Services");
+$core.addClass("Transcript", $globals.Service, "Platform-Services");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.Transcript.comment="I am a facade for Transcript actions.\x0a\x0aI delegate actions to the currently registered transcript.\x0a\x0a## API\x0a\x0a    Transcript \x0a        show: 'hello world';\x0a        cr;\x0a        show: anObject.";
 //>>excludeEnd("ide");
