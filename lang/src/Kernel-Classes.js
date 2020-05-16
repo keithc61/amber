@@ -10,42 +10,6 @@ $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn a
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
-selector: "allInstanceVariableNames",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "allInstanceVariableNames\x0a\x09| result |\x0a\x09result := self instanceVariableNames copy.\x0a\x09self superclass ifNotNil: [\x0a\x09\x09result addAll: self superclass allInstanceVariableNames ].\x0a\x09^ result",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["copy", "instanceVariableNames", "ifNotNil:", "superclass", "addAll:", "allInstanceVariableNames"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var result;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-result=$recv($self._instanceVariableNames())._copy();
-$1=[$self._superclass()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["superclass"]=1
-//>>excludeEnd("ctx");
-][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
-$recv(result)._addAll_($recv($self._superclass())._allInstanceVariableNames());
-}
-return result;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{result:result})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
 selector: "allSelectors",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -396,29 +360,6 @@ return $recv(superClass)._includesBehavior_(aClass);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"inheritsFrom:",{aClass:aClass})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
-selector: "instanceVariableNames",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "instanceVariableNames\x0a\x09^ slots select: #isString",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["select:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($self.slots)._select_("isString");
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Behavior);
@@ -2170,24 +2111,6 @@ $globals.ClassBuilder.a$cls);
 $core.addTrait("TBehaviorDefaults", "Kernel-Classes");
 $core.addMethod(
 $core.method({
-selector: "allInstanceVariableNames",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return [];
-
-}; }),
-$globals.TBehaviorDefaults);
-
-$core.addMethod(
-$core.method({
 selector: "allSubclassesDo:",
 protocol: "enumerating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2288,6 +2211,24 @@ $globals.TBehaviorDefaults);
 
 $core.addMethod(
 $core.method({
+selector: "slots",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "slots\x0a\x09\x22Default for non-classes; to be able to send #slots to any class / trait.\x22\x0a\x09^ #()",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [];
+
+}; }),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
 selector: "superclass",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2325,7 +2266,7 @@ $globals.TBehaviorDefaults);
 
 $core.addTrait("TBehaviorProvider", "Kernel-Classes");
 //>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.TBehaviorProvider.comment="I have method dictionary and organization.";
+$globals.TBehaviorProvider.comment="I have method dictionary, slots and organization.";
 //>>excludeEnd("ide");
 $core.addMethod(
 $core.method({
@@ -2400,6 +2341,63 @@ $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allInstanceVariableNames",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "allInstanceVariableNames\x0a\x09^ self allSlots select: #isString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["select:", "allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._allSlots())._select_("isString");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allSlots",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "allSlots\x0a\x09| result |\x0a\x09result := self slots copy.\x0a\x09self superclass ifNotNil: [ :s | result addAll: s allSlots ].\x0a\x09^ result",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["copy", "slots", "ifNotNil:", "superclass", "addAll:", "allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+result=$recv($self._slots())._copy();
+$1=$self._superclass();
+if($1 == null || $1.a$nil){
+$1;
+} else {
+var s;
+s=$1;
+$recv(result)._addAll_($recv(s)._allSlots());
+}
+return result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"allSlots",{result:result})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TBehaviorProvider);
@@ -2494,6 +2492,29 @@ return $core.withContext(function($ctx1) {
 return $recv($self._methodDictionary())._includesKey_(aString);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"includesSelector:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "instanceVariableNames",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "instanceVariableNames\x0a\x09^ self slots select: #isString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["select:", "slots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self._slots())._select_("isString");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TBehaviorProvider);

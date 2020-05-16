@@ -13,8 +13,20 @@
 + ClassBuilder >>
   + addSubclass:named:slots:package:
   + migrateClassNamed:superclass:slots:package:
++ TBehaviorDefaults >>
+  + slots
++ TBehaviorProvider >>
+  + allInstanceVariableNames
+  + allSlots
+  + instanceVariableNames
 + UndefinedObject >>
   + asJavaScriptSource
+
+- Behavior >>
+  - allInstanceVariableNames
+  - instanceVariableNames
+- TBehaviorDefaults >>
+  - allInstanceVariableNames
 
 
 0.29.1:

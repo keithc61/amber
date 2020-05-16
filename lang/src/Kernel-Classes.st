@@ -15,14 +15,6 @@ I also provide iterating over the class hierarchy.!
 
 !Behavior methodsFor: 'accessing'!
 
-allInstanceVariableNames
-	| result |
-	result := self instanceVariableNames copy.
-	self superclass ifNotNil: [
-		result addAll: self superclass allInstanceVariableNames ].
-	^ result
-!
-
 allSelectors
 	^ self allSuperclasses
 		inject: self selectors
@@ -64,10 +56,6 @@ beJavaScriptSubclassOf: aJavaScriptFunction
 
 	self makeJavaScriptConstructorSubclassOf: aJavaScriptFunction.
 	Smalltalk core detachClass: self
-!
-
-instanceVariableNames
-	^ slots select: #isString
 !
 
 javaScriptConstructor
@@ -595,13 +583,13 @@ Trait named: #TBehaviorDefaults
 
 !TBehaviorDefaults methodsFor: 'accessing'!
 
-allInstanceVariableNames
-	"Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait."
-	^ #()
-!
-
 name
 	^ nil
+!
+
+slots
+	"Default for non-classes; to be able to send #slots to any class / trait."
+	^ #()
 !
 
 superclass
@@ -636,12 +624,27 @@ printOn: aStream
 Trait named: #TBehaviorProvider
 	package: 'Kernel-Classes'!
 !TBehaviorProvider commentStamp!
-I have method dictionary and organization.!
+I have method dictionary, slots and organization.!
 
 !TBehaviorProvider methodsFor: 'accessing'!
 
 >> aString
 	^ self methodAt: aString
+!
+
+allInstanceVariableNames
+	^ self allSlots select: #isString
+!
+
+allSlots
+	| result |
+	result := self slots copy.
+	self superclass ifNotNil: [ :s | result addAll: s allSlots ].
+	^ result
+!
+
+instanceVariableNames
+	^ self slots select: #isString
 !
 
 methodAt: aString
