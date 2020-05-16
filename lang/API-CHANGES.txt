@@ -3,6 +3,8 @@
 * Deprecate ClassBuilder >> addSubclass:named:instanceVariableNames:package:.
 * Deprecate ... >> migrateClassNamed:superclass:instanceVariableNames:package:.
 * Behavior >> instanceVariableNames aimed at only that. No visible change atm.
+* Deprecate Object >> asJavaScriptObject.
+  * Hard to do generically if slots are added later.
 
 + Behavior >>
   + slots

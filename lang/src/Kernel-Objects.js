@@ -754,17 +754,18 @@ selector: "asJavaScriptObject",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) asJavaScriptObject ].\x0a\x09^ variables",
+source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09self deprecatedAPI: 'Implement domain-specific #asJavaScriptObject on your classes instead.'.\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) asJavaScriptObject ].\x0a\x09^ variables",
 referencedClasses: ["HashedCollection"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarNamed:"]
+messageSends: ["deprecatedAPI:", "new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarNamed:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var variables;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+$self._deprecatedAPI_("Implement domain-specific #asJavaScriptObject on your classes instead.");
 variables=$recv($globals.HashedCollection)._new();
 $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

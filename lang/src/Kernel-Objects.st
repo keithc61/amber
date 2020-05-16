@@ -294,6 +294,7 @@ asJSONString
 
 asJavaScriptObject
 	| variables |
+	self deprecatedAPI: 'Implement domain-specific #asJavaScriptObject on your classes instead.'.
 	variables := HashedCollection new.
 	self class allInstanceVariableNames do: [ :each |
 		variables at: each put: (self instVarNamed: each) asJavaScriptObject ].
