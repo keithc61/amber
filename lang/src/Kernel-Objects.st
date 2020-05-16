@@ -302,6 +302,7 @@ asJavaScriptObject
 !
 
 asJavaScriptSource
+	self deprecatedAPI: 'Implement domain-specific #asJavaScriptSource on your classes instead.'.
 	^ self asString
 !
 
@@ -543,6 +544,10 @@ asBit
 
 asJavaScriptObject
 	^ self
+!
+
+asJavaScriptSource
+	^ self asString
 !
 
 asString
@@ -1594,6 +1599,10 @@ identityHash
 
 asJavaScriptObject
 	^ null
+!
+
+asJavaScriptSource
+	^ 'null'
 ! !
 
 !UndefinedObject methodsFor: 'copying'!

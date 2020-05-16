@@ -3,14 +3,18 @@
 * Deprecate ClassBuilder >> addSubclass:named:instanceVariableNames:package:.
 * Deprecate ... >> migrateClassNamed:superclass:instanceVariableNames:package:.
 * Behavior >> instanceVariableNames aimed at only that. No visible change atm.
-* Deprecate Object >> asJavaScriptObject.
+* Deprecate Object >> asJavaScript{Object,Source}.
   * Hard to do generically if slots are added later.
 
 + Behavior >>
   + slots
++ Boolean >>
+  + asJavaScriptSource
 + ClassBuilder >>
   + addSubclass:named:slots:package:
   + migrateClassNamed:superclass:slots:package:
++ UndefinedObject >>
+  + asJavaScriptSource
 
 
 0.29.1:

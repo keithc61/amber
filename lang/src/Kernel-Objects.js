@@ -789,16 +789,17 @@ selector: "asJavaScriptSource",
 protocol: "converting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptSource\x0a\x09^ self asString",
+source: "asJavaScriptSource\x0a\x09self deprecatedAPI: 'Implement domain-specific #asJavaScriptSource on your classes instead.'.\x0a\x09^ self asString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["asString"]
+messageSends: ["deprecatedAPI:", "asString"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+$self._deprecatedAPI_("Implement domain-specific #asJavaScriptSource on your classes instead.");
 return $self._asString();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
@@ -2010,6 +2011,29 @@ messageSends: []
 var self=this,$self=this;
 return self;
 
+}; }),
+$globals.Boolean);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptSource\x0a\x09^ self asString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["asString"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._asString();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Boolean);
 
@@ -6909,6 +6933,24 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return null;
+
+}; }),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "asJavaScriptSource\x0a\x09^ 'null'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "null";
 
 }; }),
 $globals.UndefinedObject);
