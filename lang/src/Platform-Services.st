@@ -232,7 +232,7 @@ addInstVarNamed: aString to: aClass
 		ifFalse: [ self classBuilder
 			addSubclassOf: aClass superclass 
 			named: aClass name 
-			instanceVariableNames: newInstVars
+			slots: newInstVars
 			package: aClass package name ]
 !
 

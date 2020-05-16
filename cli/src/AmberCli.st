@@ -1241,7 +1241,7 @@ subclass: aClass withVariable: varName
 	^ ClassBuilder new
 		addSubclassOf: aClass
 		named: (self subclassNameFor: aClass) asSymbol
-		instanceVariableNames: {varName}
+		slots: {varName}
 		package: 'Compiler-Core'
 !
 

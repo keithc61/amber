@@ -1382,11 +1382,35 @@ selector: "addSubclassOf:named:instanceVariableNames:package:",
 protocol: "class definition",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
+source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09self deprecatedAPI: 'Use #addSubclass:named:slots:package: instead.'.\x0a\x09^ self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "addSubclassOf:named:slots:package:"]
+}, function ($methodClass){ return function (aClass,className,aCollection,packageName){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #addSubclass:named:slots:package: instead.");
+return $self._addSubclassOf_named_slots_package_(aClass,className,aCollection,packageName);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "addSubclassOf:named:slots:package:",
+protocol: "class definition",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aClass", "className", "aCollection", "packageName"],
+source: "addSubclassOf: aClass named: className slots: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09slots: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
 referencedClasses: ["Smalltalk", "Package"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "basicAddSubclassOf:named:instanceVariableNames:package:", "yourself"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:slots:package:", "recompile", "basicAddSubclassOf:named:slots:package:", "yourself"]
 }, function ($methodClass){ return function (aClass,className,aCollection,packageName){
 var self=this,$self=this;
 var theClass,thePackage;
@@ -1402,14 +1426,14 @@ $1;
 } else {
 $recv(theClass)._package_(thePackage);
 if(!$core.assert($recv($recv(theClass)._superclass()).__eq_eq(aClass))){
-return $self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
+return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
 }
 }
-$2=$self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$2=$self._basicAddSubclassOf_named_slots_package_(aClass,className,aCollection,packageName);
 $recv($2)._recompile();
 return $recv($2)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage})});
+}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:slots:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassBuilder);
@@ -1452,14 +1476,14 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicAddSubclassOf:named:instanceVariableNames:package:",
+selector: "basicAddSubclassOf:named:slots:package:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aString", "aCollection", "packageName"],
-source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09'>",
+source: "basicAddSubclassOf: aClass named: aString slots: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09var klass = $core.addClass(aString, aClass, packageName);\x0a\x09\x09$core.setSlots(klass, aCollection);\x0a\x09\x09return klass;\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09var klass = $core.addClass(aString, aClass, packageName);\x0a\x09\x09$core.setSlots(klass, aCollection);\x0a\x09\x09return klass;\x0a\x09"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aString,aCollection,packageName){
 var self=this,$self=this;
@@ -1467,11 +1491,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-		return $core.addClass(aString, aClass, aCollection, packageName);
+		var klass = $core.addClass(aString, aClass, packageName);
+		$core.setSlots(klass, aCollection);
+		return klass;
 	;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName})});
+}, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:slots:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassBuilder);
@@ -1502,11 +1528,11 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicClass:instanceVariables:",
+selector: "basicClass:slots:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aCollection"],
-source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
+source: "basicClass: aClass slots: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1522,7 +1548,7 @@ $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 $recv($recv($globals.Smalltalk)._core())._setSlots_to_(aClass,aCollection);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection})});
+}, function($ctx1) {$ctx1.fill(self,"basicClass:slots:",{aClass:aClass,aCollection:aCollection})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassBuilder);
@@ -1613,18 +1639,18 @@ selector: "class:slots:",
 protocol: "class definition",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aCollection"],
-source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass slots: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:slots:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,aCollection){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-$self._basicClass_instanceVariables_(aClass,aCollection);
+$self._basicClass_slots_(aClass,aCollection);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassDefinitionChanged)._new();
 $recv($2)._theClass_(aClass);
@@ -1642,11 +1668,11 @@ selector: "copyClass:named:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className"],
-source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09slots: aClass instanceVariableNames\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "superclass", "instanceVariableNames", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:slots:package:", "superclass", "instanceVariableNames", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,className){
 var self=this,$self=this;
 var newClass;
@@ -1654,7 +1680,7 @@ var newClass;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+newClass=$self._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
 $self._copyClass_to_(aClass,newClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassAdded)._new();
@@ -1673,11 +1699,11 @@ selector: "copyClass:to:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class slots: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:slots:", "class", "instanceVariableNames"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1736,7 +1762,7 @@ return [$recv([$recv($globals.Compiler)._new()
 ,$ctx1.sendIdx["setTraitComposition:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$self._basicClass_instanceVariables_([$recv(anotherClass)._class()
+$self._basicClass_slots_([$recv(anotherClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
@@ -1786,17 +1812,17 @@ selector: "migrateClass:superclass:",
 protocol: "class migration",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name",
+source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09slots: aClass instanceVariableNames\x0a\x09\x09package: aClass package name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["migrateClassNamed:superclass:instanceVariableNames:package:", "name", "instanceVariableNames", "package"]
+messageSends: ["migrateClassNamed:superclass:slots:package:", "name", "instanceVariableNames", "package"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._migrateClassNamed_superclass_instanceVariableNames_package_([$recv(aClass)._name()
+return $self._migrateClassNamed_superclass_slots_package_([$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
@@ -1813,11 +1839,35 @@ selector: "migrateClassNamed:superclass:instanceVariableNames:package:",
 protocol: "class migration",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["className", "aClass", "aCollection", "packageName"],
-source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09self deprecatedAPI: 'Use #migrateClassNamed:superclass:slots:package: instead.'.\x0a\x09^ self\x0a\x09\x09migrateClassNamed: className\x0a\x09\x09superclass: aClass\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "migrateClassNamed:superclass:slots:package:"]
+}, function ($methodClass){ return function (className,aClass,aCollection,packageName){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #migrateClassNamed:superclass:slots:package: instead.");
+return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "migrateClassNamed:superclass:slots:package:",
+protocol: "class migration",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["className", "aClass", "aCollection", "packageName"],
+source: "migrateClassNamed: className superclass: aClass slots: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassMigrated"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: [",", "at:", "globals", "addSubclassOf:named:instanceVariableNames:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
+messageSends: [",", "at:", "globals", "addSubclassOf:named:slots:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
 }, function ($methodClass){ return function (className,aClass,aCollection,packageName){
 var self=this,$self=this;
 var oldClass,newClass,tmp;
@@ -1827,7 +1877,7 @@ return $core.withContext(function($ctx1) {
 var $1,$2;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
+newClass=$self._addSubclassOf_named_slots_package_(aClass,tmp,aCollection,packageName);
 [$self._basicSwapClassNames_with_(oldClass,newClass)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basicSwapClassNames:with:"]=1
@@ -1879,7 +1929,7 @@ $recv($2)._oldClass_(oldClass);
 $recv($1)._announce_($recv($2)._yourself());
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
+}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:slots:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ClassBuilder);
@@ -1969,11 +2019,11 @@ selector: "superclass:subclass:slots:package:",
 protocol: "class definition",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className slots: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:slots:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,className,aCollection,packageName){
 var self=this,$self=this;
 var newClass;
@@ -1986,7 +2036,7 @@ $1="unclassified";
 } else {
 $1=packageName;
 }
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,$1);
+newClass=$self._addSubclassOf_named_slots_package_(aClass,className,aCollection,$1);
 $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassAdded)._new();
 $recv($3)._theClass_(newClass);

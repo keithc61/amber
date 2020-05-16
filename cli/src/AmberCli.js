@@ -3315,17 +3315,17 @@ selector: "subclass:withVariable:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "varName"],
-source: "subclass: aClass withVariable: varName\x0a\x09\x22Create subclass with new variable.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: (self subclassNameFor: aClass) asSymbol\x0a\x09\x09instanceVariableNames: {varName}\x0a\x09\x09package: 'Compiler-Core'",
+source: "subclass: aClass withVariable: varName\x0a\x09\x22Create subclass with new variable.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: (self subclassNameFor: aClass) asSymbol\x0a\x09\x09slots: {varName}\x0a\x09\x09package: 'Compiler-Core'",
 referencedClasses: ["ClassBuilder"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "new", "asSymbol", "subclassNameFor:"]
+messageSends: ["addSubclassOf:named:slots:package:", "new", "asSymbol", "subclassNameFor:"]
 }, function ($methodClass){ return function (aClass,varName){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($globals.ClassBuilder)._new())._addSubclassOf_named_instanceVariableNames_package_(aClass,$recv($self._subclassNameFor_(aClass))._asSymbol(),[varName],"Compiler-Core");
+return $recv($recv($globals.ClassBuilder)._new())._addSubclassOf_named_slots_package_(aClass,$recv($self._subclassNameFor_(aClass))._asSymbol(),[varName],"Compiler-Core");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"subclass:withVariable:",{aClass:aClass,varName:varName})});
 //>>excludeEnd("ctx");

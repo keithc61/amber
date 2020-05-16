@@ -20,7 +20,7 @@ testHandlesAnnouncement
 	| subscription announcementClass1 announcementClass2 classBuilder |
 	
 	classBuilder := ClassBuilder new.
-	announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.
+	announcementClass1 := classBuilder addSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' slots: #() package: 'Kernel-Tests'.
 	
 	subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.
 	"Test whether the same class triggers the announcement"
@@ -401,10 +401,10 @@ testClassMigration
 	self assert: (Smalltalk globals at: instance class name) isNil
 !
 
-testClassMigrationWithClassInstanceVariables
+testClassMigrationWithClassSlots
 	
 	builder copyClass: ObjectMock named: 'ObjectMock2'.
-	ObjectMock2 class instanceVariableNames: '    foo  bar       '.
+	ObjectMock2 class slots: #(foo  bar).
 	
 	"Change the superclass of ObjectMock2"
 	theClass := ObjectMock subclass: #ObjectMock2
@@ -431,7 +431,7 @@ testClassMigrationWithSubclasses
 !
 
 testSubclass
-	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.
+	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' slots: #(foo bar) package: 'Kernel-Tests'.
 	self assert: theClass superclass equals: ObjectMock.
 	self assert: theClass instanceVariableNames equals: #(foo bar).
 	self assert: theClass name equals: 'ObjectMock2'.

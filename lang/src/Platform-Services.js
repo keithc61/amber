@@ -308,11 +308,11 @@ selector: "addInstVarNamed:to:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09slots: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
+messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:slots:package:", "superclass", "name", "package"]
 }, function ($methodClass){ return function (aString,aClass){
 var self=this,$self=this;
 var newInstVars;
@@ -327,7 +327,7 @@ $recv([$self._classBuilder()
 //>>excludeEnd("ctx");
 ][0])._class_slots_(aClass,newInstVars);
 } else {
-$recv($self._classBuilder())._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
+$recv($self._classBuilder())._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");

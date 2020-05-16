@@ -345,6 +345,15 @@ Rather than using me directly to compile a class, use `Class >> subclass:instanc
 !ClassBuilder methodsFor: 'class definition'!
 
 addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName
+	self deprecatedAPI: 'Use #addSubclass:named:slots:package: instead.'.
+	^ self
+		addSubclassOf: aClass
+		named: className
+		slots: aCollection
+		package: packageName
+!
+
+addSubclassOf: aClass named: className slots: aCollection package: packageName
 	| theClass thePackage |
 	
 	theClass := Smalltalk globals at: className.
@@ -356,13 +365,13 @@ addSubclassOf: aClass named: className instanceVariableNames: aCollection packag
 			ifFalse: [ ^ self
 				migrateClassNamed: className
 				superclass: aClass
-				instanceVariableNames: aCollection
+				slots: aCollection
 				package: packageName ] ].
 		
 	^ (self
 		basicAddSubclassOf: aClass
 		named: className
-		instanceVariableNames: aCollection
+		slots: aCollection
 		package: packageName) recompile; yourself
 !
 
@@ -380,7 +389,7 @@ addTraitNamed: traitName package: packageName
 !
 
 class: aClass slots: aCollection
-	self basicClass: aClass instanceVariables: aCollection.
+	self basicClass: aClass slots: aCollection.
 	
 	SystemAnnouncer current
 		announce: (ClassDefinitionChanged new
@@ -396,7 +405,7 @@ superclass: aClass subclass: className slots: aCollection package: packageName
 	| newClass |
 	
 	newClass := self addSubclassOf: aClass
-		named: className instanceVariableNames: aCollection
+		named: className slots: aCollection
 		package: (packageName ifNil: [ 'unclassified' ]).
 	
 	SystemAnnouncer current
@@ -413,11 +422,20 @@ migrateClass: aClass superclass: anotherClass
 	^ self
 		migrateClassNamed: aClass name
 		superclass: anotherClass
-		instanceVariableNames: aClass instanceVariableNames
+		slots: aClass instanceVariableNames
 		package: aClass package name
 !
 
 migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName
+	self deprecatedAPI: 'Use #migrateClassNamed:superclass:slots:package: instead.'.
+	^ self
+		migrateClassNamed: className
+		superclass: aClass
+		slots: aCollection
+		package: packageName
+!
+
+migrateClassNamed: className superclass: aClass slots: aCollection package: packageName
 	| oldClass newClass tmp |
 	
 	tmp := 'new*', className.
@@ -426,7 +444,7 @@ migrateClassNamed: className superclass: aClass instanceVariableNames: aCollecti
 	newClass := self
 		addSubclassOf: aClass
 		named: tmp
-		instanceVariableNames: aCollection
+		slots: aCollection
 		package: packageName.
 
 	self basicSwapClassNames: oldClass with: newClass.
@@ -476,7 +494,7 @@ copyClass: aClass named: className
 	newClass := self
 		addSubclassOf: aClass superclass
 		named: className
-		instanceVariableNames: aClass instanceVariableNames
+		slots: aClass instanceVariableNames
 		package: aClass package name.
 
 	self copyClass: aClass to: newClass.
@@ -498,7 +516,7 @@ copyClass: aClass to: anotherClass
 			Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].
 	anotherClass setTraitComposition: aClass traitComposition.
 
-	self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.
+	self basicClass: anotherClass class slots: aClass class instanceVariableNames.
 
 	aClass class methodDictionary valuesDo: [ :each |
 		each origin = aClass class ifTrue: [
@@ -508,9 +526,11 @@ copyClass: aClass to: anotherClass
 
 !ClassBuilder methodsFor: 'private'!
 
-basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName
+basicAddSubclassOf: aClass named: aString slots: aCollection package: packageName
 	<inlineJS: '
-		return $core.addClass(aString, aClass, aCollection, packageName);
+		var klass = $core.addClass(aString, aClass, packageName);
+		$core.setSlots(klass, aCollection);
+		return klass;
 	'>
 !
 
@@ -518,7 +538,7 @@ basicAddTraitNamed: aString package: anotherString
 	<inlineJS: 'return $core.addTrait(aString, anotherString)'>
 !
 
-basicClass: aClass instanceVariables: aCollection
+basicClass: aClass slots: aCollection
 
 	aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].
 	Smalltalk core setSlots: aClass to: aCollection
