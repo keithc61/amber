@@ -1,3 +1,15 @@
+? May 2020 - Release 0.29.2
+===================================
+
+* Change to JS format, not breaking
+  * Move to 3-arg addClass plus setSlots was planned in 2019, but forgotten.
+  * Thus, it is loadable in older Amber versions for more than a year.
+  * The move to 3-arg addClass plus setSlots was made now.
+* API renames / additions moving further from ivars to slots.
+
+Commits: https://lolg.it/amber/amber/commits/0.29.2.
+
+
 8 May 2020 - Release 0.29.1
 ===================================
 

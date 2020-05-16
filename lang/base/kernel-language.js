@@ -409,7 +409,7 @@ define(['./junk-drawer'], function ($goodies) {
              A Package is lazily created if one with given name does not exist. */
 
             st.addClass = function (className, superclass, category) {
-                // TODO remove, backward compatibility
+                // TODO remove, backward compatibility (note: only deprecated as of this note)
                 if (arguments[3]) {
                     var added = st.addClass(className, superclass, arguments[3]);
                     setSlots(added, category);
