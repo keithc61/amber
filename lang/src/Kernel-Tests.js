@@ -16602,11 +16602,11 @@ selector: "assert:isClassCopyOf:",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "assert: aClass isClassCopyOf: anotherClass\x0a\x09self assert: aClass superclass == anotherClass superclass.\x0a\x09self assert: aClass instanceVariableNames == anotherClass instanceVariableNames.\x0a\x09self assert: aClass package == anotherClass package.\x0a\x09self assert: (aClass package classes includes: aClass).\x0a\x09self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys",
+source: "assert: aClass isClassCopyOf: anotherClass\x0a\x09self assert: aClass superclass == anotherClass superclass.\x0a\x09self deny: aClass slots == anotherClass slots.\x0a\x09self assert: aClass slots equals: anotherClass slots.\x0a\x09self deny: aClass class slots == anotherClass class slots.\x0a\x09self assert: aClass class slots equals: anotherClass class slots.\x0a\x09self assert: aClass package == anotherClass package.\x0a\x09self assert: (aClass package classes includes: aClass).\x0a\x09self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["assert:", "==", "superclass", "instanceVariableNames", "package", "includes:", "classes", "assert:equals:", "keys", "methodDictionary"]
+messageSends: ["assert:", "==", "superclass", "deny:", "slots", "assert:equals:", "class", "package", "includes:", "classes", "keys", "methodDictionary"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16625,17 +16625,68 @@ return $core.withContext(function($ctx1) {
 ,$ctx1.sendIdx["assert:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_([$recv([$recv(aClass)._instanceVariableNames()
+[$self._deny_([$recv([$recv(aClass)._slots()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["instanceVariableNames"]=1
+,$ctx1.sendIdx["slots"]=1
 //>>excludeEnd("ctx");
-][0]).__eq_eq($recv(anotherClass)._instanceVariableNames())
+][0]).__eq_eq([$recv(anotherClass)._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=2
+//>>excludeEnd("ctx");
+][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["=="]=2
 //>>excludeEnd("ctx");
 ][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:"]=2
+,$ctx1.sendIdx["deny:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._assert_equals_([$recv(aClass)._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=3
+//>>excludeEnd("ctx");
+][0],[$recv(anotherClass)._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=4
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_([$recv([$recv([$recv(aClass)._class()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["class"]=1
+//>>excludeEnd("ctx");
+][0])._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=5
+//>>excludeEnd("ctx");
+][0]).__eq_eq([$recv([$recv(anotherClass)._class()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["class"]=2
+//>>excludeEnd("ctx");
+][0])._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=6
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["=="]=3
+//>>excludeEnd("ctx");
+][0]);
+[$self._assert_equals_([$recv([$recv(aClass)._class()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["class"]=3
+//>>excludeEnd("ctx");
+][0])._slots()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slots"]=7
+//>>excludeEnd("ctx");
+][0],$recv($recv(anotherClass)._class())._slots())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");
 ][0];
 [$self._assert_($recv([$recv(aClass)._package()
@@ -16648,7 +16699,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 ][0]))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:"]=3
+,$ctx1.sendIdx["assert:"]=2
 //>>excludeEnd("ctx");
 ][0];
 $self._assert_($recv($recv($recv(aClass)._package())._classes())._includes_(aClass));

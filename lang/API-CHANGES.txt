@@ -2,7 +2,10 @@
 
 * Deprecate ClassBuilder >> addSubclass:named:instanceVariableNames:package:.
 * Deprecate ... >> migrateClassNamed:superclass:instanceVariableNames:package:.
+* Behavior >> instanceVariableNames aimed at only that. No visible change atm.
 
++ Behavior >>
+  + slots
 + ClassBuilder >>
   + addSubclass:named:slots:package:
   + migrateClassNamed:superclass:slots:package:

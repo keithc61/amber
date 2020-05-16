@@ -405,15 +405,20 @@ selector: "instanceVariableNames",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "instanceVariableNames\x0a\x09^ slots",
+source: "instanceVariableNames\x0a\x09^ slots select: #isString",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: []
+messageSends: ["select:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return $self.slots;
-
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($self.slots)._select_("isString");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Behavior);
 
@@ -618,6 +623,24 @@ return $recv($self._javaScriptConstructor())._prototype();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"prototype",{})});
 //>>excludeEnd("ctx");
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "slots",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "slots\x0a\x09^ slots",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.slots;
+
 }; }),
 $globals.Behavior);
 
@@ -1668,11 +1691,11 @@ selector: "copyClass:named:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "className"],
-source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09slots: aClass instanceVariableNames\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09slots: aClass slots copy\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addSubclassOf:named:slots:package:", "superclass", "instanceVariableNames", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:slots:package:", "superclass", "copy", "slots", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,className){
 var self=this,$self=this;
 var newClass;
@@ -1680,7 +1703,7 @@ var newClass;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
-newClass=$self._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+newClass=$self._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),className,$recv($recv(aClass)._slots())._copy(),$recv($recv(aClass)._package())._name());
 $self._copyClass_to_(aClass,newClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassAdded)._new();

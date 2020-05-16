@@ -67,7 +67,7 @@ beJavaScriptSubclassOf: aJavaScriptFunction
 !
 
 instanceVariableNames
-	^ slots
+	^ slots select: #isString
 !
 
 javaScriptConstructor
@@ -104,6 +104,10 @@ lookupSelector: selector
 
 prototype
 	^ self javaScriptConstructor prototype
+!
+
+slots
+	^ slots
 !
 
 subclasses
@@ -494,7 +498,7 @@ copyClass: aClass named: className
 	newClass := self
 		addSubclassOf: aClass superclass
 		named: className
-		slots: aClass instanceVariableNames
+		slots: aClass slots copy
 		package: aClass package name.
 
 	self copyClass: aClass to: newClass.

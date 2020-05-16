@@ -3050,7 +3050,10 @@ is: anObject javaScriptInstanceOf: aJavaScriptClass
 
 assert: aClass isClassCopyOf: anotherClass
 	self assert: aClass superclass == anotherClass superclass.
-	self assert: aClass instanceVariableNames == anotherClass instanceVariableNames.
+	self deny: aClass slots == anotherClass slots.
+	self assert: aClass slots equals: anotherClass slots.
+	self deny: aClass class slots == anotherClass class slots.
+	self assert: aClass class slots equals: anotherClass class slots.
 	self assert: aClass package == anotherClass package.
 	self assert: (aClass package classes includes: aClass).
 	self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys
