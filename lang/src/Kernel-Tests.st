@@ -390,7 +390,7 @@ testClassMigration
 	self deny: oldClass == ObjectMock2.
 	
 	self assert: ObjectMock2 superclass == ObjectMock.
-	self assert: ObjectMock2 instanceVariableNames isEmpty.
+	self assert: ObjectMock2 slots isEmpty.
 	self assert: ObjectMock2 selectors equals: oldClass selectors.
 	self assert: ObjectMock2 comment equals: oldClass comment.
 	self assert: ObjectMock2 package name equals: 'Kernel-Tests'.
@@ -411,7 +411,7 @@ testClassMigrationWithClassSlots
 		instanceVariableNames: ''
 		package: 'Kernel-Tests'.
 	
-	self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar')
+	self assert: ObjectMock2 class slots equals: #('foo' 'bar')
 !
 
 testClassMigrationWithSubclasses
@@ -433,7 +433,7 @@ testClassMigrationWithSubclasses
 testSubclass
 	theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' slots: #(foo bar) package: 'Kernel-Tests'.
 	self assert: theClass superclass equals: ObjectMock.
-	self assert: theClass instanceVariableNames equals: #(foo bar).
+	self assert: theClass slots equals: #(foo bar).
 	self assert: theClass name equals: 'ObjectMock2'.
 	self assert: (theClass package classes occurrencesOf: theClass) equals: 1.
 	self assert: theClass package equals: ObjectMock package.

@@ -1069,16 +1069,6 @@ inContext: aContext
 	^ Platform globals at: self name ifAbsent: [ self error: 'Unknown variable' ]
 ! !
 
-!InstanceVar methodsFor: '*Compiler-Interpreter'!
-
-inContext: aContext
-	^ aContext receiver instVarNamed: self name
-!
-
-inContext: aContext put: anObject
-	aContext receiver instVarNamed: self name put: anObject
-! !
-
 !JSStatementNode methodsFor: '*Compiler-Interpreter'!
 
 isSteppingNode
@@ -1113,6 +1103,16 @@ inContext: aContext put: anObject
 
 isSteppingNode
 	^ true
+! !
+
+!SlotVar methodsFor: '*Compiler-Interpreter'!
+
+inContext: aContext
+	^ aContext receiver instVarNamed: self name
+!
+
+inContext: aContext put: anObject
+	aContext receiver instVarNamed: self name put: anObject
 ! !
 
 !SuperVar methodsFor: '*Compiler-Interpreter'!

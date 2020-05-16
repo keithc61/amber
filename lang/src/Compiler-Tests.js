@@ -3525,50 +3525,6 @@ $globals.ScopeVarTest);
 
 $core.addMethod(
 $core.method({
-selector: "testInstanceVar",
-protocol: "tests",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "testInstanceVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addIVar: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'bzzz').\x0a\x09self assert: (binding alias ~= 'bzzz')",
-referencedClasses: ["MethodLexicalScope"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["addIVar:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "includesSubString:", "alias", "~="]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var binding;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.MethodLexicalScope)._new();
-$recv($1)._addIVar_("bzzz");
-binding=$recv($1)._bindingFor_("bzzz");
-[$self._assert_($recv(binding)._isAssignable())
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:"]=1
-//>>excludeEnd("ctx");
-][0];
-$self._deny_($recv(binding)._isIdempotent());
-[$self._assert_($recv([$recv(binding)._alias()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["alias"]=1
-//>>excludeEnd("ctx");
-][0])._includesSubString_("bzzz"))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["assert:"]=2
-//>>excludeEnd("ctx");
-][0];
-$self._assert_($recv($recv(binding)._alias()).__tild_eq("bzzz"));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testInstanceVar",{binding:binding})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.ScopeVarTest);
-
-$core.addMethod(
-$core.method({
 selector: "testPseudoVar",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3598,6 +3554,50 @@ return $self._assert_($recv(binding)._isIdempotent());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPseudoVar",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ScopeVarTest);
+
+$core.addMethod(
+$core.method({
+selector: "testSlotVar",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testSlotVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addSlotVar: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'bzzz').\x0a\x09self assert: (binding alias ~= 'bzzz')",
+referencedClasses: ["MethodLexicalScope"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["addSlotVar:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "includesSubString:", "alias", "~="]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var binding;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$recv($globals.MethodLexicalScope)._new();
+$recv($1)._addSlotVar_("bzzz");
+binding=$recv($1)._bindingFor_("bzzz");
+[$self._assert_($recv(binding)._isAssignable())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._deny_($recv(binding)._isIdempotent());
+[$self._assert_($recv([$recv(binding)._alias()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["alias"]=1
+//>>excludeEnd("ctx");
+][0])._includesSubString_("bzzz"))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["assert:"]=2
+//>>excludeEnd("ctx");
+][0];
+$self._assert_($recv($recv(binding)._alias()).__tild_eq("bzzz"));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testSlotVar",{binding:binding})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.ScopeVarTest);

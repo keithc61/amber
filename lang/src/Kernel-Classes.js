@@ -1666,11 +1666,11 @@ selector: "copyClass:to:",
 protocol: "copying",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class slots: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class slots: aClass class slots copy.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
 referencedClasses: ["Compiler"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:slots:", "class", "instanceVariableNames"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:slots:", "class", "copy", "slots"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1733,11 +1733,11 @@ $self._basicClass_slots_([$recv(anotherClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=1
 //>>excludeEnd("ctx");
-][0],$recv([$recv(aClass)._class()
+][0],$recv($recv([$recv(aClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=2
 //>>excludeEnd("ctx");
-][0])._instanceVariableNames());
+][0])._slots())._copy());
 $recv($recv([$recv(aClass)._class()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["class"]=3
@@ -1779,11 +1779,11 @@ selector: "migrateClass:superclass:",
 protocol: "class migration",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "anotherClass"],
-source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09slots: aClass instanceVariableNames\x0a\x09\x09package: aClass package name",
+source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09slots: aClass slots\x0a\x09\x09package: aClass package name",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["migrateClassNamed:superclass:slots:package:", "name", "instanceVariableNames", "package"]
+messageSends: ["migrateClassNamed:superclass:slots:package:", "name", "slots", "package"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1793,7 +1793,7 @@ return $self._migrateClassNamed_superclass_slots_package_([$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
-][0],anotherClass,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+][0],anotherClass,$recv(aClass)._slots(),$recv($recv(aClass)._package())._name());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"migrateClass:superclass:",{aClass:aClass,anotherClass:anotherClass})});
 //>>excludeEnd("ctx");
@@ -2364,6 +2364,29 @@ return $core.withContext(function($ctx1) {
 return $recv($self._allSlots())._select_("isString");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allSlotNames",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "allSlotNames\x0a\x09^ self allSlots",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._allSlots();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"allSlotNames",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TBehaviorProvider);
@@ -3118,6 +3141,29 @@ $core.setTraitComposition(aTraitComposition._asJavaScriptObject(), self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"setTraitComposition:",{aTraitComposition:aTraitComposition})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "slotNames",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "slotNames\x0a\x09^ self slots",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["slots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._slots();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"slotNames",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TBehaviorProvider);

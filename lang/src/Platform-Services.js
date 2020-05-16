@@ -309,34 +309,34 @@ selector: "addInstVarNamed:to:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09slots: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newSlots |\x0a\x09newSlots := aClass slots copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newSlots ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09slots: newSlots\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:slots:package:", "superclass", "name", "package"]
+messageSends: ["copyWith:", "slots", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:slots:package:", "superclass", "name", "package"]
 }, function ($methodClass){ return function (aString,aClass){
 var self=this,$self=this;
-var newInstVars;
+var newSlots;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
+newSlots=$recv($recv(aClass)._slots())._copyWith_(aString);
 if($core.assert($recv(aClass)._isMetaclass())){
 $recv([$self._classBuilder()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["classBuilder"]=1
 //>>excludeEnd("ctx");
-][0])._class_slots_(aClass,newInstVars);
+][0])._class_slots_(aClass,newSlots);
 } else {
 $recv($self._classBuilder())._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["name"]=1
 //>>excludeEnd("ctx");
-][0],newInstVars,$recv($recv(aClass)._package())._name());
+][0],newSlots,$recv($recv(aClass)._package())._name());
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newInstVars:newInstVars})});
+}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newSlots:newSlots})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Environment);

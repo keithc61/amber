@@ -5,6 +5,7 @@
 * Behavior >> instanceVariableNames aimed at only that. No visible change atm.
 * Deprecate Object >> asJavaScript{Object,Source}.
   * Hard to do generically if slots are added later.
+* InstanceVar => SlotVar and related apis (addIVar: => addSlotVar:).
 
 + Behavior >>
   + slots
@@ -17,8 +18,10 @@
   + slots
 + TBehaviorProvider >>
   + allInstanceVariableNames
+  + allSlotNames
   + allSlots
   + instanceVariableNames
+  + slotNames
 + UndefinedObject >>
   + asJavaScriptSource
 

@@ -2062,11 +2062,11 @@ selector: "testClassMigration",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil",
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 slots isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil"]
+messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "slots", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance,oldClass;
@@ -2102,7 +2102,7 @@ $self.theClass=$recv($globals.ObjectMock)._subclass_instanceVariableNames_packag
 ,$ctx1.sendIdx["assert:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_($recv($recv($globals.ObjectMock2)._instanceVariableNames())._isEmpty())
+[$self._assert_($recv($recv($globals.ObjectMock2)._slots())._isEmpty())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:"]=2
 //>>excludeEnd("ctx");
@@ -2158,11 +2158,11 @@ selector: "testClassMigrationWithClassSlots",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testClassMigrationWithClassSlots\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class slots: #(foo  bar).\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar')",
+source: "testClassMigrationWithClassSlots\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class slots: #(foo  bar).\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class slots equals: #('foo' 'bar')",
 referencedClasses: ["ObjectMock", "ObjectMock2"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["copyClass:named:", "slots:", "class", "subclass:instanceVariableNames:package:", "assert:equals:", "instanceVariableNames"]
+messageSends: ["copyClass:named:", "slots:", "class", "subclass:instanceVariableNames:package:", "assert:equals:", "slots"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2175,7 +2175,7 @@ $recv([$recv($globals.ObjectMock2)._class()
 //>>excludeEnd("ctx");
 ][0])._slots_(["foo", "bar"]);
 $self.theClass=$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
-$self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._instanceVariableNames(),["foo", "bar"]);
+$self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._slots(),["foo", "bar"]);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithClassSlots",{})});
@@ -2243,11 +2243,11 @@ selector: "testSubclass",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' slots: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' slots: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass slots equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
 referencedClasses: ["ObjectMock"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["addSubclassOf:named:slots:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
+messageSends: ["addSubclassOf:named:slots:package:", "assert:equals:", "superclass", "slots", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2259,7 +2259,7 @@ $self.theClass=$recv($self.builder)._addSubclassOf_named_slots_package_($globals
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._assert_equals_($recv($self.theClass)._instanceVariableNames(),["foo", "bar"])
+[$self._assert_equals_($recv($self.theClass)._slots(),["foo", "bar"])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=2
 //>>excludeEnd("ctx");

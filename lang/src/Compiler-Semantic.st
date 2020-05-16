@@ -194,7 +194,7 @@ isMethodScope
 ! !
 
 LexicalScope subclass: #MethodLexicalScope
-	slots: {#iVars. #pseudoVars. #localReturn. #nonLocalReturns}
+	slots: {#slotVars. #pseudoVars. #localReturn. #nonLocalReturns}
 	package: 'Compiler-Semantic'!
 !MethodLexicalScope commentStamp!
 I represent a method scope.!
@@ -202,16 +202,12 @@ I represent a method scope.!
 !MethodLexicalScope methodsFor: 'accessing'!
 
 allVariableNames
-	^ super allVariableNames, self iVars keys
+	^ super allVariableNames, self slotVars keys
 !
 
 bindingFor: aString
 	^ (super bindingFor: aString) ifNil: [
-		self iVars at: aString ifAbsent: [ nil ]]
-!
-
-iVars
-	^ iVars ifNil: [ iVars := Dictionary new ]
+		self slotVars at: aString ifAbsent: [ nil ]]
 !
 
 localReturn
@@ -238,17 +234,21 @@ pseudoVars
 				scope: self methodScope;
 				yourself) ] ].
 	^ pseudoVars
+!
+
+slotVars
+	^ slotVars ifNil: [ slotVars := Dictionary new ]
 ! !
 
 !MethodLexicalScope methodsFor: 'adding'!
 
-addIVar: aString
-	self iVars at: aString put: (InstanceVar on: aString).
-	(self iVars at: aString) scope: self
-!
-
 addNonLocalReturn: aScope
 	self nonLocalReturns add: aScope
+!
+
+addSlotVar: aString
+	self slotVars at: aString put: (SlotVar on: aString).
+	(self slotVars at: aString) scope: self
 !
 
 removeNonLocalReturn: aScope
@@ -375,22 +375,6 @@ ScopeVar subclass: #ExternallyKnownVar
 !ExternallyKnownVar commentStamp!
 I am a variable known externally (not in method scope).!
 
-ScopeVar subclass: #InstanceVar
-	slots: {}
-	package: 'Compiler-Semantic'!
-!InstanceVar commentStamp!
-I am an instance variable of a method or block.!
-
-!InstanceVar methodsFor: 'testing'!
-
-alias
-	^ '$self.', self name
-!
-
-isAssignable
-	^ true
-! !
-
 ScopeVar subclass: #PseudoVar
 	slots: {}
 	package: 'Compiler-Semantic'!
@@ -472,6 +456,22 @@ I am a 'thisContext' pseudo variable.!
 
 alias
 	^ '$core.getThisContext()'
+! !
+
+ScopeVar subclass: #SlotVar
+	slots: {}
+	package: 'Compiler-Semantic'!
+!SlotVar commentStamp!
+I am a slot variable of a method's class.!
+
+!SlotVar methodsFor: 'testing'!
+
+alias
+	^ '$self.', self name
+!
+
+isAssignable
+	^ true
 ! !
 
 ScopeVar subclass: #TempVar
@@ -649,8 +649,8 @@ visitMethodNode: aNode
 	aNode scope: currentScope.
 	currentScope node: aNode.
 
-	self theClass allInstanceVariableNames do: [ :each |
-		currentScope addIVar: each ].
+	self theClass allSlotNames do: [ :each |
+		currentScope addSlotVar: each ].
 	aNode arguments do: [ :each |
 		self validateVariableScope: each.
 		currentScope addArg: each ].

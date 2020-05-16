@@ -914,39 +914,10 @@ $globals.LexicalScope);
 
 
 $core.addClass("MethodLexicalScope", $globals.LexicalScope, "Compiler-Semantic");
-$core.setSlots($globals.MethodLexicalScope, ["iVars", "pseudoVars", "localReturn", "nonLocalReturns"]);
+$core.setSlots($globals.MethodLexicalScope, ["slotVars", "pseudoVars", "localReturn", "nonLocalReturns"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.MethodLexicalScope.comment="I represent a method scope.";
 //>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "addIVar:",
-protocol: "adding",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aString"],
-source: "addIVar: aString\x0a\x09self iVars at: aString put: (InstanceVar on: aString).\x0a\x09(self iVars at: aString) scope: self",
-referencedClasses: ["InstanceVar"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "iVars", "on:", "scope:", "at:"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv([$self._iVars()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["iVars"]=1
-//>>excludeEnd("ctx");
-][0])._at_put_(aString,$recv($globals.InstanceVar)._on_(aString));
-$recv($recv($self._iVars())._at_(aString))._scope_(self);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"addIVar:",{aString:aString})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.MethodLexicalScope);
-
 $core.addMethod(
 $core.method({
 selector: "addNonLocalReturn:",
@@ -973,15 +944,44 @@ $globals.MethodLexicalScope);
 
 $core.addMethod(
 $core.method({
+selector: "addSlotVar:",
+protocol: "adding",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "addSlotVar: aString\x0a\x09self slotVars at: aString put: (SlotVar on: aString).\x0a\x09(self slotVars at: aString) scope: self",
+referencedClasses: ["SlotVar"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["at:put:", "slotVars", "on:", "scope:", "at:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv([$self._slotVars()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["slotVars"]=1
+//>>excludeEnd("ctx");
+][0])._at_put_(aString,$recv($globals.SlotVar)._on_(aString));
+$recv($recv($self._slotVars())._at_(aString))._scope_(self);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"addSlotVar:",{aString:aString})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.MethodLexicalScope);
+
+$core.addMethod(
+$core.method({
 selector: "allVariableNames",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "allVariableNames\x0a\x09^ super allVariableNames, self iVars keys",
+source: "allVariableNames\x0a\x09^ super allVariableNames, self slotVars keys",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: [",", "allVariableNames", "keys", "iVars"]
+messageSends: [",", "allVariableNames", "keys", "slotVars"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -995,7 +995,7 @@ $ctx1.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.supercall = false
 //>>excludeEnd("ctx");
-][0]).__comma($recv($self._iVars())._keys());
+][0]).__comma($recv($self._slotVars())._keys());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 //>>excludeEnd("ctx");
@@ -1008,11 +1008,11 @@ selector: "bindingFor:",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "bindingFor: aString\x0a\x09^ (super bindingFor: aString) ifNil: [\x0a\x09\x09self iVars at: aString ifAbsent: [ nil ]]",
+source: "bindingFor: aString\x0a\x09^ (super bindingFor: aString) ifNil: [\x0a\x09\x09self slotVars at: aString ifAbsent: [ nil ]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "iVars"]
+messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "slotVars"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1029,7 +1029,7 @@ $ctx1.supercall = true,
 //>>excludeEnd("ctx");
 ][0];
 if($1 == null || $1.a$nil){
-return $recv($self._iVars())._at_ifAbsent_(aString,(function(){
+return $recv($self._slotVars())._at_ifAbsent_(aString,(function(){
 return nil;
 
 }));
@@ -1102,36 +1102,6 @@ return $core.withContext(function($ctx1) {
 return $recv($self._nonLocalReturns())._notEmpty();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"hasNonLocalReturn",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.MethodLexicalScope);
-
-$core.addMethod(
-$core.method({
-selector: "iVars",
-protocol: "accessing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "iVars\x0a\x09^ iVars ifNil: [ iVars := Dictionary new ]",
-referencedClasses: ["Dictionary"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNil:", "new"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$self.iVars;
-if($1 == null || $1.a$nil){
-$self.iVars=$recv($globals.Dictionary)._new();
-return $self.iVars;
-} else {
-return $1;
-}
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"iVars",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MethodLexicalScope);
@@ -1314,6 +1284,36 @@ $recv($self._nonLocalReturns())._remove_ifAbsent_(aScope,(function(){
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removeNonLocalReturn:",{aScope:aScope})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.MethodLexicalScope);
+
+$core.addMethod(
+$core.method({
+selector: "slotVars",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "slotVars\x0a\x09^ slotVars ifNil: [ slotVars := Dictionary new ]",
+referencedClasses: ["Dictionary"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["ifNil:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self.slotVars;
+if($1 == null || $1.a$nil){
+$self.slotVars=$recv($globals.Dictionary)._new();
+return $self.slotVars;
+} else {
+return $1;
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"slotVars",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.MethodLexicalScope);
@@ -1635,53 +1635,6 @@ $globals.ExternallyKnownVar.comment="I am a variable known externally (not in me
 //>>excludeEnd("ide");
 
 
-$core.addClass("InstanceVar", $globals.ScopeVar, "Compiler-Semantic");
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.InstanceVar.comment="I am an instance variable of a method or block.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "alias",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "alias\x0a\x09^ '$self.', self name",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: [",", "name"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return "$self.".__comma($self._name());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"alias",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.InstanceVar);
-
-$core.addMethod(
-$core.method({
-selector: "isAssignable",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "isAssignable\x0a\x09^ true",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.InstanceVar);
-
-
-
 $core.addClass("PseudoVar", $globals.ScopeVar, "Compiler-Semantic");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.PseudoVar.comment="I am an pseudo variable.\x0a\x0aThe five Smalltalk pseudo variables are: 'self', 'super', 'nil', 'true' and 'false'";
@@ -1913,6 +1866,53 @@ return "$core.getThisContext()";
 
 }; }),
 $globals.ThisContextVar);
+
+
+
+$core.addClass("SlotVar", $globals.ScopeVar, "Compiler-Semantic");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.SlotVar.comment="I am a slot variable of a method's class.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "alias",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "alias\x0a\x09^ '$self.', self name",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: [",", "name"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return "$self.".__comma($self._name());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SlotVar);
+
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isAssignable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.SlotVar);
 
 
 
@@ -2584,11 +2584,11 @@ selector: "visitMethodNode:",
 protocol: "visiting",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allInstanceVariableNames do: [ :each |\x0a\x09\x09currentScope addIVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
+source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allSlotNames do: [ :each |\x0a\x09\x09currentScope addSlotVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allInstanceVariableNames", "theClass", "addIVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
+messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allSlotNames", "theClass", "addSlotVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2597,11 +2597,11 @@ return $core.withContext(function($ctx1) {
 $self._pushScope_($self._newMethodScope());
 $recv(aNode)._scope_($self.currentScope);
 $recv($self.currentScope)._node_(aNode);
-[$recv($recv($self._theClass())._allInstanceVariableNames())._do_((function(each){
+[$recv($recv($self._theClass())._allSlotNames())._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-return $recv($self.currentScope)._addIVar_(each);
+return $recv($self.currentScope)._addSlotVar_(each);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 //>>excludeEnd("ctx");

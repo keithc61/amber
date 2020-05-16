@@ -414,7 +414,7 @@ migrateClass: aClass superclass: anotherClass
 	^ self
 		migrateClassNamed: aClass name
 		superclass: anotherClass
-		slots: aClass instanceVariableNames
+		slots: aClass slots
 		package: aClass package name
 !
 
@@ -508,7 +508,7 @@ copyClass: aClass to: anotherClass
 			Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].
 	anotherClass setTraitComposition: aClass traitComposition.
 
-	self basicClass: anotherClass class slots: aClass class instanceVariableNames.
+	self basicClass: anotherClass class slots: aClass class slots copy.
 
 	aClass class methodDictionary valuesDo: [ :each |
 		each origin = aClass class ifTrue: [
@@ -636,6 +636,10 @@ allInstanceVariableNames
 	^ self allSlots select: #isString
 !
 
+allSlotNames
+	^ self allSlots
+!
+
 allSlots
 	| result |
 	result := self slots copy.
@@ -739,6 +743,10 @@ removeProtocolIfEmpty: aString
 
 selectors
 	^ self methodDictionary keys
+!
+
+slotNames
+	^ self slots
 !
 
 traitComposition

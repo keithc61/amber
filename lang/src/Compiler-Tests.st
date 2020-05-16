@@ -952,23 +952,23 @@ testExternallyUnknownVar
 		raise: UnknownVariableError
 !
 
-testInstanceVar
-	| binding |
-	binding := MethodLexicalScope new
-		addIVar: 'bzzz';
-		bindingFor: 'bzzz'.
-	self assert: binding isAssignable.
-	self deny: binding isIdempotent.
-	self assert: (binding alias includesSubString: 'bzzz').
-	self assert: (binding alias ~= 'bzzz')
-!
-
 testPseudoVar
 	#('self' 'super' 'true' 'false' 'nil' 'thisContext') do: [ :each |
 		| binding |
 		binding := MethodLexicalScope new bindingFor: each.
 		self deny: binding isAssignable.
 		self assert: binding isIdempotent ]
+!
+
+testSlotVar
+	| binding |
+	binding := MethodLexicalScope new
+		addSlotVar: 'bzzz';
+		bindingFor: 'bzzz'.
+	self assert: binding isAssignable.
+	self deny: binding isIdempotent.
+	self assert: (binding alias includesSubString: 'bzzz').
+	self assert: (binding alias ~= 'bzzz')
 !
 
 testTempVar
