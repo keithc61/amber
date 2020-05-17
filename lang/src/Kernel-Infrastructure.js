@@ -2614,8 +2614,8 @@ selector: "observeSystem",
 protocol: "actions",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "observeSystem\x0a\x09self announcer\x0a\x09\x09on: PackageAdded\x0a\x09\x09send: #onPackageAdded:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ClassAnnouncement\x0a\x09\x09send: #onClassModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: MethodAnnouncement\x0a\x09\x09send: #onMethodModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ProtocolAnnouncement\x0a\x09\x09send: #onProtocolModification:\x0a\x09\x09to: self",
-referencedClasses: ["PackageAdded", "ClassAnnouncement", "MethodAnnouncement", "ProtocolAnnouncement"],
+source: "observeSystem\x0a\x09self announcer\x0a\x09\x09on: PackageAdded\x0a\x09\x09send: #onPackageAdded:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ClassAnnouncement\x0a\x09\x09send: #onClassModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: MethodAnnouncement\x0a\x09\x09send: #onMethodModification:\x0a\x09\x09to: self",
+referencedClasses: ["PackageAdded", "ClassAnnouncement", "MethodAnnouncement"],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: ["on:send:to:", "announcer"]
@@ -2636,12 +2636,7 @@ $1=$self._announcer();
 ,$ctx1.sendIdx["on:send:to:"]=2
 //>>excludeEnd("ctx");
 ][0];
-[$recv($1)._on_send_to_($globals.MethodAnnouncement,"onMethodModification:",self)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["on:send:to:"]=3
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._on_send_to_($globals.ProtocolAnnouncement,"onProtocolModification:",self);
+$recv($1)._on_send_to_($globals.MethodAnnouncement,"onMethodModification:",self);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"observeSystem",{})});
@@ -2733,38 +2728,6 @@ $recv($recv(anAnnouncement)._package())._beDirty();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"onPackageAdded:",{anAnnouncement:anAnnouncement})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.PackageStateObserver);
-
-$core.addMethod(
-$core.method({
-selector: "onProtocolModification:",
-protocol: "reactions",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anAnnouncement"],
-source: "onProtocolModification: anAnnouncement\x0a\x09anAnnouncement package ifNotNil: [ :package | package beDirty ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["ifNotNil:", "package", "beDirty"]
-}, function ($methodClass){ return function (anAnnouncement){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv(anAnnouncement)._package();
-if($1 == null || $1.a$nil){
-$1;
-} else {
-var package_;
-package_=$1;
-$recv(package_)._beDirty();
-}
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"onProtocolModification:",{anAnnouncement:anAnnouncement})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.PackageStateObserver);

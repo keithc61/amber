@@ -700,10 +700,6 @@ observeSystem
 		
 		on: MethodAnnouncement
 		send: #onMethodModification:
-		to: self;
-		
-		on: ProtocolAnnouncement
-		send: #onProtocolModification:
 		to: self
 ! !
 
@@ -719,10 +715,6 @@ onMethodModification: anAnnouncement
 
 onPackageAdded: anAnnouncement
 	anAnnouncement package beDirty
-!
-
-onProtocolModification: anAnnouncement
-	anAnnouncement package ifNotNil: [ :package | package beDirty ]
 ! !
 
 PackageStateObserver class slots: {#current}!
