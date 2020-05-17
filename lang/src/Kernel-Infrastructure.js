@@ -3630,6 +3630,56 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "postFailedLoad:",
+protocol: "image",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aPackage"],
+source: "postFailedLoad: aPackage\x0a\x09| keys descriptors |\x0a\x09Smalltalk removePackage: aPackage name.\x0a\x09keys := Set new.\x0a\x09descriptors := self core packageDescriptors.\x0a\x09descriptors keysAndValuesDo: [ :key :value | keys add: key ].\x0a\x09keys do: [ :each |\x0a\x09\x09Smalltalk removePackage: each.\x0a\x09\x09descriptors removeKey: each ]",
+referencedClasses: ["Smalltalk", "Set"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["removePackage:", "name", "new", "packageDescriptors", "core", "keysAndValuesDo:", "add:", "do:", "removeKey:"]
+}, function ($methodClass){ return function (aPackage){
+var self=this,$self=this;
+var keys,descriptors;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$recv($globals.Smalltalk)._removePackage_($recv(aPackage)._name())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["removePackage:"]=1
+//>>excludeEnd("ctx");
+][0];
+keys=$recv($globals.Set)._new();
+descriptors=$recv($self._core())._packageDescriptors();
+$recv(descriptors)._keysAndValuesDo_((function(key,value){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(keys)._add_(key);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+$recv(keys)._do_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv($globals.Smalltalk)._removePackage_(each);
+return $recv(descriptors)._removeKey_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"postFailedLoad:",{aPackage:aPackage,keys:keys,descriptors:descriptors})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "postLoad",
 protocol: "image",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -3825,17 +3875,18 @@ selector: "removePackage:",
 protocol: "packages",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["packageName"],
-source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName",
-referencedClasses: [],
+source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09announce: (PackageRemoved new\x0a\x09\x09package: pkg;\x0a\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "PackageRemoved"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary", "announce:", "current", "package:", "new", "yourself"]
 }, function ($methodClass){ return function (packageName){
 var self=this,$self=this;
 var pkg;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1,$2;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -3855,6 +3906,10 @@ return $self._removeClass_(each);
 //>>excludeEnd("ctx");
 }));
 $recv($self._packageDictionary())._removeKey_(packageName);
+$1=$recv($globals.SystemAnnouncer)._current();
+$2=$recv($globals.PackageRemoved)._new();
+$recv($2)._package_(pkg);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"removePackage:",{packageName:packageName,pkg:pkg})});

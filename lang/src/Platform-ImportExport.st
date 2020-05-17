@@ -1016,8 +1016,9 @@ setupFromJson: anObject
 !PackageTransport methodsFor: 'loading'!
 
 load
-	^ (self commitHandler load: self package)
-		then: [ Smalltalk postLoad ]
+	^ ((self commitHandler load: self package)
+		then: [ Smalltalk postLoad ])
+		catch: [ :e | Smalltalk postFailedLoad: self package. e pass ]
 ! !
 
 PackageTransport class slots: {#registry}!

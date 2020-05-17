@@ -968,6 +968,17 @@ globalJsVariables
 
 !SmalltalkImage methodsFor: 'image'!
 
+postFailedLoad: aPackage
+	| keys descriptors |
+	Smalltalk removePackage: aPackage name.
+	keys := Set new.
+	descriptors := self core packageDescriptors.
+	descriptors keysAndValuesDo: [ :key :value | keys add: key ].
+	keys do: [ :each |
+		Smalltalk removePackage: each.
+		descriptors removeKey: each ]
+!
+
 postLoad
 	^ self adoptPackageDescriptors then: [ :pkgs |
 		| classes |
@@ -1026,7 +1037,12 @@ removePackage: packageName
 	pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].
 	pkg classes do: [ :each |
 			self removeClass: each ].
-	self packageDictionary removeKey: packageName
+	self packageDictionary removeKey: packageName.
+	
+	SystemAnnouncer current
+	announce: (PackageRemoved new
+		package: pkg;
+		yourself)
 !
 
 renamePackage: packageName to: newName

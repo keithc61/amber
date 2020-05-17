@@ -3889,23 +3889,36 @@ selector: "load",
 protocol: "loading",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "load\x0a\x09^ (self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ]",
+source: "load\x0a\x09^ ((self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ])\x0a\x09\x09catch: [ :e | Smalltalk postFailedLoad: self package. e pass ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["then:", "load:", "commitHandler", "package", "postLoad"]
+messageSends: ["catch:", "then:", "load:", "commitHandler", "package", "postLoad", "postFailedLoad:", "pass"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($recv($self._commitHandler())._load_($self._package()))._then_((function(){
+return $recv($recv($recv($self._commitHandler())._load_([$self._package()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["package"]=1
+//>>excludeEnd("ctx");
+][0]))._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $recv($globals.Smalltalk)._postLoad();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(e){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv($globals.Smalltalk)._postFailedLoad_($self._package());
+return $recv(e)._pass();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
