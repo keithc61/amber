@@ -1830,18 +1830,18 @@ selector: "migrateClassNamed:superclass:slots:package:",
 protocol: "class migration",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["className", "aClass", "aCollection", "packageName"],
-source: "migrateClassNamed: className superclass: aClass slots: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
-referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassMigrated"],
+source: "migrateClassNamed: className superclass: aClass slots: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09SystemAnnouncer current announce: (ClassRenamed new\x0a\x09\x09\x09\x09\x09theClass: oldClass;\x0a\x09\x09\x09\x09\x09yourself).\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassRenamed", "ClassMigrated"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: [",", "at:", "globals", "addSubclassOf:named:slots:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
+messageSends: [",", "at:", "globals", "addSubclassOf:named:slots:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "announce:", "current", "theClass:", "new", "yourself", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "oldClass:"]
 }, function ($methodClass){ return function (className,aClass,aCollection,packageName){
 var self=this,$self=this;
 var oldClass,newClass,tmp;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3,$4;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 newClass=$self._addSubclassOf_named_slots_package_(aClass,tmp,aCollection,packageName);
@@ -1868,6 +1868,30 @@ $self._basicSwapClassNames_with_(oldClass,newClass);
 ,$ctx2.sendIdx["basicRemoveClass:"]=1
 //>>excludeEnd("ctx");
 ][0];
+$1=[$recv($globals.SystemAnnouncer)._current()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["current"]=1
+//>>excludeEnd("ctx");
+][0];
+$2=[$recv($globals.ClassRenamed)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+[$recv($2)._theClass_(oldClass)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["theClass:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$recv($1)._announce_([$recv($2)._yourself()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["yourself"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["announce:"]=1
+//>>excludeEnd("ctx");
+][0];
 return $recv(exception)._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,2)});
@@ -1889,11 +1913,11 @@ return $self._migrateClass_superclass_(each,newClass);
 //>>excludeEnd("ctx");
 }));
 $self._basicRemoveClass_(oldClass);
-$1=$recv($globals.SystemAnnouncer)._current();
-$2=$recv($globals.ClassMigrated)._new();
-$recv($2)._theClass_(newClass);
-$recv($2)._oldClass_(oldClass);
-$recv($1)._announce_($recv($2)._yourself());
+$3=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.ClassMigrated)._new();
+$recv($4)._theClass_(newClass);
+$recv($4)._oldClass_(oldClass);
+$recv($3)._announce_($recv($4)._yourself());
 return newClass;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:slots:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});

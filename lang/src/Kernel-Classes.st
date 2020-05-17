@@ -447,6 +447,9 @@ migrateClassNamed: className superclass: aClass slots: aCollection package: pack
 			self
 				basicSwapClassNames: oldClass with: newClass;
 				basicRemoveClass: newClass.
+				SystemAnnouncer current announce: (ClassRenamed new
+					theClass: oldClass;
+					yourself).
 				exception pass ].
 
 	self
