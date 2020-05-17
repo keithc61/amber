@@ -6,6 +6,7 @@
   * Thus, it is loadable in older Amber versions for more than a year.
   * The move to 3-arg addClass plus setSlots was made now.
 * API renames / additions moving further from ivars to slots.
+* Fixes for some old issues.
 
 Commits: https://lolg.it/amber/amber/commits/0.29.2.
 
