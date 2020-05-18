@@ -240,6 +240,11 @@ define(['./junk-drawer'], function ($goodies) {
             var st2js = brikz.selectorConversion.st2js;
 
             function installAmberMethodIntoAmberClass (method, klass) {
+                if (method.fn == null) {
+                    if (method.instantiateFn) {
+                        method.fn = method.instantiateFn(method.methodClass);
+                    }
+                }
                 var jsSelector = method.jsSelector;
                 if (!jsSelector) {
                     jsSelector = method.jsSelector = st2js(method.selector);

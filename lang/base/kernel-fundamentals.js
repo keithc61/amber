@@ -212,9 +212,6 @@ define(['./junk-drawer'], function ($goodies) {
                         console.warn("Resetting methodClass of " + newMethod.methodClass.name + " >> " + selector + " to " + traitOrBehavior.name);
                     }
                     newMethod.methodClass = traitOrBehavior;
-                    if (newMethod.instantiateFn) {
-                        newMethod.fn = newMethod.instantiateFn(traitOrBehavior);
-                    }
                     methods[selector] = newMethod;
                     traitOrBehavior.methodAdded(newMethod);
                 } else {
