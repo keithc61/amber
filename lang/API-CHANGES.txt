@@ -14,6 +14,9 @@
 + ClassBuilder >>
   + addSubclass:named:slots:package:
   + migrateClassNamed:superclass:slots:package:
++ SequenceableCollection >>
+  + pairsCollect:
+  + pairsDo:
 + TBehaviorDefaults >>
   + slots
 + TBehaviorProvider >>

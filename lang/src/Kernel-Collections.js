@@ -4269,6 +4269,85 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "pairsCollect:",
+protocol: "enumerating",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "pairsCollect: aBlock\x0a\x09\x22Evaluate aBlock with my elements taken two at a time,\x0a\x09and return an Array with the results\x22\x0a\x0a\x09\x22(#(1 'fred' 2 'charlie' 3 'elmer') pairsCollect: [:a :b | b, ' is number ', a printString]) >>> #('fred is number 1' 'charlie is number 2' 'elmer is number 3')\x22\x0a\x0a\x09^ (1 to: self size // 2) collect: [ :index |\x0a\x09\x09aBlock value: (self at: 2 * index - 1) value: (self at: 2 * index) ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collect:", "to:", "//", "size", "value:value:", "at:", "-", "*"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv((1)._to_($recv($self._size()).__slash_slash((2))))._collect_((function(index){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_value_([$self._at_($recv([(2).__star(index)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["*"]=1
+//>>excludeEnd("ctx");
+][0]).__minus((1)))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["at:"]=1
+//>>excludeEnd("ctx");
+][0],$self._at_((2).__star(index)));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pairsCollect:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
+selector: "pairsDo:",
+protocol: "enumerating",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "pairsDo: aBlock\x0a\x09\x22Evaluate aBlock with my elements taken two at a time.\x0a\x09If there's an odd number of items, ignore the last one.\x0a\x09Allows use of a flattened array for things that naturally group into pairs.\x0a\x09See also pairsCollect:\x22\x0a\x0a\x09\x22(#(1 'fred' 2 'charlie' 3 'elmer') pairsDo: [:a :b | Transcript cr; show: b, ' is number ', a printString]) >>> #(1 'fred' 2 'charlie' 3 'elmer')\x22\x0a\x0a\x091 to: self size // 2 do: [ :index |\x0a\x09\x09aBlock value: (self at: 2 * index - 1) value: (self at: 2 * index) ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["to:do:", "//", "size", "value:value:", "at:", "-", "*"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+(1)._to_do_($recv($self._size()).__slash_slash((2)),(function(index){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._value_value_([$self._at_($recv([(2).__star(index)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["*"]=1
+//>>excludeEnd("ctx");
+][0]).__minus((1)))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["at:"]=1
+//>>excludeEnd("ctx");
+][0],$self._at_((2).__star(index)));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({index:index},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"pairsDo:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "readStream",
 protocol: "streaming",
 //>>excludeStart("ide", pragmas.excludeIdeData);
