@@ -703,11 +703,11 @@ selector: "handleGETRequest:respondTo:",
 protocol: "request handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRequest", "aResponse"],
-source: "handleGETRequest: aRequest respondTo: aResponse\x0a\x09| uri filename |\x0a\x09uri := url parse: aRequest url.\x0a\x09filename := path join: self basePath with: uri pathname.\x0a\x09fs exists: filename do: [:aBoolean |\x0a\x09\x09aBoolean\x0a\x09\x09\x09ifFalse: [self respondNotFoundTo: aResponse]\x0a\x09\x09\x09ifTrue: [(fs statSync: filename) isDirectory\x0a\x09\x09\x09\x09ifTrue: [self respondDirectoryNamed: filename from: uri to: aResponse]\x0a\x09\x09\x09\x09ifFalse: [self respondFileNamed: filename to: aResponse]]]",
+source: "handleGETRequest: aRequest respondTo: aResponse\x0a\x09| uri filename |\x0a\x09uri := url parse: aRequest url.\x0a\x09filename := path join: self basePath with: uri pathname uriDecoded.\x0a\x09fs exists: filename do: [:aBoolean |\x0a\x09\x09aBoolean\x0a\x09\x09\x09ifFalse: [self respondNotFoundTo: aResponse]\x0a\x09\x09\x09ifTrue: [(fs statSync: filename) isDirectory\x0a\x09\x09\x09\x09ifTrue: [self respondDirectoryNamed: filename from: uri to: aResponse]\x0a\x09\x09\x09\x09ifFalse: [self respondFileNamed: filename to: aResponse]]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["parse:", "url", "join:with:", "basePath", "pathname", "exists:do:", "ifFalse:ifTrue:", "respondNotFoundTo:", "ifTrue:ifFalse:", "isDirectory", "statSync:", "respondDirectoryNamed:from:to:", "respondFileNamed:to:"]
+messageSends: ["parse:", "url", "join:with:", "basePath", "uriDecoded", "pathname", "exists:do:", "ifFalse:ifTrue:", "respondNotFoundTo:", "ifTrue:ifFalse:", "isDirectory", "statSync:", "respondDirectoryNamed:from:to:", "respondFileNamed:to:"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var uri,filename;
@@ -715,7 +715,7 @@ var uri,filename;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 uri=$recv($self.url)._parse_($recv(aRequest)._url());
-filename=$recv($self.path)._join_with_($self._basePath(),$recv(uri)._pathname());
+filename=$recv($self.path)._join_with_($self._basePath(),$recv($recv(uri)._pathname())._uriDecoded());
 $recv($self.fs)._exists_do_(filename,(function(aBoolean){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -771,11 +771,11 @@ selector: "handlePUTRequest:respondTo:",
 protocol: "request handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aRequest", "aResponse"],
-source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
+source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url uriDecoded.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
+messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "uriDecoded", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var file,stream;
@@ -786,7 +786,7 @@ if(!$core.assert($self._isAuthenticated_(aRequest))){
 $self._respondAuthenticationRequiredTo_(aResponse);
 return nil;
 }
-file=[".".__comma($recv(aRequest)._url())
+file=[".".__comma($recv($recv(aRequest)._url())._uriDecoded())
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");

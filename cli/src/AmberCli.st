@@ -299,7 +299,7 @@ writeData: data toFileNamed: aFilename
 handleGETRequest: aRequest respondTo: aResponse
 	| uri filename |
 	uri := url parse: aRequest url.
-	filename := path join: self basePath with: uri pathname.
+	filename := path join: self basePath with: uri pathname uriDecoded.
 	fs exists: filename do: [:aBoolean |
 		aBoolean
 			ifFalse: [self respondNotFoundTo: aResponse]
@@ -322,7 +322,7 @@ handlePUTRequest: aRequest respondTo: aResponse
 	(self isAuthenticated: aRequest)
 		ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].
 
-	file := '.', aRequest url.
+	file := '.', aRequest url uriDecoded.
 	stream := fs createWriteStream: file.
 
 	stream on: 'error' do: [:error |
