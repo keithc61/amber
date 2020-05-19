@@ -375,9 +375,16 @@ addTraitNamed: traitName package: packageName
 	
 	theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].
 		
-	^ self
+	theTrait := self
 		basicAddTraitNamed: traitName
-		package: packageName
+		package: packageName.
+	
+	SystemAnnouncer current
+		announce: (ClassAdded new
+			theClass: theTrait;
+			yourself).
+	
+	^ theTrait
 !
 
 class: aClass slots: aCollection

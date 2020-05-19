@@ -1411,18 +1411,18 @@ selector: "addTraitNamed:package:",
 protocol: "class definition",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["traitName", "packageName"],
-source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName",
-referencedClasses: ["Smalltalk", "Package"],
+source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09theTrait := self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: theTrait;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ theTrait",
+referencedClasses: ["Smalltalk", "Package", "SystemAnnouncer", "ClassAdded"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:", "announce:", "current", "theClass:", "new"]
 }, function ($methodClass){ return function (traitName,packageName){
 var self=this,$self=this;
 var theTrait,thePackage;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
+var $1,$2,$3,$4;
 theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theTrait;
@@ -1432,9 +1432,18 @@ $1;
 $2=theTrait;
 $recv($2)._package_(thePackage);
 $recv($2)._recompile();
-return $recv($2)._yourself();
+return [$recv($2)._yourself()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["yourself"]=1
+//>>excludeEnd("ctx");
+][0];
 }
-return $self._basicAddTraitNamed_package_(traitName,packageName);
+theTrait=$self._basicAddTraitNamed_package_(traitName,packageName);
+$3=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.ClassAdded)._new();
+$recv($4)._theClass_(theTrait);
+$recv($3)._announce_($recv($4)._yourself());
+return theTrait;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"addTraitNamed:package:",{traitName:traitName,packageName:packageName,theTrait:theTrait,thePackage:thePackage})});
 //>>excludeEnd("ctx");
