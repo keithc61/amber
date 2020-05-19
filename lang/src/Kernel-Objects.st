@@ -95,6 +95,10 @@ perform: aString
 	^ self perform: aString withArguments: #()
 !
 
+perform: aString with: anObject
+	<inlineJS: 'return $core.send2(self, aString, [anObject])'>
+!
+
 perform: aString withArguments: aCollection
 	<inlineJS: 'return $core.send2(self, aString, aCollection)'>
 ! !

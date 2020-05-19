@@ -466,6 +466,30 @@ $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
+selector: "perform:with:",
+protocol: "message handling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString", "anObject"],
+source: "perform: aString with: anObject\x0a\x09<inlineJS: 'return $core.send2(self, aString, [anObject])'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return $core.send2(self, aString, [anObject])"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString,anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $core.send2(self, aString, [anObject]);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"perform:with:",{aString:aString,anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ProtoObject);
+
+$core.addMethod(
+$core.method({
 selector: "perform:withArguments:",
 protocol: "message handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
