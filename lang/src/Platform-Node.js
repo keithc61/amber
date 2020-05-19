@@ -7,7 +7,7 @@ $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/P
 //>>excludeEnd("imports");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
+$core.addClass("NodePlatform", $globals.Object, "Platform-Node");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
 //>>excludeEnd("ide");

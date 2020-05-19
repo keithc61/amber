@@ -3,7 +3,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("NodeTestRunner");
 $pkg.transport = {"type":"amd","amdNamespace":"amber_devkit"};
 
-$core.addClass("NodeTestRunner", $globals.Object, [], "NodeTestRunner");
+$core.addClass("NodeTestRunner", $globals.Object, "NodeTestRunner");
 
 $core.addMethod(
 $core.method({
