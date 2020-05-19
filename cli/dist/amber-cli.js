@@ -1488,6 +1488,8 @@ define('amber/kernel-fundamentals',['./junk-drawer'], function ($goodies) {
     var addElement = $goodies.addElement;
     var removeElement = $goodies.removeElement;
 
+    var hop = Object.prototype.hasOwnProperty;
+
     function SelectorsBrik (brikz, st) {
         var selectorSet = Object.create(null);
         var selectors = this.selectors = [];
@@ -1651,7 +1653,8 @@ define('amber/kernel-fundamentals',['./junk-drawer'], function ($goodies) {
 
             this.setupMethods = function (traitOrBehavior) {
                 traitOrBehavior.localMethods = Object.create(null);
-                traitOrBehavior.methods = Object.create(null);
+                var superclass = traitOrBehavior.superclass;
+                traitOrBehavior.methods = Object.create(superclass ? superclass.methods : null);
             };
 
             function setLocalMethods (traitOrBehavior, newLocalMethods) {
@@ -1671,25 +1674,28 @@ define('amber/kernel-fundamentals',['./junk-drawer'], function ($goodies) {
             declareEvent("methodReplaced");
 
             function updateMethod (selector, traitOrBehavior) {
-                var oldMethod = traitOrBehavior.methods[selector],
-                    newMethod = traitOrBehavior.localMethods[selector];
-                if (oldMethod == null && newMethod == null) {
-                    console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
-                    return;
+                var oldMethod,
+                    newMethod = traitOrBehavior.localMethods[selector],
+                    methods = traitOrBehavior.methods;
+                if (hop.call(methods, selector)) {
+                    oldMethod = methods[selector];
+                    if (newMethod === oldMethod) return;
+                } else {
+                    if (newMethod == null) {
+                        console.warn("Removal of nonexistent method " + traitOrBehavior + " >> " + selector);
+                        return;
+                    }
+                    oldMethod = null;
                 }
-                if (newMethod === oldMethod) return;
                 if (newMethod != null) {
                     if (newMethod.methodClass && newMethod.methodClass !== traitOrBehavior) {
                         console.warn("Resetting methodClass of " + newMethod.methodClass.name + " >> " + selector + " to " + traitOrBehavior.name);
                     }
                     newMethod.methodClass = traitOrBehavior;
-                    if (newMethod.instantiateFn) {
-                        newMethod.fn = newMethod.instantiateFn(traitOrBehavior);
-                    }
-                    traitOrBehavior.methods[selector] = newMethod;
+                    methods[selector] = newMethod;
                     traitOrBehavior.methodAdded(newMethod);
                 } else {
-                    delete traitOrBehavior.methods[selector];
+                    delete methods[selector];
                     traitOrBehavior.methodRemoved(oldMethod);
                 }
                 emit.methodReplaced(newMethod, oldMethod, traitOrBehavior);
@@ -1985,13 +1991,14 @@ define('amber/kernel-language',['./junk-drawer'], function ($goodies) {
             var nilAsClass = this.nilAsClass = {
                 fn: SmalltalkRoot,
                 subclasses: [],
-                a$cls: {fn: SmalltalkClass}
+                a$cls: {fn: SmalltalkClass, methods: Object.create(null)}
             };
 
             this.bootstrapHierarchy = function (realClass) {
                 nilAsClass.a$cls = realClass;
                 nilAsClass.subclasses.forEach(function (each) {
                     each.a$cls.superclass = realClass;
+                    Object.setPrototypeOf(each.a$cls.methods, realClass.methods);
                     registerToSuperclass(each.a$cls);
                 });
             };
@@ -2150,7 +2157,7 @@ define('amber/kernel-language',['./junk-drawer'], function ($goodies) {
              A Package is lazily created if one with given name does not exist. */
 
             st.addClass = function (className, superclass, category) {
-                // TODO remove, backward compatibility
+                // TODO remove, backward compatibility (note: only deprecated as of this note)
                 if (arguments[3]) {
                     var added = st.addClass(className, superclass, arguments[3]);
                     setSlots(added, category);
@@ -2197,7 +2204,9 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
     var deleteKeysFrom = $goodies.deleteKeysFrom;
     var extendWithMethods = $goodies.extendWithMethods;
 
-    function uninstallMethodOfJsObjectEx (obj, name) {
+    var hop = Object.prototype.hasOwnProperty;
+
+    function cleanMethodOfJsObjectEx (obj, name) {
         var attachments;
         var old = Object.getOwnPropertyDescriptor(obj, name);
         if (old != null && (old = old.value) != null) {
@@ -2206,11 +2215,10 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                 deleteKeysFrom(Object.keys(attachments), obj);
             }
         }
-        delete obj[name];
     }
 
     function installMethodOfJsObjectEx (obj, name, fn) {
-        uninstallMethodOfJsObjectEx(obj, name);
+        cleanMethodOfJsObjectEx(obj, name);
         var attachments = fn.a$atx;
         if (attachments != null) {
             extendWithMethods(obj, attachments);
@@ -2392,15 +2400,11 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             st.setClassConstructor = this.setClassConstructor = function (klass, constructor) {
                 klass.fn = constructor;
                 detachClass(klass);
-                klass.subclasses.forEach(reprotoFn(constructor));
-            };
-
-            function reprotoFn (constructor) {
                 var prototype = constructor.prototype;
-                return function (subclass) {
+                klass.subclasses.forEach(function (subclass) {
                     Object.setPrototypeOf(subclass.fn.prototype, prototype);
-                };
-            }
+                });
+            };
         }
 
         FrameBindingBrik.deps = ["runtimeClasses"];
@@ -2430,6 +2434,11 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             var st2js = brikz.selectorConversion.st2js;
 
             function installAmberMethodIntoAmberClass (method, klass) {
+                if (method.fn == null) {
+                    if (method.instantiateFn) {
+                        method.fn = method.instantiateFn(method.methodClass);
+                    }
+                }
                 var jsSelector = method.jsSelector;
                 if (!jsSelector) {
                     jsSelector = method.jsSelector = st2js(method.selector);
@@ -2445,7 +2454,8 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             };
 
             emit.behaviorMethodRemoved = function (method, klass) {
-                uninstallMethodOfJsObjectEx(klass.fn.prototype, method.jsSelector);
+                cleanMethodOfJsObjectEx(klass.fn.prototype, method.jsSelector);
+                delete klass.fn.prototype[method.jsSelector];
                 propagateMethodChange(klass, method, null);
             };
 
@@ -2462,7 +2472,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                 var jsSelector = method.jsSelector;
                 st.traverseClassTree(klass, function (subclass, sentinel) {
                     if (subclass === exclude) return;
-                    if (subclass.methods[selector]) return sentinel;
+                    if (hop.call(subclass.methods, selector)) return sentinel;
                     if (subclass.detachedRoot) {
                         installMethodOfJsObjectEx(subclass.fn.prototype, jsSelector, subclass.superclass.fn.prototype[jsSelector]);
                     }
@@ -2788,8 +2798,14 @@ define('amber/helpers',["./boot", "./junk-drawer", "require"], function (boot, $
     });
 
     function settingsInLocalStorage () {
-        //jshint evil:true
-        var storage = 'localStorage' in global && global.localStorage;
+        var storage;
+        try {
+            storage = 'localStorage' in global && global.localStorage;
+        } catch (ex) {
+            console.warn("Access denied to localStorage, " +
+                "settings not loaded nor, subsequently, saved.");
+            return;
+        }
 
         if (storage) {
             var fromStorage;
@@ -3285,7 +3301,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Objects");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ProtoObject", null, [], "Kernel-Objects");
+$core.addClass("ProtoObject", null, "Kernel-Objects");
 $globals.ProtoObject.comment="I implement the basic behavior required for any object in Amber.\x0a\x0aIn most cases, subclassing `ProtoObject` is wrong and `Object` should be used instead. However subclassing `ProtoObject` can be useful in some special cases like proxy implementations.";
 $core.addMethod(
 $core.method({
@@ -3646,6 +3662,24 @@ $globals.ProtoObject);
 
 $core.addMethod(
 $core.method({
+selector: "perform:with:",
+protocol: "message handling",
+args: ["aString", "anObject"],
+source: "perform: aString with: anObject\x0a\x09<inlineJS: 'return $core.send2(self, aString, [anObject])'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return $core.send2(self, aString, [anObject])"]]],
+messageSends: []
+}, function ($methodClass){ return function (aString,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $core.send2(self, aString, [anObject]);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"perform:with:",{aString:aString,anObject:anObject})});
+}; }),
+$globals.ProtoObject);
+
+$core.addMethod(
+$core.method({
 selector: "perform:withArguments:",
 protocol: "message handling",
 args: ["aString", "aCollection"],
@@ -3784,7 +3818,7 @@ return self;
 $globals.ProtoObject.a$cls);
 
 
-$core.addClass("Object", $globals.ProtoObject, [], "Kernel-Objects");
+$core.addClass("Object", $globals.ProtoObject, "Kernel-Objects");
 $globals.Object.comment="**I am the root of the Smalltalk class system**. With the exception of unual subclasses of `ProtoObject`, all other classes in the system are subclasses of me.\x0a\x0aI provide default behavior common to all normal objects (some of it inherited from `ProtoObject`), such as:\x0a\x0a- accessing\x0a- copying\x0a- comparison\x0a- error handling\x0a- message sending\x0a- reflection\x0a\x0aAlso utility messages that all objects should respond to are defined here.\x0a\x0aI have no instance variable.\x0a\x0a##Access\x0a\x0aInstance variables can be accessed with `#instVarAt:` and `#instVarAt:put:`. `#instanceVariableNames` answers a collection of all instance variable names.\x0aAccessing JavaScript properties of an object is done through `#basicAt:`, `#basicAt:put:` and `basicDelete:`.\x0a\x0a##Copying\x0a\x0aCopying an object is handled by `#copy` and `#deepCopy`. The first one performs a shallow copy of the receiver, while the second one performs a deep copy.\x0aThe hook method `#postCopy` can be overriden in subclasses to copy fields as necessary to complete the full copy. It will be sent by the copy of the receiver.\x0a\x0a##Comparison\x0a\x0aI understand equality `#=` and identity `#==` comparison.\x0a\x0a##Error handling\x0a\x0a- `#halt` is the typical message to use for inserting breakpoints during debugging.\x0a- `#error:` throws a generic error exception\x0a- `#doesNotUnderstand:` handles the fact that there was an attempt to send the given message to the receiver but the receiver does not understand this message.\x0a\x09Overriding this message can be useful to implement proxies for example.";
 $core.addMethod(
 $core.method({
@@ -3861,14 +3895,15 @@ $core.method({
 selector: "asJavaScriptObject",
 protocol: "converting",
 args: [],
-source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) asJavaScriptObject ].\x0a\x09^ variables",
+source: "asJavaScriptObject\x0a\x09| variables |\x0a\x09self deprecatedAPI: 'Implement domain-specific #asJavaScriptObject on your classes instead.'.\x0a\x09variables := HashedCollection new.\x0a\x09self class allInstanceVariableNames do: [ :each |\x0a\x09\x09variables at: each put: (self instVarNamed: each) asJavaScriptObject ].\x0a\x09^ variables",
 referencedClasses: ["HashedCollection"],
 pragmas: [],
-messageSends: ["new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarNamed:"]
+messageSends: ["deprecatedAPI:", "new", "do:", "allInstanceVariableNames", "class", "at:put:", "asJavaScriptObject", "instVarNamed:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var variables;
 return $core.withContext(function($ctx1) {
+$self._deprecatedAPI_("Implement domain-specific #asJavaScriptObject on your classes instead.");
 variables=$recv($globals.HashedCollection)._new();
 $recv($recv($self._class())._allInstanceVariableNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
@@ -3885,13 +3920,14 @@ $core.method({
 selector: "asJavaScriptSource",
 protocol: "converting",
 args: [],
-source: "asJavaScriptSource\x0a\x09^ self asString",
+source: "asJavaScriptSource\x0a\x09self deprecatedAPI: 'Implement domain-specific #asJavaScriptSource on your classes instead.'.\x0a\x09^ self asString",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["asString"]
+messageSends: ["deprecatedAPI:", "asString"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+$self._deprecatedAPI_("Implement domain-specific #asJavaScriptSource on your classes instead.");
 return $self._asString();
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
 }; }),
@@ -4729,7 +4765,7 @@ return self;
 $globals.Object.a$cls);
 
 
-$core.addClass("Boolean", $globals.Object, [], "Kernel-Objects");
+$core.addClass("Boolean", $globals.Object, "Kernel-Objects");
 $globals.Boolean.comment="I define the protocol for logic testing operations and conditional control structures for the logical values (see the `controlling` protocol).\x0a\x0aI have two instances, `true` and `false`.\x0a\x0aI am directly mapped to JavaScript Boolean. The `true` and `false` objects are the JavaScript boolean objects.\x0a\x0a## Usage Example:\x0a\x0a    aBoolean not ifTrue: [ ... ] ifFalse: [ ... ]";
 $core.addMethod(
 $core.method({
@@ -4831,6 +4867,23 @@ messageSends: []
 var self=this,$self=this;
 return self;
 
+}; }),
+$globals.Boolean);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+args: [],
+source: "asJavaScriptSource\x0a\x09^ self asString",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["asString"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._asString();
+}, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
 }; }),
 $globals.Boolean);
 
@@ -5077,7 +5130,7 @@ $globals.Boolean);
 
 
 
-$core.addClass("Date", $globals.Object, [], "Kernel-Objects");
+$core.addClass("Date", $globals.Object, "Kernel-Objects");
 $globals.Date.comment="I am used to work with both dates and times. Therefore `Date today` and `Date now` are both valid in\x0aAmber and answer the same date object.\x0a\x0aDate directly maps to the `Date()` JavaScript constructor, and Amber date objects are JavaScript date objects.\x0a\x0a## API\x0a\x0aThe class-side `instance creation` protocol contains some convenience methods for creating date/time objects such as `#fromSeconds:`.\x0a\x0aArithmetic and comparison is supported (see the `comparing` and `arithmetic` protocols).\x0a\x0aThe `converting` protocol provides convenience methods for various convertions (to numbers, strings, etc.).";
 $core.addMethod(
 $core.method({
@@ -5840,7 +5893,7 @@ return $self._new();
 $globals.Date.a$cls);
 
 
-$core.addClass("Number", $globals.Object, [], "Kernel-Objects");
+$core.addClass("Number", $globals.Object, "Kernel-Objects");
 $globals.Number.comment="I am the Amber representation for all numbers.\x0aI am directly mapped to JavaScript Number.\x0a\x0a## API\x0a\x0aI provide all necessary methods for arithmetic operations, comparison, conversion and so on with numbers.\x0a\x0aMy instances can also be used to evaluate a block a fixed number of times:\x0a\x0a\x095 timesRepeat: [ Transcript show: 'This will be printed 5 times'; cr ].\x0a\x09\x0a\x091 to: 5 do: [ :aNumber| Transcript show: aNumber asString; cr ].\x0a\x09\x0a\x091 to: 10 by: 2 do: [ :aNumber| Transcript show: aNumber asString; cr ].";
 $core.addMethod(
 $core.method({
@@ -7596,7 +7649,8 @@ return $recv($self._pi()).__slash((180));
 $globals.Number.a$cls);
 
 
-$core.addClass("Point", $globals.Object, ["x", "y"], "Kernel-Objects");
+$core.addClass("Point", $globals.Object, "Kernel-Objects");
+$core.setSlots($globals.Point, ["x", "y"]);
 $globals.Point.comment="I represent an x-y pair of numbers usually designating a geometric coordinate.\x0a\x0a## API\x0a\x0aInstances are traditionally created using the binary `#@` message to a number:\x0a\x0a\x09100@120\x0a\x0aPoints can then be arithmetically manipulated:\x0a\x0a\x09100@100 + (10@10)\x0a\x0a...or for example:\x0a\x0a\x09(100@100) * 2\x0a\x0a**NOTE:** Creating a point with a negative y-value will need a space after `@` in order to avoid a parsing error:\x0a\x0a\x09100@ -100 \x22but 100@-100 would not parse\x22";
 $core.addMethod(
 $core.method({
@@ -8197,7 +8251,7 @@ return $recv($1)._yourself();
 $globals.Point.a$cls);
 
 
-$core.addClass("Random", $globals.Object, [], "Kernel-Objects");
+$core.addClass("Random", $globals.Object, "Kernel-Objects");
 $globals.Random.comment="I an used to generate a random number and I am implemented as a trivial wrapper around javascript `Math.random()`.\x0a\x0a## API\x0a\x0aThe typical use case it to use the `#next` method like the following:\x0a\x0a\x09Random new next\x0a\x0aThis will return a float x where x < 1 and x > 0. If you want a random integer from 1 to 10 you can use `#atRandom`\x0a\x0a\x0910 atRandom\x0a\x0aA random number in a specific interval can be obtained with the following:\x0a\x0a\x09(3 to: 7) atRandom\x0a\x0aBe aware that `#to:` does not create an Interval as in other Smalltalk implementations but in fact an `Array` of numbers, so it's better to use:\x0a\x0a\x095 atRandom + 2\x0a\x0aSince `#atRandom` is implemented in `SequencableCollection` you can easy pick an element at random:\x0a\x0a\x09#('a' 'b' 'c') atRandom\x0a\x0aAs well as letter from a `String`:\x0a\x0a\x09'abc' atRandom\x0a\x0aSince Amber does not have Characters this will return a `String` of length 1 like for example `'b'`.";
 $core.addMethod(
 $core.method({
@@ -8240,7 +8294,8 @@ $globals.Random);
 
 
 
-$core.addClass("Rectangle", $globals.Object, ["origin", "corner"], "Kernel-Objects");
+$core.addClass("Rectangle", $globals.Object, "Kernel-Objects");
+$core.setSlots($globals.Rectangle, ["origin", "corner"]);
 $globals.Rectangle.comment="I represent a Rectangle defined by my two corners.\x0a\x0aThe simplest way to create an instance is using Point methods:\x0a\x0a    1@1 corner: 2@2\x0a\x0aWIll create a rectangle with 1@1 as the top left and 2@2 at the bottom right.\x0a\x0a    1@1 extent: 1@1\x0a\x0aWill create the same rectangle, defining an origin and a size instead of an origin and a corner.";
 $core.addMethod(
 $core.method({
@@ -8451,7 +8506,7 @@ return $recv($self._basicNew())._setPoint_point_(anOrigin,aCorner);
 $globals.Rectangle.a$cls);
 
 
-$core.addClass("UndefinedObject", $globals.Object, [], "Kernel-Objects");
+$core.addClass("UndefinedObject", $globals.Object, "Kernel-Objects");
 $globals.UndefinedObject.comment="I describe the behavior of my sole instance, `nil`. `nil` represents a prior value for variables that have not been initialized, or for results which are meaningless.\x0a\x0a`nil` is the Smalltalk equivalent of the `undefined` JavaScript object.\x0a\x0a__note:__ When sending messages to the `undefined` JavaScript object, it will be replaced by `nil`.";
 $core.addMethod(
 $core.method({
@@ -8482,6 +8537,22 @@ messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return null;
+
+}; }),
+$globals.UndefinedObject);
+
+$core.addMethod(
+$core.method({
+selector: "asJavaScriptSource",
+protocol: "converting",
+args: [],
+source: "asJavaScriptSource\x0a\x09^ 'null'",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return "null";
 
 }; }),
 $globals.UndefinedObject);
@@ -8716,7 +8787,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Collections");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Association", $globals.Object, ["key", "value"], "Kernel-Collections");
+$core.addClass("Association", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.Association, ["key", "value"]);
 $globals.Association.comment="I represent a pair of associated objects, a key and a value. My instances can serve as entries in a dictionary.\x0a\x0aInstances can be created with the class-side method `#key:value:`";
 $core.addMethod(
 $core.method({
@@ -8864,7 +8936,8 @@ return $recv($1)._yourself();
 $globals.Association.a$cls);
 
 
-$core.addClass("BucketStore", $globals.Object, ["buckets", "hashBlock"], "Kernel-Collections");
+$core.addClass("BucketStore", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.BucketStore, ["buckets", "hashBlock"]);
 $globals.BucketStore.comment="I am an helper class for hash-based stores.\x0a\x0aI hold buckets which are selected by a hash, specified using `#hashBlock:`.\x0aThe hash can be any object, and\x0ait is used as a JS property (that is, in ES5\x0aits toString() value counts).\x0a\x0a## API\x0aI maintain a list of buckets. Client code can use this API:\x0a - `#bucketOfElement:` (to ask a bucket for element, I can return JS null if n/a)\x0a - `#do:` (to enumerate all elements of all buckets)\x0a - `#removeAll` (to remove all buckets)\x0a\x0aClient code itself should add/remove elements\x0ain a bucket. The `nil` object should not be put into any bucket.\x0a\x0aTypes of buckets are the responsibility of subclasses via `#newBucket`.";
 $core.addMethod(
 $core.method({
@@ -9011,7 +9084,7 @@ return $recv($1)._yourself();
 $globals.BucketStore.a$cls);
 
 
-$core.addClass("ArrayBucketStore", $globals.BucketStore, [], "Kernel-Collections");
+$core.addClass("ArrayBucketStore", $globals.BucketStore, "Kernel-Collections");
 $globals.ArrayBucketStore.comment="I am a concrete `BucketStore` with buckets being instance of `Array`.";
 $core.addMethod(
 $core.method({
@@ -9031,7 +9104,7 @@ $globals.ArrayBucketStore);
 
 
 
-$core.addClass("Collection", $globals.Object, [], "Kernel-Collections");
+$core.addClass("Collection", $globals.Object, "Kernel-Collections");
 $globals.Collection.comment="I am the abstract superclass of all classes that represent a group of elements.\x0a\x0aI provide a set of useful methods to the Collection hierarchy such as enumerating and converting methods.";
 $core.addMethod(
 $core.method({
@@ -10133,7 +10206,7 @@ return $recv($1)._yourself();
 $globals.Collection.a$cls);
 
 
-$core.addClass("AssociativeCollection", $globals.Collection, [], "Kernel-Collections");
+$core.addClass("AssociativeCollection", $globals.Collection, "Kernel-Collections");
 $globals.AssociativeCollection.comment="I am a base class for object-indexed collections (Dictionary et.al.).";
 $core.addMethod(
 $core.method({
@@ -10963,7 +11036,8 @@ return newCollection;
 $globals.AssociativeCollection.a$cls);
 
 
-$core.addClass("Dictionary", $globals.AssociativeCollection, ["keys", "values"], "Kernel-Collections");
+$core.addClass("Dictionary", $globals.AssociativeCollection, "Kernel-Collections");
+$core.setSlots($globals.Dictionary, ["keys", "values"]);
 $globals.Dictionary.comment="I represent a set of elements that can be viewed from one of two perspectives: a set of associations,\x0aor a container of values that are externally named where the name can be any object that responds to `=`.\x0a\x0aThe external name is referred to as the key.";
 $core.addMethod(
 $core.method({
@@ -11243,7 +11317,7 @@ $globals.Dictionary);
 
 
 
-$core.addClass("HashedCollection", $globals.AssociativeCollection, [], "Kernel-Collections");
+$core.addClass("HashedCollection", $globals.AssociativeCollection, "Kernel-Collections");
 $globals.HashedCollection.comment="I am a traditional JavaScript object, or a Smalltalk `Dictionary`.\x0a\x0aUnlike a `Dictionary`, I can only have strings as keys.";
 $core.addMethod(
 $core.method({
@@ -11446,7 +11520,7 @@ $globals.HashedCollection);
 
 
 
-$core.addClass("SequenceableCollection", $globals.Collection, [], "Kernel-Collections");
+$core.addClass("SequenceableCollection", $globals.Collection, "Kernel-Collections");
 $globals.SequenceableCollection.comment="I am an IndexableCollection\x0awith numeric indexes starting with 1.";
 $core.addMethod(
 $core.method({
@@ -11837,6 +11911,57 @@ $globals.SequenceableCollection);
 
 $core.addMethod(
 $core.method({
+selector: "pairsCollect:",
+protocol: "enumerating",
+args: ["aBlock"],
+source: "pairsCollect: aBlock\x0a\x09\x22Evaluate aBlock with my elements taken two at a time,\x0a\x09and return an Array with the results\x22\x0a\x0a\x09\x22(#(1 'fred' 2 'charlie' 3 'elmer') pairsCollect: [:a :b | b, ' is number ', a printString]) >>> #('fred is number 1' 'charlie is number 2' 'elmer is number 3')\x22\x0a\x0a\x09^ (1 to: self size // 2) collect: [ :index |\x0a\x09\x09aBlock value: (self at: 2 * index - 1) value: (self at: 2 * index) ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["collect:", "to:", "//", "size", "value:value:", "at:", "-", "*"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv((1)._to_($recv($self._size()).__slash_slash((2))))._collect_((function(index){
+return $core.withContext(function($ctx2) {
+return $recv(aBlock)._value_value_([$self._at_($recv([(2).__star(index)
+,$ctx2.sendIdx["*"]=1
+][0]).__minus((1)))
+,$ctx2.sendIdx["at:"]=1
+][0],$self._at_((2).__star(index)));
+}, function($ctx2) {$ctx2.fillBlock({index:index},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"pairsCollect:",{aBlock:aBlock})});
+}; }),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
+selector: "pairsDo:",
+protocol: "enumerating",
+args: ["aBlock"],
+source: "pairsDo: aBlock\x0a\x09\x22Evaluate aBlock with my elements taken two at a time.\x0a\x09If there's an odd number of items, ignore the last one.\x0a\x09Allows use of a flattened array for things that naturally group into pairs.\x0a\x09See also pairsCollect:\x22\x0a\x0a\x09\x22(#(1 'fred' 2 'charlie' 3 'elmer') pairsDo: [:a :b | Transcript cr; show: b, ' is number ', a printString]) >>> #(1 'fred' 2 'charlie' 3 'elmer')\x22\x0a\x0a\x091 to: self size // 2 do: [ :index |\x0a\x09\x09aBlock value: (self at: 2 * index - 1) value: (self at: 2 * index) ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["to:do:", "//", "size", "value:value:", "at:", "-", "*"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+(1)._to_do_($recv($self._size()).__slash_slash((2)),(function(index){
+return $core.withContext(function($ctx2) {
+return $recv(aBlock)._value_value_([$self._at_($recv([(2).__star(index)
+,$ctx2.sendIdx["*"]=1
+][0]).__minus((1)))
+,$ctx2.sendIdx["at:"]=1
+][0],$self._at_((2).__star(index)));
+}, function($ctx2) {$ctx2.fillBlock({index:index},$ctx1,1)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"pairsDo:",{aBlock:aBlock})});
+}; }),
+$globals.SequenceableCollection);
+
+$core.addMethod(
+$core.method({
 selector: "readStream",
 protocol: "streaming",
 args: [],
@@ -12028,7 +12153,7 @@ return $recv(stream)._contents();
 $globals.SequenceableCollection.a$cls);
 
 
-$core.addClass("Array", $globals.SequenceableCollection, [], "Kernel-Collections");
+$core.addClass("Array", $globals.SequenceableCollection, "Kernel-Collections");
 $globals.Array.comment="I represent a collection of objects ordered by the collector. The size of arrays is dynamic.\x0a\x0aI am directly mapped to JavaScript Number.\x0a\x0a*Note* In Amber, `OrderedCollection` is an alias for `Array`.";
 $core.addMethod(
 $core.method({
@@ -12622,7 +12747,7 @@ return instance;
 $globals.Array.a$cls);
 
 
-$core.addClass("String", $globals.SequenceableCollection, [], "Kernel-Collections");
+$core.addClass("String", $globals.SequenceableCollection, "Kernel-Collections");
 $globals.String.comment="I am an indexed collection of Characters. Unlike most Smalltalk dialects, Amber doesn't provide the Character class. Instead, elements of a String are single character strings.\x0a\x0aString inherits many useful methods from its hierarchy, such as\x0a\x09`Collection >> #,`";
 $core.addMethod(
 $core.method({
@@ -14358,7 +14483,8 @@ return self;
 $globals.String.a$cls);
 
 
-$core.addClass("Set", $globals.Collection, ["defaultBucket", "slowBucketStores", "fastBuckets", "size"], "Kernel-Collections");
+$core.addClass("Set", $globals.Collection, "Kernel-Collections");
+$core.setSlots($globals.Set, ["defaultBucket", "slowBucketStores", "fastBuckets", "size"]);
 $globals.Set.comment="I represent an unordered set of objects without duplicates.\x0a\x0a## Implementation notes\x0a\x0aI put elements into different stores based on their type.\x0aThe goal is to store some elements into native JS object property names to be fast.\x0a\x0aIf an unboxed element has typeof 'string', 'boolean' or 'number', or an element is nil, null or undefined,\x0aI store it as a property name in an empty (== Object.create(null)) JS object, different for each type\x0a(for simplicity, nil/null/undefined is treated as one and included with the two booleans).\x0a\x0aIf element happen to be an object, I try to store them in `ArrayBucketStore`. I have two of them by default,\x0aone hashed using the Smalltalk class name, the other one using the JS constructor name. It is possible to have more or less\x0ainstances of `ArrayBucketStores`, see `#initializeSlowBucketStores`.\x0a\x0aAs a last resort, if none of the `ArrayBucketStore` instances can find a suitable bucket, the `defaultBucket` is used,\x0awhich is an `Array`.";
 $core.addMethod(
 $core.method({
@@ -14880,7 +15006,7 @@ $globals.Set);
 
 
 
-$core.addClass("ProtoStream", $globals.Object, [], "Kernel-Collections");
+$core.addClass("ProtoStream", $globals.Object, "Kernel-Collections");
 $globals.ProtoStream.comment="I am the abstract base for different accessor for a sequence of objects. This sequence is referred to as my \x22contents\x22.\x0aMy instances are read/write streams modifying the contents.";
 $core.addMethod(
 $core.method({
@@ -15214,7 +15340,8 @@ return $recv($1)._yourself();
 $globals.ProtoStream.a$cls);
 
 
-$core.addClass("Stream", $globals.ProtoStream, ["collection", "position", "streamSize"], "Kernel-Collections");
+$core.addClass("Stream", $globals.ProtoStream, "Kernel-Collections");
+$core.setSlots($globals.Stream, ["collection", "position", "streamSize"]);
 $globals.Stream.comment="I represent an accessor for a sequence of objects. This sequence is referred to as my \x22contents\x22.\x0aMy instances are read/write streams to the contents sequence collection.";
 $core.addMethod(
 $core.method({
@@ -15629,7 +15756,7 @@ return $recv($1)._yourself();
 $globals.Stream.a$cls);
 
 
-$core.addClass("StringStream", $globals.Stream, [], "Kernel-Collections");
+$core.addClass("StringStream", $globals.Stream, "Kernel-Collections");
 $globals.StringStream.comment="I am a Stream specific to `String` objects.";
 $core.addMethod(
 $core.method({
@@ -15879,7 +16006,8 @@ $globals.StringStream);
 
 
 
-$core.addClass("Queue", $globals.Object, ["read", "readIndex", "write"], "Kernel-Collections");
+$core.addClass("Queue", $globals.Object, "Kernel-Collections");
+$core.setSlots($globals.Queue, ["read", "readIndex", "write"]);
 $globals.Queue.comment="I am a one-sided queue.\x0a\x0a## Usage\x0a\x0aUse `#nextPut:` to add items to the queue.\x0aUse `#next` or `#nextIfAbsent:` to get (and remove) the next item in the queue.\x0a\x0a## Implementation notes\x0a\x0aA Queue uses two OrderedCollections inside,\x0a`read` is at the front, is not modified and only read using `readIndex`.\x0a`write` is at the back and is appended new items.\x0aWhen `read` is exhausted, `write` is promoted to `read` and new `write` is created.\x0a\x0aAs a consequence, no data moving is done by me, write appending may do data moving\x0awhen growing `write`, but this is left to engine to implement as good as it chooses to.";
 $core.addMethod(
 $core.method({
@@ -15991,7 +16119,7 @@ $globals.Queue);
 
 
 
-$core.addClass("RegularExpression", $globals.Object, [], "Kernel-Collections");
+$core.addClass("RegularExpression", $globals.Object, "Kernel-Collections");
 $globals.RegularExpression.comment="I represent a regular expression object. My instances are JavaScript `RegExp` object.";
 $core.addMethod(
 $core.method({
@@ -16513,36 +16641,9 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Classes");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Behavior", $globals.Object, ["organization", "slots", "fn", "superclass"], "Kernel-Classes");
+$core.addClass("Behavior", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.Behavior, ["organization", "slots", "fn", "superclass"]);
 $globals.Behavior.comment="I am the superclass of all class objects.\x0a\x0aIn addition to BehaviorBody, I define superclass/subclass relationships and instantiation.\x0a\x0aI define the protocol for creating instances of a class with `#basicNew` and `#new` (see `boot.js` for class constructors details).\x0a\x0aMy instances know about the subclass/superclass relationships between classes and contain the description that instances are created from.\x0a\x0aI also provide iterating over the class hierarchy.";
-$core.addMethod(
-$core.method({
-selector: "allInstanceVariableNames",
-protocol: "accessing",
-args: [],
-source: "allInstanceVariableNames\x0a\x09| result |\x0a\x09result := self instanceVariableNames copy.\x0a\x09self superclass ifNotNil: [\x0a\x09\x09result addAll: self superclass allInstanceVariableNames ].\x0a\x09^ result",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["copy", "instanceVariableNames", "ifNotNil:", "superclass", "addAll:", "allInstanceVariableNames"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var result;
-return $core.withContext(function($ctx1) {
-var $1;
-result=$recv($self._instanceVariableNames())._copy();
-$1=[$self._superclass()
-,$ctx1.sendIdx["superclass"]=1
-][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
-$recv(result)._addAll_($recv($self._superclass())._allInstanceVariableNames());
-}
-return result;
-}, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{result:result})});
-}; }),
-$globals.Behavior);
-
 $core.addMethod(
 $core.method({
 selector: "allSelectors",
@@ -16753,26 +16854,14 @@ $core.method({
 selector: "canUnderstand:",
 protocol: "testing",
 args: ["aSelector"],
-source: "canUnderstand: aSelector\x0a\x09^ (self includesSelector: aSelector asString) or: [\x0a\x09\x09self superclass ifNil: [ false ] ifNotNil: [ :superClass | superClass canUnderstand: aSelector ]]",
+source: "canUnderstand: aSelector\x0a\x09^ (self lookupSelector: aSelector) notNil",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["or:", "includesSelector:", "asString", "ifNil:ifNotNil:", "superclass", "canUnderstand:"]
+messageSends: ["notNil", "lookupSelector:"]
 }, function ($methodClass){ return function (aSelector){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-if($core.assert($self._includesSelector_($recv(aSelector)._asString()))){
-return true;
-} else {
-$1=$self._superclass();
-if($1 == null || $1.a$nil){
-return false;
-} else {
-var superClass;
-superClass=$1;
-return $recv(superClass)._canUnderstand_(aSelector);
-}
-}
+return $recv($self._lookupSelector_(aSelector))._notNil();
 }, function($ctx1) {$ctx1.fill(self,"canUnderstand:",{aSelector:aSelector})});
 }; }),
 $globals.Behavior);
@@ -16820,22 +16909,6 @@ superClass=$1;
 return $recv(superClass)._includesBehavior_(aClass);
 }
 }, function($ctx1) {$ctx1.fill(self,"inheritsFrom:",{aClass:aClass})});
-}; }),
-$globals.Behavior);
-
-$core.addMethod(
-$core.method({
-selector: "instanceVariableNames",
-protocol: "accessing",
-args: [],
-source: "instanceVariableNames\x0a\x09^ slots",
-referencedClasses: [],
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $self.slots;
-
 }; }),
 $globals.Behavior);
 
@@ -16930,34 +17003,16 @@ $core.method({
 selector: "lookupSelector:",
 protocol: "accessing",
 args: ["selector"],
-source: "lookupSelector: selector\x0a\x09\x22Look up the given selector in my methodDictionary.\x0a\x09Return the corresponding method if found.\x0a\x09Otherwise chase the superclass chain and try again.\x0a\x09Return nil if no method is found.\x22\x0a\x09\x0a\x09| lookupClass |\x0a\x09\x0a\x09lookupClass := self.\x0a\x09[ lookupClass = nil ] whileFalse: [\x0a\x09\x09(lookupClass includesSelector: selector)\x0a\x09\x09\x09\x09ifTrue: [ ^ lookupClass methodAt: selector ].\x0a\x09\x09\x09lookupClass := lookupClass superclass ].\x0a\x09^ nil",
+source: "lookupSelector: selector\x0a\x09\x22Look up the given selector in my methodDictionary.\x0a\x09Return the corresponding method if found.\x0a\x09Otherwise chase the superclass chain and try again.\x0a\x09Return nil if no method is found.\x22\x0a\x09\x0a\x09<inlineJS: 'return $self.methods[selector]'>",
 referencedClasses: [],
-pragmas: [],
-messageSends: ["whileFalse:", "=", "ifTrue:", "includesSelector:", "methodAt:", "superclass"]
+pragmas: [["inlineJS:", ["return $self.methods[selector]"]]],
+messageSends: []
 }, function ($methodClass){ return function (selector){
 var self=this,$self=this;
-var lookupClass;
 return $core.withContext(function($ctx1) {
-var $early={};
-try {
-lookupClass=self;
-$recv((function(){
-return $core.withContext(function($ctx2) {
-return $recv(lookupClass).__eq(nil);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))._whileFalse_((function(){
-return $core.withContext(function($ctx2) {
-if($core.assert($recv(lookupClass)._includesSelector_(selector))){
-throw $early=[$recv(lookupClass)._methodAt_(selector)];
-}
-lookupClass=$recv(lookupClass)._superclass();
-return lookupClass;
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
-}));
-return nil;
-}
-catch(e) {if(e===$early)return e[0]; throw e}
-}, function($ctx1) {$ctx1.fill(self,"lookupSelector:",{selector:selector,lookupClass:lookupClass})});
+return $self.methods[selector];
+return self;
+}, function($ctx1) {$ctx1.fill(self,"lookupSelector:",{selector:selector})});
 }; }),
 $globals.Behavior);
 
@@ -17012,6 +17067,22 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($self._javaScriptConstructor())._prototype();
 }, function($ctx1) {$ctx1.fill(self,"prototype",{})});
+}; }),
+$globals.Behavior);
+
+$core.addMethod(
+$core.method({
+selector: "slots",
+protocol: "accessing",
+args: [],
+source: "slots\x0a\x09^ slots",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.slots;
+
 }; }),
 $globals.Behavior);
 
@@ -17122,7 +17193,8 @@ $globals.Behavior);
 
 
 
-$core.addClass("Class", $globals.Behavior, ["package", "subclasses"], "Kernel-Classes");
+$core.addClass("Class", $globals.Behavior, "Kernel-Classes");
+$core.setSlots($globals.Class, ["package", "subclasses"]);
 $globals.Class.comment="I am __the__ class object.\x0a\x0aMy instances are the classes of the system.\x0aClass creation is done throught a `ClassBuilder` instance.";
 $core.addMethod(
 $core.method({
@@ -17332,7 +17404,8 @@ $globals.Class);
 
 
 
-$core.addClass("Metaclass", $globals.Behavior, ["instanceClass"], "Kernel-Classes");
+$core.addClass("Metaclass", $globals.Behavior, "Kernel-Classes");
+$core.setSlots($globals.Metaclass, ["instanceClass"]);
 $globals.Metaclass.comment="I am the root of the class hierarchy.\x0a\x0aMy instances are metaclasses, one for each real class, and have a single instance, which they hold onto: the class that they are the metaclass of.";
 $core.addMethod(
 $core.method({
@@ -17578,17 +17651,35 @@ $globals.Metaclass);
 
 
 
-$core.addClass("ClassBuilder", $globals.Object, [], "Kernel-Classes");
+$core.addClass("ClassBuilder", $globals.Object, "Kernel-Classes");
 $globals.ClassBuilder.comment="I am responsible for compiling new classes or modifying existing classes in the system.\x0a\x0aRather than using me directly to compile a class, use `Class >> subclass:instanceVariableNames:package:`.";
 $core.addMethod(
 $core.method({
 selector: "addSubclassOf:named:instanceVariableNames:package:",
 protocol: "class definition",
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09instanceVariableNames: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
+source: "addSubclassOf: aClass named: className instanceVariableNames: aCollection package: packageName\x0a\x09self deprecatedAPI: 'Use #addSubclass:named:slots:package: instead.'.\x0a\x09^ self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["deprecatedAPI:", "addSubclassOf:named:slots:package:"]
+}, function ($methodClass){ return function (aClass,className,aCollection,packageName){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._deprecatedAPI_("Use #addSubclass:named:slots:package: instead.");
+return $self._addSubclassOf_named_slots_package_(aClass,className,aCollection,packageName);
+}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName})});
+}; }),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "addSubclassOf:named:slots:package:",
+protocol: "class definition",
+args: ["aClass", "className", "aCollection", "packageName"],
+source: "addSubclassOf: aClass named: className slots: aCollection package: packageName\x0a\x09| theClass thePackage |\x0a\x09\x0a\x09theClass := Smalltalk globals at: className.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theClass ifNotNil: [\x0a\x09\x09theClass package: thePackage.\x0a\x09\x09theClass superclass == aClass\x0a\x09\x09\x09ifFalse: [ ^ self\x0a\x09\x09\x09\x09migrateClassNamed: className\x0a\x09\x09\x09\x09superclass: aClass\x0a\x09\x09\x09\x09slots: aCollection\x0a\x09\x09\x09\x09package: packageName ] ].\x0a\x09\x09\x0a\x09^ (self\x0a\x09\x09basicAddSubclassOf: aClass\x0a\x09\x09named: className\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName) recompile; yourself",
 referencedClasses: ["Smalltalk", "Package"],
 pragmas: [],
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:instanceVariableNames:package:", "recompile", "basicAddSubclassOf:named:instanceVariableNames:package:", "yourself"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "ifFalse:", "==", "superclass", "migrateClassNamed:superclass:slots:package:", "recompile", "basicAddSubclassOf:named:slots:package:", "yourself"]
 }, function ($methodClass){ return function (aClass,className,aCollection,packageName){
 var self=this,$self=this;
 var theClass,thePackage;
@@ -17602,13 +17693,13 @@ $1;
 } else {
 $recv(theClass)._package_(thePackage);
 if(!$core.assert($recv($recv(theClass)._superclass()).__eq_eq(aClass))){
-return $self._migrateClassNamed_superclass_instanceVariableNames_package_(className,aClass,aCollection,packageName);
+return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
 }
 }
-$2=$self._basicAddSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,packageName);
+$2=$self._basicAddSubclassOf_named_slots_package_(aClass,className,aCollection,packageName);
 $recv($2)._recompile();
 return $recv($2)._yourself();
-}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage})});
+}, function($ctx1) {$ctx1.fill(self,"addSubclassOf:named:slots:package:",{aClass:aClass,className:className,aCollection:aCollection,packageName:packageName,theClass:theClass,thePackage:thePackage})});
 }; }),
 $globals.ClassBuilder);
 
@@ -17617,15 +17708,15 @@ $core.method({
 selector: "addTraitNamed:package:",
 protocol: "class definition",
 args: ["traitName", "packageName"],
-source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09^ self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName",
-referencedClasses: ["Smalltalk", "Package"],
+source: "addTraitNamed: traitName package: packageName\x0a\x09| theTrait thePackage |\x0a\x09\x0a\x09theTrait := Smalltalk globals at: traitName.\x0a\x09thePackage := Package named: packageName.\x0a\x09\x0a\x09theTrait ifNotNil: [ ^ theTrait package: thePackage; recompile; yourself ].\x0a\x09\x09\x0a\x09theTrait := self\x0a\x09\x09basicAddTraitNamed: traitName\x0a\x09\x09package: packageName.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: theTrait;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ theTrait",
+referencedClasses: ["Smalltalk", "Package", "SystemAnnouncer", "ClassAdded"],
 pragmas: [],
-messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:"]
+messageSends: ["at:", "globals", "named:", "ifNotNil:", "package:", "recompile", "yourself", "basicAddTraitNamed:package:", "announce:", "current", "theClass:", "new"]
 }, function ($methodClass){ return function (traitName,packageName){
 var self=this,$self=this;
 var theTrait,thePackage;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1,$2,$3,$4;
 theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theTrait;
@@ -17635,30 +17726,39 @@ $1;
 $2=theTrait;
 $recv($2)._package_(thePackage);
 $recv($2)._recompile();
-return $recv($2)._yourself();
+return [$recv($2)._yourself()
+,$ctx1.sendIdx["yourself"]=1
+][0];
 }
-return $self._basicAddTraitNamed_package_(traitName,packageName);
+theTrait=$self._basicAddTraitNamed_package_(traitName,packageName);
+$3=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.ClassAdded)._new();
+$recv($4)._theClass_(theTrait);
+$recv($3)._announce_($recv($4)._yourself());
+return theTrait;
 }, function($ctx1) {$ctx1.fill(self,"addTraitNamed:package:",{traitName:traitName,packageName:packageName,theTrait:theTrait,thePackage:thePackage})});
 }; }),
 $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicAddSubclassOf:named:instanceVariableNames:package:",
+selector: "basicAddSubclassOf:named:slots:package:",
 protocol: "private",
 args: ["aClass", "aString", "aCollection", "packageName"],
-source: "basicAddSubclassOf: aClass named: aString instanceVariableNames: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09'>",
+source: "basicAddSubclassOf: aClass named: aString slots: aCollection package: packageName\x0a\x09<inlineJS: '\x0a\x09\x09var klass = $core.addClass(aString, aClass, packageName);\x0a\x09\x09$core.setSlots(klass, aCollection);\x0a\x09\x09return klass;\x0a\x09'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0a\x09\x09return $core.addClass(aString, aClass, aCollection, packageName);\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09var klass = $core.addClass(aString, aClass, packageName);\x0a\x09\x09$core.setSlots(klass, aCollection);\x0a\x09\x09return klass;\x0a\x09"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aString,aCollection,packageName){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 
-		return $core.addClass(aString, aClass, aCollection, packageName);
+		var klass = $core.addClass(aString, aClass, packageName);
+		$core.setSlots(klass, aCollection);
+		return klass;
 	;
 return self;
-}, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:instanceVariableNames:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName})});
+}, function($ctx1) {$ctx1.fill(self,"basicAddSubclassOf:named:slots:package:",{aClass:aClass,aString:aString,aCollection:aCollection,packageName:packageName})});
 }; }),
 $globals.ClassBuilder);
 
@@ -17682,10 +17782,10 @@ $globals.ClassBuilder);
 
 $core.addMethod(
 $core.method({
-selector: "basicClass:instanceVariables:",
+selector: "basicClass:slots:",
 protocol: "private",
 args: ["aClass", "aCollection"],
-source: "basicClass: aClass instanceVariables: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
+source: "basicClass: aClass slots: aCollection\x0a\x0a\x09aClass isMetaclass ifFalse: [ self error: aClass name, ' is not a metaclass' ].\x0a\x09Smalltalk core setSlots: aClass to: aCollection",
 referencedClasses: ["Smalltalk"],
 pragmas: [],
 messageSends: ["ifFalse:", "isMetaclass", "error:", ",", "name", "setSlots:to:", "core"]
@@ -17697,7 +17797,7 @@ $self._error_($recv($recv(aClass)._name()).__comma(" is not a metaclass"));
 }
 $recv($recv($globals.Smalltalk)._core())._setSlots_to_(aClass,aCollection);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"basicClass:instanceVariables:",{aClass:aClass,aCollection:aCollection})});
+}, function($ctx1) {$ctx1.fill(self,"basicClass:slots:",{aClass:aClass,aCollection:aCollection})});
 }; }),
 $globals.ClassBuilder);
 
@@ -17768,15 +17868,15 @@ $core.method({
 selector: "class:slots:",
 protocol: "class definition",
 args: ["aClass", "aCollection"],
-source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass instanceVariables: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
+source: "class: aClass slots: aCollection\x0a\x09self basicClass: aClass slots: aCollection.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassDefinitionChanged new\x0a\x09\x09\x09theClass: aClass;\x0a\x09\x09\x09yourself)",
 referencedClasses: ["SystemAnnouncer", "ClassDefinitionChanged"],
 pragmas: [],
-messageSends: ["basicClass:instanceVariables:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["basicClass:slots:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,aCollection){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-$self._basicClass_instanceVariables_(aClass,aCollection);
+$self._basicClass_slots_(aClass,aCollection);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassDefinitionChanged)._new();
 $recv($2)._theClass_(aClass);
@@ -17791,16 +17891,16 @@ $core.method({
 selector: "copyClass:named:",
 protocol: "copying",
 args: ["aClass", "className"],
-source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "copyClass: aClass named: className\x0a\x09| newClass |\x0a\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass superclass\x0a\x09\x09named: className\x0a\x09\x09slots: aClass slots copy\x0a\x09\x09package: aClass package name.\x0a\x0a\x09self copyClass: aClass to: newClass.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "superclass", "instanceVariableNames", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:slots:package:", "superclass", "copy", "slots", "name", "package", "copyClass:to:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,className){
 var self=this,$self=this;
 var newClass;
 return $core.withContext(function($ctx1) {
 var $1,$2;
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),className,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+newClass=$self._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),className,$recv($recv(aClass)._slots())._copy(),$recv($recv(aClass)._package())._name());
 $self._copyClass_to_(aClass,newClass);
 $1=$recv($globals.SystemAnnouncer)._current();
 $2=$recv($globals.ClassAdded)._new();
@@ -17816,10 +17916,10 @@ $core.method({
 selector: "copyClass:to:",
 protocol: "copying",
 args: ["aClass", "anotherClass"],
-source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class instanceVariables: aClass class instanceVariableNames.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
+source: "copyClass: aClass to: anotherClass\x0a\x0a\x09anotherClass comment: aClass comment.\x0a\x0a\x09aClass methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass protocol: each protocol ] ].\x0a\x09anotherClass setTraitComposition: aClass traitComposition.\x0a\x0a\x09self basicClass: anotherClass class slots: aClass class slots copy.\x0a\x0a\x09aClass class methodDictionary valuesDo: [ :each |\x0a\x09\x09each origin = aClass class ifTrue: [\x0a\x09\x09\x09Compiler new install: each source forClass: anotherClass class protocol: each protocol ] ].\x0a\x09anotherClass class setTraitComposition: aClass class traitComposition",
 referencedClasses: ["Compiler"],
 pragmas: [],
-messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:instanceVariables:", "class", "instanceVariableNames"]
+messageSends: ["comment:", "comment", "valuesDo:", "methodDictionary", "ifTrue:", "=", "origin", "install:forClass:protocol:", "new", "source", "protocol", "setTraitComposition:", "traitComposition", "basicClass:slots:", "class", "copy", "slots"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -17852,11 +17952,11 @@ return [$recv([$recv($globals.Compiler)._new()
 ][0])
 ,$ctx1.sendIdx["setTraitComposition:"]=1
 ][0];
-$self._basicClass_instanceVariables_([$recv(anotherClass)._class()
+$self._basicClass_slots_([$recv(anotherClass)._class()
 ,$ctx1.sendIdx["class"]=1
-][0],$recv([$recv(aClass)._class()
+][0],$recv($recv([$recv(aClass)._class()
 ,$ctx1.sendIdx["class"]=2
-][0])._instanceVariableNames());
+][0])._slots())._copy());
 $recv($recv([$recv(aClass)._class()
 ,$ctx1.sendIdx["class"]=3
 ][0])._methodDictionary())._valuesDo_((function(each){
@@ -17883,16 +17983,16 @@ $core.method({
 selector: "migrateClass:superclass:",
 protocol: "class migration",
 args: ["aClass", "anotherClass"],
-source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09instanceVariableNames: aClass instanceVariableNames\x0a\x09\x09package: aClass package name",
+source: "migrateClass: aClass superclass: anotherClass\x0a\x09^ self\x0a\x09\x09migrateClassNamed: aClass name\x0a\x09\x09superclass: anotherClass\x0a\x09\x09slots: aClass slots\x0a\x09\x09package: aClass package name",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["migrateClassNamed:superclass:instanceVariableNames:package:", "name", "instanceVariableNames", "package"]
+messageSends: ["migrateClassNamed:superclass:slots:package:", "name", "slots", "package"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $self._migrateClassNamed_superclass_instanceVariableNames_package_([$recv(aClass)._name()
+return $self._migrateClassNamed_superclass_slots_package_([$recv(aClass)._name()
 ,$ctx1.sendIdx["name"]=1
-][0],anotherClass,$recv(aClass)._instanceVariableNames(),$recv($recv(aClass)._package())._name());
+][0],anotherClass,$recv(aClass)._slots(),$recv($recv(aClass)._package())._name());
 }, function($ctx1) {$ctx1.fill(self,"migrateClass:superclass:",{aClass:aClass,anotherClass:anotherClass})});
 }; }),
 $globals.ClassBuilder);
@@ -17902,18 +18002,36 @@ $core.method({
 selector: "migrateClassNamed:superclass:instanceVariableNames:package:",
 protocol: "class migration",
 args: ["className", "aClass", "aCollection", "packageName"],
-source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09instanceVariableNames: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
-referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassMigrated"],
+source: "migrateClassNamed: className superclass: aClass instanceVariableNames: aCollection package: packageName\x0a\x09self deprecatedAPI: 'Use #migrateClassNamed:superclass:slots:package: instead.'.\x0a\x09^ self\x0a\x09\x09migrateClassNamed: className\x0a\x09\x09superclass: aClass\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName",
+referencedClasses: [],
 pragmas: [],
-messageSends: [",", "at:", "globals", "addSubclassOf:named:instanceVariableNames:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "announce:", "current", "theClass:", "new", "oldClass:", "yourself"]
+messageSends: ["deprecatedAPI:", "migrateClassNamed:superclass:slots:package:"]
+}, function ($methodClass){ return function (className,aClass,aCollection,packageName){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._deprecatedAPI_("Use #migrateClassNamed:superclass:slots:package: instead.");
+return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
+}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName})});
+}; }),
+$globals.ClassBuilder);
+
+$core.addMethod(
+$core.method({
+selector: "migrateClassNamed:superclass:slots:package:",
+protocol: "class migration",
+args: ["className", "aClass", "aCollection", "packageName"],
+source: "migrateClassNamed: className superclass: aClass slots: aCollection package: packageName\x0a\x09| oldClass newClass tmp |\x0a\x09\x0a\x09tmp := 'new*', className.\x0a\x09oldClass := Smalltalk globals at: className.\x0a\x09\x0a\x09newClass := self\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: tmp\x0a\x09\x09slots: aCollection\x0a\x09\x09package: packageName.\x0a\x0a\x09self basicSwapClassNames: oldClass with: newClass.\x0a\x0a\x09[ self copyClass: oldClass to: newClass ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :exception |\x0a\x09\x09\x09self\x0a\x09\x09\x09\x09basicSwapClassNames: oldClass with: newClass;\x0a\x09\x09\x09\x09basicRemoveClass: newClass.\x0a\x09\x09\x09\x09SystemAnnouncer current announce: (ClassRenamed new\x0a\x09\x09\x09\x09\x09theClass: oldClass;\x0a\x09\x09\x09\x09\x09yourself).\x0a\x09\x09\x09\x09exception pass ].\x0a\x0a\x09self\x0a\x09\x09rawRenameClass: oldClass to: tmp;\x0a\x09\x09rawRenameClass: newClass to: className.\x0a\x0a\x09oldClass subclasses \x0a\x09\x09do: [ :each | self migrateClass: each superclass: newClass ].\x0a\x0a\x09self basicRemoveClass: oldClass.\x0a\x09\x0a\x09SystemAnnouncer current announce: (ClassMigrated new\x0a\x09\x09theClass: newClass;\x0a\x09\x09oldClass: oldClass;\x0a\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+referencedClasses: ["Smalltalk", "Error", "SystemAnnouncer", "ClassRenamed", "ClassMigrated"],
+pragmas: [],
+messageSends: [",", "at:", "globals", "addSubclassOf:named:slots:package:", "basicSwapClassNames:with:", "on:do:", "copyClass:to:", "basicRemoveClass:", "announce:", "current", "theClass:", "new", "yourself", "pass", "rawRenameClass:to:", "do:", "subclasses", "migrateClass:superclass:", "oldClass:"]
 }, function ($methodClass){ return function (className,aClass,aCollection,packageName){
 var self=this,$self=this;
 var oldClass,newClass,tmp;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1,$2,$3,$4;
 tmp="new*".__comma(className);
 oldClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,tmp,aCollection,packageName);
+newClass=$self._addSubclassOf_named_slots_package_(aClass,tmp,aCollection,packageName);
 [$self._basicSwapClassNames_with_(oldClass,newClass)
 ,$ctx1.sendIdx["basicSwapClassNames:with:"]=1
 ][0];
@@ -17926,6 +18044,20 @@ return $core.withContext(function($ctx2) {
 $self._basicSwapClassNames_with_(oldClass,newClass);
 [$self._basicRemoveClass_(newClass)
 ,$ctx2.sendIdx["basicRemoveClass:"]=1
+][0];
+$1=[$recv($globals.SystemAnnouncer)._current()
+,$ctx2.sendIdx["current"]=1
+][0];
+$2=[$recv($globals.ClassRenamed)._new()
+,$ctx2.sendIdx["new"]=1
+][0];
+[$recv($2)._theClass_(oldClass)
+,$ctx2.sendIdx["theClass:"]=1
+][0];
+[$recv($1)._announce_([$recv($2)._yourself()
+,$ctx2.sendIdx["yourself"]=1
+][0])
+,$ctx2.sendIdx["announce:"]=1
 ][0];
 return $recv(exception)._pass();
 }, function($ctx2) {$ctx2.fillBlock({exception:exception},$ctx1,2)});
@@ -17940,13 +18072,13 @@ return $self._migrateClass_superclass_(each,newClass);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
 $self._basicRemoveClass_(oldClass);
-$1=$recv($globals.SystemAnnouncer)._current();
-$2=$recv($globals.ClassMigrated)._new();
-$recv($2)._theClass_(newClass);
-$recv($2)._oldClass_(oldClass);
-$recv($1)._announce_($recv($2)._yourself());
+$3=$recv($globals.SystemAnnouncer)._current();
+$4=$recv($globals.ClassMigrated)._new();
+$recv($4)._theClass_(newClass);
+$recv($4)._oldClass_(oldClass);
+$recv($3)._announce_($recv($4)._yourself());
 return newClass;
-}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:instanceVariableNames:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
+}, function($ctx1) {$ctx1.fill(self,"migrateClassNamed:superclass:slots:package:",{className:className,aClass:aClass,aCollection:aCollection,packageName:packageName,oldClass:oldClass,newClass:newClass,tmp:tmp})});
 }; }),
 $globals.ClassBuilder);
 
@@ -18016,10 +18148,10 @@ $core.method({
 selector: "superclass:subclass:slots:package:",
 protocol: "class definition",
 args: ["aClass", "className", "aCollection", "packageName"],
-source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className instanceVariableNames: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
+source: "superclass: aClass subclass: className slots: aCollection package: packageName\x0a\x09| newClass |\x0a\x09\x0a\x09newClass := self addSubclassOf: aClass\x0a\x09\x09named: className slots: aCollection\x0a\x09\x09package: (packageName ifNil: [ 'unclassified' ]).\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09\x09announce: (ClassAdded new\x0a\x09\x09\x09theClass: newClass;\x0a\x09\x09\x09yourself).\x0a\x09\x0a\x09^ newClass",
 referencedClasses: ["SystemAnnouncer", "ClassAdded"],
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
+messageSends: ["addSubclassOf:named:slots:package:", "ifNil:", "announce:", "current", "theClass:", "new", "yourself"]
 }, function ($methodClass){ return function (aClass,className,aCollection,packageName){
 var self=this,$self=this;
 var newClass;
@@ -18030,7 +18162,7 @@ $1="unclassified";
 } else {
 $1=packageName;
 }
-newClass=$self._addSubclassOf_named_instanceVariableNames_package_(aClass,className,aCollection,$1);
+newClass=$self._addSubclassOf_named_slots_package_(aClass,className,aCollection,$1);
 $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.ClassAdded)._new();
 $recv($3)._theClass_(newClass);
@@ -18104,22 +18236,6 @@ $globals.ClassBuilder.a$cls);
 
 
 $core.addTrait("TBehaviorDefaults", "Kernel-Classes");
-$core.addMethod(
-$core.method({
-selector: "allInstanceVariableNames",
-protocol: "accessing",
-args: [],
-source: "allInstanceVariableNames\x0a\x09\x22Default for non-classes; to be able to send #allInstanceVariableNames to any class / trait.\x22\x0a\x09^ #()",
-referencedClasses: [],
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return [];
-
-}; }),
-$globals.TBehaviorDefaults);
-
 $core.addMethod(
 $core.method({
 selector: "allSubclassesDo:",
@@ -18202,6 +18318,22 @@ $globals.TBehaviorDefaults);
 
 $core.addMethod(
 $core.method({
+selector: "slots",
+protocol: "accessing",
+args: [],
+source: "slots\x0a\x09\x22Default for non-classes; to be able to send #slots to any class / trait.\x22\x0a\x09^ #()",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return [];
+
+}; }),
+$globals.TBehaviorDefaults);
+
+$core.addMethod(
+$core.method({
 selector: "superclass",
 protocol: "accessing",
 args: [],
@@ -18234,7 +18366,7 @@ $globals.TBehaviorDefaults);
 
 
 $core.addTrait("TBehaviorProvider", "Kernel-Classes");
-$globals.TBehaviorProvider.comment="I have method dictionary and organization.";
+$globals.TBehaviorProvider.comment="I have method dictionary, slots and organization.";
 $core.addMethod(
 $core.method({
 selector: ">>",
@@ -18291,6 +18423,68 @@ announcement=$recv($3)._yourself();
 $recv($recv($globals.SystemAnnouncer)._current())._announce_(announcement);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"addCompiledMethod:",{aMethod:aMethod,oldMethod:oldMethod,announcement:announcement})});
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allInstanceVariableNames",
+protocol: "accessing",
+args: [],
+source: "allInstanceVariableNames\x0a\x09^ self allSlots select: #isString",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["select:", "allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._allSlots())._select_("isString");
+}, function($ctx1) {$ctx1.fill(self,"allInstanceVariableNames",{})});
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allSlotNames",
+protocol: "accessing",
+args: [],
+source: "allSlotNames\x0a\x09^ self allSlots",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._allSlots();
+}, function($ctx1) {$ctx1.fill(self,"allSlotNames",{})});
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "allSlots",
+protocol: "accessing",
+args: [],
+source: "allSlots\x0a\x09| result |\x0a\x09result := self slots copy.\x0a\x09self superclass ifNotNil: [ :s | result addAll: s allSlots ].\x0a\x09^ result",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["copy", "slots", "ifNotNil:", "superclass", "addAll:", "allSlots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var result;
+return $core.withContext(function($ctx1) {
+var $1;
+result=$recv($self._slots())._copy();
+$1=$self._superclass();
+if($1 == null || $1.a$nil){
+$1;
+} else {
+var s;
+s=$1;
+$recv(result)._addAll_($recv(s)._allSlots());
+}
+return result;
+}, function($ctx1) {$ctx1.fill(self,"allSlots",{result:result})});
 }; }),
 $globals.TBehaviorProvider);
 
@@ -18361,6 +18555,23 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($self._methodDictionary())._includesKey_(aString);
 }, function($ctx1) {$ctx1.fill(self,"includesSelector:",{aString:aString})});
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
+selector: "instanceVariableNames",
+protocol: "accessing",
+args: [],
+source: "instanceVariableNames\x0a\x09^ self slots select: #isString",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["select:", "slots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($self._slots())._select_("isString");
+}, function($ctx1) {$ctx1.fill(self,"instanceVariableNames",{})});
 }; }),
 $globals.TBehaviorProvider);
 
@@ -18793,6 +19004,23 @@ $globals.TBehaviorProvider);
 
 $core.addMethod(
 $core.method({
+selector: "slotNames",
+protocol: "accessing",
+args: [],
+source: "slotNames\x0a\x09^ self slots",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["slots"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._slots();
+}, function($ctx1) {$ctx1.fill(self,"slotNames",{})});
+}; }),
+$globals.TBehaviorProvider);
+
+$core.addMethod(
+$core.method({
 selector: "traitComposition",
 protocol: "accessing",
 args: [],
@@ -19143,7 +19371,8 @@ return self;
 $globals.TMasterBehavior);
 
 
-$core.addClass("Trait", $globals.Object, ["organization", "package", "traitUsers"], "Kernel-Classes");
+$core.addClass("Trait", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.Trait, ["organization", "package", "traitUsers"]);
 $core.addMethod(
 $core.method({
 selector: "-",
@@ -19405,7 +19634,8 @@ return trait;
 $globals.Trait.a$cls);
 
 
-$core.addClass("TraitTransformation", $globals.Object, ["trait", "aliases", "exclusions"], "Kernel-Classes");
+$core.addClass("TraitTransformation", $globals.Object, "Kernel-Classes");
+$core.setSlots($globals.TraitTransformation, ["trait", "aliases", "exclusions"]);
 $globals.TraitTransformation.comment="I am a single step in trait composition.\x0a\x0aI represent one trait including its aliases and exclusions.";
 $core.addMethod(
 $core.method({
@@ -19873,7 +20103,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Methods");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("BlockClosure", $globals.Object, ["prototype", "length"], "Kernel-Methods");
+$core.addClass("BlockClosure", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.BlockClosure, ["prototype", "length"]);
 $globals.BlockClosure.comment="I represent a lexical closure.\x0aI am is directly mapped to JavaScript Function.\x0a\x0a## API\x0a\x0a1. Evaluation\x0a\x0a    My instances get evaluated with the `#value*` methods in the 'evaluating' protocol.\x0a\x0a    Example: ` [ :x | x + 1 ] value: 3 \x22Answers 4\x22 `\x0a\x0a2. Control structures\x0a\x0a    Blocks are used (together with `Boolean`) for control structures (methods in the `controlling` protocol).\x0a\x0a    Example: `aBlock whileTrue: [ ... ]`\x0a\x0a3. Error handling\x0a\x0a    I provide the `#on:do:` method for handling exceptions.\x0a\x0a    Example: ` aBlock on: MessageNotUnderstood do: [ :ex | ... ] `";
 $core.addMethod(
 $core.method({
@@ -20504,7 +20735,8 @@ return self;
 $globals.BlockClosure.a$cls);
 
 
-$core.addClass("CompiledMethod", $globals.Object, ["args", "instantiateFn", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"], "Kernel-Methods");
+$core.addClass("CompiledMethod", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.CompiledMethod, ["args", "instantiateFn", "fn", "messageSends", "pragmas", "owner", "methodClass", "protocol", "referencedClasses", "selector", "source"]);
 $globals.CompiledMethod.comment="I represent a class method of the system. I hold the source and compiled code of a class method.\x0a\x0a## API\x0aMy instances can be accessed using `Behavior >> #methodAt:`\x0a\x0a    Object methodAt: 'asString'\x0a\x0aSource code access:\x0a\x0a\x09(String methodAt: 'lines') source\x0a\x0aReferenced classes:\x0a\x0a\x09(String methodAt: 'lines') referencedClasses\x0a\x0aMessages sent from an instance:\x0a\x09\x0a\x09(String methodAt: 'lines') messageSends";
 $core.addMethod(
 $core.method({
@@ -21106,7 +21338,8 @@ $globals.CompiledMethod);
 
 
 
-$core.addClass("ForkPool", $globals.Object, ["poolSize", "maxPoolSize", "queue", "worker"], "Kernel-Methods");
+$core.addClass("ForkPool", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.ForkPool, ["poolSize", "maxPoolSize", "queue", "worker"]);
 $globals.ForkPool.comment="I am responsible for handling forked blocks.\x0aThe pool size sets the maximum concurrent forked blocks.\x0a\x0a## API\x0a\x0aThe default instance is accessed with `#default`.\x0aThe maximum concurrent forked blocks can be set with `#maxPoolSize:`.\x0a\x0aForking is done via `BlockClosure >> #fork`";
 $core.addMethod(
 $core.method({
@@ -21329,7 +21562,8 @@ return self;
 $globals.ForkPool.a$cls);
 
 
-$core.addClass("Message", $globals.Object, ["selector", "arguments"], "Kernel-Methods");
+$core.addClass("Message", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.Message, ["selector", "arguments"]);
 $globals.Message.comment="In general, the system does not use instances of me for efficiency reasons.\x0aHowever, when a message is not understood by its receiver, the interpreter will make up an instance of it in order to capture the information involved in an actual message transmission.\x0aThis instance is sent it as an argument with the message `#doesNotUnderstand:` to the receiver.\x0a\x0aSee boot.js, `messageNotUnderstood` and its counterpart `Object >> #doesNotUnderstand:`\x0a\x0a## API\x0a\x0aBesides accessing methods, `#sendTo:` provides a convenient way to send a message to an object.";
 $core.addMethod(
 $core.method({
@@ -21483,7 +21717,8 @@ return $recv(anObject)._doesNotUnderstand_($self._selector_arguments_(aString,an
 $globals.Message.a$cls);
 
 
-$core.addClass("MessageSend", $globals.Object, ["receiver", "message"], "Kernel-Methods");
+$core.addClass("MessageSend", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.MessageSend, ["receiver", "message"]);
 $globals.MessageSend.comment="I encapsulate message sends to objects. Arguments can be either predefined or supplied when the message send is performed. \x0a\x0a## API\x0a\x0aUse `#value` to perform a message send with its predefined arguments and `#value:*` if additonal arguments have to supplied.";
 $core.addMethod(
 $core.method({
@@ -21743,7 +21978,8 @@ $globals.MessageSend);
 
 
 
-$core.addClass("MethodContext", $globals.Object, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"], "Kernel-Methods");
+$core.addClass("MethodContext", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.MethodContext, ["receiver", "evaluatedSelector", "homeContext", "index", "locals", "outerContext", "selector", "sendIdx", "supercall"]);
 $globals.MethodContext.comment="I hold all the dynamic state associated with the execution of either a method activation resulting from a message send. I am used to build the call stack while debugging.\x0a\x0aMy instances are JavaScript `SmalltalkMethodContext` objects defined in `boot.js`.";
 $core.addMethod(
 $core.method({
@@ -21942,7 +22178,7 @@ $globals.MethodContext);
 
 
 
-$core.addClass("NativeFunction", $globals.Object, [], "Kernel-Methods");
+$core.addClass("NativeFunction", $globals.Object, "Kernel-Methods");
 $globals.NativeFunction.comment="I am a wrapper around native functions, such as `WebSocket`.\x0aFor 'normal' functions (whose constructor is the JavaScript `Function` object), use `BlockClosure`.\x0a\x0a## API\x0a\x0aSee the class-side `instance creation` methods for instance creation.\x0a\x0aCreated instances will most probably be instance of `JSObjectProxy`.\x0a\x0a## Usage example:\x0a\x0a\x09| ws |\x0a\x09ws := NativeFunction constructor: 'WebSocket' value: 'ws://localhost'.\x0a\x09ws at: 'onopen' put: [ ws send: 'hey there from Amber' ]";
 
 $core.addMethod(
@@ -22817,7 +23053,8 @@ return self;
 $globals.TMethodContext);
 
 
-$core.addClass("Timeout", $globals.Object, ["rawTimeout"], "Kernel-Methods");
+$core.addClass("Timeout", $globals.Object, "Kernel-Methods");
+$core.setSlots($globals.Timeout, ["rawTimeout"]);
 $globals.Timeout.comment="I am wrapping the returns from `set{Timeout,Interval}`.\x0a\x0a## Motivation\x0a\x0aNumber suffices in browsers, but node.js returns an object.";
 $core.addMethod(
 $core.method({
@@ -22908,7 +23145,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Dag");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractDagVisitor", $globals.Object, [], "Kernel-Dag");
+$core.addClass("AbstractDagVisitor", $globals.Object, "Kernel-Dag");
 $globals.AbstractDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aConcrete classes should implement `visitDagNode:`,\x0athey can reuse possible variants of implementation\x0aoffered directly: `visitDagNodeVariantSimple:`\x0aand `visitDagNodeVariantRedux:`.";
 $core.addMethod(
 $core.method({
@@ -23048,7 +23285,8 @@ $globals.AbstractDagVisitor);
 
 
 
-$core.addClass("PathDagVisitor", $globals.AbstractDagVisitor, ["path"], "Kernel-Dag");
+$core.addClass("PathDagVisitor", $globals.AbstractDagVisitor, "Kernel-Dag");
+$core.setSlots($globals.PathDagVisitor, ["path"]);
 $globals.PathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 $core.addMethod(
 $core.method({
@@ -23152,7 +23390,7 @@ $globals.PathDagVisitor);
 
 
 
-$core.addClass("DagNode", $globals.Object, [], "Kernel-Dag");
+$core.addClass("DagNode", $globals.Object, "Kernel-Dag");
 $globals.DagNode.comment="I am the abstract root class of any directed acyclic graph.\x0a\x0aConcrete classes should implement `dagChildren` and `dagChildren:`\x0ato get / set direct successor nodes (aka child nodes / subnodes).";
 $core.addMethod(
 $core.method({
@@ -23251,7 +23489,8 @@ $globals.DagNode);
 
 
 
-$core.addClass("DagParentNode", $globals.DagNode, ["nodes"], "Kernel-Dag");
+$core.addClass("DagParentNode", $globals.DagNode, "Kernel-Dag");
+$core.setSlots($globals.DagParentNode, ["nodes"]);
 $globals.DagParentNode.comment="I am `DagNode` that stores a collection of its children,\x0alazy initialized to empty array.\x0a\x0aI can `addDagChild:` to add a child.";
 $core.addMethod(
 $core.method({
@@ -23314,7 +23553,7 @@ $globals.DagParentNode);
 
 
 
-$core.addClass("DagSink", $globals.DagNode, [], "Kernel-Dag");
+$core.addClass("DagSink", $globals.DagNode, "Kernel-Dag");
 $globals.DagSink.comment="I am `DagNode` with no direct successors.\x0a\x0aSending `dagChildren:` with empty collection is legal.";
 
 
@@ -23477,7 +23716,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Promises");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Promise", $globals.Object, [], "Kernel-Promises");
+$core.addClass("Promise", $globals.Object, "Kernel-Promises");
 
 $core.addMethod(
 $core.method({
@@ -23758,7 +23997,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Infrastructure");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AmberBootstrapInitialization", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("AmberBootstrapInitialization", $globals.Object, "Kernel-Infrastructure");
 
 $core.addMethod(
 $core.method({
@@ -23831,7 +24070,8 @@ return $recv($globals.Smalltalk)._postLoad();
 $globals.AmberBootstrapInitialization.a$cls);
 
 
-$core.addClass("JSObjectProxy", $globals.ProtoObject, ["jsObject"], "Kernel-Infrastructure");
+$core.addClass("JSObjectProxy", $globals.ProtoObject, "Kernel-Infrastructure");
+$core.setSlots($globals.JSObjectProxy, ["jsObject"]);
 $globals.JSObjectProxy.comment="I handle sending messages to JavaScript objects, making  JavaScript object accessing from Amber fully transparent.\x0aMy instances make intensive use of `#doesNotUnderstand:`.\x0a\x0aMy instances are automatically created by Amber whenever a message is sent to a JavaScript object.\x0a\x0a## Usage examples\x0a\x0aJSObjectProxy objects are instanciated by Amber when a Smalltalk message is sent to a JavaScript object.\x0a\x0a\x09window alert: 'hello world'.\x0a\x09window inspect.\x0a\x09(window jQuery: 'body') append: 'hello world'\x0a\x0aAmber messages sends are converted to JavaScript function calls or object property access _(in this order)_. If n one of them match, a `MessageNotUnderstood` error will be thrown.\x0a\x0a## Message conversion rules\x0a\x0a- `someUser name` becomes `someUser.name`\x0a- `someUser name: 'John'` becomes `someUser name = \x22John\x22`\x0a- `console log: 'hello world'` becomes `console.log('hello world')`\x0a- `(window jQuery: 'foo') css: 'background' color: 'red'` becomes `window.jQuery('foo').css('background', 'red')`\x0a\x0a__Note:__ For keyword-based messages, only the first keyword is kept: `window foo: 1 bar: 2` is equivalent to `window foo: 1 baz: 2`.";
 $core.addMethod(
 $core.method({
@@ -24392,7 +24632,8 @@ return self;
 $globals.JSObjectProxy.a$cls);
 
 
-$core.addClass("Organizer", $globals.Object, ["elements"], "Kernel-Infrastructure");
+$core.addClass("Organizer", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Organizer, ["elements"]);
 $globals.Organizer.comment="I represent categorization information. \x0a\x0a## API\x0a\x0aUse `#addElement:` and `#removeElement:` to manipulate instances.";
 $core.addMethod(
 $core.method({
@@ -24473,7 +24714,8 @@ $globals.Organizer);
 
 
 
-$core.addClass("ClassOrganizer", $globals.Organizer, ["traitOrBehavior"], "Kernel-Infrastructure");
+$core.addClass("ClassOrganizer", $globals.Organizer, "Kernel-Infrastructure");
+$core.setSlots($globals.ClassOrganizer, ["traitOrBehavior"]);
 $globals.ClassOrganizer.comment="I am an organizer specific to classes. I hold method categorization information for classes.";
 $core.addMethod(
 $core.method({
@@ -24586,11 +24828,12 @@ return $recv($1)._yourself();
 $globals.ClassOrganizer.a$cls);
 
 
-$core.addClass("PackageOrganizer", $globals.Organizer, [], "Kernel-Infrastructure");
+$core.addClass("PackageOrganizer", $globals.Organizer, "Kernel-Infrastructure");
 $globals.PackageOrganizer.comment="I am an organizer specific to packages. I hold classes categorization information.";
 
 
-$core.addClass("Package", $globals.Object, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"], "Kernel-Infrastructure");
+$core.addClass("Package", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Package, ["contextBlock", "basicTransport", "name", "transport", "imports", "dirty", "organization", "isReady"]);
 $globals.Package.comment="I am similar to a \x22class category\x22 typically found in other Smalltalks like Pharo or Squeak. Amber does not have class categories anymore, it had in the beginning but now each class in the system knows which package it belongs to.\x0a\x0aEach package has a name and can be queried for its classes, but it will then resort to a reverse scan of all classes to find them.\x0a\x0a## API\x0a\x0aPackages are manipulated through \x22Smalltalk current\x22, like for example finding one based on a name or with `Package class >> #name` directly:\x0a\x0a    Smalltalk current packageAt: 'Kernel'\x0a    Package named: 'Kernel'\x0a\x0aA package differs slightly from a Monticello package which can span multiple class categories using a naming convention based on hyphenation. But just as in Monticello a package supports \x22class extensions\x22 so a package can define behaviors in foreign classes using a naming convention for method categories where the category starts with an asterisk and then the name of the owning package follows.\x0a\x0aYou can fetch a package from the server:\x0a\x0a\x09Package load: 'Additional-Examples'";
 $core.addMethod(
 $core.method({
@@ -25552,17 +25795,20 @@ $core.method({
 selector: "named:imports:transport:",
 protocol: "accessing",
 args: ["aPackageName", "anArray", "aTransport"],
-source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg imports: anArray.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
+source: "named: aPackageName imports: anArray transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg\x0a\x09\x09imports: anArray;\x0a\x09\x09transport: aTransport;\x0a\x09\x09beDirty.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["named:", "imports:", "transport:"]
+messageSends: ["named:", "imports:", "transport:", "beDirty"]
 }, function ($methodClass){ return function (aPackageName,anArray,aTransport){
 var self=this,$self=this;
 var pkg;
 return $core.withContext(function($ctx1) {
+var $1;
 pkg=$self._named_(aPackageName);
-$recv(pkg)._imports_(anArray);
-$recv(pkg)._transport_(aTransport);
+$1=pkg;
+$recv($1)._imports_(anArray);
+$recv($1)._transport_(aTransport);
+$recv($1)._beDirty();
 return pkg;
 }, function($ctx1) {$ctx1.fill(self,"named:imports:transport:",{aPackageName:aPackageName,anArray:anArray,aTransport:aTransport,pkg:pkg})});
 }; }),
@@ -25593,16 +25839,19 @@ $core.method({
 selector: "named:transport:",
 protocol: "accessing",
 args: ["aPackageName", "aTransport"],
-source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport.\x0a\x09\x0a\x09^ pkg",
+source: "named: aPackageName transport: aTransport\x0a\x09| pkg |\x0a\x09\x0a\x09pkg := self named: aPackageName.\x0a\x09pkg transport: aTransport; beDirty.\x0a\x09\x0a\x09^ pkg",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["named:", "transport:"]
+messageSends: ["named:", "transport:", "beDirty"]
 }, function ($methodClass){ return function (aPackageName,aTransport){
 var self=this,$self=this;
 var pkg;
 return $core.withContext(function($ctx1) {
+var $1;
 pkg=$self._named_(aPackageName);
-$recv(pkg)._transport_(aTransport);
+$1=pkg;
+$recv($1)._transport_(aTransport);
+$recv($1)._beDirty();
 return pkg;
 }, function($ctx1) {$ctx1.fill(self,"named:transport:",{aPackageName:aPackageName,aTransport:aTransport,pkg:pkg})});
 }; }),
@@ -25650,7 +25899,7 @@ return $recv(stream).__lt_lt($recv($globals.ClassBuilder)._sortClasses_(classes)
 $globals.Package.a$cls);
 
 
-$core.addClass("PackageStateObserver", $globals.Object, [], "Kernel-Infrastructure");
+$core.addClass("PackageStateObserver", $globals.Object, "Kernel-Infrastructure");
 $globals.PackageStateObserver.comment="My current instance listens for any changes in the system that might affect the state of a package (being dirty).";
 $core.addMethod(
 $core.method({
@@ -25674,8 +25923,8 @@ $core.method({
 selector: "observeSystem",
 protocol: "actions",
 args: [],
-source: "observeSystem\x0a\x09self announcer\x0a\x09\x09on: PackageAdded\x0a\x09\x09send: #onPackageAdded:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ClassAnnouncement\x0a\x09\x09send: #onClassModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: MethodAnnouncement\x0a\x09\x09send: #onMethodModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ProtocolAnnouncement\x0a\x09\x09send: #onProtocolModification:\x0a\x09\x09to: self",
-referencedClasses: ["PackageAdded", "ClassAnnouncement", "MethodAnnouncement", "ProtocolAnnouncement"],
+source: "observeSystem\x0a\x09self announcer\x0a\x09\x09on: PackageAdded\x0a\x09\x09send: #onPackageAdded:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: ClassAnnouncement\x0a\x09\x09send: #onClassModification:\x0a\x09\x09to: self;\x0a\x09\x09\x0a\x09\x09on: MethodAnnouncement\x0a\x09\x09send: #onMethodModification:\x0a\x09\x09to: self",
+referencedClasses: ["PackageAdded", "ClassAnnouncement", "MethodAnnouncement"],
 pragmas: [],
 messageSends: ["on:send:to:", "announcer"]
 }, function ($methodClass){ return function (){
@@ -25689,10 +25938,7 @@ $1=$self._announcer();
 [$recv($1)._on_send_to_($globals.ClassAnnouncement,"onClassModification:",self)
 ,$ctx1.sendIdx["on:send:to:"]=2
 ][0];
-[$recv($1)._on_send_to_($globals.MethodAnnouncement,"onMethodModification:",self)
-,$ctx1.sendIdx["on:send:to:"]=3
-][0];
-$recv($1)._on_send_to_($globals.ProtocolAnnouncement,"onProtocolModification:",self);
+$recv($1)._on_send_to_($globals.MethodAnnouncement,"onMethodModification:",self);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"observeSystem",{})});
 }; }),
@@ -25768,32 +26014,6 @@ return self;
 }; }),
 $globals.PackageStateObserver);
 
-$core.addMethod(
-$core.method({
-selector: "onProtocolModification:",
-protocol: "reactions",
-args: ["anAnnouncement"],
-source: "onProtocolModification: anAnnouncement\x0a\x09anAnnouncement package ifNotNil: [ :package | package beDirty ]",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["ifNotNil:", "package", "beDirty"]
-}, function ($methodClass){ return function (anAnnouncement){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv(anAnnouncement)._package();
-if($1 == null || $1.a$nil){
-$1;
-} else {
-var package_;
-package_=$1;
-$recv(package_)._beDirty();
-}
-return self;
-}, function($ctx1) {$ctx1.fill(self,"onProtocolModification:",{anAnnouncement:anAnnouncement})});
-}; }),
-$globals.PackageStateObserver);
-
 
 $core.setSlots($globals.PackageStateObserver.a$cls, ["current"]);
 $core.addMethod(
@@ -25839,7 +26059,8 @@ return self;
 $globals.PackageStateObserver.a$cls);
 
 
-$core.addClass("Setting", $globals.Object, ["key", "defaultValue"], "Kernel-Infrastructure");
+$core.addClass("Setting", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.Setting, ["key", "defaultValue"]);
 $globals.Setting.comment="I represent a setting **stored** at `Smalltalk settings`. \x0aIn the current implementation, `Smalltalk settings` is an object persisted in the localStorage.\x0a\x0a## API\x0a\x0aA `Setting` value can be read using `value` and set using `value:`.\x0a\x0aSettings are accessed with `'key' asSetting` or `'key' asSettingIfAbsent: aDefaultValue`.\x0a\x0aTo read the value of a setting you can also use the convenience:\x0a\x0a`theValueSet :=  'any.characteristic' settingValue` \x0a\x0aor with a default using:\x0a\x0a `theEnsuredValueSet := 'any.characteristic' settingValueIfAbsent: true`";
 $core.addMethod(
 $core.method({
@@ -25990,7 +26211,8 @@ return self;
 $globals.Setting.a$cls);
 
 
-$core.addClass("SmalltalkImage", $globals.Object, ["globalJsVariables", "packageDictionary"], "Kernel-Infrastructure");
+$core.addClass("SmalltalkImage", $globals.Object, "Kernel-Infrastructure");
+$core.setSlots($globals.SmalltalkImage, ["globalJsVariables", "packageDictionary"]);
 $globals.SmalltalkImage.comment="I represent the Smalltalk system, wrapping\x0aoperations of variable `$core` declared in `base/boot.js`.\x0a\x0a## API\x0a\x0aI have only one instance, accessed with global variable `Smalltalk`.\x0a\x0a## Classes\x0a\x0aClasses can be accessed using the following methods:\x0a\x0a- `#classes` answers the full list of Smalltalk classes in the system\x0a- `#globals #at:` answers a specific global (usually, a class) or `nil`\x0a\x0a## Packages\x0a\x0aPackages can be accessed using the following methods:\x0a\x0a- `#packages` answers the full list of packages\x0a- `#packageAt:` answers a specific package or `nil`\x0a\x0a## Parsing\x0a\x0aThe `#parse:` method is used to parse Amber source code.\x0aIt requires the `Compiler` package and the `base/parser.js` parser file in order to work.";
 $core.addMethod(
 $core.method({
@@ -26049,17 +26271,28 @@ $core.method({
 selector: "asSmalltalkException:",
 protocol: "error handling",
 args: ["anObject"],
-source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ (self isError: anObject)\x0a\x09\x09ifTrue: [ anObject ]\x0a\x09\x09ifFalse: [ JavaScriptException on: anObject ]",
-referencedClasses: ["JavaScriptException"],
+source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ]",
+referencedClasses: ["Error", "JavaScriptException"],
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isError:", "on:"]
+messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "on:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
+if(anObject == null || anObject.a$nil){
+return $recv((function(){
+return $core.withContext(function($ctx2) {
+return $self._error_("Error: nil");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}))._on_do_($globals.Error,(function(e){
+return e;
+
+}));
+} else {
 if($core.assert($self._isError_(anObject))){
 return anObject;
 } else {
 return $recv($globals.JavaScriptException)._on_(anObject);
+}
 }
 }, function($ctx1) {$ctx1.fill(self,"asSmalltalkException:",{anObject:anObject})});
 }; }),
@@ -26465,6 +26698,40 @@ $globals.SmalltalkImage);
 
 $core.addMethod(
 $core.method({
+selector: "postFailedLoad:",
+protocol: "image",
+args: ["aPackage"],
+source: "postFailedLoad: aPackage\x0a\x09| keys descriptors |\x0a\x09Smalltalk removePackage: aPackage name.\x0a\x09keys := Set new.\x0a\x09descriptors := self core packageDescriptors.\x0a\x09descriptors keysAndValuesDo: [ :key :value | keys add: key ].\x0a\x09keys do: [ :each |\x0a\x09\x09Smalltalk removePackage: each.\x0a\x09\x09descriptors removeKey: each ]",
+referencedClasses: ["Smalltalk", "Set"],
+pragmas: [],
+messageSends: ["removePackage:", "name", "new", "packageDescriptors", "core", "keysAndValuesDo:", "add:", "do:", "removeKey:"]
+}, function ($methodClass){ return function (aPackage){
+var self=this,$self=this;
+var keys,descriptors;
+return $core.withContext(function($ctx1) {
+[$recv($globals.Smalltalk)._removePackage_($recv(aPackage)._name())
+,$ctx1.sendIdx["removePackage:"]=1
+][0];
+keys=$recv($globals.Set)._new();
+descriptors=$recv($self._core())._packageDescriptors();
+$recv(descriptors)._keysAndValuesDo_((function(key,value){
+return $core.withContext(function($ctx2) {
+return $recv(keys)._add_(key);
+}, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
+}));
+$recv(keys)._do_((function(each){
+return $core.withContext(function($ctx2) {
+$recv($globals.Smalltalk)._removePackage_(each);
+return $recv(descriptors)._removeKey_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"postFailedLoad:",{aPackage:aPackage,keys:keys,descriptors:descriptors})});
+}; }),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
 selector: "postLoad",
 protocol: "image",
 args: [],
@@ -26595,14 +26862,15 @@ $core.method({
 selector: "removePackage:",
 protocol: "packages",
 args: ["packageName"],
-source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName",
-referencedClasses: [],
+source: "removePackage: packageName\x0a\x09\x22Removes a package and all its classes.\x22\x0a\x0a\x09| pkg |\x0a\x09pkg := self packageAt: packageName ifAbsent: [ self error: 'Missing package: ', packageName ].\x0a\x09pkg classes do: [ :each |\x0a\x09\x09\x09self removeClass: each ].\x0a\x09self packageDictionary removeKey: packageName.\x0a\x09\x0a\x09SystemAnnouncer current\x0a\x09announce: (PackageRemoved new\x0a\x09\x09package: pkg;\x0a\x09\x09yourself)",
+referencedClasses: ["SystemAnnouncer", "PackageRemoved"],
 pragmas: [],
-messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary"]
+messageSends: ["packageAt:ifAbsent:", "error:", ",", "do:", "classes", "removeClass:", "removeKey:", "packageDictionary", "announce:", "current", "package:", "new", "yourself"]
 }, function ($methodClass){ return function (packageName){
 var self=this,$self=this;
 var pkg;
 return $core.withContext(function($ctx1) {
+var $1,$2;
 pkg=$self._packageAt_ifAbsent_(packageName,(function(){
 return $core.withContext(function($ctx2) {
 return $self._error_("Missing package: ".__comma(packageName));
@@ -26614,6 +26882,10 @@ return $self._removeClass_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,2)});
 }));
 $recv($self._packageDictionary())._removeKey_(packageName);
+$1=$recv($globals.SystemAnnouncer)._current();
+$2=$recv($globals.PackageRemoved)._new();
+$recv($2)._package_(pkg);
+$recv($1)._announce_($recv($2)._yourself());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"removePackage:",{packageName:packageName,pkg:pkg})});
 }; }),
@@ -26784,13 +27056,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.2'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.1";
+return "0.29.2";
 
 }; }),
 $globals.SmalltalkImage);
@@ -26994,7 +27266,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Exceptions");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("Error", $globals.Object, ["message", "stack", "amberHandled", "context", "smalltalkError"], "Kernel-Exceptions");
+$core.addClass("Error", $globals.Object, "Kernel-Exceptions");
+$core.setSlots($globals.Error, ["message", "stack", "amberHandled", "context", "smalltalkError"]);
 $globals.Error.comment="From the ANSI standard:\x0a\x0aThis protocol describes the behavior of instances of class `Error`.\x0aThese are used to represent error conditions that prevent the normal continuation of processing.\x0aActual error exceptions used by an application may be subclasses of this class.\x0aAs `Error` is explicitly specified to be subclassable, conforming implementations must implement its behavior in a non-fragile manner.";
 $core.addMethod(
 $core.method({
@@ -27374,7 +27647,7 @@ return $recv($self._new())._signal_(aString);
 $globals.Error.a$cls);
 
 
-$core.addClass("Halt", $globals.Error, [], "Kernel-Exceptions");
+$core.addClass("Halt", $globals.Error, "Kernel-Exceptions");
 $globals.Halt.comment="I am provided to support `Object>>#halt`.";
 $core.addMethod(
 $core.method({
@@ -27429,7 +27702,8 @@ $globals.Halt);
 
 
 
-$core.addClass("JavaScriptException", $globals.Error, ["exception"], "Kernel-Exceptions");
+$core.addClass("JavaScriptException", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.JavaScriptException, ["exception"]);
 $globals.JavaScriptException.comment="A JavaScriptException is thrown when a non-Smalltalk exception occurs while in the Smalltalk stack.\x0aSee `boot.js` `inContext()` and `BlockClosure >> on:do:`";
 $core.addMethod(
 $core.method({
@@ -27525,7 +27799,8 @@ return $recv($1)._yourself();
 $globals.JavaScriptException.a$cls);
 
 
-$core.addClass("MessageNotUnderstood", $globals.Error, ["smalltalkMessage", "receiver"], "Kernel-Exceptions");
+$core.addClass("MessageNotUnderstood", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.MessageNotUnderstood, ["smalltalkMessage", "receiver"]);
 $globals.MessageNotUnderstood.comment="This exception is provided to support `Object>>doesNotUnderstand:`.";
 $core.addMethod(
 $core.method({
@@ -27614,7 +27889,8 @@ $globals.MessageNotUnderstood);
 
 
 
-$core.addClass("NonBooleanReceiver", $globals.Error, ["object"], "Kernel-Exceptions");
+$core.addClass("NonBooleanReceiver", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.NonBooleanReceiver, ["object"]);
 $globals.NonBooleanReceiver.comment="NonBooleanReceiver exceptions may be thrown when executing inlined methods such as `#ifTrue:` with a non boolean receiver.";
 $core.addMethod(
 $core.method({
@@ -27677,7 +27953,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Announcements");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AnnouncementSubscription", $globals.Object, ["valuable", "announcementClass"], "Kernel-Announcements");
+$core.addClass("AnnouncementSubscription", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.AnnouncementSubscription, ["valuable", "announcementClass"]);
 $globals.AnnouncementSubscription.comment="I am a single entry in a subscription registry of an `Announcer`.\x0aSeveral subscriptions by the same object is possible.";
 $core.addMethod(
 $core.method({
@@ -27802,7 +28079,8 @@ $globals.AnnouncementSubscription);
 
 
 
-$core.addClass("AnnouncementValuable", $globals.Object, ["valuable", "receiver"], "Kernel-Announcements");
+$core.addClass("AnnouncementValuable", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.AnnouncementValuable, ["valuable", "receiver"]);
 $globals.AnnouncementValuable.comment="I wrap `valuable` objects (typically instances of `BlockClosure`) with a `receiver` to be able to unregister subscriptions based on a `receiver`.";
 $core.addMethod(
 $core.method({
@@ -27906,7 +28184,8 @@ $globals.AnnouncementValuable);
 
 
 
-$core.addClass("Announcer", $globals.Object, ["registry", "subscriptions"], "Kernel-Announcements");
+$core.addClass("Announcer", $globals.Object, "Kernel-Announcements");
+$core.setSlots($globals.Announcer, ["registry", "subscriptions"]);
 $globals.Announcer.comment="I hold annoncement subscriptions (instances of `AnnouncementSubscription`) in a private registry.\x0aI announce (trigger) announces, which are then dispatched to all subscriptions.\x0a\x0aThe code is based on the announcements as [described by Vassili Bykov](http://www.cincomsmalltalk.com/userblogs/vbykov/blogView?searchCategory=Announcements%20Framework).\x0a\x0a## API\x0a\x0aUse `#announce:` to trigger an announcement.\x0a\x0aUse `#on:do:` or `#on:send:to:` to register subscriptions.\x0a\x0aWhen using `#on:send:to:`, unregistration can be done with `#unregister:`.\x0a\x0a## Usage example:\x0a\x0a    SystemAnnouncer current\x0a        on: ClassAdded\x0a        do: [ :ann | window alert: ann theClass name, ' added' ].";
 $core.addMethod(
 $core.method({
@@ -28086,7 +28365,7 @@ $globals.Announcer);
 
 
 
-$core.addClass("SystemAnnouncer", $globals.Announcer, [], "Kernel-Announcements");
+$core.addClass("SystemAnnouncer", $globals.Announcer, "Kernel-Announcements");
 $globals.SystemAnnouncer.comment="My unique instance is the global announcer handling all Amber system-related announces.\x0a\x0a## API\x0a\x0aAccess to the unique instance is done via `#current`";
 
 $core.setSlots($globals.SystemAnnouncer.a$cls, ["current"]);
@@ -28137,7 +28416,7 @@ return self;
 $globals.SystemAnnouncer.a$cls);
 
 
-$core.addClass("SystemAnnouncement", $globals.Object, [], "Kernel-Announcements");
+$core.addClass("SystemAnnouncement", $globals.Object, "Kernel-Announcements");
 $globals.SystemAnnouncement.comment="I am the superclass of all system announcements";
 
 $core.addMethod(
@@ -28157,7 +28436,8 @@ return "announcement";
 $globals.SystemAnnouncement.a$cls);
 
 
-$core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, ["theClass"], "Kernel-Announcements");
+$core.addClass("ClassAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassAnnouncement, ["theClass"]);
 $globals.ClassAnnouncement.comment="I am the abstract superclass of class-related announcements.";
 $core.addMethod(
 $core.method({
@@ -28194,19 +28474,20 @@ $globals.ClassAnnouncement);
 
 
 
-$core.addClass("ClassAdded", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassAdded", $globals.ClassAnnouncement, "Kernel-Announcements");
 $globals.ClassAdded.comment="I am emitted when a class is added to the system.\x0aSee ClassBuilder >> #addSubclassOf:... methods";
 
 
-$core.addClass("ClassCommentChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassCommentChanged", $globals.ClassAnnouncement, "Kernel-Announcements");
 $globals.ClassCommentChanged.comment="I am emitted when the comment of a class changes. (Behavior >> #comment)";
 
 
-$core.addClass("ClassDefinitionChanged", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassDefinitionChanged", $globals.ClassAnnouncement, "Kernel-Announcements");
 $globals.ClassDefinitionChanged.comment="I am emitted when the definition of a class changes.\x0aSee ClassBuilder >> #class:instanceVariableNames:";
 
 
-$core.addClass("ClassMigrated", $globals.ClassAnnouncement, ["oldClass"], "Kernel-Announcements");
+$core.addClass("ClassMigrated", $globals.ClassAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassMigrated, ["oldClass"]);
 $globals.ClassMigrated.comment="I am emitted when a class is migrated.";
 $core.addMethod(
 $core.method({
@@ -28243,7 +28524,8 @@ $globals.ClassMigrated);
 
 
 
-$core.addClass("ClassMoved", $globals.ClassAnnouncement, ["oldPackage"], "Kernel-Announcements");
+$core.addClass("ClassMoved", $globals.ClassAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ClassMoved, ["oldPackage"]);
 $globals.ClassMoved.comment="I am emitted when a class is moved from one package to another.";
 $core.addMethod(
 $core.method({
@@ -28280,15 +28562,16 @@ $globals.ClassMoved);
 
 
 
-$core.addClass("ClassRemoved", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassRemoved", $globals.ClassAnnouncement, "Kernel-Announcements");
 $globals.ClassRemoved.comment="I am emitted when a class is removed.\x0aSee Smalltalk >> #removeClass:";
 
 
-$core.addClass("ClassRenamed", $globals.ClassAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ClassRenamed", $globals.ClassAnnouncement, "Kernel-Announcements");
 $globals.ClassRenamed.comment="I am emitted when a class is renamed.\x0aSee ClassBuilder >> #renameClass:to:";
 
 
-$core.addClass("MethodAnnouncement", $globals.SystemAnnouncement, ["method"], "Kernel-Announcements");
+$core.addClass("MethodAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodAnnouncement, ["method"]);
 $globals.MethodAnnouncement.comment="I am the abstract superclass of method-related announcements.";
 $core.addMethod(
 $core.method({
@@ -28325,11 +28608,12 @@ $globals.MethodAnnouncement);
 
 
 
-$core.addClass("MethodAdded", $globals.MethodAnnouncement, [], "Kernel-Announcements");
+$core.addClass("MethodAdded", $globals.MethodAnnouncement, "Kernel-Announcements");
 $globals.MethodAdded.comment="I am emitted when a `CompiledMethod` is added to a class.";
 
 
-$core.addClass("MethodModified", $globals.MethodAnnouncement, ["oldMethod"], "Kernel-Announcements");
+$core.addClass("MethodModified", $globals.MethodAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodModified, ["oldMethod"]);
 $globals.MethodModified.comment="I am emitted when a `CompiledMethod` is modified (a new method is installed). I hold a reference to the old method being replaced.";
 $core.addMethod(
 $core.method({
@@ -28366,7 +28650,8 @@ $globals.MethodModified);
 
 
 
-$core.addClass("MethodMoved", $globals.MethodAnnouncement, ["oldProtocol"], "Kernel-Announcements");
+$core.addClass("MethodMoved", $globals.MethodAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.MethodMoved, ["oldProtocol"]);
 $globals.MethodMoved.comment="I am emitted when a `CompiledMethod` is moved to another protocol. I hold a refernce to the old protocol of the method.";
 $core.addMethod(
 $core.method({
@@ -28403,11 +28688,12 @@ $globals.MethodMoved);
 
 
 
-$core.addClass("MethodRemoved", $globals.MethodAnnouncement, [], "Kernel-Announcements");
+$core.addClass("MethodRemoved", $globals.MethodAnnouncement, "Kernel-Announcements");
 $globals.MethodRemoved.comment="I am emitted when a `CompiledMethod` is removed from a class.";
 
 
-$core.addClass("PackageAnnouncement", $globals.SystemAnnouncement, ["package"], "Kernel-Announcements");
+$core.addClass("PackageAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.PackageAnnouncement, ["package"]);
 $globals.PackageAnnouncement.comment="I am the abstract superclass of package-related announcements.";
 $core.addMethod(
 $core.method({
@@ -28444,23 +28730,24 @@ $globals.PackageAnnouncement);
 
 
 
-$core.addClass("PackageAdded", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageAdded", $globals.PackageAnnouncement, "Kernel-Announcements");
 $globals.PackageAdded.comment="I am emitted when a `Package` is added to the system.";
 
 
-$core.addClass("PackageClean", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageClean", $globals.PackageAnnouncement, "Kernel-Announcements");
 $globals.PackageClean.comment="I am emitted when a package is committed and becomes clean.";
 
 
-$core.addClass("PackageDirty", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageDirty", $globals.PackageAnnouncement, "Kernel-Announcements");
 $globals.PackageDirty.comment="I am emitted when a package becomes dirty.";
 
 
-$core.addClass("PackageRemoved", $globals.PackageAnnouncement, [], "Kernel-Announcements");
+$core.addClass("PackageRemoved", $globals.PackageAnnouncement, "Kernel-Announcements");
 $globals.PackageRemoved.comment="I am emitted when a `Package` is removed from the system.";
 
 
-$core.addClass("ProtocolAnnouncement", $globals.SystemAnnouncement, ["theClass", "protocol"], "Kernel-Announcements");
+$core.addClass("ProtocolAnnouncement", $globals.SystemAnnouncement, "Kernel-Announcements");
+$core.setSlots($globals.ProtocolAnnouncement, ["theClass", "protocol"]);
 $globals.ProtocolAnnouncement.comment="I am the abstract superclass of protocol-related announcements.";
 $core.addMethod(
 $core.method({
@@ -28555,11 +28842,11 @@ $globals.ProtocolAnnouncement);
 
 
 
-$core.addClass("ProtocolAdded", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ProtocolAdded", $globals.ProtocolAnnouncement, "Kernel-Announcements");
 $globals.ProtocolAdded.comment="I am emitted when a protocol is added to a class.";
 
 
-$core.addClass("ProtocolRemoved", $globals.ProtocolAnnouncement, [], "Kernel-Announcements");
+$core.addClass("ProtocolRemoved", $globals.ProtocolAnnouncement, "Kernel-Announcements");
 $globals.ProtocolRemoved.comment="I am emitted when a protocol is removed from a class.";
 
 });
@@ -28569,7 +28856,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-Services");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ConsoleErrorHandler", $globals.Object, [], "Platform-Services");
+$core.addClass("ConsoleErrorHandler", $globals.Object, "Platform-Services");
 $globals.ConsoleErrorHandler.comment="I am manage Smalltalk errors, displaying the stack in the console.";
 $core.addMethod(
 $core.method({
@@ -28712,7 +28999,8 @@ return self;
 $globals.ConsoleErrorHandler.a$cls);
 
 
-$core.addClass("ConsoleTranscript", $globals.Object, ["textarea"], "Platform-Services");
+$core.addClass("ConsoleTranscript", $globals.Object, "Platform-Services");
+$core.setSlots($globals.ConsoleTranscript, ["textarea"]);
 $globals.ConsoleTranscript.comment="I am a specific transcript emitting to the JavaScript console.\x0a\x0aIf no other transcript is registered, I am the default.";
 $core.addMethod(
 $core.method({
@@ -28800,33 +29088,33 @@ return self;
 $globals.ConsoleTranscript.a$cls);
 
 
-$core.addClass("Environment", $globals.Object, [], "Platform-Services");
+$core.addClass("Environment", $globals.Object, "Platform-Services");
 $globals.Environment.comment="I provide an unified entry point to manipulate Amber packages, classes and methods.\x0a\x0aTypical use cases include IDEs, remote access and restricting browsing.";
 $core.addMethod(
 $core.method({
 selector: "addInstVarNamed:to:",
 protocol: "compiling",
 args: ["aString", "aClass"],
-source: "addInstVarNamed: aString to: aClass\x0a\x09| newInstVars |\x0a\x09newInstVars := aClass instanceVariableNames copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newInstVars ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09instanceVariableNames: newInstVars\x0a\x09\x09\x09package: aClass package name ]",
+source: "addInstVarNamed: aString to: aClass\x0a\x09| newSlots |\x0a\x09newSlots := aClass slots copyWith: aString.\x0a\x0a\x09aClass isMetaclass\x0a\x09\x09ifTrue: [ self classBuilder\x0a\x09\x09\x09class: aClass slots: newSlots ]\x0a\x09\x09ifFalse: [ self classBuilder\x0a\x09\x09\x09addSubclassOf: aClass superclass \x0a\x09\x09\x09named: aClass name \x0a\x09\x09\x09slots: newSlots\x0a\x09\x09\x09package: aClass package name ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["copyWith:", "instanceVariableNames", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:instanceVariableNames:package:", "superclass", "name", "package"]
+messageSends: ["copyWith:", "slots", "ifTrue:ifFalse:", "isMetaclass", "class:slots:", "classBuilder", "addSubclassOf:named:slots:package:", "superclass", "name", "package"]
 }, function ($methodClass){ return function (aString,aClass){
 var self=this,$self=this;
-var newInstVars;
+var newSlots;
 return $core.withContext(function($ctx1) {
-newInstVars=$recv($recv(aClass)._instanceVariableNames())._copyWith_(aString);
+newSlots=$recv($recv(aClass)._slots())._copyWith_(aString);
 if($core.assert($recv(aClass)._isMetaclass())){
 $recv([$self._classBuilder()
 ,$ctx1.sendIdx["classBuilder"]=1
-][0])._class_slots_(aClass,newInstVars);
+][0])._class_slots_(aClass,newSlots);
 } else {
-$recv($self._classBuilder())._addSubclassOf_named_instanceVariableNames_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
+$recv($self._classBuilder())._addSubclassOf_named_slots_package_($recv(aClass)._superclass(),[$recv(aClass)._name()
 ,$ctx1.sendIdx["name"]=1
-][0],newInstVars,$recv($recv(aClass)._package())._name());
+][0],newSlots,$recv($recv(aClass)._package())._name());
 }
 return self;
-}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newInstVars:newInstVars})});
+}, function($ctx1) {$ctx1.fill(self,"addInstVarNamed:to:",{aString:aString,aClass:aClass,newSlots:newSlots})});
 }; }),
 $globals.Environment);
 
@@ -29500,7 +29788,7 @@ $globals.Environment);
 
 
 
-$core.addClass("NullProgressHandler", $globals.Object, [], "Platform-Services");
+$core.addClass("NullProgressHandler", $globals.Object, "Platform-Services");
 $globals.NullProgressHandler.comment="I am the default progress handler. I do not display any progress, and simply iterate over the collection.";
 $core.addMethod(
 $core.method({
@@ -29541,7 +29829,7 @@ return self;
 $globals.NullProgressHandler.a$cls);
 
 
-$core.addClass("Service", $globals.Object, [], "Platform-Services");
+$core.addClass("Service", $globals.Object, "Platform-Services");
 $globals.Service.comment="I implement the basic behavior for class registration to a service.\x0a\x0aSee the `Transcript` class for a concrete service.\x0a\x0a## API\x0a\x0aUse class-side methods `#register:` and `#registerIfNone:` to register classes to a specific service.";
 
 $core.setSlots($globals.Service.a$cls, ["current"]);
@@ -29621,7 +29909,7 @@ return self;
 $globals.Service.a$cls);
 
 
-$core.addClass("ErrorHandler", $globals.Service, [], "Platform-Services");
+$core.addClass("ErrorHandler", $globals.Service, "Platform-Services");
 $globals.ErrorHandler.comment="I am the service used to handle Smalltalk errors.\x0aSee `boot.js` `handleError()` function.\x0a\x0aRegistered service instances must implement `#handleError:` to perform an action on the thrown exception.";
 
 $core.addMethod(
@@ -29673,7 +29961,7 @@ return self;
 $globals.ErrorHandler.a$cls);
 
 
-$core.addClass("Finder", $globals.Service, [], "Platform-Services");
+$core.addClass("Finder", $globals.Service, "Platform-Services");
 $globals.Finder.comment="I am the service responsible for finding classes/methods.\x0a__There is no default finder.__\x0a\x0a## API\x0a\x0aUse `#browse` on an object to find it.";
 
 $core.addMethod(
@@ -29728,7 +30016,7 @@ return $recv($self._current())._findString_(aString);
 $globals.Finder.a$cls);
 
 
-$core.addClass("Inspector", $globals.Service, [], "Platform-Services");
+$core.addClass("Inspector", $globals.Service, "Platform-Services");
 $globals.Inspector.comment="I am the service responsible for inspecting objects.\x0a\x0aThe default inspector object is the transcript.";
 
 $core.addMethod(
@@ -29749,7 +30037,7 @@ return $recv($self._current())._inspect_(anObject);
 $globals.Inspector.a$cls);
 
 
-$core.addClass("Platform", $globals.Service, [], "Platform-Services");
+$core.addClass("Platform", $globals.Service, "Platform-Services");
 $globals.Platform.comment="I am bridge to JS environment.\x0a\x0a## API\x0a\x0a    Platform globals. \x22JS global object\x22\x0a    Platform newXHR \x22new XMLHttpRequest() or its shim\x22";
 
 $core.addMethod(
@@ -29844,7 +30132,7 @@ return $recv($self._current())._newXhr();
 $globals.Platform.a$cls);
 
 
-$core.addClass("ProgressHandler", $globals.Service, [], "Platform-Services");
+$core.addClass("ProgressHandler", $globals.Service, "Platform-Services");
 $globals.ProgressHandler.comment="I am used to manage progress in collection iterations, see `SequenceableCollection >> #do:displayingProgress:`.\x0a\x0aRegistered instances must implement `#do:on:displaying:`.\x0a\x0aThe default behavior is to simply iterate over the collection, using `NullProgressHandler`.";
 
 $core.addMethod(
@@ -29866,7 +30154,7 @@ return self;
 $globals.ProgressHandler.a$cls);
 
 
-$core.addClass("Terminal", $globals.Service, [], "Platform-Services");
+$core.addClass("Terminal", $globals.Service, "Platform-Services");
 $globals.Terminal.comment="I am UI interface service.\x0a\x0a## API\x0a\x0a    Terminal alert: 'Hey, there is a problem'.\x0a    Terminal confirm: 'Affirmative?'.\x0a    Terminal prompt: 'Your name:'.";
 
 $core.addMethod(
@@ -29938,7 +30226,7 @@ return $recv($self._current())._prompt_default_(aString,defaultString);
 $globals.Terminal.a$cls);
 
 
-$core.addClass("Transcript", $globals.Service, [], "Platform-Services");
+$core.addClass("Transcript", $globals.Service, "Platform-Services");
 $globals.Transcript.comment="I am a facade for Transcript actions.\x0a\x0aI delegate actions to the currently registered transcript.\x0a\x0a## API\x0a\x0a    Transcript \x0a        show: 'hello world';\x0a        cr;\x0a        show: anObject.";
 
 $core.addMethod(
@@ -34386,7 +34674,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-ImportExport");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractExporter", $globals.Object, [], "Platform-ImportExport");
+$core.addClass("AbstractExporter", $globals.Object, "Platform-ImportExport");
 $globals.AbstractExporter.comment="I am an abstract exporter for Amber source code.\x0a\x0a## API\x0a\x0aUse `#exportPackage:on:` to export a given package on a Stream.";
 $core.addMethod(
 $core.method({
@@ -34471,7 +34759,7 @@ $globals.AbstractExporter);
 
 
 
-$core.addClass("ChunkExporter", $globals.AbstractExporter, [], "Platform-ImportExport");
+$core.addClass("ChunkExporter", $globals.AbstractExporter, "Platform-ImportExport");
 $globals.ChunkExporter.comment="I am an exporter dedicated to outputting Amber source code in the classic Smalltalk chunk format.\x0a\x0aI do not output any compiled code.";
 $core.addMethod(
 $core.method({
@@ -35112,7 +35400,7 @@ $globals.ChunkExporter);
 
 
 
-$core.addClass("Exporter", $globals.AbstractExporter, [], "Platform-ImportExport");
+$core.addClass("Exporter", $globals.AbstractExporter, "Platform-ImportExport");
 $globals.Exporter.comment="I am responsible for outputting Amber code into a JavaScript string.\x0a\x0aThe generated output is enough to reconstruct the exported data, including Smalltalk source code and other metadata.\x0a\x0a## Use case\x0a\x0aI am typically used to save code outside of the Amber runtime (committing to disk, etc.).";
 $core.addMethod(
 $core.method({
@@ -35142,10 +35430,10 @@ $core.method({
 selector: "exportDefinitionOf:on:",
 protocol: "output",
 args: ["aClass", "aStream"],
-source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addClass('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.\x0a\x09\x09\x09aClass instanceVariableNames asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' }.\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09lf;\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);' ].\x0a\x09aStream lf",
+source: "exportDefinitionOf: aClass on: aStream\x0a\x09aStream\x0a\x09\x09lf;\x0a\x09\x09write: {\x0a\x09\x09\x09'$core.addClass('.\x0a\x09\x09\x09aClass name asJavaScriptSource. ', '.\x0a\x09\x09\x09aClass superclass ifNil: [ 'null' ] ifNotNil: [ :superclass | superclass asJavaScriptSource ]. ', '.\x0a\x09\x09\x09aClass category asJavaScriptSource.\x0a\x09\x09\x09');' };\x0a\x09\x09lf.\x0a\x09aClass instanceVariableNames ifNotEmpty: [ :ivars | aStream\x0a\x09\x09write: { '$core.setSlots('. aClass asJavaScriptSource. ', '. ivars asJavaScriptSource. ');' };\x0a\x09\x09lf ].\x0a\x09aClass comment ifNotEmpty: [\x0a\x09\x09aStream\x0a\x09\x09\x09write: '//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);'; lf;\x0a\x09\x09\x09write: { aClass asJavaScriptSource. '.comment='. aClass comment crlfSanitized asJavaScriptSource. ';' }; lf;\x0a\x09\x09\x09write: '//>>excludeEnd(\x22ide\x22);';\x0a\x09\x09\x09lf ]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["lf", "write:", "asJavaScriptSource", "name", "ifNil:ifNotNil:", "superclass", "instanceVariableNames", "category", "ifNotEmpty:", "comment", "crlfSanitized"]
+messageSends: ["lf", "write:", "asJavaScriptSource", "name", "ifNil:ifNotNil:", "superclass", "category", "ifNotEmpty:", "instanceVariableNames", "comment", "crlfSanitized"]
 }, function ($methodClass){ return function (aClass,aStream){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -35166,38 +35454,52 @@ $3=[$recv(superclass)._asJavaScriptSource()
 ,$ctx1.sendIdx["asJavaScriptSource"]=2
 ][0];
 }
-[$recv(aStream)._write_(["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._instanceVariableNames())._asJavaScriptSource()
+[$recv(aStream)._write_(["$core.addClass(",$1,", ",$3,", ",[$recv($recv(aClass)._category())._asJavaScriptSource()
 ,$ctx1.sendIdx["asJavaScriptSource"]=3
-][0],", ",[$recv($recv(aClass)._category())._asJavaScriptSource()
-,$ctx1.sendIdx["asJavaScriptSource"]=4
 ][0],");"])
 ,$ctx1.sendIdx["write:"]=1
+][0];
+[$recv(aStream)._lf()
+,$ctx1.sendIdx["lf"]=2
+][0];
+[$recv($recv(aClass)._instanceVariableNames())._ifNotEmpty_((function(ivars){
+return $core.withContext(function($ctx2) {
+[$recv(aStream)._write_(["$core.setSlots(",[$recv(aClass)._asJavaScriptSource()
+,$ctx2.sendIdx["asJavaScriptSource"]=4
+][0],", ",[$recv(ivars)._asJavaScriptSource()
+,$ctx2.sendIdx["asJavaScriptSource"]=5
+][0],");"])
+,$ctx2.sendIdx["write:"]=2
+][0];
+return [$recv(aStream)._lf()
+,$ctx2.sendIdx["lf"]=3
+][0];
+}, function($ctx2) {$ctx2.fillBlock({ivars:ivars},$ctx1,3)});
+}))
+,$ctx1.sendIdx["ifNotEmpty:"]=1
 ][0];
 $recv([$recv(aClass)._comment()
 ,$ctx1.sendIdx["comment"]=1
 ][0])._ifNotEmpty_((function(){
 return $core.withContext(function($ctx2) {
-[$recv(aStream)._lf()
-,$ctx2.sendIdx["lf"]=2
-][0];
 [$recv(aStream)._write_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);")
-,$ctx2.sendIdx["write:"]=2
-][0];
-[$recv(aStream)._lf()
-,$ctx2.sendIdx["lf"]=3
-][0];
-[$recv(aStream)._write_([[$recv(aClass)._asJavaScriptSource()
-,$ctx2.sendIdx["asJavaScriptSource"]=5
-][0],".comment=",$recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavaScriptSource(),";"])
 ,$ctx2.sendIdx["write:"]=3
 ][0];
 [$recv(aStream)._lf()
 ,$ctx2.sendIdx["lf"]=4
 ][0];
-return $recv(aStream)._write_("//>>excludeEnd(\x22ide\x22);");
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+[$recv(aStream)._write_([[$recv(aClass)._asJavaScriptSource()
+,$ctx2.sendIdx["asJavaScriptSource"]=6
+][0],".comment=",$recv($recv($recv(aClass)._comment())._crlfSanitized())._asJavaScriptSource(),";"])
+,$ctx2.sendIdx["write:"]=4
+][0];
+[$recv(aStream)._lf()
+,$ctx2.sendIdx["lf"]=5
+][0];
+$recv(aStream)._write_("//>>excludeEnd(\x22ide\x22);");
+return $recv(aStream)._lf();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
 }));
-$recv(aStream)._lf();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"exportDefinitionOf:on:",{aClass:aClass,aStream:aStream})});
 }; }),
@@ -35699,7 +36001,8 @@ $globals.Exporter);
 
 
 
-$core.addClass("AmdExporter", $globals.Exporter, ["namespace"], "Platform-ImportExport");
+$core.addClass("AmdExporter", $globals.Exporter, "Platform-ImportExport");
+$core.setSlots($globals.AmdExporter, ["namespace"]);
 $globals.AmdExporter.comment="I am used to export Packages in an AMD (Asynchronous Module Definition) JavaScript format.";
 $core.addMethod(
 $core.method({
@@ -35925,7 +36228,8 @@ $globals.AmdExporter);
 
 
 
-$core.addClass("ChunkParser", $globals.Object, ["stream", "last"], "Platform-ImportExport");
+$core.addClass("ChunkParser", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ChunkParser, ["stream", "last"]);
 $globals.ChunkParser.comment="I am responsible for parsing aStream contents in the chunk format.\x0a\x0a## API\x0a\x0a    ChunkParser new\x0a        stream: aStream;\x0a        nextChunk";
 $core.addMethod(
 $core.method({
@@ -36025,7 +36329,8 @@ return $recv($self._new())._stream_(aStream);
 $globals.ChunkParser.a$cls);
 
 
-$core.addClass("ClassCommentReader", $globals.Object, ["class"], "Platform-ImportExport");
+$core.addClass("ClassCommentReader", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ClassCommentReader, ["class"]);
 $globals.ClassCommentReader.comment="I provide a mechanism for retrieving class comments stored on a file.\x0a\x0aSee also `ClassCategoryReader`.";
 $core.addMethod(
 $core.method({
@@ -36110,7 +36415,8 @@ $globals.ClassCommentReader);
 
 
 
-$core.addClass("ClassProtocolReader", $globals.Object, ["class", "category"], "Platform-ImportExport");
+$core.addClass("ClassProtocolReader", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ClassProtocolReader, ["class", "category"]);
 $globals.ClassProtocolReader.comment="I provide a mechanism for retrieving class descriptions stored on a file in the Smalltalk chunk format.";
 $core.addMethod(
 $core.method({
@@ -36200,7 +36506,8 @@ $globals.ClassProtocolReader);
 
 
 
-$core.addClass("ExportMethodProtocol", $globals.Object, ["name", "theClass"], "Platform-ImportExport");
+$core.addClass("ExportMethodProtocol", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.ExportMethodProtocol, ["name", "theClass"]);
 $globals.ExportMethodProtocol.comment="I am an abstraction for a method protocol in a class / metaclass.\x0a\x0aI know of my class, name and methods.\x0aI am used when exporting a package.";
 $core.addMethod(
 $core.method({
@@ -36337,7 +36644,8 @@ return $recv($1)._yourself();
 $globals.ExportMethodProtocol.a$cls);
 
 
-$core.addClass("Importer", $globals.Object, ["lastSection", "lastChunk"], "Platform-ImportExport");
+$core.addClass("Importer", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.Importer, ["lastSection", "lastChunk"]);
 $globals.Importer.comment="I can import Amber code from a string in the chunk format.\x0a\x0a## API\x0a\x0a    Importer new import: aString";
 $core.addMethod(
 $core.method({
@@ -36429,11 +36737,11 @@ $globals.Importer);
 
 
 
-$core.addClass("PackageCommitError", $globals.Error, [], "Platform-ImportExport");
+$core.addClass("PackageCommitError", $globals.Error, "Platform-ImportExport");
 $globals.PackageCommitError.comment="I get signaled when an attempt to commit a package has failed.";
 
 
-$core.addClass("PackageHandler", $globals.Object, [], "Platform-ImportExport");
+$core.addClass("PackageHandler", $globals.Object, "Platform-ImportExport");
 $globals.PackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 $core.addMethod(
 $core.method({
@@ -36778,7 +37086,7 @@ $globals.PackageHandler);
 
 
 
-$core.addClass("AmdPackageHandler", $globals.PackageHandler, [], "Platform-ImportExport");
+$core.addClass("AmdPackageHandler", $globals.PackageHandler, "Platform-ImportExport");
 $globals.AmdPackageHandler.comment="I am responsible for handling package loading and committing.\x0a\x0aI should not be used directly. Instead, use the corresponding `Package` methods.";
 $core.addMethod(
 $core.method({
@@ -36975,7 +37283,8 @@ return self;
 $globals.AmdPackageHandler.a$cls);
 
 
-$core.addClass("PackageTransport", $globals.Object, ["package"], "Platform-ImportExport");
+$core.addClass("PackageTransport", $globals.Object, "Platform-ImportExport");
+$core.setSlots($globals.PackageTransport, ["package"]);
 $globals.PackageTransport.comment="I represent the transport mechanism used to commit a package.\x0a\x0aMy concrete subclasses have a `#handler` to which committing is delegated.";
 $core.addMethod(
 $core.method({
@@ -37086,17 +37395,24 @@ $core.method({
 selector: "load",
 protocol: "loading",
 args: [],
-source: "load\x0a\x09^ (self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ]",
+source: "load\x0a\x09^ ((self commitHandler load: self package)\x0a\x09\x09then: [ Smalltalk postLoad ])\x0a\x09\x09catch: [ :e | Smalltalk postFailedLoad: self package. e pass ]",
 referencedClasses: ["Smalltalk"],
 pragmas: [],
-messageSends: ["then:", "load:", "commitHandler", "package", "postLoad"]
+messageSends: ["catch:", "then:", "load:", "commitHandler", "package", "postLoad", "postFailedLoad:", "pass"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($self._commitHandler())._load_($self._package()))._then_((function(){
+return $recv($recv($recv($self._commitHandler())._load_([$self._package()
+,$ctx1.sendIdx["package"]=1
+][0]))._then_((function(){
 return $core.withContext(function($ctx2) {
 return $recv($globals.Smalltalk)._postLoad();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+})))._catch_((function(e){
+return $core.withContext(function($ctx2) {
+$recv($globals.Smalltalk)._postFailedLoad_($self._package());
+return $recv(e)._pass();
+}, function($ctx2) {$ctx2.fillBlock({e:e},$ctx1,2)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"load",{})});
 }; }),
@@ -37355,7 +37671,8 @@ return nil;
 $globals.PackageTransport.a$cls);
 
 
-$core.addClass("AmdPackageTransport", $globals.PackageTransport, ["namespace"], "Platform-ImportExport");
+$core.addClass("AmdPackageTransport", $globals.PackageTransport, "Platform-ImportExport");
+$core.setSlots($globals.AmdPackageTransport, ["namespace"]);
 $globals.AmdPackageTransport.comment="I am the default transport for committing packages.\x0a\x0aSee `AmdExporter` and `AmdPackageHandler`.";
 $core.addMethod(
 $core.method({
@@ -37787,7 +38104,8 @@ var smalltalkParser;
 $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/parser"], function ($1) {smalltalkParser=$1; resolve();}, reject); });
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AbstractCodeGenerator", $globals.Object, ["currentClass", "currentPackage", "source"], "Compiler-Core");
+$core.addClass("AbstractCodeGenerator", $globals.Object, "Compiler-Core");
+$core.setSlots($globals.AbstractCodeGenerator, ["currentClass", "currentPackage", "source"]);
 $globals.AbstractCodeGenerator.comment="I am the abstract super class of all code generators and provide their common API.";
 $core.addMethod(
 $core.method({
@@ -37976,7 +38294,8 @@ $globals.AbstractCodeGenerator);
 
 
 
-$core.addClass("AstGenerator", $globals.AbstractCodeGenerator, ["transformersDictionary"], "Compiler-Core");
+$core.addClass("AstGenerator", $globals.AbstractCodeGenerator, "Compiler-Core");
+$core.setSlots($globals.AstGenerator, ["transformersDictionary"]);
 $globals.AstGenerator.comment="I am a very basic code generator.\x0aI generate semantically augmented abstract syntax tree,\x0aSome initial pragmas (eg. #inlineJS:) are applied to transform the tree.";
 $core.addMethod(
 $core.method({
@@ -38046,7 +38365,7 @@ $globals.AstGenerator);
 
 
 
-$core.addClass("CodeGenerator", $globals.AstGenerator, [], "Compiler-Core");
+$core.addClass("CodeGenerator", $globals.AstGenerator, "Compiler-Core");
 $globals.CodeGenerator.comment="I am a basic code generator. I generate a valid JavaScript output, but do not perform any inlining.\x0aSee `InliningCodeGenerator` for an optimized JavaScript code generation.";
 $core.addMethod(
 $core.method({
@@ -38160,7 +38479,8 @@ $globals.CodeGenerator);
 
 
 
-$core.addClass("Compiler", $globals.Object, ["currentPackage", "codeGeneratorClass", "codeGenerator"], "Compiler-Core");
+$core.addClass("Compiler", $globals.Object, "Compiler-Core");
+$core.setSlots($globals.Compiler, ["currentPackage", "codeGeneratorClass", "codeGenerator"]);
 $globals.Compiler.comment="I provide the public interface for compiling Amber source code into JavaScript.\x0a\x0aThe code generator used to produce JavaScript can be plugged with `#codeGeneratorClass`.\x0aThe default code generator is an instance of `InlinedCodeGenerator`";
 $core.addMethod(
 $core.method({
@@ -38836,11 +39156,11 @@ return self;
 $globals.Compiler.a$cls);
 
 
-$core.addClass("DoIt", $globals.Object, [], "Compiler-Core");
+$core.addClass("DoIt", $globals.Object, "Compiler-Core");
 $globals.DoIt.comment="`DoIt` is the class used to compile and evaluate expressions. See `Compiler >> evaluateExpression:`.";
 
 
-$core.addClass("Evaluator", $globals.Object, [], "Compiler-Core");
+$core.addClass("Evaluator", $globals.Object, "Compiler-Core");
 $globals.Evaluator.comment="I evaluate code against a receiver, dispatching #evaluate:on: to the receiver.";
 $core.addMethod(
 $core.method({
@@ -38910,7 +39230,7 @@ return $recv($self._new())._evaluate_for_(aString,anObject);
 $globals.Evaluator.a$cls);
 
 
-$core.addClass("ParseError", $globals.Error, [], "Compiler-Core");
+$core.addClass("ParseError", $globals.Error, "Compiler-Core");
 $globals.ParseError.comment="Instance of ParseError are signaled on any parsing error.\x0aSee `Compiler >> #parse:`";
 
 
@@ -39037,7 +39357,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-AST");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTNode", $globals.DagParentNode, ["parent", "position", "source"], "Compiler-AST");
+$core.addClass("ASTNode", $globals.DagParentNode, "Compiler-AST");
+$core.setSlots($globals.ASTNode, ["parent", "position", "source"]);
 $globals.ASTNode.comment="I am the abstract root class of the abstract syntax tree.\x0a\x0aConcrete classes should implement `#accept:` to allow visiting.\x0a\x0a`position` holds a point containing line and column number of the symbol location in the original source file.";
 $core.addMethod(
 $core.method({
@@ -39337,7 +39658,8 @@ $globals.ASTNode);
 
 
 
-$core.addClass("ExpressionNode", $globals.ASTNode, ["shouldBeAliased"], "Compiler-AST");
+$core.addClass("ExpressionNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.ExpressionNode, ["shouldBeAliased"]);
 $globals.ExpressionNode.comment="I am the abstract root class for expression nodes.";
 $core.addMethod(
 $core.method({
@@ -39459,7 +39781,8 @@ $globals.ExpressionNode);
 
 
 
-$core.addClass("AssignmentNode", $globals.ExpressionNode, ["left", "right"], "Compiler-AST");
+$core.addClass("AssignmentNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.AssignmentNode, ["left", "right"]);
 $globals.AssignmentNode.comment="I represent an assignment node.";
 $core.addMethod(
 $core.method({
@@ -39563,7 +39886,8 @@ $globals.AssignmentNode);
 
 
 
-$core.addClass("BlockNode", $globals.ExpressionNode, ["parameters", "scope", "sequenceNode"], "Compiler-AST");
+$core.addClass("BlockNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.BlockNode, ["parameters", "scope", "sequenceNode"]);
 $globals.BlockNode.comment="I represent an block closure node.";
 $core.addMethod(
 $core.method({
@@ -39708,7 +40032,8 @@ $globals.BlockNode);
 
 
 
-$core.addClass("CascadeNode", $globals.ExpressionNode, ["receiver"], "Compiler-AST");
+$core.addClass("CascadeNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.CascadeNode, ["receiver"]);
 $globals.CascadeNode.comment="I represent an cascade node.";
 $core.addMethod(
 $core.method({
@@ -39762,7 +40087,7 @@ $globals.CascadeNode);
 
 
 
-$core.addClass("DynamicArrayNode", $globals.ExpressionNode, [], "Compiler-AST");
+$core.addClass("DynamicArrayNode", $globals.ExpressionNode, "Compiler-AST");
 $globals.DynamicArrayNode.comment="I represent an dynamic array node.";
 $core.addMethod(
 $core.method({
@@ -39783,7 +40108,7 @@ $globals.DynamicArrayNode);
 
 
 
-$core.addClass("DynamicDictionaryNode", $globals.ExpressionNode, [], "Compiler-AST");
+$core.addClass("DynamicDictionaryNode", $globals.ExpressionNode, "Compiler-AST");
 $globals.DynamicDictionaryNode.comment="I represent an dynamic dictionary node.";
 $core.addMethod(
 $core.method({
@@ -39804,7 +40129,8 @@ $globals.DynamicDictionaryNode);
 
 
 
-$core.addClass("SendNode", $globals.ExpressionNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "argumentSwitcher", "isSideEffect"], "Compiler-AST");
+$core.addClass("SendNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.SendNode, ["selector", "arguments", "receiver", "index", "javaScriptSelector", "argumentSwitcher", "isSideEffect"]);
 $globals.SendNode.comment="I represent an message send node.";
 $core.addMethod(
 $core.method({
@@ -40157,7 +40483,8 @@ $globals.SendNode);
 
 
 
-$core.addClass("ValueNode", $globals.ExpressionNode, ["value"], "Compiler-AST");
+$core.addClass("ValueNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.ValueNode, ["value"]);
 $globals.ValueNode.comment="I represent a value node.";
 $core.addMethod(
 $core.method({
@@ -40228,7 +40555,8 @@ $globals.ValueNode);
 
 
 
-$core.addClass("VariableNode", $globals.ExpressionNode, ["identifier", "assigned", "binding"], "Compiler-AST");
+$core.addClass("VariableNode", $globals.ExpressionNode, "Compiler-AST");
+$core.setSlots($globals.VariableNode, ["identifier", "assigned", "binding"]);
 $globals.VariableNode.comment="I represent an variable node.";
 $core.addMethod(
 $core.method({
@@ -40511,7 +40839,7 @@ $globals.VariableNode);
 
 
 
-$core.addClass("JSStatementNode", $globals.ASTNode, [], "Compiler-AST");
+$core.addClass("JSStatementNode", $globals.ASTNode, "Compiler-AST");
 $globals.JSStatementNode.comment="I represent an JavaScript statement node.";
 $core.addMethod(
 $core.method({
@@ -40532,7 +40860,8 @@ $globals.JSStatementNode);
 
 
 
-$core.addClass("MethodNode", $globals.ASTNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes", "sequenceNode"], "Compiler-AST");
+$core.addClass("MethodNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.MethodNode, ["selector", "arguments", "pragmas", "scope", "classReferences", "sendIndexes", "sequenceNode"]);
 $globals.MethodNode.comment="I represent an method node.\x0a\x0aA method node must be the root and only method node of a valid AST.";
 $core.addMethod(
 $core.method({
@@ -40848,7 +41177,8 @@ $globals.MethodNode);
 
 
 
-$core.addClass("ReturnNode", $globals.ASTNode, ["scope", "expression"], "Compiler-AST");
+$core.addClass("ReturnNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.ReturnNode, ["scope", "expression"]);
 $globals.ReturnNode.comment="I represent an return node. At the AST level, there is not difference between a local return or non-local return.";
 $core.addMethod(
 $core.method({
@@ -40992,7 +41322,8 @@ $globals.ReturnNode);
 
 
 
-$core.addClass("SequenceNode", $globals.ASTNode, ["temps"], "Compiler-AST");
+$core.addClass("SequenceNode", $globals.ASTNode, "Compiler-AST");
+$core.setSlots($globals.SequenceNode, ["temps"]);
 $globals.SequenceNode.comment="I represent an sequence node. A sequence represent a set of instructions inside the same scope (the method scope or a block scope).";
 $core.addMethod(
 $core.method({
@@ -41053,7 +41384,7 @@ $globals.SequenceNode);
 
 
 
-$core.addClass("BlockSequenceNode", $globals.SequenceNode, [], "Compiler-AST");
+$core.addClass("BlockSequenceNode", $globals.SequenceNode, "Compiler-AST");
 $globals.BlockSequenceNode.comment="I represent an special sequence node for block scopes.";
 $core.addMethod(
 $core.method({
@@ -41074,7 +41405,8 @@ $globals.BlockSequenceNode);
 
 
 
-$core.addClass("AstPragmator", $globals.Object, ["methodNode"], "Compiler-AST");
+$core.addClass("AstPragmator", $globals.Object, "Compiler-AST");
+$core.setSlots($globals.AstPragmator, ["methodNode"]);
 $globals.AstPragmator.comment="I am abstract superclass for pragma-processing transformer.\x0a\x0aMy subclasses should implement messages for each pragma\x0athey process. Pragma processing checks if a message is known\x0ato a class but not to its superclass. IOW, each and only those\x0apragmas are processed which are defined as methods in the subclass.\x0a\x0aThese messages can access sequence node in which\x0aa pragma occurred and its containing method node\x0aas `self sequenceNode` and `self methodNode`.\x0a\x0aSee `EarlyPragmator` for an example.";
 $core.addMethod(
 $core.method({
@@ -41130,7 +41462,7 @@ $globals.AstPragmator);
 
 
 
-$core.addClass("AstSemanticPragmator", $globals.AstPragmator, [], "Compiler-AST");
+$core.addClass("AstSemanticPragmator", $globals.AstPragmator, "Compiler-AST");
 $core.addMethod(
 $core.method({
 selector: "inlineJS:",
@@ -41164,11 +41496,12 @@ $globals.AstSemanticPragmator);
 
 
 
-$core.addClass("CompilerError", $globals.Error, [], "Compiler-AST");
+$core.addClass("CompilerError", $globals.Error, "Compiler-AST");
 $globals.CompilerError.comment="I am the common superclass of all compiling errors.";
 
 
-$core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, ["setParentSelector"], "Compiler-AST");
+$core.addClass("ParentFakingPathDagVisitor", $globals.PathDagVisitor, "Compiler-AST");
+$core.setSlots($globals.ParentFakingPathDagVisitor, ["setParentSelector"]);
 $globals.ParentFakingPathDagVisitor.comment="I am base class of `DagNode` visitor.\x0a\x0aI hold the path of ancestors up to actual node\x0ain `self path`.";
 $core.addMethod(
 $core.method({
@@ -41198,7 +41531,7 @@ $globals.ParentFakingPathDagVisitor);
 
 
 
-$core.addClass("NodeVisitor", $globals.ParentFakingPathDagVisitor, [], "Compiler-AST");
+$core.addClass("NodeVisitor", $globals.ParentFakingPathDagVisitor, "Compiler-AST");
 $globals.NodeVisitor.comment="I am the abstract super class of all AST node visitors.";
 $core.addMethod(
 $core.method({
@@ -41480,7 +41813,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Semantic");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, ["selector", "arguments", "property", "args"], "Compiler-Semantic");
+$core.addClass("JSSuperSendVisitor", $globals.NodeVisitor, "Compiler-Semantic");
+$core.setSlots($globals.JSSuperSendVisitor, ["selector", "arguments", "property", "args"]);
 $core.addMethod(
 $core.method({
 selector: "args",
@@ -41711,7 +42045,8 @@ $globals.JSSuperSendVisitor);
 
 
 
-$core.addClass("LexicalScope", $globals.Object, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"], "Compiler-Semantic");
+$core.addClass("LexicalScope", $globals.Object, "Compiler-Semantic");
+$core.setSlots($globals.LexicalScope, ["node", "instruction", "temps", "args", "outerScope", "blockIndex"]);
 $globals.LexicalScope.comment="I represent a lexical scope where variable names are associated with ScopeVars\x0aInstances are used for block scopes. Method scopes are instances of MethodLexicalScope.\x0a\x0aI am attached to a ScopeVar and method/block nodes.\x0aEach context (method/closure) get a fresh scope that inherits from its outer scope.";
 $core.addMethod(
 $core.method({
@@ -42200,29 +42535,9 @@ $globals.LexicalScope);
 
 
 
-$core.addClass("MethodLexicalScope", $globals.LexicalScope, ["iVars", "pseudoVars", "localReturn", "nonLocalReturns"], "Compiler-Semantic");
+$core.addClass("MethodLexicalScope", $globals.LexicalScope, "Compiler-Semantic");
+$core.setSlots($globals.MethodLexicalScope, ["slotVars", "pseudoVars", "localReturn", "nonLocalReturns"]);
 $globals.MethodLexicalScope.comment="I represent a method scope.";
-$core.addMethod(
-$core.method({
-selector: "addIVar:",
-protocol: "adding",
-args: ["aString"],
-source: "addIVar: aString\x0a\x09self iVars at: aString put: (InstanceVar on: aString).\x0a\x09(self iVars at: aString) scope: self",
-referencedClasses: ["InstanceVar"],
-pragmas: [],
-messageSends: ["at:put:", "iVars", "on:", "scope:", "at:"]
-}, function ($methodClass){ return function (aString){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv([$self._iVars()
-,$ctx1.sendIdx["iVars"]=1
-][0])._at_put_(aString,$recv($globals.InstanceVar)._on_(aString));
-$recv($recv($self._iVars())._at_(aString))._scope_(self);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"addIVar:",{aString:aString})});
-}; }),
-$globals.MethodLexicalScope);
-
 $core.addMethod(
 $core.method({
 selector: "addNonLocalReturn:",
@@ -42243,13 +42558,34 @@ $globals.MethodLexicalScope);
 
 $core.addMethod(
 $core.method({
+selector: "addSlotVar:",
+protocol: "adding",
+args: ["aString"],
+source: "addSlotVar: aString\x0a\x09self slotVars at: aString put: (SlotVar on: aString).\x0a\x09(self slotVars at: aString) scope: self",
+referencedClasses: ["SlotVar"],
+pragmas: [],
+messageSends: ["at:put:", "slotVars", "on:", "scope:", "at:"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv([$self._slotVars()
+,$ctx1.sendIdx["slotVars"]=1
+][0])._at_put_(aString,$recv($globals.SlotVar)._on_(aString));
+$recv($recv($self._slotVars())._at_(aString))._scope_(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"addSlotVar:",{aString:aString})});
+}; }),
+$globals.MethodLexicalScope);
+
+$core.addMethod(
+$core.method({
 selector: "allVariableNames",
 protocol: "accessing",
 args: [],
-source: "allVariableNames\x0a\x09^ super allVariableNames, self iVars keys",
+source: "allVariableNames\x0a\x09^ super allVariableNames, self slotVars keys",
 referencedClasses: [],
 pragmas: [],
-messageSends: [",", "allVariableNames", "keys", "iVars"]
+messageSends: [",", "allVariableNames", "keys", "slotVars"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -42257,7 +42593,7 @@ return $recv([(
 $ctx1.supercall = true,
 ($methodClass.superclass||$boot.nilAsClass).fn.prototype._allVariableNames.call($self))
 ,$ctx1.supercall = false
-][0]).__comma($recv($self._iVars())._keys());
+][0]).__comma($recv($self._slotVars())._keys());
 }, function($ctx1) {$ctx1.fill(self,"allVariableNames",{})});
 }; }),
 $globals.MethodLexicalScope);
@@ -42267,10 +42603,10 @@ $core.method({
 selector: "bindingFor:",
 protocol: "accessing",
 args: ["aString"],
-source: "bindingFor: aString\x0a\x09^ (super bindingFor: aString) ifNil: [\x0a\x09\x09self iVars at: aString ifAbsent: [ nil ]]",
+source: "bindingFor: aString\x0a\x09^ (super bindingFor: aString) ifNil: [\x0a\x09\x09self slotVars at: aString ifAbsent: [ nil ]]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "iVars"]
+messageSends: ["ifNil:", "bindingFor:", "at:ifAbsent:", "slotVars"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -42281,7 +42617,7 @@ $ctx1.supercall = true,
 ,$ctx1.supercall = false
 ][0];
 if($1 == null || $1.a$nil){
-return $recv($self._iVars())._at_ifAbsent_(aString,(function(){
+return $recv($self._slotVars())._at_ifAbsent_(aString,(function(){
 return nil;
 
 }));
@@ -42339,30 +42675,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($self._nonLocalReturns())._notEmpty();
 }, function($ctx1) {$ctx1.fill(self,"hasNonLocalReturn",{})});
-}; }),
-$globals.MethodLexicalScope);
-
-$core.addMethod(
-$core.method({
-selector: "iVars",
-protocol: "accessing",
-args: [],
-source: "iVars\x0a\x09^ iVars ifNil: [ iVars := Dictionary new ]",
-referencedClasses: ["Dictionary"],
-pragmas: [],
-messageSends: ["ifNil:", "new"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$self.iVars;
-if($1 == null || $1.a$nil){
-$self.iVars=$recv($globals.Dictionary)._new();
-return $self.iVars;
-} else {
-return $1;
-}
-}, function($ctx1) {$ctx1.fill(self,"iVars",{})});
 }; }),
 $globals.MethodLexicalScope);
 
@@ -42514,9 +42826,34 @@ return self;
 }; }),
 $globals.MethodLexicalScope);
 
+$core.addMethod(
+$core.method({
+selector: "slotVars",
+protocol: "accessing",
+args: [],
+source: "slotVars\x0a\x09^ slotVars ifNil: [ slotVars := Dictionary new ]",
+referencedClasses: ["Dictionary"],
+pragmas: [],
+messageSends: ["ifNil:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self.slotVars;
+if($1 == null || $1.a$nil){
+$self.slotVars=$recv($globals.Dictionary)._new();
+return $self.slotVars;
+} else {
+return $1;
+}
+}, function($ctx1) {$ctx1.fill(self,"slotVars",{})});
+}; }),
+$globals.MethodLexicalScope);
 
 
-$core.addClass("ScopeVar", $globals.Object, ["scope", "name"], "Compiler-Semantic");
+
+$core.addClass("ScopeVar", $globals.Object, "Compiler-Semantic");
+$core.setSlots($globals.ScopeVar, ["scope", "name"]);
 $globals.ScopeVar.comment="I am an entry in a LexicalScope that gets associated with variable nodes of the same name.\x0aThere are 4 different subclasses of vars: temp vars, local vars, args, and unknown/global vars.";
 $core.addMethod(
 $core.method({
@@ -42689,7 +43026,7 @@ return $recv($1)._yourself();
 $globals.ScopeVar.a$cls);
 
 
-$core.addClass("AliasVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("AliasVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.AliasVar.comment="I am an internally defined variable by the compiler";
 $core.addMethod(
 $core.method({
@@ -42727,7 +43064,7 @@ $globals.AliasVar);
 
 
 
-$core.addClass("ArgVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ArgVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.ArgVar.comment="I am an argument of a method or block.";
 $core.addMethod(
 $core.method({
@@ -42747,7 +43084,7 @@ $globals.ArgVar);
 
 
 
-$core.addClass("ClassRefVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ClassRefVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.ClassRefVar.comment="I am an class reference variable";
 $core.addMethod(
 $core.method({
@@ -42768,48 +43105,11 @@ $globals.ClassRefVar);
 
 
 
-$core.addClass("ExternallyKnownVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("ExternallyKnownVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.ExternallyKnownVar.comment="I am a variable known externally (not in method scope).";
 
 
-$core.addClass("InstanceVar", $globals.ScopeVar, [], "Compiler-Semantic");
-$globals.InstanceVar.comment="I am an instance variable of a method or block.";
-$core.addMethod(
-$core.method({
-selector: "alias",
-protocol: "testing",
-args: [],
-source: "alias\x0a\x09^ '$self.', self name",
-referencedClasses: [],
-pragmas: [],
-messageSends: [",", "name"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return "$self.".__comma($self._name());
-}, function($ctx1) {$ctx1.fill(self,"alias",{})});
-}; }),
-$globals.InstanceVar);
-
-$core.addMethod(
-$core.method({
-selector: "isAssignable",
-protocol: "testing",
-args: [],
-source: "isAssignable\x0a\x09^ true",
-referencedClasses: [],
-pragmas: [],
-messageSends: []
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return true;
-
-}; }),
-$globals.InstanceVar);
-
-
-
-$core.addClass("PseudoVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("PseudoVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.PseudoVar.comment="I am an pseudo variable.\x0a\x0aThe five Smalltalk pseudo variables are: 'self', 'super', 'nil', 'true' and 'false'";
 $core.addMethod(
 $core.method({
@@ -42920,7 +43220,7 @@ return $1;
 $globals.PseudoVar.a$cls);
 
 
-$core.addClass("SuperVar", $globals.PseudoVar, [], "Compiler-Semantic");
+$core.addClass("SuperVar", $globals.PseudoVar, "Compiler-Semantic");
 $globals.SuperVar.comment="I am a 'super' pseudo variable.";
 $core.addMethod(
 $core.method({
@@ -42956,7 +43256,7 @@ $globals.SuperVar);
 
 
 
-$core.addClass("JavaScriptSuperVar", $globals.SuperVar, [], "Compiler-Semantic");
+$core.addClass("JavaScriptSuperVar", $globals.SuperVar, "Compiler-Semantic");
 $core.addMethod(
 $core.method({
 selector: "lookupAsJavaScriptSource",
@@ -42975,7 +43275,7 @@ $globals.JavaScriptSuperVar);
 
 
 
-$core.addClass("ThisContextVar", $globals.PseudoVar, [], "Compiler-Semantic");
+$core.addClass("ThisContextVar", $globals.PseudoVar, "Compiler-Semantic");
 $globals.ThisContextVar.comment="I am a 'thisContext' pseudo variable.";
 $core.addMethod(
 $core.method({
@@ -42995,7 +43295,44 @@ $globals.ThisContextVar);
 
 
 
-$core.addClass("TempVar", $globals.ScopeVar, [], "Compiler-Semantic");
+$core.addClass("SlotVar", $globals.ScopeVar, "Compiler-Semantic");
+$globals.SlotVar.comment="I am a slot variable of a method's class.";
+$core.addMethod(
+$core.method({
+selector: "alias",
+protocol: "testing",
+args: [],
+source: "alias\x0a\x09^ '$self.', self name",
+referencedClasses: [],
+pragmas: [],
+messageSends: [",", "name"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return "$self.".__comma($self._name());
+}, function($ctx1) {$ctx1.fill(self,"alias",{})});
+}; }),
+$globals.SlotVar);
+
+$core.addMethod(
+$core.method({
+selector: "isAssignable",
+protocol: "testing",
+args: [],
+source: "isAssignable\x0a\x09^ true",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.SlotVar);
+
+
+
+$core.addClass("TempVar", $globals.ScopeVar, "Compiler-Semantic");
 $globals.TempVar.comment="I am an temporary variable of a method or block.";
 $core.addMethod(
 $core.method({
@@ -43015,7 +43352,8 @@ $globals.TempVar);
 
 
 
-$core.addClass("SemanticAnalyzer", $globals.NodeVisitor, ["currentScope", "blockIndex", "thePackage", "theClass", "classReferences", "messageSends"], "Compiler-Semantic");
+$core.addClass("SemanticAnalyzer", $globals.NodeVisitor, "Compiler-Semantic");
+$core.setSlots($globals.SemanticAnalyzer, ["currentScope", "blockIndex", "thePackage", "theClass", "classReferences", "messageSends"]);
 $globals.SemanticAnalyzer.comment="I semantically analyze the abstract syntax tree and annotate it with informations such as non local returns and variable scopes.";
 $core.addMethod(
 $core.method({
@@ -43511,19 +43849,19 @@ $core.method({
 selector: "visitMethodNode:",
 protocol: "visiting",
 args: ["aNode"],
-source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allInstanceVariableNames do: [ :each |\x0a\x09\x09currentScope addIVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
+source: "visitMethodNode: aNode\x0a\x09self pushScope: self newMethodScope.\x0a\x09aNode scope: currentScope.\x0a\x09currentScope node: aNode.\x0a\x0a\x09self theClass allSlotNames do: [ :each |\x0a\x09\x09currentScope addSlotVar: each ].\x0a\x09aNode arguments do: [ :each |\x0a\x09\x09self validateVariableScope: each.\x0a\x09\x09currentScope addArg: each ].\x0a\x0a\x09super visitMethodNode: aNode.\x0a\x0a\x09aNode\x0a\x09\x09classReferences: self classReferences;\x0a\x09\x09sendIndexes: self messageSends.\x0a\x09self popScope.\x0a\x09^ aNode",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allInstanceVariableNames", "theClass", "addIVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
+messageSends: ["pushScope:", "newMethodScope", "scope:", "node:", "do:", "allSlotNames", "theClass", "addSlotVar:", "arguments", "validateVariableScope:", "addArg:", "visitMethodNode:", "classReferences:", "classReferences", "sendIndexes:", "messageSends", "popScope"]
 }, function ($methodClass){ return function (aNode){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $self._pushScope_($self._newMethodScope());
 $recv(aNode)._scope_($self.currentScope);
 $recv($self.currentScope)._node_(aNode);
-[$recv($recv($self._theClass())._allInstanceVariableNames())._do_((function(each){
+[$recv($recv($self._theClass())._allSlotNames())._do_((function(each){
 return $core.withContext(function($ctx2) {
-return $recv($self.currentScope)._addIVar_(each);
+return $recv($self.currentScope)._addSlotVar_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }))
 ,$ctx1.sendIdx["do:"]=1
@@ -43682,11 +44020,12 @@ return $recv($1)._yourself();
 $globals.SemanticAnalyzer.a$cls);
 
 
-$core.addClass("SemanticError", $globals.CompilerError, [], "Compiler-Semantic");
+$core.addClass("SemanticError", $globals.CompilerError, "Compiler-Semantic");
 $globals.SemanticError.comment="I represent an abstract semantic error thrown by the SemanticAnalyzer.\x0aSemantic errors can be unknown variable errors, etc.\x0aSee my subclasses for concrete errors.\x0a\x0aThe IDE should catch instances of Semantic error to deal with them when compiling";
 
 
-$core.addClass("InvalidAssignmentError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("InvalidAssignmentError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.InvalidAssignmentError, ["variableName"]);
 $globals.InvalidAssignmentError.comment="I get signaled when a pseudo variable gets assigned.";
 $core.addMethod(
 $core.method({
@@ -43740,7 +44079,8 @@ $globals.InvalidAssignmentError);
 
 
 
-$core.addClass("ShadowingVariableError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("ShadowingVariableError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.ShadowingVariableError, ["variableName"]);
 $globals.ShadowingVariableError.comment="I get signaled when a variable in a block or method scope shadows a variable of the same name in an outer scope.";
 $core.addMethod(
 $core.method({
@@ -43796,7 +44136,8 @@ $globals.ShadowingVariableError);
 
 
 
-$core.addClass("UnknownVariableError", $globals.SemanticError, ["variableName"], "Compiler-Semantic");
+$core.addClass("UnknownVariableError", $globals.SemanticError, "Compiler-Semantic");
+$core.setSlots($globals.UnknownVariableError, ["variableName"]);
 $globals.UnknownVariableError.comment="I get signaled when a variable is not defined.\x0aThe default behavior is to allow it, as this is how Amber currently is able to seamlessly send messages to JavaScript objects.";
 $core.addMethod(
 $core.method({
@@ -43901,7 +44242,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-IR");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("IRASTTranslator", $globals.NodeVisitor, ["source", "theClass", "method", "sequence"], "Compiler-IR");
+$core.addClass("IRASTTranslator", $globals.NodeVisitor, "Compiler-IR");
+$core.setSlots($globals.IRASTTranslator, ["source", "theClass", "method", "sequence"]);
 $globals.IRASTTranslator.comment="I am the AST (abstract syntax tree) visitor responsible for building the intermediate representation graph.";
 $core.addMethod(
 $core.method({
@@ -44641,7 +44983,8 @@ $globals.IRASTTranslator);
 
 
 
-$core.addClass("IRAliasFactory", $globals.Object, ["counter"], "Compiler-IR");
+$core.addClass("IRAliasFactory", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.IRAliasFactory, ["counter"]);
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -44688,7 +45031,8 @@ $globals.IRAliasFactory);
 
 
 
-$core.addClass("IRInstruction", $globals.DagParentNode, ["parent"], "Compiler-IR");
+$core.addClass("IRInstruction", $globals.DagParentNode, "Compiler-IR");
+$core.setSlots($globals.IRInstruction, ["parent"]);
 $globals.IRInstruction.comment="I am the abstract root class of the IR (intermediate representation) instructions class hierarchy.\x0aThe IR graph is used to emit JavaScript code using a JSStream.";
 $core.addMethod(
 $core.method({
@@ -45039,7 +45383,7 @@ return $recv($1)._yourself();
 $globals.IRInstruction.a$cls);
 
 
-$core.addClass("IRAssignment", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRAssignment", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -45093,7 +45437,7 @@ $globals.IRAssignment);
 
 
 
-$core.addClass("IRDynamicArray", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRDynamicArray", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -45113,7 +45457,7 @@ $globals.IRDynamicArray);
 
 
 
-$core.addClass("IRDynamicDictionary", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRDynamicDictionary", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -45133,7 +45477,8 @@ $globals.IRDynamicDictionary);
 
 
 
-$core.addClass("IRScopedInstruction", $globals.IRInstruction, ["scope"], "Compiler-IR");
+$core.addClass("IRScopedInstruction", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRScopedInstruction, ["scope"]);
 $core.addMethod(
 $core.method({
 selector: "scope",
@@ -45169,7 +45514,8 @@ $globals.IRScopedInstruction);
 
 
 
-$core.addClass("IRClosureInstruction", $globals.IRScopedInstruction, ["arguments", "requiresSmalltalkContext"], "Compiler-IR");
+$core.addClass("IRClosureInstruction", $globals.IRScopedInstruction, "Compiler-IR");
+$core.setSlots($globals.IRClosureInstruction, ["arguments", "requiresSmalltalkContext"]);
 $core.addMethod(
 $core.method({
 selector: "arguments",
@@ -45317,7 +45663,7 @@ $globals.IRClosureInstruction);
 
 
 
-$core.addClass("IRClosure", $globals.IRClosureInstruction, [], "Compiler-IR");
+$core.addClass("IRClosure", $globals.IRClosureInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -45370,7 +45716,8 @@ $globals.IRClosure);
 
 
 
-$core.addClass("IRMethod", $globals.IRClosureInstruction, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables", "aliasFactory"], "Compiler-IR");
+$core.addClass("IRMethod", $globals.IRClosureInstruction, "Compiler-IR");
+$core.setSlots($globals.IRMethod, ["theClass", "source", "compiledSource", "attachments", "selector", "pragmas", "classReferences", "sendIndexes", "internalVariables", "aliasFactory"]);
 $globals.IRMethod.comment="I am a method instruction";
 $core.addMethod(
 $core.method({
@@ -45777,7 +46124,7 @@ $globals.IRMethod);
 
 
 
-$core.addClass("IRReturn", $globals.IRScopedInstruction, [], "Compiler-IR");
+$core.addClass("IRReturn", $globals.IRScopedInstruction, "Compiler-IR");
 $globals.IRReturn.comment="I am a local return instruction.";
 $core.addMethod(
 $core.method({
@@ -45854,7 +46201,7 @@ $globals.IRReturn);
 
 
 
-$core.addClass("IRBlockReturn", $globals.IRReturn, [], "Compiler-IR");
+$core.addClass("IRBlockReturn", $globals.IRReturn, "Compiler-IR");
 $globals.IRBlockReturn.comment="Smalltalk blocks return their last statement. I am a implicit block return instruction.";
 $core.addMethod(
 $core.method({
@@ -45875,7 +46222,7 @@ $globals.IRBlockReturn);
 
 
 
-$core.addClass("IRNonLocalReturn", $globals.IRReturn, [], "Compiler-IR");
+$core.addClass("IRNonLocalReturn", $globals.IRReturn, "Compiler-IR");
 $globals.IRNonLocalReturn.comment="I am a non local return instruction.\x0aNon local returns are handled using a try/catch JavaScript statement.\x0a\x0aSee `IRNonLocalReturnHandling` class.";
 $core.addMethod(
 $core.method({
@@ -45896,7 +46243,8 @@ $globals.IRNonLocalReturn);
 
 
 
-$core.addClass("IRTempDeclaration", $globals.IRScopedInstruction, ["name"], "Compiler-IR");
+$core.addClass("IRTempDeclaration", $globals.IRScopedInstruction, "Compiler-IR");
+$core.setSlots($globals.IRTempDeclaration, ["name"]);
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -45965,7 +46313,8 @@ $globals.IRTempDeclaration);
 
 
 
-$core.addClass("IRSend", $globals.IRInstruction, ["selector", "javaScriptSelector", "argumentSwitcher", "index"], "Compiler-IR");
+$core.addClass("IRSend", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRSend, ["selector", "javaScriptSelector", "argumentSwitcher", "index"]);
 $globals.IRSend.comment="I am a message send instruction.";
 $core.addMethod(
 $core.method({
@@ -46176,7 +46525,7 @@ $globals.IRSend);
 
 
 
-$core.addClass("IRSequence", $globals.IRInstruction, [], "Compiler-IR");
+$core.addClass("IRSequence", $globals.IRInstruction, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -46212,7 +46561,7 @@ $globals.IRSequence);
 
 
 
-$core.addClass("IRBlockSequence", $globals.IRSequence, [], "Compiler-IR");
+$core.addClass("IRBlockSequence", $globals.IRSequence, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -46232,7 +46581,8 @@ $globals.IRBlockSequence);
 
 
 
-$core.addClass("IRValue", $globals.IRInstruction, ["value"], "Compiler-IR");
+$core.addClass("IRValue", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRValue, ["value"]);
 $globals.IRValue.comment="I am the simplest possible instruction. I represent a value.";
 $core.addMethod(
 $core.method({
@@ -46302,7 +46652,8 @@ $globals.IRValue);
 
 
 
-$core.addClass("IRVariable", $globals.IRInstruction, ["variable"], "Compiler-IR");
+$core.addClass("IRVariable", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRVariable, ["variable"]);
 $globals.IRVariable.comment="I am a variable instruction.";
 $core.addMethod(
 $core.method({
@@ -46428,7 +46779,8 @@ $globals.IRVariable);
 
 
 
-$core.addClass("IRVerbatim", $globals.IRInstruction, ["source"], "Compiler-IR");
+$core.addClass("IRVerbatim", $globals.IRInstruction, "Compiler-IR");
+$core.setSlots($globals.IRVerbatim, ["source"]);
 $core.addMethod(
 $core.method({
 selector: "acceptDagVisitor:",
@@ -46481,7 +46833,8 @@ $globals.IRVerbatim);
 
 
 
-$core.addClass("IRPragmator", $globals.Object, ["irMethod"], "Compiler-IR");
+$core.addClass("IRPragmator", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.IRPragmator, ["irMethod"]);
 $core.addMethod(
 $core.method({
 selector: "irMethod",
@@ -46536,7 +46889,7 @@ $globals.IRPragmator);
 
 
 
-$core.addClass("IRLatePragmator", $globals.IRPragmator, [], "Compiler-IR");
+$core.addClass("IRLatePragmator", $globals.IRPragmator, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "jsOverride:",
@@ -46620,7 +46973,7 @@ $globals.IRLatePragmator);
 
 
 
-$core.addClass("IRVisitor", $globals.ParentFakingPathDagVisitor, [], "Compiler-IR");
+$core.addClass("IRVisitor", $globals.ParentFakingPathDagVisitor, "Compiler-IR");
 $core.addMethod(
 $core.method({
 selector: "visitDagNode:",
@@ -46912,7 +47265,8 @@ $globals.IRVisitor);
 
 
 
-$core.addClass("IRJSTranslator", $globals.IRVisitor, ["stream", "currentClass"], "Compiler-IR");
+$core.addClass("IRJSTranslator", $globals.IRVisitor, "Compiler-IR");
+$core.setSlots($globals.IRJSTranslator, ["stream", "currentClass"]);
 $core.addMethod(
 $core.method({
 selector: "contents",
@@ -47575,7 +47929,8 @@ $globals.IRJSTranslator);
 
 
 
-$core.addClass("JSStream", $globals.Object, ["stream", "omitSemicolon"], "Compiler-IR");
+$core.addClass("JSStream", $globals.Object, "Compiler-IR");
+$core.setSlots($globals.JSStream, ["stream", "omitSemicolon"]);
 $core.addMethod(
 $core.method({
 selector: "contents",
@@ -48557,7 +48912,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Inlining");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTPreInliner", $globals.NodeVisitor, [], "Compiler-Inlining");
+$core.addClass("ASTPreInliner", $globals.NodeVisitor, "Compiler-Inlining");
 $core.addMethod(
 $core.method({
 selector: "visitSendNode:",
@@ -48603,7 +48958,7 @@ $globals.ASTPreInliner);
 
 
 
-$core.addClass("IRInlinedClosure", $globals.IRClosure, [], "Compiler-Inlining");
+$core.addClass("IRInlinedClosure", $globals.IRClosure, "Compiler-Inlining");
 $globals.IRInlinedClosure.comment="I represent an inlined closure instruction.";
 $core.addMethod(
 $core.method({
@@ -48641,7 +48996,7 @@ $globals.IRInlinedClosure);
 
 
 
-$core.addClass("IRInlinedSend", $globals.IRSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedSend", $globals.IRSend, "Compiler-Inlining");
 $globals.IRInlinedSend.comment="I am the abstract super class of inlined message send instructions.";
 $core.addMethod(
 $core.method({
@@ -48695,7 +49050,7 @@ $globals.IRInlinedSend);
 
 
 
-$core.addClass("IRInlinedIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfFalse", $globals.IRInlinedSend, "Compiler-Inlining");
 $globals.IRInlinedIfFalse.comment="I represent an inlined `#ifFalse:` message send instruction.";
 $core.addMethod(
 $core.method({
@@ -48717,7 +49072,7 @@ $globals.IRInlinedIfFalse);
 
 
 
-$core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, "Compiler-Inlining");
 $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
 $core.addMethod(
 $core.method({
@@ -48739,7 +49094,7 @@ $globals.IRInlinedIfNilIfNotNil);
 
 
 
-$core.addClass("IRInlinedIfTrue", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfTrue", $globals.IRInlinedSend, "Compiler-Inlining");
 $globals.IRInlinedIfTrue.comment="I represent an inlined `#ifTrue:` message send instruction.";
 $core.addMethod(
 $core.method({
@@ -48761,7 +49116,7 @@ $globals.IRInlinedIfTrue);
 
 
 
-$core.addClass("IRInlinedIfTrueIfFalse", $globals.IRInlinedSend, [], "Compiler-Inlining");
+$core.addClass("IRInlinedIfTrueIfFalse", $globals.IRInlinedSend, "Compiler-Inlining");
 $globals.IRInlinedIfTrueIfFalse.comment="I represent an inlined `#ifTrue:ifFalse:` message send instruction.";
 $core.addMethod(
 $core.method({
@@ -48783,7 +49138,7 @@ $globals.IRInlinedIfTrueIfFalse);
 
 
 
-$core.addClass("IRInlinedSequence", $globals.IRBlockSequence, [], "Compiler-Inlining");
+$core.addClass("IRInlinedSequence", $globals.IRBlockSequence, "Compiler-Inlining");
 $globals.IRInlinedSequence.comment="I represent a (block) sequence inside an inlined closure instruction (instance of `IRInlinedClosure`).";
 $core.addMethod(
 $core.method({
@@ -48821,7 +49176,7 @@ $globals.IRInlinedSequence);
 
 
 
-$core.addClass("IRInliner", $globals.IRVisitor, [], "Compiler-Inlining");
+$core.addClass("IRInliner", $globals.IRVisitor, "Compiler-Inlining");
 $globals.IRInliner.comment="I visit an IR tree, inlining message sends and block closures.\x0a\x0aMessage selectors that can be inlined are answered by `IRSendInliner >> #inlinedSelectors`";
 $core.addMethod(
 $core.method({
@@ -49118,7 +49473,7 @@ $globals.IRInliner);
 
 
 
-$core.addClass("IRInliningJSTranslator", $globals.IRJSTranslator, [], "Compiler-Inlining");
+$core.addClass("IRInliningJSTranslator", $globals.IRJSTranslator, "Compiler-Inlining");
 $globals.IRInliningJSTranslator.comment="I am a specialized JavaScript translator able to write inlined IR instructions to JavaScript stream (`JSStream` instance).";
 $core.addMethod(
 $core.method({
@@ -49320,7 +49675,8 @@ $globals.IRInliningJSTranslator);
 
 
 
-$core.addClass("IRSendInliner", $globals.Object, ["send", "translator"], "Compiler-Inlining");
+$core.addClass("IRSendInliner", $globals.Object, "Compiler-Inlining");
+$core.setSlots($globals.IRSendInliner, ["send", "translator"]);
 $globals.IRSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
 $core.addMethod(
 $core.method({
@@ -50045,7 +50401,8 @@ return false;
 $globals.IRSendInliner.a$cls);
 
 
-$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, ["target"], "Compiler-Inlining");
+$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.setSlots($globals.IRAssignmentInliner, ["target"]);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
 $core.addMethod(
 $core.method({
@@ -50131,7 +50488,7 @@ $globals.IRAssignmentInliner);
 
 
 
-$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
+$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
 $globals.IRNonLocalReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 $core.addMethod(
 $core.method({
@@ -50180,7 +50537,7 @@ $globals.IRNonLocalReturnInliner);
 
 
 
-$core.addClass("IRReturnInliner", $globals.IRSendInliner, [], "Compiler-Inlining");
+$core.addClass("IRReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
 $globals.IRReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 $core.addMethod(
 $core.method({
@@ -50229,7 +50586,7 @@ $globals.IRReturnInliner);
 
 
 
-$core.addClass("InliningCodeGenerator", $globals.CodeGenerator, [], "Compiler-Inlining");
+$core.addClass("InliningCodeGenerator", $globals.CodeGenerator, "Compiler-Inlining");
 $globals.InliningCodeGenerator.comment="I am a specialized code generator that uses inlining to produce more optimized JavaScript output";
 $core.addMethod(
 $core.method({
@@ -50319,7 +50676,7 @@ $globals.InliningCodeGenerator);
 
 
 
-$core.addClass("InliningError", $globals.SemanticError, [], "Compiler-Inlining");
+$core.addClass("InliningError", $globals.SemanticError, "Compiler-Inlining");
 $globals.InliningError.comment="Instances of InliningError are signaled when using an `InliningCodeGenerator`in a `Compiler`.";
 
 
@@ -50401,7 +50758,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Interpreter");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AIBlockClosure", $globals.BlockClosure, ["node", "outerContext"], "Compiler-Interpreter");
+$core.addClass("AIBlockClosure", $globals.BlockClosure, "Compiler-Interpreter");
+$core.setSlots($globals.AIBlockClosure, ["node", "outerContext"]);
 $globals.AIBlockClosure.comment="I am a special `BlockClosure` subclass used by an interpreter to interpret a block node.\x0a\x0aWhile I am polymorphic with `BlockClosure`, some methods such as `#new` will raise interpretation errors. Unlike a `BlockClosure`, my instance are not JavaScript functions.\x0a\x0aEvaluating an instance will result in interpreting the `node` instance variable (instance of `BlockNode`).";
 $core.addMethod(
 $core.method({
@@ -50646,7 +51004,8 @@ return $recv($1)._yourself();
 $globals.AIBlockClosure.a$cls);
 
 
-$core.addClass("AIContext", $globals.Object, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"], "Compiler-Interpreter");
+$core.addClass("AIContext", $globals.Object, "Compiler-Interpreter");
+$core.setSlots($globals.AIContext, ["outerContext", "innerContext", "pc", "locals", "selector", "index", "sendIndexes", "evaluatedSelector", "ast", "interpreter", "supercall"]);
 $globals.AIContext.comment="I am like a `MethodContext`, used by the `ASTInterpreter`.\x0aUnlike a `MethodContext`, my instances are not read-only.\x0a\x0aWhen debugging, my instances are created by copying the current `MethodContext` (thisContext)";
 $core.addMethod(
 $core.method({
@@ -51558,7 +51917,8 @@ return $recv($1)._yourself();
 $globals.AIContext.a$cls);
 
 
-$core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, ["context"], "Compiler-Interpreter");
+$core.addClass("AISemanticAnalyzer", $globals.SemanticAnalyzer, "Compiler-Interpreter");
+$core.setSlots($globals.AISemanticAnalyzer, ["context"]);
 $globals.AISemanticAnalyzer.comment="I perform the same semantic analysis than `SemanticAnalyzer`, with the difference that provided an `AIContext` context, variables are bound with the context variables.";
 $core.addMethod(
 $core.method({
@@ -51626,7 +51986,8 @@ $globals.AISemanticAnalyzer);
 
 
 
-$core.addClass("ASTContextVar", $globals.ScopeVar, ["context"], "Compiler-Interpreter");
+$core.addClass("ASTContextVar", $globals.ScopeVar, "Compiler-Interpreter");
+$core.setSlots($globals.ASTContextVar, ["context"]);
 $globals.ASTContextVar.comment="I am a variable defined in a `context`.";
 $core.addMethod(
 $core.method({
@@ -51663,7 +52024,8 @@ $globals.ASTContextVar);
 
 
 
-$core.addClass("ASTDebugger", $globals.Object, ["interpreter", "context", "result"], "Compiler-Interpreter");
+$core.addClass("ASTDebugger", $globals.Object, "Compiler-Interpreter");
+$core.setSlots($globals.ASTDebugger, ["interpreter", "context", "result"]);
 $globals.ASTDebugger.comment="I am a stepping debugger interface for Amber code.\x0aI internally use an instance of `ASTInterpreter` to actually step through node and interpret them.\x0a\x0aMy instances are created from an `AIContext` with `ASTDebugger class >> context:`.\x0aThey hold an `AIContext` instance internally, recursive copy of the `MethodContext`.\x0a\x0a## API\x0a\x0aUse the methods of the `'stepping'` protocol to do stepping.";
 $core.addMethod(
 $core.method({
@@ -51971,7 +52333,8 @@ return $recv($1)._yourself();
 $globals.ASTDebugger.a$cls);
 
 
-$core.addClass("ASTEnterNode", $globals.NodeVisitor, ["interpreter"], "Compiler-Interpreter");
+$core.addClass("ASTEnterNode", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTEnterNode, ["interpreter"]);
 $core.addMethod(
 $core.method({
 selector: "interpreter",
@@ -52093,7 +52456,8 @@ return $recv($1)._yourself();
 $globals.ASTEnterNode.a$cls);
 
 
-$core.addClass("ASTInterpreter", $globals.NodeVisitor, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"], "Compiler-Interpreter");
+$core.addClass("ASTInterpreter", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTInterpreter, ["node", "context", "stack", "returnValue", "returned", "forceAtEnd"]);
 $globals.ASTInterpreter.comment="I visit an AST, interpreting (evaluating) nodes one after the other, using a small stack machine.\x0a\x0a## API\x0a\x0aWhile my instances should be used from within an `ASTDebugger`, which provides a more high level interface,\x0ayou can use methods from the `interpreting` protocol:\x0a\x0a- `#step` evaluates the current `node` only\x0a- `#stepOver` evaluates the AST from the current `node` up to the next stepping node (most likely the next send node)\x0a- `#proceed` evaluates eagerly the AST\x0a- `#restart` select the first node of the AST\x0a- `#skip` skips the current node, moving to the next one if any";
 $core.addMethod(
 $core.method({
@@ -53081,11 +53445,12 @@ $globals.ASTInterpreter);
 
 
 
-$core.addClass("ASTInterpreterError", $globals.Error, [], "Compiler-Interpreter");
+$core.addClass("ASTInterpreterError", $globals.Error, "Compiler-Interpreter");
 $globals.ASTInterpreterError.comment="I get signaled when an AST interpreter is unable to interpret a node.";
 
 
-$core.addClass("ASTPCNodeVisitor", $globals.NodeVisitor, ["index", "trackedIndex", "selector", "currentNode"], "Compiler-Interpreter");
+$core.addClass("ASTPCNodeVisitor", $globals.NodeVisitor, "Compiler-Interpreter");
+$core.setSlots($globals.ASTPCNodeVisitor, ["index", "trackedIndex", "selector", "currentNode"]);
 $globals.ASTPCNodeVisitor.comment="I visit an AST until I get to the current node for the `context` and answer it.\x0a\x0a## API\x0a\x0aMy instances must be filled with a context object using `#context:`.\x0a\x0aAfter visiting the AST the current node is answered by `#currentNode`";
 $core.addMethod(
 $core.method({
@@ -53485,41 +53850,6 @@ $globals.ExternallyKnownVar);
 
 $core.addMethod(
 $core.method({
-selector: "inContext:",
-protocol: "*Compiler-Interpreter",
-args: ["aContext"],
-source: "inContext: aContext\x0a\x09^ aContext receiver instVarNamed: self name",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["instVarNamed:", "receiver", "name"]
-}, function ($methodClass){ return function (aContext){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return $recv($recv(aContext)._receiver())._instVarNamed_($self._name());
-}, function($ctx1) {$ctx1.fill(self,"inContext:",{aContext:aContext})});
-}; }),
-$globals.InstanceVar);
-
-$core.addMethod(
-$core.method({
-selector: "inContext:put:",
-protocol: "*Compiler-Interpreter",
-args: ["aContext", "anObject"],
-source: "inContext: aContext put: anObject\x0a\x09aContext receiver instVarNamed: self name put: anObject",
-referencedClasses: [],
-pragmas: [],
-messageSends: ["instVarNamed:put:", "receiver", "name"]
-}, function ($methodClass){ return function (aContext,anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv($recv(aContext)._receiver())._instVarNamed_put_($self._name(),anObject);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"inContext:put:",{aContext:aContext,anObject:anObject})});
-}; }),
-$globals.InstanceVar);
-
-$core.addMethod(
-$core.method({
 selector: "isSteppingNode",
 protocol: "*Compiler-Interpreter",
 args: [],
@@ -53631,6 +53961,41 @@ $core.method({
 selector: "inContext:",
 protocol: "*Compiler-Interpreter",
 args: ["aContext"],
+source: "inContext: aContext\x0a\x09^ aContext receiver instVarNamed: self name",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["instVarNamed:", "receiver", "name"]
+}, function ($methodClass){ return function (aContext){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($recv(aContext)._receiver())._instVarNamed_($self._name());
+}, function($ctx1) {$ctx1.fill(self,"inContext:",{aContext:aContext})});
+}; }),
+$globals.SlotVar);
+
+$core.addMethod(
+$core.method({
+selector: "inContext:put:",
+protocol: "*Compiler-Interpreter",
+args: ["aContext", "anObject"],
+source: "inContext: aContext put: anObject\x0a\x09aContext receiver instVarNamed: self name put: anObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["instVarNamed:put:", "receiver", "name"]
+}, function ($methodClass){ return function (aContext,anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($recv(aContext)._receiver())._instVarNamed_put_($self._name(),anObject);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"inContext:put:",{aContext:aContext,anObject:anObject})});
+}; }),
+$globals.SlotVar);
+
+$core.addMethod(
+$core.method({
+selector: "inContext:",
+protocol: "*Compiler-Interpreter",
+args: ["aContext"],
 source: "inContext: aContext\x0a\x09^ aContext localAt: 'self'",
 referencedClasses: [],
 pragmas: [],
@@ -53702,7 +54067,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-DOM");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("PlatformDom", $globals.Object, [], "Platform-DOM");
+$core.addClass("PlatformDom", $globals.Object, "Platform-DOM");
 
 $core.addMethod(
 $core.method({
@@ -53881,7 +54246,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("SUnit");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ResultAnnouncement", $globals.Object, ["result"], "SUnit");
+$core.addClass("ResultAnnouncement", $globals.Object, "SUnit");
+$core.setSlots($globals.ResultAnnouncement, ["result"]);
 $globals.ResultAnnouncement.comment="I get signaled when a `TestCase` has been run.\x0a\x0aMy instances hold the result (instance of `TestResult`) of the test run.";
 $core.addMethod(
 $core.method({
@@ -53918,7 +54284,8 @@ $globals.ResultAnnouncement);
 
 
 
-$core.addClass("Teachable", $globals.Object, ["learnings"], "SUnit");
+$core.addClass("Teachable", $globals.Object, "SUnit");
+$core.setSlots($globals.Teachable, ["learnings"]);
 $globals.Teachable.comment="An object you can teach how to behave. Have a look at the \x0aclass side for an example.\x0a\x0aFor more infos have a look at: http://lists.squeakfoundation.org/pipermail/squeak-dev/2002-April/038170.html";
 $core.addMethod(
 $core.method({
@@ -54071,7 +54438,8 @@ return self;
 $globals.Teachable.a$cls);
 
 
-$core.addClass("TestCase", $globals.Object, ["testSelector", "asyncTimeout", "context"], "SUnit");
+$core.addClass("TestCase", $globals.Object, "SUnit");
+$core.setSlots($globals.TestCase, ["testSelector", "asyncTimeout", "context"]);
 $globals.TestCase.comment="I am an implementation of the command pattern to run a test.\x0a\x0a## API\x0a\x0aMy instances are created with the class method `#selector:`,\x0apassing the symbol that names the method to be executed when the test case runs.\x0a\x0aWhen you discover a new fixture, subclass `TestCase` and create a `#test...` method for the first test.\x0aAs that method develops and more `#test...` methods are added, you will find yourself refactoring temps\x0ainto instance variables for the objects in the fixture and overriding `#setUp` to initialize these variables.\x0aAs required, override `#tearDown` to nil references, release objects and deallocate.";
 $core.addMethod(
 $core.method({
@@ -54663,7 +55031,8 @@ return $recv(each)._match_("^test");
 $globals.TestCase.a$cls);
 
 
-$core.addClass("TestContext", $globals.Object, ["testCase"], "SUnit");
+$core.addClass("TestContext", $globals.Object, "SUnit");
+$core.setSlots($globals.TestContext, ["testCase"]);
 $globals.TestContext.comment="I govern running a particular test case.\x0a\x0aMy main added value is `#execute:` method which runs a block as a part of test case (restores context, nilling it afterwards, cleaning/calling `#tearDown` as appropriate for sync/async scenario).";
 $core.addMethod(
 $core.method({
@@ -54774,7 +55143,8 @@ return $recv($1)._yourself();
 $globals.TestContext.a$cls);
 
 
-$core.addClass("DebugTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+$core.addClass("DebugTestContext", $globals.TestContext, "SUnit");
+$core.setSlots($globals.DebugTestContext, ["finished", "result"]);
 $globals.DebugTestContext.comment="I add error debugging to `TestContext`.\x0a\x0aErrors are caught and explicitly passed to `ErrorHandler`.\x0aI am used in `TestCase >> debugCase`.";
 $core.addMethod(
 $core.method({
@@ -54851,7 +55221,8 @@ return $recv($1)._yourself();
 $globals.DebugTestContext.a$cls);
 
 
-$core.addClass("ReportingTestContext", $globals.TestContext, ["finished", "result"], "SUnit");
+$core.addClass("ReportingTestContext", $globals.TestContext, "SUnit");
+$core.setSlots($globals.ReportingTestContext, ["finished", "result"]);
 $globals.ReportingTestContext.comment="I add `TestResult` reporting to `TestContext`.\x0a\x0aErrors are caught and save into a `TestResult`,\x0aWhen test case is finished (which can be later for async tests), a callback block is executed; this is used by a `TestSuiteRunner`.";
 $core.addMethod(
 $core.method({
@@ -54983,11 +55354,12 @@ return $recv($1)._yourself();
 $globals.ReportingTestContext.a$cls);
 
 
-$core.addClass("TestFailure", $globals.Error, [], "SUnit");
+$core.addClass("TestFailure", $globals.Error, "SUnit");
 $globals.TestFailure.comment="I am raised when the boolean parameter of an #`assert:` or `#deny:` call is the opposite of what the assertion claims.\x0a\x0aThe test framework distinguishes between failures and errors.\x0aA failure is an event whose possibiity is explicitly anticipated and checked for in an assertion,\x0awhereas an error is an unanticipated problem like a division by 0 or an index out of bounds.";
 
 
-$core.addClass("TestResult", $globals.Object, ["timestamp", "runs", "errors", "failures", "total"], "SUnit");
+$core.addClass("TestResult", $globals.Object, "SUnit");
+$core.setSlots($globals.TestResult, ["timestamp", "runs", "errors", "failures", "total"]);
 $globals.TestResult.comment="I implement the collecting parameter pattern for running a bunch of tests.\x0a\x0aMy instances hold tests that have run, sorted into the result categories of passed, failures and errors.\x0a\x0a`TestResult` is an interesting object to subclass or substitute. `#runCase:` is the external protocol you need to reproduce";
 $core.addMethod(
 $core.method({
@@ -55261,7 +55633,8 @@ $globals.TestResult);
 
 
 
-$core.addClass("TestSuiteRunner", $globals.Object, ["suite", "result", "announcer", "runNextTest"], "SUnit");
+$core.addClass("TestSuiteRunner", $globals.Object, "SUnit");
+$core.setSlots($globals.TestSuiteRunner, ["suite", "result", "announcer", "runNextTest"]);
 $globals.TestSuiteRunner.comment="I am responsible for running a collection (`suite`) of tests.\x0a\x0a## API\x0a\x0aInstances should be created using the class-side `#on:` method, taking a collection of tests to run as parameter.\x0aTo run the test suite, use `#run`.";
 $core.addMethod(
 $core.method({
@@ -55490,7 +55863,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Kernel-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("AnnouncementSubscriptionTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAddExtensionMethod",
@@ -55540,10 +55913,10 @@ $core.method({
 selector: "testHandlesAnnouncement",
 protocol: "tests",
 args: [],
-source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder basicAddSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' instanceVariableNames: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
+source: "testHandlesAnnouncement\x0a\x09| subscription announcementClass1 announcementClass2 classBuilder |\x0a\x09\x0a\x09classBuilder := ClassBuilder new.\x0a\x09announcementClass1 := classBuilder addSubclassOf: SystemAnnouncement named: 'TestAnnouncement1' slots: #() package: 'Kernel-Tests'.\x0a\x09\x0a\x09subscription := AnnouncementSubscription new announcementClass: SystemAnnouncement.\x0a\x09\x22Test whether the same class triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: SystemAnnouncement new) equals: true.\x0a\x09\x22Test whether a subclass triggers the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: announcementClass1 new) equals: true.\x0a\x09\x22Test whether an unrelated class does not trigger the announcement\x22\x0a\x09self assert: (subscription handlesAnnouncement: Object new) equals: false.\x0a\x09\x0a\x09classBuilder basicRemoveClass: announcementClass1.",
 referencedClasses: ["ClassBuilder", "SystemAnnouncement", "AnnouncementSubscription", "Object"],
 pragmas: [],
-messageSends: ["new", "basicAddSubclassOf:named:instanceVariableNames:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
+messageSends: ["new", "addSubclassOf:named:slots:package:", "announcementClass:", "assert:equals:", "handlesAnnouncement:", "basicRemoveClass:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var subscription,announcementClass1,announcementClass2,classBuilder;
@@ -55551,7 +55924,7 @@ return $core.withContext(function($ctx1) {
 classBuilder=[$recv($globals.ClassBuilder)._new()
 ,$ctx1.sendIdx["new"]=1
 ][0];
-announcementClass1=$recv(classBuilder)._basicAddSubclassOf_named_instanceVariableNames_package_($globals.SystemAnnouncement,"TestAnnouncement1",[],"Kernel-Tests");
+announcementClass1=$recv(classBuilder)._addSubclassOf_named_slots_package_($globals.SystemAnnouncement,"TestAnnouncement1",[],"Kernel-Tests");
 subscription=$recv([$recv($globals.AnnouncementSubscription)._new()
 ,$ctx1.sendIdx["new"]=2
 ][0])._announcementClass_($globals.SystemAnnouncement);
@@ -55578,7 +55951,7 @@ $globals.AnnouncementSubscriptionTest);
 
 
 
-$core.addClass("AnnouncerTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("AnnouncerTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testOnDo",
@@ -55704,7 +56077,7 @@ $globals.AnnouncerTest);
 
 
 
-$core.addClass("BlockClosureTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("BlockClosureTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "localReturnOnDoCatch",
@@ -56250,7 +56623,7 @@ $globals.BlockClosureTest);
 
 
 
-$core.addClass("BooleanTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("BooleanTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testEquality",
@@ -56800,7 +57173,8 @@ $globals.BooleanTest);
 
 
 
-$core.addClass("ClassBuilderTest", $globals.TestCase, ["builder", "theClass"], "Kernel-Tests");
+$core.addClass("ClassBuilderTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.ClassBuilderTest, ["builder", "theClass"]);
 $core.addMethod(
 $core.method({
 selector: "setUp",
@@ -56899,10 +57273,10 @@ $core.method({
 selector: "testClassMigration",
 protocol: "tests",
 args: [],
-source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 instanceVariableNames isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil",
+source: "testClassMigration\x0a\x09| instance oldClass |\x0a\x09\x0a\x09oldClass := builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09instance := (Smalltalk globals at: 'ObjectMock2') new.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self deny: oldClass == ObjectMock2.\x0a\x09\x0a\x09self assert: ObjectMock2 superclass == ObjectMock.\x0a\x09self assert: ObjectMock2 slots isEmpty.\x0a\x09self assert: ObjectMock2 selectors equals: oldClass selectors.\x0a\x09self assert: ObjectMock2 comment equals: oldClass comment.\x0a\x09self assert: ObjectMock2 package name equals: 'Kernel-Tests'.\x0a\x09self assert: (ObjectMock2 package classes includes: ObjectMock2).\x0a\x09\x0a\x09self deny: instance class == ObjectMock2.\x0a\x09\x0a\x09self assert: (Smalltalk globals at: instance class name) isNil",
 referencedClasses: ["ObjectMock", "Smalltalk", "ObjectMock2"],
 pragmas: [],
-messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "instanceVariableNames", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil"]
+messageSends: ["copyClass:named:", "new", "at:", "globals", "subclass:instanceVariableNames:package:", "deny:", "==", "assert:", "superclass", "isEmpty", "slots", "assert:equals:", "selectors", "comment", "name", "package", "includes:", "classes", "class", "isNil"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var instance,oldClass;
@@ -56924,7 +57298,7 @@ $self.theClass=$recv($globals.ObjectMock)._subclass_instanceVariableNames_packag
 ][0])
 ,$ctx1.sendIdx["assert:"]=1
 ][0];
-[$self._assert_($recv($recv($globals.ObjectMock2)._instanceVariableNames())._isEmpty())
+[$self._assert_($recv($recv($globals.ObjectMock2)._slots())._isEmpty())
 ,$ctx1.sendIdx["assert:"]=2
 ][0];
 [$self._assert_equals_([$recv($globals.ObjectMock2)._selectors()
@@ -56956,24 +57330,24 @@ $globals.ClassBuilderTest);
 
 $core.addMethod(
 $core.method({
-selector: "testClassMigrationWithClassInstanceVariables",
+selector: "testClassMigrationWithClassSlots",
 protocol: "tests",
 args: [],
-source: "testClassMigrationWithClassInstanceVariables\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class instanceVariableNames: '    foo  bar       '.\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class instanceVariableNames equals: #('foo' 'bar')",
+source: "testClassMigrationWithClassSlots\x0a\x09\x0a\x09builder copyClass: ObjectMock named: 'ObjectMock2'.\x0a\x09ObjectMock2 class slots: #(foo  bar).\x0a\x09\x0a\x09\x22Change the superclass of ObjectMock2\x22\x0a\x09theClass := ObjectMock subclass: #ObjectMock2\x0a\x09\x09instanceVariableNames: ''\x0a\x09\x09package: 'Kernel-Tests'.\x0a\x09\x0a\x09self assert: ObjectMock2 class slots equals: #('foo' 'bar')",
 referencedClasses: ["ObjectMock", "ObjectMock2"],
 pragmas: [],
-messageSends: ["copyClass:named:", "instanceVariableNames:", "class", "subclass:instanceVariableNames:package:", "assert:equals:", "instanceVariableNames"]
+messageSends: ["copyClass:named:", "slots:", "class", "subclass:instanceVariableNames:package:", "assert:equals:", "slots"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $recv($self.builder)._copyClass_named_($globals.ObjectMock,"ObjectMock2");
 $recv([$recv($globals.ObjectMock2)._class()
 ,$ctx1.sendIdx["class"]=1
-][0])._instanceVariableNames_("    foo  bar       ");
+][0])._slots_(["foo", "bar"]);
 $self.theClass=$recv($globals.ObjectMock)._subclass_instanceVariableNames_package_("ObjectMock2","","Kernel-Tests");
-$self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._instanceVariableNames(),["foo", "bar"]);
+$self._assert_equals_($recv($recv($globals.ObjectMock2)._class())._slots(),["foo", "bar"]);
 return self;
-}, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithClassInstanceVariables",{})});
+}, function($ctx1) {$ctx1.fill(self,"testClassMigrationWithClassSlots",{})});
 }; }),
 $globals.ClassBuilderTest);
 
@@ -57018,18 +57392,18 @@ $core.method({
 selector: "testSubclass",
 protocol: "tests",
 args: [],
-source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' instanceVariableNames: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass instanceVariableNames equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
+source: "testSubclass\x0a\x09theClass := builder addSubclassOf: ObjectMock named: 'ObjectMock2' slots: #(foo bar) package: 'Kernel-Tests'.\x0a\x09self assert: theClass superclass equals: ObjectMock.\x0a\x09self assert: theClass slots equals: #(foo bar).\x0a\x09self assert: theClass name equals: 'ObjectMock2'.\x0a\x09self assert: (theClass package classes occurrencesOf: theClass) equals: 1.\x0a\x09self assert: theClass package equals: ObjectMock package.\x0a\x09self assert: theClass methodDictionary keys size equals: 0",
 referencedClasses: ["ObjectMock"],
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "assert:equals:", "superclass", "instanceVariableNames", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
+messageSends: ["addSubclassOf:named:slots:package:", "assert:equals:", "superclass", "slots", "name", "occurrencesOf:", "classes", "package", "size", "keys", "methodDictionary"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-$self.theClass=$recv($self.builder)._addSubclassOf_named_instanceVariableNames_package_($globals.ObjectMock,"ObjectMock2",["foo", "bar"],"Kernel-Tests");
+$self.theClass=$recv($self.builder)._addSubclassOf_named_slots_package_($globals.ObjectMock,"ObjectMock2",["foo", "bar"],"Kernel-Tests");
 [$self._assert_equals_($recv($self.theClass)._superclass(),$globals.ObjectMock)
 ,$ctx1.sendIdx["assert:equals:"]=1
 ][0];
-[$self._assert_equals_($recv($self.theClass)._instanceVariableNames(),["foo", "bar"])
+[$self._assert_equals_($recv($self.theClass)._slots(),["foo", "bar"])
 ,$ctx1.sendIdx["assert:equals:"]=2
 ][0];
 [$self._assert_equals_($recv($self.theClass)._name(),"ObjectMock2")
@@ -57069,7 +57443,8 @@ $globals.ClassBuilderTest);
 
 
 
-$core.addClass("ClassTest", $globals.TestCase, ["builder", "theClass"], "Kernel-Tests");
+$core.addClass("ClassTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.ClassTest, ["builder", "theClass"]);
 $core.addMethod(
 $core.method({
 selector: "augmentMethodInstantiationOf:withAttachments:",
@@ -57488,6 +57863,34 @@ $globals.ClassTest);
 
 $core.addMethod(
 $core.method({
+selector: "testRespondsTo",
+protocol: "tests",
+args: [],
+source: "testRespondsTo\x0a\x09self assert: (Object new respondsTo: #class).\x0a\x09self deny: (Object new respondsTo: #foo).\x0a\x09self assert: (Object respondsTo: #new)",
+referencedClasses: ["Object"],
+pragmas: [],
+messageSends: ["assert:", "respondsTo:", "new", "deny:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+[$self._assert_([$recv([$recv($globals.Object)._new()
+,$ctx1.sendIdx["new"]=1
+][0])._respondsTo_("class")
+,$ctx1.sendIdx["respondsTo:"]=1
+][0])
+,$ctx1.sendIdx["assert:"]=1
+][0];
+$self._deny_([$recv($recv($globals.Object)._new())._respondsTo_("foo")
+,$ctx1.sendIdx["respondsTo:"]=2
+][0]);
+$self._assert_($recv($globals.Object)._respondsTo_("new"));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRespondsTo",{})});
+}; }),
+$globals.ClassTest);
+
+$core.addMethod(
+$core.method({
 selector: "testSetJavaScriptConstructor",
 protocol: "tests",
 args: [],
@@ -57597,7 +58000,8 @@ $globals.ClassTest);
 
 
 
-$core.addClass("CollectionTest", $globals.TestCase, ["sampleBlock"], "Kernel-Tests");
+$core.addClass("CollectionTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.CollectionTest, ["sampleBlock"]);
 $core.addMethod(
 $core.method({
 selector: "assertSameContents:as:",
@@ -59072,7 +59476,7 @@ return $recv($self._collectionClass())._isNil();
 $globals.CollectionTest.a$cls);
 
 
-$core.addClass("AssociativeCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("AssociativeCollectionTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionKeys",
@@ -59573,7 +59977,7 @@ $globals.AssociativeCollectionTest);
 
 
 
-$core.addClass("DictionaryTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
+$core.addClass("DictionaryTest", $globals.AssociativeCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -59919,7 +60323,7 @@ return $globals.Dictionary;
 $globals.DictionaryTest.a$cls);
 
 
-$core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, [], "Kernel-Tests");
+$core.addClass("HashedCollectionTest", $globals.AssociativeCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -60084,7 +60488,7 @@ return $globals.HashedCollection;
 $globals.HashedCollectionTest.a$cls);
 
 
-$core.addClass("SequenceableCollectionTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("SequenceableCollectionTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionFirst",
@@ -60557,7 +60961,7 @@ $globals.SequenceableCollectionTest);
 
 
 
-$core.addClass("ArrayTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
+$core.addClass("ArrayTest", $globals.SequenceableCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -61010,7 +61414,7 @@ return $globals.Array;
 $globals.ArrayTest.a$cls);
 
 
-$core.addClass("StringTest", $globals.SequenceableCollectionTest, [], "Kernel-Tests");
+$core.addClass("StringTest", $globals.SequenceableCollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -61887,7 +62291,7 @@ return $globals.String;
 $globals.StringTest.a$cls);
 
 
-$core.addClass("SetTest", $globals.CollectionTest, [], "Kernel-Tests");
+$core.addClass("SetTest", $globals.CollectionTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collection",
@@ -62498,7 +62902,7 @@ return $globals.Set;
 $globals.SetTest.a$cls);
 
 
-$core.addClass("ConsoleTranscriptTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("ConsoleTranscriptTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testShow",
@@ -62538,7 +62942,7 @@ $globals.ConsoleTranscriptTest);
 
 
 
-$core.addClass("DateTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("DateTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testEquality",
@@ -62696,7 +63100,7 @@ $globals.DateTest);
 
 
 
-$core.addClass("JSObjectProxyTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("JSObjectProxyTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "jsObject",
@@ -63281,7 +63685,7 @@ $globals.JSObjectProxyTest);
 
 
 
-$core.addClass("JavaScriptExceptionTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("JavaScriptExceptionTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testCatchingException",
@@ -63350,7 +63754,7 @@ $globals.JavaScriptExceptionTest);
 
 
 
-$core.addClass("MessageSendTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("MessageSendTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testValue",
@@ -63406,7 +63810,8 @@ $globals.MessageSendTest);
 
 
 
-$core.addClass("MethodInheritanceTest", $globals.TestCase, ["receiverTop", "receiverMiddle", "receiverBottom", "method", "performBlock"], "Kernel-Tests");
+$core.addClass("MethodInheritanceTest", $globals.TestCase, "Kernel-Tests");
+$core.setSlots($globals.MethodInheritanceTest, ["receiverTop", "receiverMiddle", "receiverBottom", "method", "performBlock"]);
 $core.addMethod(
 $core.method({
 selector: "codeGeneratorClass",
@@ -63915,7 +64320,7 @@ $globals.MethodInheritanceTest);
 
 
 
-$core.addClass("NumberTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("NumberTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAbs",
@@ -65272,7 +65677,8 @@ $globals.NumberTest);
 
 
 
-$core.addClass("ObjectMock", $globals.Object, ["foo", "bar"], "Kernel-Tests");
+$core.addClass("ObjectMock", $globals.Object, "Kernel-Tests");
+$core.setSlots($globals.ObjectMock, ["foo", "bar"]);
 $globals.ObjectMock.comment="ObjectMock is there only to perform tests on classes.";
 $core.addMethod(
 $core.method({
@@ -65309,7 +65715,7 @@ $globals.ObjectMock);
 
 
 
-$core.addClass("ObjectTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("ObjectTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "notDefined",
@@ -65638,7 +66044,7 @@ $globals.ObjectTest);
 
 
 
-$core.addClass("PointTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("PointTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAccessing",
@@ -66099,7 +66505,7 @@ $globals.PointTest);
 
 
 
-$core.addClass("QueueTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("QueueTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testNextIfAbsent",
@@ -66166,7 +66572,7 @@ $globals.QueueTest);
 
 
 
-$core.addClass("RandomTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("RandomTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAtRandomNumber",
@@ -66257,7 +66663,7 @@ $globals.RandomTest);
 
 
 
-$core.addClass("RectangleTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("RectangleTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testContainsPoint",
@@ -66363,7 +66769,7 @@ $globals.RectangleTest);
 
 
 
-$core.addClass("StreamTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("StreamTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "collectionClass",
@@ -66691,7 +67097,7 @@ return $recv($self._collectionClass())._isNil();
 $globals.StreamTest.a$cls);
 
 
-$core.addClass("ArrayStreamTest", $globals.StreamTest, [], "Kernel-Tests");
+$core.addClass("ArrayStreamTest", $globals.StreamTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "newCollection",
@@ -66727,7 +67133,7 @@ return $globals.Array;
 $globals.ArrayStreamTest.a$cls);
 
 
-$core.addClass("StringStreamTest", $globals.StreamTest, [], "Kernel-Tests");
+$core.addClass("StringStreamTest", $globals.StreamTest, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "newCollection",
@@ -66768,10 +67174,10 @@ $core.method({
 selector: "assert:isClassCopyOf:",
 protocol: "running",
 args: ["aClass", "anotherClass"],
-source: "assert: aClass isClassCopyOf: anotherClass\x0a\x09self assert: aClass superclass == anotherClass superclass.\x0a\x09self assert: aClass instanceVariableNames == anotherClass instanceVariableNames.\x0a\x09self assert: aClass package == anotherClass package.\x0a\x09self assert: (aClass package classes includes: aClass).\x0a\x09self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys",
+source: "assert: aClass isClassCopyOf: anotherClass\x0a\x09self assert: aClass superclass == anotherClass superclass.\x0a\x09self deny: aClass slots == anotherClass slots.\x0a\x09self assert: aClass slots equals: anotherClass slots.\x0a\x09self deny: aClass class slots == anotherClass class slots.\x0a\x09self assert: aClass class slots equals: anotherClass class slots.\x0a\x09self assert: aClass package == anotherClass package.\x0a\x09self assert: (aClass package classes includes: aClass).\x0a\x09self assert: aClass methodDictionary keys equals: anotherClass methodDictionary keys",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["assert:", "==", "superclass", "instanceVariableNames", "package", "includes:", "classes", "assert:equals:", "keys", "methodDictionary"]
+messageSends: ["assert:", "==", "superclass", "deny:", "slots", "assert:equals:", "class", "package", "includes:", "classes", "keys", "methodDictionary"]
 }, function ($methodClass){ return function (aClass,anotherClass){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -66782,19 +67188,46 @@ return $core.withContext(function($ctx1) {
 ][0])
 ,$ctx1.sendIdx["assert:"]=1
 ][0];
-[$self._assert_([$recv([$recv(aClass)._instanceVariableNames()
-,$ctx1.sendIdx["instanceVariableNames"]=1
-][0]).__eq_eq($recv(anotherClass)._instanceVariableNames())
+[$self._deny_([$recv([$recv(aClass)._slots()
+,$ctx1.sendIdx["slots"]=1
+][0]).__eq_eq([$recv(anotherClass)._slots()
+,$ctx1.sendIdx["slots"]=2
+][0])
 ,$ctx1.sendIdx["=="]=2
 ][0])
-,$ctx1.sendIdx["assert:"]=2
+,$ctx1.sendIdx["deny:"]=1
+][0];
+[$self._assert_equals_([$recv(aClass)._slots()
+,$ctx1.sendIdx["slots"]=3
+][0],[$recv(anotherClass)._slots()
+,$ctx1.sendIdx["slots"]=4
+][0])
+,$ctx1.sendIdx["assert:equals:"]=1
+][0];
+$self._deny_([$recv([$recv([$recv(aClass)._class()
+,$ctx1.sendIdx["class"]=1
+][0])._slots()
+,$ctx1.sendIdx["slots"]=5
+][0]).__eq_eq([$recv([$recv(anotherClass)._class()
+,$ctx1.sendIdx["class"]=2
+][0])._slots()
+,$ctx1.sendIdx["slots"]=6
+][0])
+,$ctx1.sendIdx["=="]=3
+][0]);
+[$self._assert_equals_([$recv([$recv(aClass)._class()
+,$ctx1.sendIdx["class"]=3
+][0])._slots()
+,$ctx1.sendIdx["slots"]=7
+][0],$recv($recv(anotherClass)._class())._slots())
+,$ctx1.sendIdx["assert:equals:"]=2
 ][0];
 [$self._assert_($recv([$recv(aClass)._package()
 ,$ctx1.sendIdx["package"]=1
 ][0]).__eq_eq([$recv(anotherClass)._package()
 ,$ctx1.sendIdx["package"]=2
 ][0]))
-,$ctx1.sendIdx["assert:"]=3
+,$ctx1.sendIdx["assert:"]=2
 ][0];
 $self._assert_($recv($recv($recv(aClass)._package())._classes())._includes_(aClass));
 $self._assert_equals_([$recv([$recv(aClass)._methodDictionary()
@@ -67319,7 +67752,7 @@ return self;
 $globals.TKeyValueCollectionTest);
 
 
-$core.addClass("UndefinedTest", $globals.TestCase, [], "Kernel-Tests");
+$core.addClass("UndefinedTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
 selector: "testCopying",
@@ -67436,7 +67869,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Compiler-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ASTMethodRunningTest", $globals.TestCase, ["receiver", "arguments"], "Compiler-Tests");
+$core.addClass("ASTMethodRunningTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.ASTMethodRunningTest, ["receiver", "arguments"]);
 $core.addMethod(
 $core.method({
 selector: "arguments",
@@ -67577,7 +68011,7 @@ $globals.ASTMethodRunningTest);
 
 
 
-$core.addClass("AbstractCompilerTest", $globals.ASTMethodRunningTest, [], "Compiler-Tests");
+$core.addClass("AbstractCompilerTest", $globals.ASTMethodRunningTest, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testAfterInliningNonLocalBlockReturnIndexSend",
@@ -68749,19 +69183,20 @@ return $recv([$self._name()
 $globals.AbstractCompilerTest.a$cls);
 
 
-$core.addClass("ASTDebuggerTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("ASTDebuggerTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("ASTInterpreterTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("ASTInterpreterTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("CodeGeneratorTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("InliningCodeGeneratorTest", $globals.AbstractCompilerTest, [], "Compiler-Tests");
+$core.addClass("InliningCodeGeneratorTest", $globals.AbstractCompilerTest, "Compiler-Tests");
 
 
-$core.addClass("AbstractJavaScriptGatewayTest", $globals.ASTMethodRunningTest, ["theClass"], "Compiler-Tests");
+$core.addClass("AbstractJavaScriptGatewayTest", $globals.ASTMethodRunningTest, "Compiler-Tests");
+$core.setSlots($globals.AbstractJavaScriptGatewayTest, ["theClass"]);
 $core.addMethod(
 $core.method({
 selector: "jsConstructor",
@@ -69015,19 +69450,19 @@ return $recv([$self._name()
 $globals.AbstractJavaScriptGatewayTest.a$cls);
 
 
-$core.addClass("DebuggedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("DebuggedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("InlinedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("InterpretedJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("InterpretedJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, [], "Compiler-Tests");
+$core.addClass("PlainJSGTest", $globals.AbstractJavaScriptGatewayTest, "Compiler-Tests");
 
 
-$core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ASTPCNodeVisitorTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "astPCNodeVisitor",
@@ -69233,7 +69668,7 @@ $globals.ASTPCNodeVisitorTest);
 
 
 
-$core.addClass("ASTPositionTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ASTPositionTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testNodeAtPosition",
@@ -69287,7 +69722,8 @@ $globals.ASTPositionTest);
 
 
 
-$core.addClass("AbstractCodeGeneratorInstallTest", $globals.TestCase, ["receiver"], "Compiler-Tests");
+$core.addClass("AbstractCodeGeneratorInstallTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.AbstractCodeGeneratorInstallTest, ["receiver"]);
 $core.addMethod(
 $core.method({
 selector: "receiver",
@@ -69848,13 +70284,13 @@ return $recv([$self._name()
 $globals.AbstractCodeGeneratorInstallTest.a$cls);
 
 
-$core.addClass("CodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, [], "Compiler-Tests");
+$core.addClass("CodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, "Compiler-Tests");
 
 
-$core.addClass("InliningCodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, [], "Compiler-Tests");
+$core.addClass("InliningCodeGeneratorInstallTest", $globals.AbstractCodeGeneratorInstallTest, "Compiler-Tests");
 
 
-$core.addClass("ScopeVarTest", $globals.TestCase, [], "Compiler-Tests");
+$core.addClass("ScopeVarTest", $globals.TestCase, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "testClassRefVar",
@@ -69965,38 +70401,6 @@ $globals.ScopeVarTest);
 
 $core.addMethod(
 $core.method({
-selector: "testInstanceVar",
-protocol: "tests",
-args: [],
-source: "testInstanceVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addIVar: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'bzzz').\x0a\x09self assert: (binding alias ~= 'bzzz')",
-referencedClasses: ["MethodLexicalScope"],
-pragmas: [],
-messageSends: ["addIVar:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "includesSubString:", "alias", "~="]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-var binding;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv($globals.MethodLexicalScope)._new();
-$recv($1)._addIVar_("bzzz");
-binding=$recv($1)._bindingFor_("bzzz");
-[$self._assert_($recv(binding)._isAssignable())
-,$ctx1.sendIdx["assert:"]=1
-][0];
-$self._deny_($recv(binding)._isIdempotent());
-[$self._assert_($recv([$recv(binding)._alias()
-,$ctx1.sendIdx["alias"]=1
-][0])._includesSubString_("bzzz"))
-,$ctx1.sendIdx["assert:"]=2
-][0];
-$self._assert_($recv($recv(binding)._alias()).__tild_eq("bzzz"));
-return self;
-}, function($ctx1) {$ctx1.fill(self,"testInstanceVar",{binding:binding})});
-}; }),
-$globals.ScopeVarTest);
-
-$core.addMethod(
-$core.method({
 selector: "testPseudoVar",
 protocol: "tests",
 args: [],
@@ -70017,6 +70421,38 @@ return $self._assert_($recv(binding)._isIdempotent());
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testPseudoVar",{})});
+}; }),
+$globals.ScopeVarTest);
+
+$core.addMethod(
+$core.method({
+selector: "testSlotVar",
+protocol: "tests",
+args: [],
+source: "testSlotVar\x0a\x09| binding |\x0a\x09binding := MethodLexicalScope new\x0a\x09\x09addSlotVar: 'bzzz';\x0a\x09\x09bindingFor: 'bzzz'.\x0a\x09self assert: binding isAssignable.\x0a\x09self deny: binding isIdempotent.\x0a\x09self assert: (binding alias includesSubString: 'bzzz').\x0a\x09self assert: (binding alias ~= 'bzzz')",
+referencedClasses: ["MethodLexicalScope"],
+pragmas: [],
+messageSends: ["addSlotVar:", "new", "bindingFor:", "assert:", "isAssignable", "deny:", "isIdempotent", "includesSubString:", "alias", "~="]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var binding;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$recv($globals.MethodLexicalScope)._new();
+$recv($1)._addSlotVar_("bzzz");
+binding=$recv($1)._bindingFor_("bzzz");
+[$self._assert_($recv(binding)._isAssignable())
+,$ctx1.sendIdx["assert:"]=1
+][0];
+$self._deny_($recv(binding)._isIdempotent());
+[$self._assert_($recv([$recv(binding)._alias()
+,$ctx1.sendIdx["alias"]=1
+][0])._includesSubString_("bzzz"))
+,$ctx1.sendIdx["assert:"]=2
+][0];
+$self._assert_($recv($recv(binding)._alias()).__tild_eq("bzzz"));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testSlotVar",{binding:binding})});
 }; }),
 $globals.ScopeVarTest);
 
@@ -70065,7 +70501,8 @@ $globals.ScopeVarTest);
 
 
 
-$core.addClass("SemanticAnalyzerTest", $globals.TestCase, ["analyzer"], "Compiler-Tests");
+$core.addClass("SemanticAnalyzerTest", $globals.TestCase, "Compiler-Tests");
+$core.setSlots($globals.SemanticAnalyzerTest, ["analyzer"]);
 $core.addMethod(
 $core.method({
 selector: "setUp",
@@ -70520,7 +70957,7 @@ $globals.SemanticAnalyzerTest);
 
 
 
-$core.addClass("AISemanticAnalyzerTest", $globals.SemanticAnalyzerTest, [], "Compiler-Tests");
+$core.addClass("AISemanticAnalyzerTest", $globals.SemanticAnalyzerTest, "Compiler-Tests");
 $core.addMethod(
 $core.method({
 selector: "setUp",
@@ -70924,7 +71361,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("Platform-DOM-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("PlatformDomTest", $globals.TestCase, ["fixtureDiv"], "Platform-DOM-Tests");
+$core.addClass("PlatformDomTest", $globals.TestCase, "Platform-DOM-Tests");
+$core.setSlots($globals.PlatformDomTest, ["fixtureDiv"]);
 $core.addMethod(
 $core.method({
 selector: "testEntityConversion",
@@ -70977,7 +71415,8 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("SUnit-Tests");
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("ExampleSetTest", $globals.TestCase, ["empty", "full"], "SUnit-Tests");
+$core.addClass("ExampleSetTest", $globals.TestCase, "SUnit-Tests");
+$core.setSlots($globals.ExampleSetTest, ["empty", "full"]);
 $globals.ExampleSetTest.comment="ExampleSetTest is taken from Pharo 1.4.\x0a\x0aTHe purpose of this class is to demonstrate a simple use case of the test framework.";
 $core.addMethod(
 $core.method({
@@ -71141,7 +71580,8 @@ $globals.ExampleSetTest);
 
 
 
-$core.addClass("SUnitAsyncTest", $globals.TestCase, ["flag"], "SUnit-Tests");
+$core.addClass("SUnitAsyncTest", $globals.TestCase, "SUnit-Tests");
+$core.setSlots($globals.SUnitAsyncTest, ["flag"]);
 $core.addMethod(
 $core.method({
 selector: "fakeError",
@@ -71656,7 +72096,7 @@ $pkg.imports = ["amber/core/Platform-Services"];
 $pkg.isReady = new Promise(function (resolve, reject) { requirejs(["amber/core/Platform-Services"], function () {resolve();}, reject); });
 $pkg.transport = {"type":"amd","amdNamespace":"amber/core"};
 
-$core.addClass("NodePlatform", $globals.Object, [], "Platform-Node");
+$core.addClass("NodePlatform", $globals.Object, "Platform-Node");
 $globals.NodePlatform.comment="I am `Platform` service implementation for node-like environment.";
 $core.addMethod(
 $core.method({
@@ -71794,7 +72234,7 @@ var $core=$boot.api,nil=$boot.nilAsValue,$nil=$boot.nilAsReceiver,$recv=$boot.as
 var $pkg = $core.addPackage("AmberCli");
 $pkg.transport = {"type":"amd","amdNamespace":"amber_cli"};
 
-$core.addClass("AmberCli", $globals.Object, [], "AmberCli");
+$core.addClass("AmberCli", $globals.Object, "AmberCli");
 $globals.AmberCli.comment="I am the Amber CLI (CommandLine Interface) tool which runs on Node.js.\x0a\x0aMy responsibility is to start different Amber programs like the FileServer or the Repl.\x0aWhich program to start is determined by the first commandline parameters passed to the AmberCli executable.\x0aUse `help` to get a list of all available options.\x0aAny further commandline parameters are passed to the specific program.\x0a\x0a## Commands\x0a\x0aNew commands can be added by creating a class side method in the `commands` protocol which takes one parameter.\x0aThis parameter is an array of all commandline options + values passed on to the program.\x0aAny `camelCaseCommand` is transformed into a commandline parameter of the form `camel-case-command` and vice versa.";
 
 $core.addMethod(
@@ -72041,7 +72481,8 @@ return self;
 $globals.AmberCli.a$cls);
 
 
-$core.addClass("BaseFileManipulator", $globals.Object, ["path", "fs"], "AmberCli");
+$core.addClass("BaseFileManipulator", $globals.Object, "AmberCli");
+$core.setSlots($globals.BaseFileManipulator, ["path", "fs"]);
 $core.addMethod(
 $core.method({
 selector: "dirname",
@@ -72105,7 +72546,7 @@ $globals.BaseFileManipulator);
 
 
 
-$core.addClass("Configurator", $globals.BaseFileManipulator, [], "AmberCli");
+$core.addClass("Configurator", $globals.BaseFileManipulator, "AmberCli");
 $core.addMethod(
 $core.method({
 selector: "initialize",
@@ -72174,7 +72615,8 @@ $globals.Configurator);
 
 
 
-$core.addClass("FileServer", $globals.BaseFileManipulator, ["http", "url", "host", "port", "basePath", "util", "username", "password", "fallbackPage"], "AmberCli");
+$core.addClass("FileServer", $globals.BaseFileManipulator, "AmberCli");
+$core.setSlots($globals.FileServer, ["http", "url", "host", "port", "basePath", "util", "username", "password", "fallbackPage"]);
 $globals.FileServer.comment="I am the Amber Smalltalk FileServer.\x0aMy runtime requirement is a functional Node.js executable.\x0a\x0aTo start a FileServer instance on port `4000` use the following code:\x0a\x0a    FileServer new start\x0a\x0aA parameterized instance can be created with the following code:\x0a\x0a    FileServer createServerWithArguments: options\x0a\x0aHere, `options` is an array of commandline style strings each followed by a value e.g. `#('--port', '6000', '--host', '0.0.0.0')`.\x0aA list of all available parameters can be printed to the commandline by passing `--help` as parameter.\x0aSee the `Options` section for further details on how options are mapped to instance methods.\x0a\x0aAfter startup FileServer checks if the directory layout required by Amber is present and logs a warning on absence.\x0a\x0a\x0a## Options\x0a\x0aEach option is of the form `--some-option-string` which is transformed into a selector of the format `someOptionString:`.\x0aThe trailing `--` gets removed, each `-[a-z]` gets transformed into the according uppercase letter, and a `:` is appended to create a selector which takes a single argument.\x0aAfterwards, the selector gets executed on the `FileServer` instance with the value following in the options array as parameter.\x0a\x0a## Adding new commandline parameters\x0a\x0aAdding new commandline parameters to `FileServer` is as easy as adding a new single parameter method to the `accessing` protocol.";
 $core.addMethod(
 $core.method({
@@ -72303,16 +72745,16 @@ $core.method({
 selector: "handleGETRequest:respondTo:",
 protocol: "request handling",
 args: ["aRequest", "aResponse"],
-source: "handleGETRequest: aRequest respondTo: aResponse\x0a\x09| uri filename |\x0a\x09uri := url parse: aRequest url.\x0a\x09filename := path join: self basePath with: uri pathname.\x0a\x09fs exists: filename do: [:aBoolean |\x0a\x09\x09aBoolean\x0a\x09\x09\x09ifFalse: [self respondNotFoundTo: aResponse]\x0a\x09\x09\x09ifTrue: [(fs statSync: filename) isDirectory\x0a\x09\x09\x09\x09ifTrue: [self respondDirectoryNamed: filename from: uri to: aResponse]\x0a\x09\x09\x09\x09ifFalse: [self respondFileNamed: filename to: aResponse]]]",
+source: "handleGETRequest: aRequest respondTo: aResponse\x0a\x09| uri filename |\x0a\x09uri := url parse: aRequest url.\x0a\x09filename := path join: self basePath with: uri pathname uriDecoded.\x0a\x09fs exists: filename do: [:aBoolean |\x0a\x09\x09aBoolean\x0a\x09\x09\x09ifFalse: [self respondNotFoundTo: aResponse]\x0a\x09\x09\x09ifTrue: [(fs statSync: filename) isDirectory\x0a\x09\x09\x09\x09ifTrue: [self respondDirectoryNamed: filename from: uri to: aResponse]\x0a\x09\x09\x09\x09ifFalse: [self respondFileNamed: filename to: aResponse]]]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["parse:", "url", "join:with:", "basePath", "pathname", "exists:do:", "ifFalse:ifTrue:", "respondNotFoundTo:", "ifTrue:ifFalse:", "isDirectory", "statSync:", "respondDirectoryNamed:from:to:", "respondFileNamed:to:"]
+messageSends: ["parse:", "url", "join:with:", "basePath", "uriDecoded", "pathname", "exists:do:", "ifFalse:ifTrue:", "respondNotFoundTo:", "ifTrue:ifFalse:", "isDirectory", "statSync:", "respondDirectoryNamed:from:to:", "respondFileNamed:to:"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var uri,filename;
 return $core.withContext(function($ctx1) {
 uri=$recv($self.url)._parse_($recv(aRequest)._url());
-filename=$recv($self.path)._join_with_($self._basePath(),$recv(uri)._pathname());
+filename=$recv($self.path)._join_with_($self._basePath(),$recv($recv(uri)._pathname())._uriDecoded());
 $recv($self.fs)._exists_do_(filename,(function(aBoolean){
 return $core.withContext(function($ctx2) {
 if($core.assert(aBoolean)){
@@ -72355,10 +72797,10 @@ $core.method({
 selector: "handlePUTRequest:respondTo:",
 protocol: "request handling",
 args: ["aRequest", "aResponse"],
-source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
+source: "handlePUTRequest: aRequest respondTo: aResponse\x0a\x09| file stream |\x0a\x09(self isAuthenticated: aRequest)\x0a\x09\x09ifFalse: [self respondAuthenticationRequiredTo: aResponse. ^ nil].\x0a\x0a\x09file := '.', aRequest url uriDecoded.\x0a\x09stream := fs createWriteStream: file.\x0a\x0a\x09stream on: 'error' do: [:error |\x0a\x09\x09console warn: 'Error creating WriteStream for file ', file.\x0a\x09\x09console warn: '    Did you forget to create the necessary directory in your project (often /src)?'.\x0a\x09\x09console warn: '    The exact error is: ', error asString.\x0a\x09\x09self respondNotCreatedTo: aResponse].\x0a\x0a\x09stream on: 'close' do: [\x0a\x09\x09self respondCreatedTo: aResponse].\x0a\x0a\x09aRequest setEncoding: 'utf8'.\x0a\x09aRequest on: 'data' do: [:data |\x0a\x09\x09stream write: data].\x0a\x0a\x09aRequest on: 'end' do: [\x0a\x09\x09stream writable ifTrue: [stream end]]",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
+messageSends: ["ifFalse:", "isAuthenticated:", "respondAuthenticationRequiredTo:", ",", "uriDecoded", "url", "createWriteStream:", "on:do:", "warn:", "asString", "respondNotCreatedTo:", "respondCreatedTo:", "setEncoding:", "write:", "ifTrue:", "writable", "end"]
 }, function ($methodClass){ return function (aRequest,aResponse){
 var self=this,$self=this;
 var file,stream;
@@ -72367,7 +72809,7 @@ if(!$core.assert($self._isAuthenticated_(aRequest))){
 $self._respondAuthenticationRequiredTo_(aResponse);
 return nil;
 }
-file=[".".__comma($recv(aRequest)._url())
+file=[".".__comma($recv($recv(aRequest)._url())._uriDecoded())
 ,$ctx1.sendIdx[","]=1
 ][0];
 stream=$recv($self.fs)._createWriteStream_(file);
@@ -73364,7 +73806,8 @@ return $recv($recv(each)._second())._asUppercase();
 $globals.FileServer.a$cls);
 
 
-$core.addClass("Initer", $globals.BaseFileManipulator, ["childProcess", "nmPath"], "AmberCli");
+$core.addClass("Initer", $globals.BaseFileManipulator, "AmberCli");
+$core.setSlots($globals.Initer, ["childProcess", "nmPath"]);
 $core.addMethod(
 $core.method({
 selector: "finishMessage",
@@ -73551,7 +73994,8 @@ $globals.Initer);
 
 
 
-$core.addClass("Repl", $globals.Object, ["readline", "interface", "util", "session", "resultCount", "commands"], "AmberCli");
+$core.addClass("Repl", $globals.Object, "AmberCli");
+$core.setSlots($globals.Repl, ["readline", "interface", "util", "session", "resultCount", "commands"]);
 $globals.Repl.comment="I am a class representing a REPL (Read Evaluate Print Loop) and provide a command line interface to Amber Smalltalk.\x0aOn the prompt you can type Amber statements which will be evaluated after pressing <Enter>.\x0aThe evaluation is comparable with executing a 'DoIt' in a workspace.\x0a\x0aMy runtime requirement is a functional Node.js executable with working Readline support.";
 $core.addMethod(
 $core.method({
@@ -74205,14 +74649,14 @@ $core.method({
 selector: "subclass:withVariable:",
 protocol: "private",
 args: ["aClass", "varName"],
-source: "subclass: aClass withVariable: varName\x0a\x09\x22Create subclass with new variable.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: (self subclassNameFor: aClass) asSymbol\x0a\x09\x09instanceVariableNames: {varName}\x0a\x09\x09package: 'Compiler-Core'",
+source: "subclass: aClass withVariable: varName\x0a\x09\x22Create subclass with new variable.\x22\x0a\x09^ ClassBuilder new\x0a\x09\x09addSubclassOf: aClass\x0a\x09\x09named: (self subclassNameFor: aClass) asSymbol\x0a\x09\x09slots: {varName}\x0a\x09\x09package: 'Compiler-Core'",
 referencedClasses: ["ClassBuilder"],
 pragmas: [],
-messageSends: ["addSubclassOf:named:instanceVariableNames:package:", "new", "asSymbol", "subclassNameFor:"]
+messageSends: ["addSubclassOf:named:slots:package:", "new", "asSymbol", "subclassNameFor:"]
 }, function ($methodClass){ return function (aClass,varName){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($recv($globals.ClassBuilder)._new())._addSubclassOf_named_instanceVariableNames_package_(aClass,$recv($self._subclassNameFor_(aClass))._asSymbol(),[varName],"Compiler-Core");
+return $recv($recv($globals.ClassBuilder)._new())._addSubclassOf_named_slots_package_(aClass,$recv($self._subclassNameFor_(aClass))._asSymbol(),[varName],"Compiler-Core");
 }, function($ctx1) {$ctx1.fill(self,"subclass:withVariable:",{aClass:aClass,varName:varName})});
 }; }),
 $globals.Repl);
