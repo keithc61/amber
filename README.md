@@ -57,8 +57,6 @@ Getting Amber and setting up an initial project
 
 Do this to install Amber
 
-	# In case you have installed older package `amber-cli`, uninstall it.
-	npm uninstall -g amber-cli
     # Install the CLI tool `@ambers/cli` and supporting tools
     npm install -g grunt-cli grunt-init @ambers/cli
 
