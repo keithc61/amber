@@ -404,30 +404,6 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
-selector: "debugCase",
-protocol: "running",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "debugCase\x0a\x09\x22Runs a test case in isolated context, debugging all errors.\x22\x0a\x0a\x09(DebugTestContext testCase: self) start",
-referencedClasses: ["DebugTestContext"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["start", "testCase:"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv($globals.DebugTestContext)._testCase_(self))._start();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"debugCase",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.TestCase);
-
-$core.addMethod(
-$core.method({
 selector: "deny:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1184,85 +1160,6 @@ return $recv($1)._yourself();
 //>>excludeEnd("ctx");
 }; }),
 $globals.TestContext.a$cls);
-
-
-$core.addClass("DebugTestContext", $globals.TestContext, "SUnit");
-$core.setSlots($globals.DebugTestContext, ["finished", "result"]);
-//>>excludeStart("ide", pragmas.excludeIdeData);
-$globals.DebugTestContext.comment="I add error debugging to `TestContext`.\x0a\x0aErrors are caught and explicitly passed to `ErrorHandler`.\x0aI am used in `TestCase >> debugCase`.";
-//>>excludeEnd("ide");
-$core.addMethod(
-$core.method({
-selector: "execute:",
-protocol: "running",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "execute: aBlock\x0a\x09self withErrorDebugging: [ super execute: aBlock ]",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["withErrorDebugging:", "execute:"]
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$self._withErrorDebugging_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return [(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx2.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._execute_.call($self,aBlock))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.supercall = false
-//>>excludeEnd("ctx");
-][0];
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"execute:",{aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.DebugTestContext);
-
-$core.addMethod(
-$core.method({
-selector: "withErrorDebugging:",
-protocol: "private",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aBlock"],
-source: "withErrorDebugging: aBlock\x0a\x09aBlock\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | ErrorHandler handleError: ex ]",
-referencedClasses: ["Error", "ErrorHandler"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["on:do:", "handleError:"]
-}, function ($methodClass){ return function (aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv(aBlock)._on_do_($globals.Error,(function(ex){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv($globals.ErrorHandler)._handleError_(ex);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"withErrorDebugging:",{aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.DebugTestContext);
-
 
 
 $core.addClass("ReportingTestContext", $globals.TestContext, "SUnit");
