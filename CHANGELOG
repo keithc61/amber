@@ -1,3 +1,11 @@
+?? Oct 2020 - Release 0.29.3
+===================================
+
+* Uncaught exceptions / promises now in node platform as well.
+
+Commits: https://lolg.it/amber/amber/commits/0.29.3.
+
+
 19 May 2020 - Release 0.29.2
 ===================================
 

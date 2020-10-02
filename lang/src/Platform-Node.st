@@ -12,6 +12,16 @@ globals
 	^ global
 ! !
 
+!NodePlatform methodsFor: 'initialization'!
+
+initialize
+	process
+		on: 'uncaughtException'
+		do: [ :err | ErrorHandler handleError: err. process exit: 1 ];
+		on: 'unhandledRejection'
+		do: [ :err | ErrorHandler handleError: err. process exit: 2 ]
+! !
+
 !NodePlatform methodsFor: 'public API'!
 
 fetch: aStringOrObject

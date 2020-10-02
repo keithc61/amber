@@ -109,6 +109,63 @@ $globals.NodePlatform);
 
 $core.addMethod(
 $core.method({
+selector: "initialize",
+protocol: "initialization",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "initialize\x0a\x09process\x0a\x09\x09on: 'uncaughtException'\x0a\x09\x09do: [ :err | ErrorHandler handleError: err. process exit: 1 ];\x0a\x09\x09on: 'unhandledRejection'\x0a\x09\x09do: [ :err | ErrorHandler handleError: err. process exit: 2 ]",
+referencedClasses: ["ErrorHandler"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:", "handleError:", "exit:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=process;
+[$recv($1)._on_do_("uncaughtException",(function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+[$recv($globals.ErrorHandler)._handleError_(err)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["handleError:"]=1
+//>>excludeEnd("ctx");
+][0];
+return [$recv(process)._exit_((1))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["exit:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["on:do:"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._on_do_("unhandledRejection",(function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv($globals.ErrorHandler)._handleError_(err);
+return $recv(process)._exit_((2));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.NodePlatform);
+
+$core.addMethod(
+$core.method({
 selector: "newXhr",
 protocol: "public API",
 //>>excludeStart("ide", pragmas.excludeIdeData);
