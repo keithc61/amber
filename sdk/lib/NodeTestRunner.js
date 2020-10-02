@@ -35,11 +35,11 @@ selector: "runTestSuite",
 protocol: "not yet classified",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "runTestSuite\x0a\x09| suite worker |\x0a\x0a\x09suite := OrderedCollection new.\x0a    (TestCase allSubclasses select: [ :each | each isAbstract not ])\x0a\x09do: [ :each | suite addAll: each buildSuite ].\x0a\x0a\x09worker := TestSuiteRunner on: suite.\x0a\x09worker announcer on: ResultAnnouncement do:\x0a\x09[ :ann | | result |\x0a    \x09result := ann result.\x0a        result runs = result total ifTrue: [\x0a\x09        console log: result runs asString, ' tests run, ', result failures size asString, ' failures, ', result errors size asString, ' errors.'.\x0a\x0a            result failures isEmpty ifFalse: [\x0a                result failures first runCase.\x0a                \x22the line above should throw, normally, but just in case I leave the line below\x22\x0a                self throw: result failures first class name, ' >> ', result failures first selector, ' is failing!' ].\x0a            result errors isEmpty ifFalse: [\x0a                result errors first runCase.\x0a                \x22the line above should throw, normally, but just in case I leave the line below\x22\x0a                self throw: result errors first class name, ' >> ', result errors first selector, ' has errors!' ].\x0a    ]].\x0a    worker run",
+source: "runTestSuite\x0a\x09| suite worker |\x0a\x0a\x09suite := OrderedCollection new.\x0a    (TestCase allSubclasses select: [ :each | each isAbstract not ])\x0a\x09do: [ :each | suite addAll: each buildSuite ].\x0a\x0a\x09worker := TestSuiteRunner on: suite.\x0a\x09worker announcer on: ResultAnnouncement do:\x0a\x09[ :ann | | result |\x0a    \x09result := ann result.\x0a        result runs = result total ifTrue: [\x0a\x09        console log: result runs asString, ' tests run, ', result failures size asString, ' failures, ', result errors size asString, ' errors.'.\x0a\x0a            result failures isEmpty ifFalse: [\x0a                result failures first runCase.\x0a                \x22the line above should throw, normally, but just in case I leave the line below\x22\x0a                self error: result failures first class name, ' >> ', result failures first selector, ' is failing!' ].\x0a            result errors isEmpty ifFalse: [\x0a                result errors first runCase.\x0a                \x22the line above should throw, normally, but just in case I leave the line below\x22\x0a                self error: result errors first class name, ' >> ', result errors first selector, ' has errors!' ].\x0a    ]].\x0a    worker run",
 referencedClasses: ["OrderedCollection", "TestCase", "TestSuiteRunner", "ResultAnnouncement"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["new", "do:", "select:", "allSubclasses", "not", "isAbstract", "addAll:", "buildSuite", "on:", "on:do:", "announcer", "result", "ifTrue:", "=", "runs", "total", "log:", ",", "asString", "size", "failures", "errors", "ifFalse:", "isEmpty", "runCase", "first", "throw:", "name", "class", "selector", "run"]
+messageSends: ["new", "do:", "select:", "allSubclasses", "not", "isAbstract", "addAll:", "buildSuite", "on:", "on:do:", "announcer", "result", "ifTrue:", "=", "runs", "total", "log:", ",", "asString", "size", "failures", "errors", "ifFalse:", "isEmpty", "runCase", "first", "error:", "name", "class", "selector", "run"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var suite,worker;
@@ -139,7 +139,7 @@ if(!$core.assert([$recv([$recv(result)._failures()
 ,$ctx2.sendIdx["runCase"]=1
 //>>excludeEnd("ctx");
 ][0];
-[$self._throw_([$recv([$recv([$recv([$recv([$recv([$recv([$recv(result)._failures()
+[$self._error_([$recv([$recv([$recv([$recv([$recv([$recv([$recv(result)._failures()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["failures"]=4
 //>>excludeEnd("ctx");
@@ -177,7 +177,7 @@ if(!$core.assert([$recv([$recv(result)._failures()
 //>>excludeEnd("ctx");
 ][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["throw:"]=1
+,$ctx2.sendIdx["error:"]=1
 //>>excludeEnd("ctx");
 ][0];
 }
@@ -195,7 +195,7 @@ $recv([$recv([$recv(result)._errors()
 ,$ctx2.sendIdx["first"]=4
 //>>excludeEnd("ctx");
 ][0])._runCase();
-return $self._throw_([$recv([$recv($recv($recv($recv([$recv([$recv(result)._errors()
+return $self._error_([$recv([$recv($recv($recv($recv([$recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["errors"]=4
 //>>excludeEnd("ctx");
