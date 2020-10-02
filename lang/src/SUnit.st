@@ -152,6 +152,11 @@ signalFailure: aString
 
 !TestCase methodsFor: 'running'!
 
+debugCase
+	self deprecatedAPI: 'Use #runCase instead.'.
+	^ self runCase
+!
+
 performTest
 	asyncTimeout := nil.
 	self perform: self selector

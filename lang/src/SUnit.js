@@ -404,6 +404,30 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
+selector: "debugCase",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "debugCase\x0a\x09self deprecatedAPI: 'Use #runCase instead.'.\x0a\x09^ self runCase",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deprecatedAPI:", "runCase"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deprecatedAPI_("Use #runCase instead.");
+return $self._runCase();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"debugCase",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TestCase);
+
+$core.addMethod(
+$core.method({
 selector: "deny:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

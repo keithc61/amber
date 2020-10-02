@@ -1,3 +1,9 @@
+0.29.3:
+
+* Deprecate TestCase >> debugCase.
+* Remove class DebugTestContext.
+
+
 0.29.2:
 
 * Deprecate ClassBuilder >> addSubclass:named:instanceVariableNames:package:.
