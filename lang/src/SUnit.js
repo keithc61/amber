@@ -1264,41 +1264,6 @@ return self;
 $globals.DebugTestContext);
 
 
-$core.addMethod(
-$core.method({
-selector: "testCase:result:finished:",
-protocol: "instance creation",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["aTestCase", "aTestResult", "aBlock"],
-source: "testCase: aTestCase result: aTestResult finished: aBlock\x0a\x09^ (super testCase: aTestCase)\x0a\x09\x09result: aTestResult;\x0a\x09\x09finished: aBlock;\x0a\x09\x09yourself",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["result:", "testCase:", "finished:", "yourself"]
-}, function ($methodClass){ return function (aTestCase,aTestResult,aBlock){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=[(
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-$ctx1.supercall = true,
-//>>excludeEnd("ctx");
-($methodClass.superclass||$boot.nilAsClass).fn.prototype._testCase_.call($self,aTestCase))
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.supercall = false
-//>>excludeEnd("ctx");
-][0];
-$recv($1)._result_(aTestResult);
-$recv($1)._finished_(aBlock);
-return $recv($1)._yourself();
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"testCase:result:finished:",{aTestCase:aTestCase,aTestResult:aTestResult,aBlock:aBlock})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.DebugTestContext.a$cls);
-
 
 $core.addClass("ReportingTestContext", $globals.TestContext, "SUnit");
 $core.setSlots($globals.ReportingTestContext, ["finished", "result"]);

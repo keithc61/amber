@@ -334,15 +334,6 @@ execute: aBlock
 	self withErrorDebugging: [ super execute: aBlock ]
 ! !
 
-!DebugTestContext class methodsFor: 'instance creation'!
-
-testCase: aTestCase result: aTestResult finished: aBlock
-	^ (super testCase: aTestCase)
-		result: aTestResult;
-		finished: aBlock;
-		yourself
-! !
-
 TestContext subclass: #ReportingTestContext
 	slots: {#finished. #result}
 	package: 'SUnit'!
