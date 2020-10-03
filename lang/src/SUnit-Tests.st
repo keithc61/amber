@@ -184,3 +184,118 @@ testTwoAsyncPassesWithFinishedOnlyOneIsRun
 	flag := (self async: [ self finished. flag := 'ok'. x := x+1. self assert: x equals: 1 ]) valueWithTimeout: 0.
 ! !
 
+TestCase subclass: #SUnitPromiseTest
+	slots: {#flag}
+	package: 'SUnit-Tests'!
+
+!SUnitPromiseTest methodsFor: 'helpers'!
+
+fakeError
+	flag := 'bad'.
+	self timeout: 30.
+	flag := self delay: 20.
+	^ flag then: [ flag := 'ok'. self error: 'Intentional' ]
+!
+
+fakeErrorFailingInTearDown
+	flag := 'bad'.
+	self timeout: 30.
+	flag := self delay: 20.
+	^ flag then: [ self error: 'Intentional' ]
+!
+
+fakeFailure
+	flag := 'bad'.
+	self timeout: 30.
+	flag := self delay: 20.
+	^ flag then: [ flag := 'ok'. self assert: false ]
+!
+
+fakeMultipleTimeoutFailing
+	self timeout: 100.
+	^ (self delay: 20) then: [ self timeout: 20. self delay: 30 ]
+!
+
+fakeMultipleTimeoutPassing
+	self timeout: 20.
+	^ (self delay: 10) then: [ self timeout: 40. self delay: 20 ]
+!
+
+fakePromiseWithoutTimeout
+	^ self delay: 10
+!
+
+fakeTimeout
+	self timeout: 10.
+	^ self delay: 20
+!
+
+fakeTimeoutSendOnly
+	self timeout: 10
+! !
+
+!SUnitPromiseTest methodsFor: 'private'!
+
+selectorSetOf: aCollection
+	^ (aCollection collect: [ :each | each selector ]) asSet
+! !
+
+!SUnitPromiseTest methodsFor: 'running'!
+
+setUp
+	flag := 'ok'
+!
+
+tearDown
+	self assert: 'ok' equals: flag
+! !
+
+!SUnitPromiseTest methodsFor: 'tests'!
+
+testIsAsyncReturnsCorrectValues
+	self deny: self isAsync.
+	self timeout: 0.
+	self assert: self isAsync.
+	"self finished.
+	self deny: self isAsync"
+	^ Promise new
+!
+
+testPass
+	flag := 'bad'.
+	self timeout: 10.
+	flag := self delay: 5.
+	^ flag then: [ self assert: true. flag := 'ok' ]
+!
+
+testPromiseErrorsAndFailures
+	| suite runner result |
+	suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
+	runner := TestSuiteRunner on: suite.
+	self timeout: 200.
+	result := runner result.
+	^ Promise new: [ :model |
+		runner announcer on: ResultAnnouncement do: [ :ann |
+			(ann result == result and: [ result runs = result total ]) ifTrue: [
+				self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.
+				self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.
+				model value: nil ] ].
+		runner run ]
+!
+
+testTimeouts
+	| suite runner result |
+	suite := #(fakeTimeout fakeMultipleTimeoutFailing fakeMultipleTimeoutPassing fakeTimeoutSendOnly fakePromiseWithoutTimeout testPass) collect: [ :each | self class selector: each ].
+	runner := TestSuiteRunner on: suite.
+	self timeout: 200.
+	result := runner result.
+	^ Promise new: [ :model |
+		runner announcer on: ResultAnnouncement do: [ :ann |
+			console log: ann; log: ann result runs.
+			(ann result == result and: [ result runs = result total ]) ifTrue: [
+				self assert: (self selectorSetOf: result errors) equals: #() asSet.
+				self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet.
+				model value: nil ] ].
+		runner run ]
+! !
+

@@ -957,4 +957,578 @@ return self;
 $globals.SUnitAsyncTest);
 
 
+
+$core.addClass("SUnitPromiseTest", $globals.TestCase, "SUnit-Tests");
+$core.setSlots($globals.SUnitPromiseTest, ["flag"]);
+$core.addMethod(
+$core.method({
+selector: "fakeError",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeError\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ flag := 'ok'. self error: 'Intentional' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "delay:", "then:", "error:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((30));
+$self.flag=$self._delay_((20));
+return $recv($self.flag)._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self.flag="ok";
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeError",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeErrorFailingInTearDown",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeErrorFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ self error: 'Intentional' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "delay:", "then:", "error:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((30));
+$self.flag=$self._delay_((20));
+return $recv($self.flag)._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeErrorFailingInTearDown",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeFailure",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeFailure\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ flag := 'ok'. self assert: false ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "delay:", "then:", "assert:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((30));
+$self.flag=$self._delay_((20));
+return $recv($self.flag)._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self.flag="ok";
+return $self._assert_(false);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeFailure",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeMultipleTimeoutFailing",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeMultipleTimeoutFailing\x0a\x09self timeout: 100.\x0a\x09^ (self delay: 20) then: [ self timeout: 20. self delay: 30 ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "delay:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._timeout_((100))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["timeout:"]=1
+//>>excludeEnd("ctx");
+][0];
+return $recv([$self._delay_((20))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["delay:"]=1
+//>>excludeEnd("ctx");
+][0])._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $self._delay_((30));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutFailing",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeMultipleTimeoutPassing",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeMultipleTimeoutPassing\x0a\x09self timeout: 20.\x0a\x09^ (self delay: 10) then: [ self timeout: 40. self delay: 20 ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "delay:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._timeout_((20))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["timeout:"]=1
+//>>excludeEnd("ctx");
+][0];
+return $recv([$self._delay_((10))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["delay:"]=1
+//>>excludeEnd("ctx");
+][0])._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $self._delay_((20));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeMultipleTimeoutPassing",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakePromiseWithoutTimeout",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakePromiseWithoutTimeout\x0a\x09^ self delay: 10",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["delay:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._delay_((10));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakePromiseWithoutTimeout",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeTimeout",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeTimeout\x0a\x09self timeout: 10.\x0a\x09^ self delay: 20",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "delay:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((10));
+return $self._delay_((20));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeTimeout",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "fakeTimeoutSendOnly",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakeTimeoutSendOnly\x0a\x09self timeout: 10",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((10));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakeTimeoutSendOnly",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "selectorSetOf:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aCollection"],
+source: "selectorSetOf: aCollection\x0a\x09^ (aCollection collect: [ :each | each selector ]) asSet",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["asSet", "collect:", "selector"]
+}, function ($methodClass){ return function (aCollection){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($recv(aCollection)._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(each)._selector();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._asSet();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"selectorSetOf:",{aCollection:aCollection})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "setUp",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "setUp\x0a\x09flag := 'ok'",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+$self.flag="ok";
+return self;
+
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "tearDown",
+protocol: "running",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "tearDown\x0a\x09self assert: 'ok' equals: flag",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._assert_equals_("ok",$self.flag);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"tearDown",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testIsAsyncReturnsCorrectValues",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testIsAsyncReturnsCorrectValues\x0a\x09self deny: self isAsync.\x0a\x09self timeout: 0.\x0a\x09self assert: self isAsync.\x0a\x09\x22self finished.\x0a\x09self deny: self isAsync\x22\x0a\x09^ Promise new",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["deny:", "isAsync", "timeout:", "assert:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._deny_([$self._isAsync()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["isAsync"]=1
+//>>excludeEnd("ctx");
+][0]);
+$self._timeout_((0));
+$self._assert_($self._isAsync());
+return $recv($globals.Promise)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testIsAsyncReturnsCorrectValues",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPass",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPass\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09flag := self delay: 5.\x0a\x09^ flag then: [ self assert: true. flag := 'ok' ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "delay:", "then:", "assert:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((10));
+$self.flag=$self._delay_((5));
+return $recv($self.flag)._then_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._assert_(true);
+$self.flag="ok";
+return $self.flag;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPass",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseErrorsAndFailures",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09\x09\x09model value: nil ] ].\x0a\x09\x09runner run ]",
+referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "value:", "run"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var suite,runner,result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self._class())._selector_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+runner=$recv($globals.TestSuiteRunner)._on_(suite);
+$self._timeout_((200));
+result=[$recv(runner)._result()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["result"]=1
+//>>excludeEnd("ctx");
+][0];
+return $recv($globals.Promise)._new_((function(model){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(ann){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+$1=$recv($recv(result)._runs()).__eq($recv(result)._total());
+} else {
+$1=false;
+}
+if($core.assert($1)){
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["selectorSetOf:"]=1
+//>>excludeEnd("ctx");
+][0],[["fakeError"]._asSet()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["asSet"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+return $recv(model)._value_(nil);
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+return $recv(runner)._run();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseErrorsAndFailures",{suite:suite,runner:runner,result:result})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testTimeouts",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testTimeouts\x0a\x09| suite runner result |\x0a\x09suite := #(fakeTimeout fakeMultipleTimeoutFailing fakeMultipleTimeoutPassing fakeTimeoutSendOnly fakePromiseWithoutTimeout testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09console log: ann; log: ann result runs.\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #() asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet.\x0a\x09\x09\x09\x09model value: nil ] ].\x0a\x09\x09runner run ]",
+referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "log:", "runs", "ifTrue:", "and:", "==", "=", "total", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "value:", "run"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var suite,runner,result;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+suite=["fakeTimeout", "fakeMultipleTimeoutFailing", "fakeMultipleTimeoutPassing", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout", "testPass"]._collect_((function(each){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($self._class())._selector_(each);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+runner=$recv($globals.TestSuiteRunner)._on_(suite);
+$self._timeout_((200));
+result=[$recv(runner)._result()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["result"]=1
+//>>excludeEnd("ctx");
+][0];
+return $recv($globals.Promise)._new_((function(model){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(ann){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+$1=console;
+[$recv($1)._log_(ann)
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["log:"]=1
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._log_([$recv([$recv(ann)._result()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["result"]=2
+//>>excludeEnd("ctx");
+][0])._runs()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["runs"]=1
+//>>excludeEnd("ctx");
+][0]);
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
+} else {
+$2=false;
+}
+if($core.assert($2)){
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["selectorSetOf:"]=1
+//>>excludeEnd("ctx");
+][0],[[]._asSet()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["asSet"]=1
+//>>excludeEnd("ctx");
+][0])
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeMultipleTimeoutFailing", "fakeTimeout", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout"]._asSet());
+return $recv(model)._value_(nil);
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+return $recv(runner)._run();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testTimeouts",{suite:suite,runner:runner,result:result})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+
 });

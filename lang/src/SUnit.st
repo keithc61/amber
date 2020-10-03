@@ -117,8 +117,13 @@ async: aBlock
 	^ [ self isAsync ifTrue: [ c execute: aBlock ] ]
 !
 
+delay: millis
+	^ Promise new: [ :model | [ model value: nil ] valueWithTimeout: millis ]
+!
+
 finished
 	self errorIfNotAsync: '#finished'.
+	asyncTimeout ifNotNil: [ asyncTimeout clearTimeout ].
 	asyncTimeout := nil
 !
 
@@ -159,7 +164,7 @@ debugCase
 
 performTest
 	asyncTimeout := nil.
-	self perform: self selector
+	^ self perform: self selector
 !
 
 runCase
@@ -279,21 +284,26 @@ testCase: aTestCase
 !TestContext methodsFor: 'running'!
 
 execute: aBlock
-	| failed |
+	| failed result |
 	
 	testCase context: self.
 	[
 		failed := true.
-		aBlock value.
+		result := aBlock value.
+		testCase isAsync ifFalse: [
+			testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].
 		failed := false
 	]
 		ensure: [
-			testCase context: nil.
+			"testCase context: nil."
 			
-			(failed and: [ testCase isAsync ]) ifTrue: [
-				testCase finished ].
-			testCase isAsync ifFalse: [
-				testCase tearDown ] ]
+			(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].
+			testCase isAsync
+				ifFalse: [ testCase tearDown ]
+				ifTrue: [ result isThenable ifTrue: [
+					result
+						then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]
+						catch: [ :error | testCase isAsync ifTrue: [ self execute: [ error signal ] ] ] ] ] ]
 !
 
 start

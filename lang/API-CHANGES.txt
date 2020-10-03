@@ -5,6 +5,8 @@
 
 + JSObjectProxy
   + isThenable
++ TestCase >>
+  + delay:
 + TIsInGroup >>
   + isThenable
 + TThenable >>

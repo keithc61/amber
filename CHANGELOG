@@ -2,6 +2,8 @@
 ===================================
 
 * Uncaught exceptions / promises now in node platform as well.
+* SUnit tests can return promises.
+  * They must explicitly send #timeout:, though.
 
 Commits: https://lolg.it/amber/amber/commits/0.29.3.
 

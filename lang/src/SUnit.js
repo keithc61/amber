@@ -428,6 +428,45 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
+selector: "delay:",
+protocol: "async",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["millis"],
+source: "delay: millis\x0a\x09^ Promise new: [ :model | [ model value: nil ] valueWithTimeout: millis ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (millis){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.Promise)._new_((function(model){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(model)._value_(nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._valueWithTimeout_(millis);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"delay:",{millis:millis})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TestCase);
+
+$core.addMethod(
+$core.method({
 selector: "deny:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -482,17 +521,24 @@ selector: "finished",
 protocol: "async",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "finished\x0a\x09self errorIfNotAsync: '#finished'.\x0a\x09asyncTimeout := nil",
+source: "finished\x0a\x09self errorIfNotAsync: '#finished'.\x0a\x09asyncTimeout ifNotNil: [ asyncTimeout clearTimeout ].\x0a\x09asyncTimeout := nil",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["errorIfNotAsync:"]
+messageSends: ["errorIfNotAsync:", "ifNotNil:", "clearTimeout"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
+var $1;
 $self._errorIfNotAsync_("#finished");
+$1=$self.asyncTimeout;
+if($1 == null || $1.a$nil){
+$1;
+} else {
+$recv($self.asyncTimeout)._clearTimeout();
+}
 $self.asyncTimeout=nil;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -530,7 +576,7 @@ selector: "performTest",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "performTest\x0a\x09asyncTimeout := nil.\x0a\x09self perform: self selector",
+source: "performTest\x0a\x09asyncTimeout := nil.\x0a\x09^ self perform: self selector",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -541,8 +587,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self.asyncTimeout=nil;
-$self._perform_($self._selector());
-return self;
+return $self._perform_($self._selector());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"performTest",{})});
 //>>excludeEnd("ctx");
@@ -1047,29 +1092,36 @@ selector: "execute:",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "execute: aBlock\x0a\x09| failed |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09aBlock value.\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09testCase context: nil.\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [\x0a\x09\x09\x09\x09testCase finished ].\x0a\x09\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09\x09testCase tearDown ] ]",
+source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09result\x0a\x09\x09\x09\x09\x09\x09then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ error signal ] ] ] ] ] ]",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["context:", "ensure:", "value", "ifTrue:", "and:", "isAsync", "finished", "ifFalse:", "tearDown"]
+messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:catch:", "execute:", "signal"]
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
-var failed;
+var failed,result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-[$recv($self.testCase)._context_(self)
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["context:"]=1
-//>>excludeEnd("ctx");
-][0];
+$recv($self.testCase)._context_(self);
 $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 failed=true;
-$recv(aBlock)._value();
+result=$recv(aBlock)._value();
+if(!$core.assert([$recv($self.testCase)._isAsync()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["isAsync"]=1
+//>>excludeEnd("ctx");
+][0])){
+$recv($self.testCase)._assert_description_($recv([$recv(result)._isThenable()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["isThenable"]=1
+//>>excludeEnd("ctx");
+][0])._not(),$recv($recv($self.testCase)._asString()).__comma(" returned promise without sending #timeout:"));
+}
 failed=false;
 return failed;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1079,29 +1131,84 @@ return failed;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$recv($self.testCase)._context_(nil);
 if($core.assert(failed)){
 $1=[$recv($self.testCase)._isAsync()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["isAsync"]=1
+,$ctx2.sendIdx["isAsync"]=2
 //>>excludeEnd("ctx");
 ][0];
 } else {
 $1=false;
 }
 if($core.assert($1)){
-$recv($self.testCase)._finished();
+[$recv($self.testCase)._finished()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["finished"]=1
+//>>excludeEnd("ctx");
+][0];
 }
-if(!$core.assert($recv($self.testCase)._isAsync())){
+if($core.assert([$recv($self.testCase)._isAsync()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["isAsync"]=3
+//>>excludeEnd("ctx");
+][0])){
+if($core.assert($recv(result)._isThenable())){
+return $recv(result)._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+if($core.assert([$recv($self.testCase)._isAsync()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["isAsync"]=4
+//>>excludeEnd("ctx");
+][0])){
+return [$self._execute_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv($self.testCase)._finished();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,11)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx3.sendIdx["execute:"]=1
+//>>excludeEnd("ctx");
+][0];
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,9)});
+//>>excludeEnd("ctx");
+}),(function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+if($core.assert($recv($self.testCase)._isAsync())){
+return $self._execute_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv(error)._signal();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,14)});
+//>>excludeEnd("ctx");
+}));
+}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,12)});
+//>>excludeEnd("ctx");
+}));
+}
+} else {
 return $recv($self.testCase)._tearDown();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"execute:",{aBlock:aBlock,failed:failed})});
+}, function($ctx1) {$ctx1.fill(self,"execute:",{aBlock:aBlock,failed:failed,result:result})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.TestContext);
