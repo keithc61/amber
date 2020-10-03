@@ -1,4 +1,4 @@
-?? Oct 2020 - Release 0.29.3
+3 Oct 2020 - Release 0.29.3
 ===================================
 
 * Uncaught exceptions / promises now in node platform as well.
