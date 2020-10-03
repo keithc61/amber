@@ -118,17 +118,17 @@ tearDown
 
 testAsyncErrorsAndFailures
 	| suite runner result assertBlock |
-	suite := #('fakeError' 'fakeErrorFailingInTearDown' 'fakeFailure' 'testPass') collect: [ :each | self class selector: each ].
+	suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
 	runner := TestSuiteRunner on: suite.
 	self timeout: 200.
 	result := runner result.
 	assertBlock := self async: [
-		self assert: (self selectorSetOf: result errors) equals: #('fakeError') asSet.
-		self assert: (self selectorSetOf: result failures) equals: #('fakeErrorFailingInTearDown' 'fakeFailure') asSet.
+		self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.
+		self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.
 		self finished
 	].
 	runner announcer on: ResultAnnouncement do: [ :ann |
-		ann result == result ifTrue: [ result runs = result total ifTrue: assertBlock ] ].
+		(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].
 	runner run
 !
 
@@ -161,17 +161,17 @@ testPass
 
 testTimeouts
 	| suite runner result assertBlock |
-	suite := #('fakeTimeout' 'fakeMultipleTimeoutFailing' 'fakeMultipleTimeoutPassing' 'testPass') collect: [ :each | self class selector: each ].
+	suite := #(fakeTimeout fakeMultipleTimeoutFailing fakeMultipleTimeoutPassing testPass) collect: [ :each | self class selector: each ].
 	runner := TestSuiteRunner on: suite.
 	self timeout: 200.
 	result := runner result.
 	assertBlock := self async: [
 		self assert: (self selectorSetOf: result errors) equals: Set new.
-		self assert: (self selectorSetOf: result failures) equals: #('fakeMultipleTimeoutFailing' 'fakeTimeout') asSet.
+		self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout) asSet.
 		self finished
 	].
 	runner announcer on: ResultAnnouncement do: [ :ann |
-		ann result == result ifTrue: [ result runs = result total ifTrue: assertBlock ] ].
+		(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].
 	runner run
 !
 
