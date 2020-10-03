@@ -117,10 +117,6 @@ async: aBlock
 	^ [ self isAsync ifTrue: [ c execute: aBlock ] ]
 !
 
-delay: millis
-	^ Promise new: [ :model | [ model value: nil ] valueWithTimeout: millis ]
-!
-
 finished
 	self errorIfNotAsync: '#finished'.
 	asyncTimeout ifNotNil: [ asyncTimeout clearTimeout ].

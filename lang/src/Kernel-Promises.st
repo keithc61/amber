@@ -17,6 +17,10 @@ any: aCollection
 
 !Promise class methodsFor: 'instance creation'!
 
+delayMilliseconds: aNumber
+	^ self new: [ :model | [ model value: nil ] valueWithTimeout: aNumber ]
+!
+
 forBlock: aBlock
 "Returns a Promise that is resolved with the value of aBlock,
 and rejected if error happens while evaluating aBlock."

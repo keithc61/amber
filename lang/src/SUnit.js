@@ -428,45 +428,6 @@ $globals.TestCase);
 
 $core.addMethod(
 $core.method({
-selector: "delay:",
-protocol: "async",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["millis"],
-source: "delay: millis\x0a\x09^ Promise new: [ :model | [ model value: nil ] valueWithTimeout: millis ]",
-referencedClasses: ["Promise"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["new:", "valueWithTimeout:", "value:"]
-}, function ($methodClass){ return function (millis){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return $recv($globals.Promise)._new_((function(model){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $recv((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
-//>>excludeEnd("ctx");
-return $recv(model)._value_(nil);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
-//>>excludeEnd("ctx");
-}))._valueWithTimeout_(millis);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"delay:",{millis:millis})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.TestCase);
-
-$core.addMethod(
-$core.method({
 selector: "deny:",
 protocol: "testing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

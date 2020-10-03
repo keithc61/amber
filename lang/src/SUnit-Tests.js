@@ -966,11 +966,11 @@ selector: "fakeError",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeError\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ flag := 'ok'. self error: 'Intentional' ]",
-referencedClasses: [],
+source: "fakeError\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := Promise delayMilliseconds: 20.\x0a\x09^ flag then: [ flag := 'ok'. self error: 'Intentional' ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "delay:", "then:", "error:"]
+messageSends: ["timeout:", "delayMilliseconds:", "then:", "error:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -978,7 +978,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self.flag="bad";
 $self._timeout_((30));
-$self.flag=$self._delay_((20));
+$self.flag=$recv($globals.Promise)._delayMilliseconds_((20));
 return $recv($self.flag)._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1001,11 +1001,11 @@ selector: "fakeErrorFailingInTearDown",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeErrorFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ self error: 'Intentional' ]",
-referencedClasses: [],
+source: "fakeErrorFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := Promise delayMilliseconds: 20.\x0a\x09^ flag then: [ self error: 'Intentional' ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "delay:", "then:", "error:"]
+messageSends: ["timeout:", "delayMilliseconds:", "then:", "error:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1013,7 +1013,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self.flag="bad";
 $self._timeout_((30));
-$self.flag=$self._delay_((20));
+$self.flag=$recv($globals.Promise)._delayMilliseconds_((20));
 return $recv($self.flag)._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1035,11 +1035,11 @@ selector: "fakeFailure",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeFailure\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := self delay: 20.\x0a\x09^ flag then: [ flag := 'ok'. self assert: false ]",
-referencedClasses: [],
+source: "fakeFailure\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := Promise delayMilliseconds: 20.\x0a\x09^ flag then: [ flag := 'ok'. self assert: false ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "delay:", "then:", "assert:"]
+messageSends: ["timeout:", "delayMilliseconds:", "then:", "assert:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1047,7 +1047,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self.flag="bad";
 $self._timeout_((30));
-$self.flag=$self._delay_((20));
+$self.flag=$recv($globals.Promise)._delayMilliseconds_((20));
 return $recv($self.flag)._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
@@ -1070,11 +1070,11 @@ selector: "fakeMultipleTimeoutFailing",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeMultipleTimeoutFailing\x0a\x09self timeout: 100.\x0a\x09^ (self delay: 20) then: [ self timeout: 20. self delay: 30 ]",
-referencedClasses: [],
+source: "fakeMultipleTimeoutFailing\x0a\x09self timeout: 100.\x0a\x09^ (Promise delayMilliseconds: 20) then: [ self timeout: 20. Promise delayMilliseconds: 30 ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "then:", "delay:"]
+messageSends: ["timeout:", "then:", "delayMilliseconds:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1085,16 +1085,16 @@ return $core.withContext(function($ctx1) {
 ,$ctx1.sendIdx["timeout:"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $recv([$self._delay_((20))
+return $recv([$recv($globals.Promise)._delayMilliseconds_((20))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["delay:"]=1
+,$ctx1.sendIdx["delayMilliseconds:"]=1
 //>>excludeEnd("ctx");
 ][0])._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self._timeout_((20));
-return $self._delay_((30));
+return $recv($globals.Promise)._delayMilliseconds_((30));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1111,11 +1111,11 @@ selector: "fakeMultipleTimeoutPassing",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeMultipleTimeoutPassing\x0a\x09self timeout: 20.\x0a\x09^ (self delay: 10) then: [ self timeout: 40. self delay: 20 ]",
-referencedClasses: [],
+source: "fakeMultipleTimeoutPassing\x0a\x09self timeout: 20.\x0a\x09^ (Promise delayMilliseconds: 10) then: [ self timeout: 40. Promise delayMilliseconds: 20 ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "then:", "delay:"]
+messageSends: ["timeout:", "then:", "delayMilliseconds:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1126,16 +1126,16 @@ return $core.withContext(function($ctx1) {
 ,$ctx1.sendIdx["timeout:"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $recv([$self._delay_((10))
+return $recv([$recv($globals.Promise)._delayMilliseconds_((10))
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["delay:"]=1
+,$ctx1.sendIdx["delayMilliseconds:"]=1
 //>>excludeEnd("ctx");
 ][0])._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 $self._timeout_((40));
-return $self._delay_((20));
+return $recv($globals.Promise)._delayMilliseconds_((20));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
@@ -1152,17 +1152,17 @@ selector: "fakePromiseWithoutTimeout",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakePromiseWithoutTimeout\x0a\x09^ self delay: 10",
-referencedClasses: [],
+source: "fakePromiseWithoutTimeout\x0a\x09^ Promise delayMilliseconds: 10",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["delay:"]
+messageSends: ["delayMilliseconds:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $self._delay_((10));
+return $recv($globals.Promise)._delayMilliseconds_((10));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fakePromiseWithoutTimeout",{})});
 //>>excludeEnd("ctx");
@@ -1175,18 +1175,18 @@ selector: "fakeTimeout",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "fakeTimeout\x0a\x09self timeout: 10.\x0a\x09^ self delay: 20",
-referencedClasses: [],
+source: "fakeTimeout\x0a\x09self timeout: 10.\x0a\x09^ Promise delayMilliseconds: 20",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "delay:"]
+messageSends: ["timeout:", "delayMilliseconds:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self._timeout_((10));
-return $self._delay_((20));
+return $recv($globals.Promise)._delayMilliseconds_((20));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"fakeTimeout",{})});
 //>>excludeEnd("ctx");
@@ -1327,11 +1327,11 @@ selector: "testPass",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPass\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09flag := self delay: 5.\x0a\x09^ flag then: [ self assert: true. flag := 'ok' ]",
-referencedClasses: [],
+source: "testPass\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09flag := Promise delayMilliseconds: 5.\x0a\x09^ flag then: [ self assert: true. flag := 'ok' ]",
+referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "delay:", "then:", "assert:"]
+messageSends: ["timeout:", "delayMilliseconds:", "then:", "assert:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1339,7 +1339,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 $self.flag="bad";
 $self._timeout_((10));
-$self.flag=$self._delay_((5));
+$self.flag=$recv($globals.Promise)._delayMilliseconds_((5));
 return $recv($self.flag)._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {

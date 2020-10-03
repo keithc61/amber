@@ -55,6 +55,45 @@ $globals.Promise.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "delayMilliseconds:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aNumber"],
+source: "delayMilliseconds: aNumber\x0a\x09^ self new: [ :model | [ model value: nil ] valueWithTimeout: aNumber ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["new:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (aNumber){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._new_((function(model){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(model)._value_(nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._valueWithTimeout_(aNumber);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"delayMilliseconds:",{aNumber:aNumber})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.Promise.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "forBlock:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);

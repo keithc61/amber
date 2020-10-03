@@ -193,41 +193,41 @@ TestCase subclass: #SUnitPromiseTest
 fakeError
 	flag := 'bad'.
 	self timeout: 30.
-	flag := self delay: 20.
+	flag := Promise delayMilliseconds: 20.
 	^ flag then: [ flag := 'ok'. self error: 'Intentional' ]
 !
 
 fakeErrorFailingInTearDown
 	flag := 'bad'.
 	self timeout: 30.
-	flag := self delay: 20.
+	flag := Promise delayMilliseconds: 20.
 	^ flag then: [ self error: 'Intentional' ]
 !
 
 fakeFailure
 	flag := 'bad'.
 	self timeout: 30.
-	flag := self delay: 20.
+	flag := Promise delayMilliseconds: 20.
 	^ flag then: [ flag := 'ok'. self assert: false ]
 !
 
 fakeMultipleTimeoutFailing
 	self timeout: 100.
-	^ (self delay: 20) then: [ self timeout: 20. self delay: 30 ]
+	^ (Promise delayMilliseconds: 20) then: [ self timeout: 20. Promise delayMilliseconds: 30 ]
 !
 
 fakeMultipleTimeoutPassing
 	self timeout: 20.
-	^ (self delay: 10) then: [ self timeout: 40. self delay: 20 ]
+	^ (Promise delayMilliseconds: 10) then: [ self timeout: 40. Promise delayMilliseconds: 20 ]
 !
 
 fakePromiseWithoutTimeout
-	^ self delay: 10
+	^ Promise delayMilliseconds: 10
 !
 
 fakeTimeout
 	self timeout: 10.
-	^ self delay: 20
+	^ Promise delayMilliseconds: 20
 !
 
 fakeTimeoutSendOnly
@@ -264,7 +264,7 @@ testIsAsyncReturnsCorrectValues
 testPass
 	flag := 'bad'.
 	self timeout: 10.
-	flag := self delay: 5.
+	flag := Promise delayMilliseconds: 5.
 	^ flag then: [ self assert: true. flag := 'ok' ]
 !
 
