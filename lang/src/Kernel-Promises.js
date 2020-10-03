@@ -203,6 +203,24 @@ $globals.TThenable);
 
 $core.addMethod(
 $core.method({
+selector: "isThenable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isThenable\x0a\x09^ true",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return true;
+
+}; }),
+$globals.TThenable);
+
+$core.addMethod(
+$core.method({
 selector: "on:do:",
 protocol: "promises",
 //>>excludeStart("ide", pragmas.excludeIdeData);

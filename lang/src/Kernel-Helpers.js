@@ -187,6 +187,24 @@ return false;
 }; }),
 $globals.TIsInGroup);
 
+$core.addMethod(
+$core.method({
+selector: "isThenable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isThenable\x0a\x09^ false",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return false;
+
+}; }),
+$globals.TIsInGroup);
+
 
 $core.addTrait("TSubclassable", "Kernel-Helpers");
 $core.addMethod(

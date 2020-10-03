@@ -48,6 +48,10 @@ isString
 
 isSymbol
 	^ false
+!
+
+isThenable
+	^ false
 ! !
 
 Trait named: #TSubclassable

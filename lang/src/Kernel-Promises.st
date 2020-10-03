@@ -110,6 +110,12 @@ then: aBlockOrArray on: aClass do: aBlock catch: anotherBlock
 	^ ((self then: aBlockOrArray) on: aClass do: aBlock) catch: anotherBlock
 ! !
 
+!TThenable methodsFor: 'testing'!
+
+isThenable
+	^ true
+! !
+
 Promise setTraitComposition: {TThenable} asTraitComposition!
 ! !
 

@@ -391,6 +391,29 @@ $globals.JSObjectProxy);
 
 $core.addMethod(
 $core.method({
+selector: "isThenable",
+protocol: "testing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "isThenable\x0a\x09^ NativeFunction isNativeFunction: (self at: #then)",
+referencedClasses: ["NativeFunction"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["isNativeFunction:", "at:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.NativeFunction)._isNativeFunction_($self._at_("then"));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"isThenable",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSObjectProxy);
+
+$core.addMethod(
+$core.method({
 selector: "jsObject",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -579,17 +602,17 @@ selector: "then:",
 protocol: "promises",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlockOrArray"],
-source: "then: aBlockOrArray\x0a(NativeFunction isNativeFunction: (self at: #then))\x0a\x09ifTrue: [ ^ (TThenable >> #then:) sendTo: jsObject arguments: {aBlockOrArray} ]\x0a\x09ifFalse: [ ^ super then: aBlockOrArray ]",
-referencedClasses: ["NativeFunction", "TThenable"],
+source: "then: aBlockOrArray\x0aself isThenable\x0a\x09ifTrue: [ ^ (TThenable >> #then:) sendTo: jsObject arguments: {aBlockOrArray} ]\x0a\x09ifFalse: [ ^ super then: aBlockOrArray ]",
+referencedClasses: ["TThenable"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifTrue:ifFalse:", "isNativeFunction:", "at:", "sendTo:arguments:", ">>", "then:"]
+messageSends: ["ifTrue:ifFalse:", "isThenable", "sendTo:arguments:", ">>", "then:"]
 }, function ($methodClass){ return function (aBlockOrArray){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if($core.assert($recv($globals.NativeFunction)._isNativeFunction_($self._at_("then")))){
+if($core.assert($self._isThenable())){
 return $recv($recv($globals.TThenable).__gt_gt("then:"))._sendTo_arguments_($self.jsObject,[aBlockOrArray]);
 } else {
 return [(

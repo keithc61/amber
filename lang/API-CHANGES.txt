@@ -3,6 +3,13 @@
 * Deprecate TestCase >> debugCase.
 * Remove class DebugTestContext.
 
++ JSObjectProxy
+  + isThenable
++ TIsInGroup >>
+  + isThenable
++ TThenable >>
+  + isThenable
+
 
 0.29.2:
 

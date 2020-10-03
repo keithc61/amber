@@ -156,7 +156,7 @@ on: aClass do: aBlock
 !
 
 then: aBlockOrArray
-(NativeFunction isNativeFunction: (self at: #then))
+self isThenable
 	ifTrue: [ ^ (TThenable >> #then:) sendTo: jsObject arguments: {aBlockOrArray} ]
 	ifFalse: [ ^ super then: aBlockOrArray ]
 ! !
@@ -177,6 +177,12 @@ doesNotUnderstand: aMessage
 
 putOn: aStream
 	aStream nextPutJSObject: jsObject
+! !
+
+!JSObjectProxy methodsFor: 'testing'!
+
+isThenable
+	^ NativeFunction isNativeFunction: (self at: #then)
 ! !
 
 !JSObjectProxy class methodsFor: 'accessing'!
