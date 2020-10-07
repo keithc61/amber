@@ -40,7 +40,11 @@ and model signal: ... to reject the promise.
 If error happens during run of the block,
 promise is rejected with that error as well."
 <inlineJS: 'return new Promise(function (resolve, reject) {
-    var model = {value: resolve, signal: reject};
+    var model = {
+		value: resolve,
+		signal: reject,
+		do: function (aBlock) { resolve($self._forBlock_(aBlock)); }
+	};
     aBlock._value_(model);
 })'>
 !
