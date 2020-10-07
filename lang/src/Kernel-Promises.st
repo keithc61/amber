@@ -43,8 +43,11 @@ promise is rejected with that error as well."
     var model = {
 		value: resolve,
 		signal: reject,
-		do: function (aBlock) { resolve($self._forBlock_(aBlock)); },
-		signalIfFails: function (aBlock) { $self._forBlock_(aBlock)._catch_(reject); }
+		do: function (aBlock) { resolve(this.try(aBlock)); },
+		try: function (aBlock) {
+			try { return aBlock._value(); }
+			catch (e) { reject(e); }
+		}
 	};
     aBlock._value_(model);
 })'>

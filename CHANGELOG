@@ -1,9 +1,9 @@
-7 Oct 2020 - Release 0.29.4
+7 Oct 2020 - Release 0.29.5
 ===================================
 
-* Convenient method for model passed to Promise new: block
+* Convenient methods for model passed to Promise new: block
 
-Commits: https://lolg.it/amber/amber/commits/0.29.4.
+Commits: https://lolg.it/amber/amber/commits/0.29.5.
 
 
 3 Oct 2020 - Release 0.29.3
