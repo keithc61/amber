@@ -1,7 +1,8 @@
-0.29.4:
+0.29.5:
 
 + (model in `Promise new: [ :model | ]`) >>
   + do:
+  + try:
 
 
 0.29.3:
