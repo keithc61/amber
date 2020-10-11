@@ -73,7 +73,15 @@ do: aBlock
 !
 
 try: aBlock
-	^ aBlock tryCatch: [ :err | self signal: err ]
+	<inlineJS: '
+		try {
+			return aBlock._value();
+		} catch(error) {
+			// pass non-local returns undetected
+			if (Array.isArray(error) && error.length === 1) throw error;
+			self._signal_(error);
+		}
+	'>
 ! !
 
 !PromiseExecution methodsFor: 'settling'!

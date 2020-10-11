@@ -291,25 +291,26 @@ selector: "try:",
 protocol: "evaluating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "try: aBlock\x0a\x09^ aBlock tryCatch: [ :err | self signal: err ]",
+source: "try: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09self._signal_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["tryCatch:", "signal:"]
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09self._signal_(error);\x0a\x09\x09}\x0a\x09"]]],
+messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv(aBlock)._tryCatch_((function(err){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-return $self._signal_(err);
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
+
+		try {
+			return aBlock._value();
+		} catch(error) {
+			// pass non-local returns undetected
+			if (Array.isArray(error) && error.length === 1) throw error;
+			self._signal_(error);
+		}
+	;
+return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"try:",{aBlock:aBlock})});
 //>>excludeEnd("ctx");

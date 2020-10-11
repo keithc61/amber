@@ -107,6 +107,10 @@ on: anErrorClass do: aBlock
 !
 
 tryCatch: aBlock
+	"Too low-level. Try more high-level alternatives like:
+		[ ... ] on: Error do: [ ... ]
+		Smalltalk try: [ ... ] ifTrue: [ ... ] catch: [ ... ]
+		[ ... ] tryIfTrue: [ ... ] catch: [ ... ]"
 	<inlineJS: '
 		try {
 			return $self._value();

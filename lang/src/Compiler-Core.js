@@ -911,11 +911,11 @@ selector: "parse:",
 protocol: "compiling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result",
+source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryIfTrue: [ :err | (err basicAt: 'location') notNil ]\x0a\x09\x09catch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["tryCatch:", "basicParse:", "signal", "parseError:parsing:"]
+messageSends: ["tryIfTrue:catch:", "basicParse:", "notNil", "basicAt:", "signal", "parseError:parsing:"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 var result;
@@ -931,13 +931,21 @@ return result;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 //>>excludeEnd("ctx");
-}))._tryCatch_((function(ex){
+}))._tryIfTrue_catch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv($recv(err)._basicAt_("location"))._notNil();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),(function(ex){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $recv($self._parseError_parsing_(ex,aString))._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
 return result;
@@ -953,29 +961,25 @@ selector: "parseError:parsing:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+source: "parseError: anException parsing: aString\x0a\x09| loc |\x0a\x09loc := anException basicAt: 'location'.\x0a\x09^ ParseError new \x0a\x09\x09messageText: \x0a\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09yourself",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
+messageSends: ["basicAt:", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
 }, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
+var loc;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1,$2;
-$1=[$recv(anException)._basicAt_("location")
+var $1;
+loc=[$recv(anException)._basicAt_("location")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basicAt:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-return $recv(anException)._pass();
-} else {
-var loc;
-loc=$1;
-$2=$recv($globals.ParseError)._new();
-$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
+$1=$recv($globals.ParseError)._new();
+$recv($1)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["start"]=1
 //>>excludeEnd("ctx");
@@ -1000,11 +1004,9 @@ $recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__com
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0]);
-return $recv($2)._yourself();
-}
-return self;
+return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString})});
+}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString,loc:loc})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.Compiler);

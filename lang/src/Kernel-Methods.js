@@ -458,7 +458,7 @@ selector: "tryCatch:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "tryCatch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
+source: "tryCatch: aBlock\x0a\x09\x22Too low-level. Try more high-level alternatives like:\x0a\x09\x09[ ... ] on: Error do: [ ... ]\x0a\x09\x09Smalltalk try: [ ... ] ifTrue: [ ... ] catch: [ ... ]\x0a\x09\x09[ ... ] tryIfTrue: [ ... ] catch: [ ... ]\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09"]]],

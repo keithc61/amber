@@ -233,7 +233,8 @@ parse: aString
 	| result |
 	
 	[ result := self basicParse: aString ] 
-		tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].
+		tryIfTrue: [ :err | (err basicAt: 'location') notNil ]
+		catch: [ :ex | (self parseError: ex parsing: aString) signal ].
 		
 	^ result
 !
@@ -286,15 +287,14 @@ error: aString
 !
 
 parseError: anException parsing: aString
-	(anException basicAt: 'location')
-		ifNil: [ ^ anException pass ]
-		ifNotNil: [ :loc |
-			^ ParseError new 
-				messageText: 
-					'Parse error on line ', loc start line asString,
-					' column ' , loc start column asString,
-					' : Unexpected character ', (anException basicAt: 'found');
-				yourself ]
+	| loc |
+	loc := anException basicAt: 'location'.
+	^ ParseError new 
+		messageText: 
+			'Parse error on line ', loc start line asString,
+			' column ' , loc start column asString,
+			' : Unexpected character ', (anException basicAt: 'found');
+		yourself
 ! !
 
 !Compiler methodsFor: 'private'!
