@@ -242,3 +242,29 @@ signalOn: anObject
 		signal
 ! !
 
+Error subclass: #NonLifoReturn
+	slots: {#value}
+	package: 'Kernel-Exceptions'!
+
+!NonLifoReturn methodsFor: 'accessing'!
+
+messageText
+	^ 'Non-LIFO return: ', self value asString
+!
+
+value
+	^ value
+!
+
+value: anObject
+	value := anObject
+! !
+
+!NonLifoReturn class methodsFor: 'instance creation'!
+
+value: anObject
+	^ super new
+		value: anObject;
+		yourself
+! !
+

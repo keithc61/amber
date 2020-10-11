@@ -2,6 +2,7 @@
 
 * Add TPromiseModel with unary value / signal passing to 1-arg.
   * Promise class as well as PromiseExecution use it.
+* Add class NonLifoReturn.
 
 + Error class >>
   + messageText:

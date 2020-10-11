@@ -2786,6 +2786,13 @@ TestCase subclass: #PromiseTest
 
 !PromiseTest methodsFor: ' tests'!
 
+testPromiseExecutorAsyncDoWithNonLocalReturn
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m do: [ ^  'Intentional' ] ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]
+!
+
 testPromiseExecutorAsyncNegativeDo
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
@@ -2815,6 +2822,20 @@ testPromiseExecutorAsyncPositiveTry
 	}) then: [ :result | self assert: result equals: #timeout ].
 !
 
+testPromiseExecutorAsyncTryWithNonLocalReturn
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m try: [ ^  'Intentional' ] ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]
+!
+
+testPromiseExecutorDoWithNonLocalReturn
+	self timeout: 20.
+	^ (Promise new: [ :m | m do: [ ^ 'Intentional' ] ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]
+!
+
 testPromiseExecutorNegativeDo
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
@@ -2842,6 +2863,13 @@ testPromiseExecutorPositiveTry
 			then: [ :result | self assert: result equals: 3 ].
 		Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]
 	}) then: [ :result | self assert: result equals: #timeout ].
+!
+
+testPromiseExecutorTryWithNonLocalReturn
+	self timeout: 20.
+	^ (Promise new: [ :m | m try: [ ^ 'Intentional' ] ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]
 !
 
 testPromiseNew

@@ -1355,11 +1355,11 @@ $globals.ReportingTestContext);
 
 $core.addMethod(
 $core.method({
-selector: "withErrorReporting:",
+selector: "withErrorReporting2:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "withErrorReporting: aBlock\x0a\x09[ aBlock\x0a\x09\x09on: TestFailure\x0a\x09\x09do: [ :ex | result addFailure: testCase ]\x0a\x09]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | result addError: testCase ]",
+source: "withErrorReporting2: aBlock\x0a\x09[ aBlock\x0a\x09\x09on: TestFailure\x0a\x09\x09do: [ :ex | result addFailure: testCase ]\x0a\x09]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | result addError: testCase ]",
 referencedClasses: ["TestFailure", "Error"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1398,6 +1398,35 @@ return $recv($self.result)._addError_($self.testCase);
 ,$ctx1.sendIdx["on:do:"]=1
 //>>excludeEnd("ctx");
 ][0];
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"withErrorReporting2:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.ReportingTestContext);
+
+$core.addMethod(
+$core.method({
+selector: "withErrorReporting:",
+protocol: "private",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "withErrorReporting: aBlock\x0a\x09<inlineJS: '\x0a\x09try { aBlock._value(); }\x0a\x09catch (ex) {\x0a\x09\x09var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);\x0a\x09\x09self._withErrorReporting2_(function () { smalltalkError._pass(); });\x0a\x09}'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09try { aBlock._value(); }\x0a\x09catch (ex) {\x0a\x09\x09var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);\x0a\x09\x09self._withErrorReporting2_(function () { smalltalkError._pass(); });\x0a\x09}"]]],
+messageSends: []
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+	try { aBlock._value(); }
+	catch (ex) {
+		var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);
+		self._withErrorReporting2_(function () { smalltalkError._pass(); });
+	};
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"withErrorReporting:",{aBlock:aBlock})});

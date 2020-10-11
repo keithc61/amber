@@ -145,10 +145,10 @@ selector: "new:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: '\x0a\x09var localReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) localReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (localReturn) throw localReturn; else return promise;\x0a'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: '\x0a\x09var nonLocalReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (nonLocalReturn) throw nonLocalReturn; else return promise;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09var localReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) localReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (localReturn) throw localReturn; else return promise;"]]],
+pragmas: [["inlineJS:", ["\x0a\x09var nonLocalReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (nonLocalReturn) throw nonLocalReturn; else return promise;"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
@@ -156,16 +156,16 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 
-	var localReturn = null,
+	var nonLocalReturn = null,
 		promise = new Promise(function (resolve, reject) {
 		    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
 		    try { aBlock._value_(model); }
 			catch (ex) {
-				if (Array.isArray(ex) && ex.length === 1) localReturn = ex;
+				if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;
 				else reject(ex);
 			}
 		});
-	if (localReturn) throw localReturn; else return promise;;
+	if (nonLocalReturn) throw nonLocalReturn; else return promise;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock})});
@@ -230,7 +230,7 @@ selector: "do:",
 protocol: "evaluating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "do: aBlock\x0a\x09self value: (self try: aBlock)",
+source: "do: aBlock\x0a\x09\x22Executes a block 'in the context of a promise' and resolves.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09If a block succeeds, promise is resolved with its return value.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09self value: (self try: aBlock)",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -298,10 +298,10 @@ selector: "try:",
 protocol: "evaluating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "try: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09self._signal_(error);\x0a\x09\x09}\x0a\x09'>",
+source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09self._signal_(error);\x0a\x09\x09}\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
@@ -312,9 +312,11 @@ return $core.withContext(function($ctx1) {
 		try {
 			return aBlock._value();
 		} catch(error) {
-			// pass non-local returns undetected
-			if (Array.isArray(error) && error.length === 1) throw error;
-			self._signal_(error);
+			$self._signal_(
+				Array.isArray(error) && error.length === 1 ?
+					$globals.NonLifoReturn._value_(error[0]) :
+					error
+			);
 		}
 	;
 return self;

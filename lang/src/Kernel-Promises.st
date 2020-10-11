@@ -40,16 +40,16 @@ and model signal: ... to reject the promise.
 If error happens during run of the block,
 promise is rejected with that error as well."
 <inlineJS: '
-	var localReturn = null,
+	var nonLocalReturn = null,
 		promise = new Promise(function (resolve, reject) {
 		    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
 		    try { aBlock._value_(model); }
 			catch (ex) {
-				if (Array.isArray(ex) && ex.length === 1) localReturn = ex;
+				if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;
 				else reject(ex);
 			}
 		});
-	if (localReturn) throw localReturn; else return promise;
+	if (nonLocalReturn) throw nonLocalReturn; else return promise;
 '>
 !
 
@@ -77,17 +77,26 @@ resolveBlock: aBlock rejectBlock: anotherBlock
 !PromiseExecution methodsFor: 'evaluating'!
 
 do: aBlock
+	"Executes a block 'in the context of a promise' and resolves.
+	That is, if it ends with an error, promise is rejected.
+	If a block succeeds, promise is resolved with its return value.
+	Non-local returns are also treated as an error and reified as rejections."
 	self value: (self try: aBlock)
 !
 
 try: aBlock
+	"Executes a block 'in the context of a promise'.
+	That is, if it ends with an error, promise is rejected.
+	Non-local returns are also treated as an error and reified as rejections."
 	<inlineJS: '
 		try {
 			return aBlock._value();
 		} catch(error) {
-			// pass non-local returns undetected
-			if (Array.isArray(error) && error.length === 1) throw error;
-			self._signal_(error);
+			$self._signal_(
+				Array.isArray(error) && error.length === 1 ?
+					$globals.NonLifoReturn._value_(error[0]) :
+					error
+			);
 		}
 	'>
 ! !

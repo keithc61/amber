@@ -881,4 +881,102 @@ return $recv($1)._signal();
 }; }),
 $globals.NonBooleanReceiver.a$cls);
 
+
+$core.addClass("NonLifoReturn", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.NonLifoReturn, ["value"]);
+$core.addMethod(
+$core.method({
+selector: "messageText",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "messageText\x0a\x09^ 'Non-LIFO return: ', self value asString",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: [",", "asString", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return "Non-LIFO return: ".__comma($recv($self._value())._asString());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.NonLifoReturn);
+
+$core.addMethod(
+$core.method({
+selector: "value",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "value\x0a\x09^ value",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.value;
+
+}; }),
+$globals.NonLifoReturn);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09value := anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.value=anObject;
+return self;
+
+}; }),
+$globals.NonLifoReturn);
+
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09^ super new\x0a\x09\x09value: anObject;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "new", "yourself"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=[(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._value_(anObject);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.NonLifoReturn.a$cls);
+
 });

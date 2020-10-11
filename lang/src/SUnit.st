@@ -335,13 +335,22 @@ result: aTestResult
 
 !ReportingTestContext methodsFor: 'private'!
 
-withErrorReporting: aBlock
+withErrorReporting2: aBlock
 	[ aBlock
 		on: TestFailure
 		do: [ :ex | result addFailure: testCase ]
 	]
 		on: Error
 		do: [ :ex | result addError: testCase ]
+!
+
+withErrorReporting: aBlock
+	<inlineJS: '
+	try { aBlock._value(); }
+	catch (ex) {
+		var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);
+		self._withErrorReporting2_(function () { smalltalkError._pass(); });
+	}'>
 ! !
 
 !ReportingTestContext methodsFor: 'running'!

@@ -942,7 +942,10 @@ asSmalltalkException: anObject
 		ifNotNil: [
 			(self isError: anObject)
 				ifTrue: [ anObject ]
-				ifFalse: [ JavaScriptException on: anObject ] ]
+				ifFalse: [
+					(self isNonLocalReturn: anObject)
+						ifTrue: [ NonLifoReturn value: anObject first ]
+						ifFalse: [ JavaScriptException on: anObject ] ] ]
 !
 
 try: actionBlock ifTrue: aBlock catch: anotherBlock
@@ -1105,6 +1108,10 @@ existsJsGlobal: aString
 
 isError: anObject
 	^ (self isSmalltalkObject: anObject) and: [ anObject isError ]
+!
+
+isNonLocalReturn: anObject
+	<inlineJS: 'return Array.isArray(anObject) && anObject.length === 1'>
 !
 
 isSmalltalkObject: anObject

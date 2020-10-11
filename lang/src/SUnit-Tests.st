@@ -93,6 +93,12 @@ fakeMultipleTimeoutPassing
 	]) valueWithTimeout: 10
 !
 
+fakeNonLifoReturn
+	flag := 'bad'.
+	self timeout: 30.
+	flag := (self async: [ flag := 'ok'. ^ 'non-lifo' ]) valueWithTimeout: 20
+!
+
 fakeTimeout
 	self timeout: 10.
 	(self async: [ self finished ]) valueWithTimeout: 20
@@ -151,6 +157,23 @@ testIsAsyncReturnsCorrectValues
 	self assert: self isAsync.
 	self finished.
 	self deny: self isAsync
+!
+
+testNonLifo
+	| suite runner result assertBlock |
+	suite := #(fakeNonLifoReturn testPass) collect: [ :each | self class selector: each ].
+	runner := TestSuiteRunner on: suite.
+	self timeout: 200.
+	result := runner result.
+	assertBlock := self async: [
+		self assert: (self selectorSetOf: result errors) equals: #(fakeNonLifoReturn) asSet.
+		self assert: (self selectorSetOf: result failures) equals: Set new.
+		"TODO check that error is indeed a correct NonLifoReturn"
+		self finished
+	].
+	runner announcer on: ResultAnnouncement do: [ :ann |
+		(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].
+	runner run
 !
 
 testPass
@@ -221,6 +244,13 @@ fakeMultipleTimeoutPassing
 	^ (Promise delayMilliseconds: 10) then: [ self timeout: 40. Promise delayMilliseconds: 20 ]
 !
 
+fakeNonLifoReturn
+	flag := 'bad'.
+	self timeout: 30.
+	flag := Promise delayMilliseconds: 20.
+	^ flag then: [ flag := 'ok'. ^ 'non-lifo' ]
+!
+
 fakePromiseWithoutTimeout
 	^ Promise delayMilliseconds: 10
 !
@@ -261,6 +291,22 @@ testIsAsyncReturnsCorrectValues
 	^ Promise new
 !
 
+testNonLifo
+	| suite runner result |
+	suite := #(fakeNonLifoReturn testPass) collect: [ :each | self class selector: each ].
+	runner := TestSuiteRunner on: suite.
+	self timeout: 200.
+	result := runner result.
+	^ Promise new: [ :model |
+		runner announcer on: ResultAnnouncement do: [ :ann |
+			(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [
+				self assert: (self selectorSetOf: result errors) equals: #(fakeNonLifoReturn) asSet.
+				self assert: (self selectorSetOf: result failures) equals: Set new.
+				"TODO check that error is indeed a correct NonLifoReturn"
+		] ] ].
+		runner run ]
+!
+
 testPass
 	flag := 'bad'.
 	self timeout: 10.
@@ -276,10 +322,9 @@ testPromiseErrorsAndFailures
 	result := runner result.
 	^ Promise new: [ :model |
 		runner announcer on: ResultAnnouncement do: [ :ann |
-			(ann result == result and: [ result runs = result total ]) ifTrue: [
+			(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [
 				self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.
-				self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.
-				model value: nil ] ].
+				self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].
 		runner run ]
 !
 
@@ -291,11 +336,9 @@ testTimeouts
 	result := runner result.
 	^ Promise new: [ :model |
 		runner announcer on: ResultAnnouncement do: [ :ann |
-			console log: ann; log: ann result runs.
-			(ann result == result and: [ result runs = result total ]) ifTrue: [
+			(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [
 				self assert: (self selectorSetOf: result errors) equals: #() asSet.
-				self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet.
-				model value: nil ] ].
+				self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet ] ] ].
 		runner run ]
 ! !
 
