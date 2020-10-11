@@ -236,6 +236,13 @@ testNonLocalReturn
 	self should: 'foo [ :x | ^ x + x ] value: 4. ^ 2' return: 8
 !
 
+testNonLocalReturnWithCatch
+	self should: 'foo [ ^ 1 ] on: Error do: [ 2 ]' return: 1.
+	self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ 2 ]' return: 1.
+	self should: 'foo [ ^ 1 ] on: Error do: [ ^ 2 ]' return: 1.
+	self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ ^ 2 ]' return: 1.
+!
+
 testPascalCaseGlobal
 	self should: 'foo ^Object' return: (Smalltalk globals at: 'Object').
 	self should: 'foo ^NonExistent' return: nil

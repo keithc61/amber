@@ -1011,6 +1011,45 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNonLocalReturnWithCatch",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testNonLocalReturnWithCatch\x0a\x09self should: 'foo [ ^ 1 ] on: Error do: [ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] on: Error do: [ ^ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ ^ 2 ]' return: 1.",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+[$self._should_return_("foo [ ^ 1 ] on: Error do: [ 2 ]",(1))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["should:return:"]=1
+//>>excludeEnd("ctx");
+][0];
+[$self._should_return_("foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ 2 ]",(1))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["should:return:"]=2
+//>>excludeEnd("ctx");
+][0];
+[$self._should_return_("foo [ ^ 1 ] on: Error do: [ ^ 2 ]",(1))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["should:return:"]=3
+//>>excludeEnd("ctx");
+][0];
+$self._should_return_("foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ ^ 2 ]",(1));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testNonLocalReturnWithCatch",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPascalCaseGlobal",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
