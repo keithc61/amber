@@ -794,9 +794,8 @@ commit: aPackage
 		commit: aPackage
 		onSuccess: []
 		onError: [ :error |
-			PackageCommitError new
-				messageText: 'Commiting failed with reason: "' , (error responseText) , '"';
-				signal ]
+			PackageCommitError
+				signal: 'Commiting failed with reason: "' , error responseText , '"' ]
 !
 
 commit: aPackage onSuccess: aBlock onError: anotherBlock
@@ -824,14 +823,6 @@ commitStFileFor: aPackage onSuccess: aBlock onError: anotherBlock
 		data: (self chunkContentsFor: aPackage)
 		onSuccess: aBlock
 		onError: anotherBlock
-! !
-
-!PackageHandler methodsFor: 'error handling'!
-
-onCommitError: anError
-	PackageCommitError new
-		messageText: 'Commiting failed with reason: "' , (anError responseText) , '"';
-		signal
 ! !
 
 !PackageHandler methodsFor: 'factory'!

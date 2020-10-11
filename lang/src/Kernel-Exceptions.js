@@ -113,7 +113,7 @@ selector: "initialize",
 protocol: "initialization",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "initialize\x0a\x09self messageText: 'Errorclass: ', (self class name).",
+source: "initialize\x0a\x09self messageText: 'Errorclass: ', self class name.",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -434,6 +434,32 @@ messageSends: []
 var self=this,$self=this;
 return "exception";
 
+}; }),
+$globals.Error.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "messageText:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aString"],
+source: "messageText: aString\x0a\x09^ self new\x0a\x09\x09messageText: aString;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["messageText:", "new", "yourself"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=$self._new();
+$recv($1)._messageText_(aString);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"messageText:",{aString:aString})});
+//>>excludeEnd("ctx");
 }; }),
 $globals.Error.a$cls);
 

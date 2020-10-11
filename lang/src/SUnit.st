@@ -146,9 +146,7 @@ errorIfNotAsync: aString
 !TestCase methodsFor: 'private'!
 
 signalFailure: aString
-	TestFailure new
-		messageText: aString;
-		signal
+	TestFailure signal: aString
 ! !
 
 !TestCase methodsFor: 'running'!

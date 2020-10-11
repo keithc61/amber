@@ -961,25 +961,23 @@ selector: "parseError:parsing:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09| loc |\x0a\x09loc := anException basicAt: 'location'.\x0a\x09^ ParseError new \x0a\x09\x09messageText: \x0a\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09yourself",
+source: "parseError: anException parsing: aString\x0a\x09| loc |\x0a\x09loc := anException basicAt: 'location'.\x0a\x09^ ParseError messageText:\x0a\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09' column ' , loc start column asString,\x0a\x09\x09' : Unexpected character ', (anException basicAt: 'found')",
 referencedClasses: ["ParseError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["basicAt:", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
+messageSends: ["basicAt:", "messageText:", ",", "asString", "line", "start", "column"]
 }, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
 var loc;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 loc=[$recv(anException)._basicAt_("location")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["basicAt:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$1=$recv($globals.ParseError)._new();
-$recv($1)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
+return $recv($globals.ParseError)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["start"]=1
 //>>excludeEnd("ctx");
@@ -1004,7 +1002,6 @@ $recv($1)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__com
 ,$ctx1.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0]);
-return $recv($1)._yourself();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString,loc:loc})});
 //>>excludeEnd("ctx");

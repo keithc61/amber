@@ -289,12 +289,10 @@ error: aString
 parseError: anException parsing: aString
 	| loc |
 	loc := anException basicAt: 'location'.
-	^ ParseError new 
-		messageText: 
-			'Parse error on line ', loc start line asString,
-			' column ' , loc start column asString,
-			' : Unexpected character ', (anException basicAt: 'found');
-		yourself
+	^ ParseError messageText:
+		'Parse error on line ', loc start line asString,
+		' column ' , loc start column asString,
+		' : Unexpected character ', (anException basicAt: 'found')
 ! !
 
 !Compiler methodsFor: 'private'!

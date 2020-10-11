@@ -3,6 +3,8 @@
 * Add TPromiseModel with unary value / signal passing to 1-arg.
   * Promise class as well as PromiseExecution use it.
 
++ Error class >>
+  + messageText:
 + PromiseExecution >>
   + do:
   + signal:

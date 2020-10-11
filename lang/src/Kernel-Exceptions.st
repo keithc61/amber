@@ -58,7 +58,7 @@ signalerContextFrom: aContext
 !Error methodsFor: 'initialization'!
 
 initialize
-	self messageText: 'Errorclass: ', (self class name).
+	self messageText: 'Errorclass: ', self class name.
 ! !
 
 !Error methodsFor: 'private'!
@@ -115,6 +115,12 @@ classTag
 ! !
 
 !Error class methodsFor: 'instance creation'!
+
+messageText: aString
+	^ self new
+		messageText: aString;
+		yourself
+!
 
 signal
 	^ self new signal

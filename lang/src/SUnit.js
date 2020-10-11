@@ -736,20 +736,17 @@ selector: "signalFailure:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aString"],
-source: "signalFailure: aString\x0a\x09TestFailure new\x0a\x09\x09messageText: aString;\x0a\x09\x09signal",
+source: "signalFailure: aString\x0a\x09TestFailure signal: aString",
 referencedClasses: ["TestFailure"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["messageText:", "new", "signal"]
+messageSends: ["signal:"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.TestFailure)._new();
-$recv($1)._messageText_(aString);
-$recv($1)._signal();
+$recv($globals.TestFailure)._signal_(aString);
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"signalFailure:",{aString:aString})});

@@ -3130,30 +3130,27 @@ selector: "commit:",
 protocol: "committing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aPackage"],
-source: "commit: aPackage\x0a\x09self \x0a\x09\x09commit: aPackage\x0a\x09\x09onSuccess: []\x0a\x09\x09onError: [ :error |\x0a\x09\x09\x09PackageCommitError new\x0a\x09\x09\x09\x09messageText: 'Commiting failed with reason: \x22' , (error responseText) , '\x22';\x0a\x09\x09\x09\x09signal ]",
+source: "commit: aPackage\x0a\x09self \x0a\x09\x09commit: aPackage\x0a\x09\x09onSuccess: []\x0a\x09\x09onError: [ :error |\x0a\x09\x09\x09PackageCommitError\x0a\x09\x09\x09\x09signal: 'Commiting failed with reason: \x22' , error responseText , '\x22' ]",
 referencedClasses: ["PackageCommitError"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["commit:onSuccess:onError:", "messageText:", "new", ",", "responseText", "signal"]
+messageSends: ["commit:onSuccess:onError:", "signal:", ",", "responseText"]
 }, function ($methodClass){ return function (aPackage){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-var $1;
 $self._commit_onSuccess_onError_(aPackage,(function(){
 
 }),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-$1=$recv($globals.PackageCommitError)._new();
-$recv($1)._messageText_([$recv("Commiting failed with reason: \x22".__comma($recv(error)._responseText())).__comma("\x22")
+return $recv($globals.PackageCommitError)._signal_([$recv("Commiting failed with reason: \x22".__comma($recv(error)._responseText())).__comma("\x22")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx[","]=1
 //>>excludeEnd("ctx");
 ][0]);
-return $recv($1)._signal();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
 //>>excludeEnd("ctx");
@@ -3416,37 +3413,6 @@ $self._subclassResponsibility();
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.PackageHandler);
-
-$core.addMethod(
-$core.method({
-selector: "onCommitError:",
-protocol: "error handling",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anError"],
-source: "onCommitError: anError\x0a\x09PackageCommitError new\x0a\x09\x09messageText: 'Commiting failed with reason: \x22' , (anError responseText) , '\x22';\x0a\x09\x09signal",
-referencedClasses: ["PackageCommitError"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["messageText:", "new", ",", "responseText", "signal"]
-}, function ($methodClass){ return function (anError){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1;
-$1=$recv($globals.PackageCommitError)._new();
-$recv($1)._messageText_([$recv("Commiting failed with reason: \x22".__comma($recv(anError)._responseText())).__comma("\x22")
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx[","]=1
-//>>excludeEnd("ctx");
-][0]);
-$recv($1)._signal();
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"onCommitError:",{anError:anError})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.PackageHandler);
