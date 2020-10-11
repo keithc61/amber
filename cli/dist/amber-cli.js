@@ -20469,7 +20469,7 @@ $core.method({
 selector: "tryCatch:",
 protocol: "error handling",
 args: ["aBlock"],
-source: "tryCatch: aBlock\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
+source: "tryCatch: aBlock\x0a\x09\x22Too low-level. Try more high-level alternatives like:\x0a\x09\x09[ ... ] on: Error do: [ ... ]\x0a\x09\x09Smalltalk try: [ ... ] ifTrue: [ ... ] catch: [ ... ]\x0a\x09\x09[ ... ] tryIfTrue: [ ... ] catch: [ ... ]\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return $self._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09// pass non-local returns undetected\x0a\x09\x09\x09if (Array.isArray(error) && error.length === 1) throw error;\x0a\x09\x09\x09return aBlock._value_(error);\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
@@ -23835,25 +23835,24 @@ $core.method({
 selector: "new:",
 protocol: "instance creation",
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {\x0a\x09\x09value: resolve,\x0a\x09\x09signal: reject,\x0a\x09\x09do: function (aBlock) { resolve(this.try(aBlock)); },\x0a\x09\x09try: function (aBlock) {\x0a\x09\x09\x09try { return aBlock._value(); }\x0a\x09\x09\x09catch (e) { reject(e); }\x0a\x09\x09}\x0a\x09};\x0a    aBlock._value_(model);\x0a})'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: '\x0a\x09var nonLocalReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (nonLocalReturn) throw nonLocalReturn; else return promise;\x0a'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return new Promise(function (resolve, reject) {\x0a    var model = {\x0a\x09\x09value: resolve,\x0a\x09\x09signal: reject,\x0a\x09\x09do: function (aBlock) { resolve(this.try(aBlock)); },\x0a\x09\x09try: function (aBlock) {\x0a\x09\x09\x09try { return aBlock._value(); }\x0a\x09\x09\x09catch (e) { reject(e); }\x0a\x09\x09}\x0a\x09};\x0a    aBlock._value_(model);\x0a})"]]],
+pragmas: [["inlineJS:", ["\x0a\x09var nonLocalReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (nonLocalReturn) throw nonLocalReturn; else return promise;"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return new Promise(function (resolve, reject) {
-    var model = {
-		value: resolve,
-		signal: reject,
-		do: function (aBlock) { resolve(this.try(aBlock)); },
-		try: function (aBlock) {
-			try { return aBlock._value(); }
-			catch (e) { reject(e); }
-		}
-	};
-    aBlock._value_(model);
-});
+
+	var nonLocalReturn = null,
+		promise = new Promise(function (resolve, reject) {
+		    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
+		    try { aBlock._value_(model); }
+			catch (ex) {
+				if (Array.isArray(ex) && ex.length === 1) nonLocalReturn = ex;
+				else reject(ex);
+			}
+		});
+	if (nonLocalReturn) throw nonLocalReturn; else return promise;;
 return self;
 }, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock})});
 }; }),
@@ -23894,6 +23893,206 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
 }; }),
 $globals.Promise.a$cls);
+
+
+$core.addClass("PromiseExecution", $globals.Object, "Kernel-Promises");
+$core.setSlots($globals.PromiseExecution, ["resolveBlock", "rejectBlock"]);
+$core.addMethod(
+$core.method({
+selector: "do:",
+protocol: "evaluating",
+args: ["aBlock"],
+source: "do: aBlock\x0a\x09\x22Executes a block 'in the context of a promise' and resolves.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09If a block succeeds, promise is resolved with its return value.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09self value: (self try: aBlock)",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["value:", "try:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._value_($self._try_(aBlock));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "resolveBlock:rejectBlock:",
+protocol: "accessing",
+args: ["aBlock", "anotherBlock"],
+source: "resolveBlock: aBlock rejectBlock: anotherBlock\x0a\x09resolveBlock := aBlock.\x0a\x09rejectBlock := anotherBlock",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aBlock,anotherBlock){
+var self=this,$self=this;
+$self.resolveBlock=aBlock;
+$self.rejectBlock=anotherBlock;
+return self;
+
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "signal:",
+protocol: "settling",
+args: ["anErrorObject"],
+source: "signal: anErrorObject\x0a\x09rejectBlock value: anErrorObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (anErrorObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($self.rejectBlock)._value_(anErrorObject);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anErrorObject:anErrorObject})});
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "try:",
+protocol: "evaluating",
+args: ["aBlock"],
+source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		try {
+			return aBlock._value();
+		} catch(error) {
+			$self._signal_(
+				Array.isArray(error) && error.length === 1 ?
+					$globals.NonLifoReturn._value_(error[0]) :
+					error
+			);
+		}
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"try:",{aBlock:aBlock})});
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "settling",
+args: ["anObject"],
+source: "value: anObject\x0a\x09resolveBlock value: anObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv($self.resolveBlock)._value_(anObject);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+}; }),
+$globals.PromiseExecution);
+
+
+$core.addMethod(
+$core.method({
+selector: "resolveBlock:rejectBlock:",
+protocol: "instance creation",
+args: ["aBlock", "anotherBlock"],
+source: "resolveBlock: aBlock rejectBlock: anotherBlock\x0a\x09^ super new\x0a\x09\x09resolveBlock: aBlock rejectBlock: anotherBlock;\x0a\x09\x09yourself",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["resolveBlock:rejectBlock:", "new", "yourself"]
+}, function ($methodClass){ return function (aBlock,anotherBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=[(
+$ctx1.supercall = true,
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self))
+,$ctx1.supercall = false
+][0];
+$recv($1)._resolveBlock_rejectBlock_(aBlock,anotherBlock);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"resolveBlock:rejectBlock:",{aBlock:aBlock,anotherBlock:anotherBlock})});
+}; }),
+$globals.PromiseExecution.a$cls);
+
+
+$core.addTrait("TPromiseModel", "Kernel-Promises");
+$core.addMethod(
+$core.method({
+selector: "signal",
+protocol: "settling",
+args: [],
+source: "signal\x0a\x09^ self signal: Error new",
+referencedClasses: ["Error"],
+pragmas: [],
+messageSends: ["signal:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._signal_($recv($globals.Error)._new());
+}, function($ctx1) {$ctx1.fill(self,"signal",{})});
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "signal:",
+protocol: "settling",
+args: ["anErrorObject"],
+source: "signal: anErrorObject\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (anErrorObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anErrorObject:anErrorObject})});
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "value",
+protocol: "settling",
+args: [],
+source: "value\x0a\x09^ self value: nil",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $self._value_(nil);
+}, function($ctx1) {$ctx1.fill(self,"value",{})});
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "settling",
+args: ["anObject"],
+source: "value: anObject\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._subclassResponsibility();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+}; }),
+$globals.TPromiseModel);
 
 
 $core.addTrait("TThenable", "Kernel-Promises");
@@ -24054,6 +24253,8 @@ return $recv($recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(
 $globals.TThenable);
 
 $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
+$core.setTraitComposition([{trait: $globals.TPromiseModel}], $globals.Promise.a$cls);
+$core.setTraitComposition([{trait: $globals.TPromiseModel}], $globals.PromiseExecution);
 
 });
 
@@ -26353,10 +26554,10 @@ $core.method({
 selector: "asSmalltalkException:",
 protocol: "error handling",
 args: ["anObject"],
-source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ]",
-referencedClasses: ["Error", "JavaScriptException"],
+source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09(self isNonLocalReturn: anObject)\x0a\x09\x09\x09\x09\x09\x09ifTrue: [ NonLifoReturn value: anObject first ]\x0a\x09\x09\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ] ]",
+referencedClasses: ["Error", "NonLifoReturn", "JavaScriptException"],
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "on:"]
+messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "isNonLocalReturn:", "value:", "first", "on:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -26373,7 +26574,11 @@ return e;
 if($core.assert($self._isError_(anObject))){
 return anObject;
 } else {
+if($core.assert($self._isNonLocalReturn_(anObject))){
+return $recv($globals.NonLifoReturn)._value_($recv(anObject)._first());
+} else {
 return $recv($globals.JavaScriptException)._on_(anObject);
+}
 }
 }
 }, function($ctx1) {$ctx1.fill(self,"asSmalltalkException:",{anObject:anObject})});
@@ -26647,6 +26852,24 @@ return $recv(anObject)._isError();
 return false;
 }
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
+}; }),
+$globals.SmalltalkImage);
+
+$core.addMethod(
+$core.method({
+selector: "isNonLocalReturn:",
+protocol: "testing",
+args: ["anObject"],
+source: "isNonLocalReturn: anObject\x0a\x09<inlineJS: 'return Array.isArray(anObject) && anObject.length === 1'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return Array.isArray(anObject) && anObject.length === 1"]]],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return Array.isArray(anObject) && anObject.length === 1;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"isNonLocalReturn:",{anObject:anObject})});
 }; }),
 $globals.SmalltalkImage);
 
@@ -27138,13 +27361,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.5'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.6'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.5";
+return "0.29.6";
 
 }; }),
 $globals.SmalltalkImage);
@@ -27441,7 +27664,7 @@ $core.method({
 selector: "initialize",
 protocol: "initialization",
 args: [],
-source: "initialize\x0a\x09self messageText: 'Errorclass: ', (self class name).",
+source: "initialize\x0a\x09self messageText: 'Errorclass: ', self class name.",
 referencedClasses: [],
 pragmas: [],
 messageSends: ["messageText:", ",", "name", "class"]
@@ -27691,6 +27914,26 @@ messageSends: []
 var self=this,$self=this;
 return "exception";
 
+}; }),
+$globals.Error.a$cls);
+
+$core.addMethod(
+$core.method({
+selector: "messageText:",
+protocol: "instance creation",
+args: ["aString"],
+source: "messageText: aString\x0a\x09^ self new\x0a\x09\x09messageText: aString;\x0a\x09\x09yourself",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["messageText:", "new", "yourself"]
+}, function ($methodClass){ return function (aString){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=$self._new();
+$recv($1)._messageText_(aString);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"messageText:",{aString:aString})});
 }; }),
 $globals.Error.a$cls);
 
@@ -28027,6 +28270,84 @@ return $recv($1)._signal();
 }, function($ctx1) {$ctx1.fill(self,"signalOn:",{anObject:anObject})});
 }; }),
 $globals.NonBooleanReceiver.a$cls);
+
+
+$core.addClass("NonLifoReturn", $globals.Error, "Kernel-Exceptions");
+$core.setSlots($globals.NonLifoReturn, ["value"]);
+$core.addMethod(
+$core.method({
+selector: "messageText",
+protocol: "accessing",
+args: [],
+source: "messageText\x0a\x09^ 'Non-LIFO return: ', self value asString",
+referencedClasses: [],
+pragmas: [],
+messageSends: [",", "asString", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return "Non-LIFO return: ".__comma($recv($self._value())._asString());
+}, function($ctx1) {$ctx1.fill(self,"messageText",{})});
+}; }),
+$globals.NonLifoReturn);
+
+$core.addMethod(
+$core.method({
+selector: "value",
+protocol: "accessing",
+args: [],
+source: "value\x0a\x09^ value",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $self.value;
+
+}; }),
+$globals.NonLifoReturn);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "accessing",
+args: ["anObject"],
+source: "value: anObject\x0a\x09value := anObject",
+referencedClasses: [],
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+$self.value=anObject;
+return self;
+
+}; }),
+$globals.NonLifoReturn);
+
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "instance creation",
+args: ["anObject"],
+source: "value: anObject\x0a\x09^ super new\x0a\x09\x09value: anObject;\x0a\x09\x09yourself",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["value:", "new", "yourself"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1;
+$1=[(
+$ctx1.supercall = true,
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self))
+,$ctx1.supercall = false
+][0];
+$recv($1)._value_(anObject);
+return $recv($1)._yourself();
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+}; }),
+$globals.NonLifoReturn.a$cls);
 
 });
 
@@ -36920,23 +37241,20 @@ $core.method({
 selector: "commit:",
 protocol: "committing",
 args: ["aPackage"],
-source: "commit: aPackage\x0a\x09self \x0a\x09\x09commit: aPackage\x0a\x09\x09onSuccess: []\x0a\x09\x09onError: [ :error |\x0a\x09\x09\x09PackageCommitError new\x0a\x09\x09\x09\x09messageText: 'Commiting failed with reason: \x22' , (error responseText) , '\x22';\x0a\x09\x09\x09\x09signal ]",
+source: "commit: aPackage\x0a\x09self \x0a\x09\x09commit: aPackage\x0a\x09\x09onSuccess: []\x0a\x09\x09onError: [ :error |\x0a\x09\x09\x09PackageCommitError\x0a\x09\x09\x09\x09signal: 'Commiting failed with reason: \x22' , error responseText , '\x22' ]",
 referencedClasses: ["PackageCommitError"],
 pragmas: [],
-messageSends: ["commit:onSuccess:onError:", "messageText:", "new", ",", "responseText", "signal"]
+messageSends: ["commit:onSuccess:onError:", "signal:", ",", "responseText"]
 }, function ($methodClass){ return function (aPackage){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
 $self._commit_onSuccess_onError_(aPackage,(function(){
 
 }),(function(error){
 return $core.withContext(function($ctx2) {
-$1=$recv($globals.PackageCommitError)._new();
-$recv($1)._messageText_([$recv("Commiting failed with reason: \x22".__comma($recv(error)._responseText())).__comma("\x22")
+return $recv($globals.PackageCommitError)._signal_([$recv("Commiting failed with reason: \x22".__comma($recv(error)._responseText())).__comma("\x22")
 ,$ctx2.sendIdx[","]=1
 ][0]);
-return $recv($1)._signal();
 }, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
 }));
 return self;
@@ -37122,29 +37440,6 @@ return $core.withContext(function($ctx1) {
 $self._subclassResponsibility();
 return self;
 }, function($ctx1) {$ctx1.fill(self,"load:",{aPackage:aPackage})});
-}; }),
-$globals.PackageHandler);
-
-$core.addMethod(
-$core.method({
-selector: "onCommitError:",
-protocol: "error handling",
-args: ["anError"],
-source: "onCommitError: anError\x0a\x09PackageCommitError new\x0a\x09\x09messageText: 'Commiting failed with reason: \x22' , (anError responseText) , '\x22';\x0a\x09\x09signal",
-referencedClasses: ["PackageCommitError"],
-pragmas: [],
-messageSends: ["messageText:", "new", ",", "responseText", "signal"]
-}, function ($methodClass){ return function (anError){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv($globals.PackageCommitError)._new();
-$recv($1)._messageText_([$recv("Commiting failed with reason: \x22".__comma($recv(anError)._responseText())).__comma("\x22")
-,$ctx1.sendIdx[","]=1
-][0]);
-$recv($1)._signal();
-return self;
-}, function($ctx1) {$ctx1.fill(self,"onCommitError:",{anError:anError})});
 }; }),
 $globals.PackageHandler);
 
@@ -38893,10 +39188,10 @@ $core.method({
 selector: "parse:",
 protocol: "compiling",
 args: ["aString"],
-source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryCatch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result",
+source: "parse: aString\x0a\x09| result |\x0a\x09\x0a\x09[ result := self basicParse: aString ] \x0a\x09\x09tryIfTrue: [ :err | (err basicAt: 'location') notNil ]\x0a\x09\x09catch: [ :ex | (self parseError: ex parsing: aString) signal ].\x0a\x09\x09\x0a\x09^ result",
 referencedClasses: [],
 pragmas: [],
-messageSends: ["tryCatch:", "basicParse:", "signal", "parseError:parsing:"]
+messageSends: ["tryIfTrue:catch:", "basicParse:", "notNil", "basicAt:", "signal", "parseError:parsing:"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 var result;
@@ -38906,10 +39201,14 @@ return $core.withContext(function($ctx2) {
 result=$self._basicParse_(aString);
 return result;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}))._tryCatch_((function(ex){
+}))._tryIfTrue_catch_((function(err){
+return $core.withContext(function($ctx2) {
+return $recv($recv(err)._basicAt_("location"))._notNil();
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,2)});
+}),(function(ex){
 return $core.withContext(function($ctx2) {
 return $recv($self._parseError_parsing_(ex,aString))._signal();
-}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({ex:ex},$ctx1,3)});
 }));
 return result;
 }, function($ctx1) {$ctx1.fill(self,"parse:",{aString:aString,result:result})});
@@ -38921,24 +39220,18 @@ $core.method({
 selector: "parseError:parsing:",
 protocol: "error handling",
 args: ["anException", "aString"],
-source: "parseError: anException parsing: aString\x0a\x09(anException basicAt: 'location')\x0a\x09\x09ifNil: [ ^ anException pass ]\x0a\x09\x09ifNotNil: [ :loc |\x0a\x09\x09\x09^ ParseError new \x0a\x09\x09\x09\x09messageText: \x0a\x09\x09\x09\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09\x09\x09\x09' column ' , loc start column asString,\x0a\x09\x09\x09\x09\x09' : Unexpected character ', (anException basicAt: 'found');\x0a\x09\x09\x09\x09yourself ]",
+source: "parseError: anException parsing: aString\x0a\x09| loc |\x0a\x09loc := anException basicAt: 'location'.\x0a\x09^ ParseError messageText:\x0a\x09\x09'Parse error on line ', loc start line asString,\x0a\x09\x09' column ' , loc start column asString,\x0a\x09\x09' : Unexpected character ', (anException basicAt: 'found')",
 referencedClasses: ["ParseError"],
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "basicAt:", "pass", "messageText:", "new", ",", "asString", "line", "start", "column", "yourself"]
+messageSends: ["basicAt:", "messageText:", ",", "asString", "line", "start", "column"]
 }, function ($methodClass){ return function (anException,aString){
 var self=this,$self=this;
+var loc;
 return $core.withContext(function($ctx1) {
-var $1,$2;
-$1=[$recv(anException)._basicAt_("location")
+loc=[$recv(anException)._basicAt_("location")
 ,$ctx1.sendIdx["basicAt:"]=1
 ][0];
-if($1 == null || $1.a$nil){
-return $recv(anException)._pass();
-} else {
-var loc;
-loc=$1;
-$2=$recv($globals.ParseError)._new();
-$recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
+return $recv($globals.ParseError)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__comma([$recv($recv([$recv(loc)._start()
 ,$ctx1.sendIdx["start"]=1
 ][0])._line())._asString()
 ,$ctx1.sendIdx["asString"]=1
@@ -38951,10 +39244,7 @@ $recv($2)._messageText_([$recv([$recv([$recv([$recv("Parse error on line ".__com
 ][0]).__comma($recv(anException)._basicAt_("found"))
 ,$ctx1.sendIdx[","]=1
 ][0]);
-return $recv($2)._yourself();
-}
-return self;
-}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString})});
+}, function($ctx1) {$ctx1.fill(self,"parseError:parsing:",{anException:anException,aString:aString,loc:loc})});
 }; }),
 $globals.Compiler);
 
@@ -54886,17 +55176,14 @@ $core.method({
 selector: "signalFailure:",
 protocol: "private",
 args: ["aString"],
-source: "signalFailure: aString\x0a\x09TestFailure new\x0a\x09\x09messageText: aString;\x0a\x09\x09signal",
+source: "signalFailure: aString\x0a\x09TestFailure signal: aString",
 referencedClasses: ["TestFailure"],
 pragmas: [],
-messageSends: ["messageText:", "new", "signal"]
+messageSends: ["signal:"]
 }, function ($methodClass){ return function (aString){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1;
-$1=$recv($globals.TestFailure)._new();
-$recv($1)._messageText_(aString);
-$recv($1)._signal();
+$recv($globals.TestFailure)._signal_(aString);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"signalFailure:",{aString:aString})});
 }; }),
@@ -55127,10 +55414,10 @@ $core.method({
 selector: "execute:",
 protocol: "running",
 args: ["aBlock"],
-source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09result\x0a\x09\x09\x09\x09\x09\x09then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ error signal ] ] ] ] ] ]",
-referencedClasses: [],
+source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09result\x0a\x09\x09\x09\x09\x09\x09then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ (Smalltalk asSmalltalkException: error) pass ] ] ] ] ] ]",
+referencedClasses: ["Smalltalk"],
 pragmas: [],
-messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:catch:", "execute:", "signal"]
+messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:catch:", "execute:", "pass", "asSmalltalkException:"]
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 var failed,result;
@@ -55188,7 +55475,7 @@ return $core.withContext(function($ctx3) {
 if($core.assert($recv($self.testCase)._isAsync())){
 return $self._execute_((function(){
 return $core.withContext(function($ctx4) {
-return $recv(error)._signal();
+return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,14)});
 }));
 }
@@ -55343,10 +55630,10 @@ $globals.ReportingTestContext);
 
 $core.addMethod(
 $core.method({
-selector: "withErrorReporting:",
+selector: "withErrorReporting2:",
 protocol: "private",
 args: ["aBlock"],
-source: "withErrorReporting: aBlock\x0a\x09[ aBlock\x0a\x09\x09on: TestFailure\x0a\x09\x09do: [ :ex | result addFailure: testCase ]\x0a\x09]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | result addError: testCase ]",
+source: "withErrorReporting2: aBlock\x0a\x09[ aBlock\x0a\x09\x09on: TestFailure\x0a\x09\x09do: [ :ex | result addFailure: testCase ]\x0a\x09]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :ex | result addError: testCase ]",
 referencedClasses: ["TestFailure", "Error"],
 pragmas: [],
 messageSends: ["on:do:", "addFailure:", "addError:"]
@@ -55368,6 +55655,29 @@ return $recv($self.result)._addError_($self.testCase);
 }))
 ,$ctx1.sendIdx["on:do:"]=1
 ][0];
+return self;
+}, function($ctx1) {$ctx1.fill(self,"withErrorReporting2:",{aBlock:aBlock})});
+}; }),
+$globals.ReportingTestContext);
+
+$core.addMethod(
+$core.method({
+selector: "withErrorReporting:",
+protocol: "private",
+args: ["aBlock"],
+source: "withErrorReporting: aBlock\x0a\x09<inlineJS: '\x0a\x09try { aBlock._value(); }\x0a\x09catch (ex) {\x0a\x09\x09var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);\x0a\x09\x09self._withErrorReporting2_(function () { smalltalkError._pass(); });\x0a\x09}'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["\x0a\x09try { aBlock._value(); }\x0a\x09catch (ex) {\x0a\x09\x09var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);\x0a\x09\x09self._withErrorReporting2_(function () { smalltalkError._pass(); });\x0a\x09}"]]],
+messageSends: []
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+	try { aBlock._value(); }
+	catch (ex) {
+		var smalltalkError = $globals.Smalltalk._asSmalltalkException_(ex);
+		self._withErrorReporting2_(function () { smalltalkError._pass(); });
+	};
 return self;
 }, function($ctx1) {$ctx1.fill(self,"withErrorReporting:",{aBlock:aBlock})});
 }; }),
@@ -66551,6 +66861,709 @@ $globals.PointTest);
 
 
 
+$core.addClass("PromiseTest", $globals.TestCase, "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncDoWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncDoWithNonLocalReturn\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ ^  'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "new:", "fork", "do:", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._do_((function(){
+throw $early=["Intentional"];
+
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,5)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncDoWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncNegativeDo",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "do:", "error:", "assert:description:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._do_((function(){
+return $core.withContext(function($ctx4) {
+return $self._error_("Intentional");
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}),(function(error){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncNegativeDo",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncNegativeTry",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncNegativeTry\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "try:", "error:", "assert:description:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._try_((function(){
+return $core.withContext(function($ctx4) {
+return $self._error_("Intentional");
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}),(function(error){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncNegativeTry",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncPositiveDo",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncPositiveDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ 3 ] ] fork ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "do:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._do_((function(){
+return (3);
+
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,(3));
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,4)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncPositiveDo",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncPositiveTry",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncPositiveTry\x0a\x09self timeout: 200.\x0a\x09^ (Promise any: {\x0a\x09\x09(Promise new: [ :m | [ m try: [ 3 ] ] fork ])\x0a\x09\x09\x09then: [ :result | self assert: result equals: 3 ].\x0a\x09\x09Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]\x0a\x09}) then: [ :result | self assert: result equals: #timeout ].",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "any:", "new:", "fork", "try:", "assert:equals:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((200));
+return [$recv($recv($globals.Promise)._any_([$recv([$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._try_((function(){
+return (3);
+
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+}))
+,$ctx1.sendIdx["new:"]=1
+][0])._then_((function(result){
+return $core.withContext(function($ctx2) {
+return [$self._assert_equals_(result,(3))
+,$ctx2.sendIdx["assert:equals:"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,4)});
+})),$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._value_("timeout");
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,6)});
+}))._valueWithTimeout_((20));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,5)});
+}))]))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,"timeout");
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,7)});
+}))
+,$ctx1.sendIdx["then:"]=1
+][0];
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncPositiveTry",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncTryWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorAsyncTryWithNonLocalReturn\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m try: [ ^  'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "new:", "fork", "try:", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._try_((function(){
+throw $early=["Intentional"];
+
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,5)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncTryWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorDoWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorDoWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m do: [ ^ 'Intentional' ] ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "new:", "do:", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._do_((function(){
+throw $early=["Intentional"];
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,4)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorDoWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorNegativeDo",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "do:", "error:", "assert:description:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._do_((function(){
+return $core.withContext(function($ctx4) {
+return $self._error_("Intentional");
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+}));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+}),(function(error){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorNegativeDo",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorNegativeTry",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorNegativeTry\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "try:", "error:", "assert:description:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._try_((function(){
+return $core.withContext(function($ctx3) {
+return $self._error_("Intentional");
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}),(function(error){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorNegativeTry",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorPositiveDo",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorPositiveDo\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m do: [ 3 ] ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "do:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._do_((function(){
+return (3);
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,(3));
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorPositiveDo",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorPositiveTry",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorPositiveTry\x0a\x09self timeout: 200.\x0a\x09^ (Promise any: {\x0a\x09\x09(Promise new: [ :m | m try: [ 3 ] ])\x0a\x09\x09\x09then: [ :result | self assert: result equals: 3 ].\x0a\x09\x09Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]\x0a\x09}) then: [ :result | self assert: result equals: #timeout ].",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "any:", "new:", "try:", "assert:equals:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((200));
+return [$recv($recv($globals.Promise)._any_([$recv([$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._try_((function(){
+return (3);
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+}))
+,$ctx1.sendIdx["new:"]=1
+][0])._then_((function(result){
+return $core.withContext(function($ctx2) {
+return [$self._assert_equals_(result,(3))
+,$ctx2.sendIdx["assert:equals:"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+})),$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._value_("timeout");
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
+}))._valueWithTimeout_((20));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,4)});
+}))]))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,"timeout");
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,6)});
+}))
+,$ctx1.sendIdx["then:"]=1
+][0];
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorPositiveTry",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorTryWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseExecutorTryWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m try: [ ^ 'Intentional' ] ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "new:", "try:", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._try_((function(){
+throw $early=["Intentional"];
+
+}));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,4)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorTryWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseNew",
+protocol: " tests",
+args: [],
+source: "testPromiseNew\x0a\x09self timeout: 20.\x0a\x09^ Promise new\x0a\x09\x09then: [ :result | self assert: result equals: nil ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new())._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,nil);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,1)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseNew",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncPassingRejectingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithAsyncPassingRejectingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "signal:", "value:", "assert:description:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((60));
+return $recv([$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return [$recv((function(){
+var passPromise;
+return $core.withContext(function($ctx3) {
+passPromise=$recv($globals.Promise)._new_((function(m2){
+return $core.withContext(function($ctx4) {
+return $recv((function(){
+return $core.withContext(function($ctx5) {
+return $recv(m2)._signal_((4));
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,4)});
+}))._fork();
+}, function($ctx4) {$ctx4.fillBlock({m2:m2},$ctx3,3)});
+}));
+return $recv(m)._value_(passPromise);
+}, function($ctx3) {$ctx3.fillBlock({passPromise:passPromise},$ctx2,2)});
+}))._fork()
+,$ctx2.sendIdx["fork"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+}))
+,$ctx1.sendIdx["new:"]=1
+][0])._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
+}),(function(err){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(err,(4));
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,6)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncPassingRejectingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncPassingResolvingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithAsyncPassingResolvingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 value: 3 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ]) then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((60));
+return $recv([$recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return [$recv((function(){
+var passPromise;
+return $core.withContext(function($ctx3) {
+passPromise=$recv($globals.Promise)._new_((function(m2){
+return $core.withContext(function($ctx4) {
+return $recv((function(){
+return $core.withContext(function($ctx5) {
+return [$recv(m2)._value_((3))
+,$ctx5.sendIdx["value:"]=1
+][0];
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,4)});
+}))._fork();
+}, function($ctx4) {$ctx4.fillBlock({m2:m2},$ctx3,3)});
+}));
+return $recv(m)._value_(passPromise);
+}, function($ctx3) {$ctx3.fillBlock({passPromise:passPromise},$ctx2,2)});
+}))._fork()
+,$ctx2.sendIdx["fork"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+}))
+,$ctx1.sendIdx["new:"]=1
+][0])._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,(3));
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,5)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncPassingResolvingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncRejectingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithAsyncRejectingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m signal: 4 ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "signal:", "assert:description:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._signal_((4));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+}),(function(err){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(err,(4));
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,4)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncRejectingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncResolvingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithAsyncResolvingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m value: 3 ] fork ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv((function(){
+return $core.withContext(function($ctx3) {
+return $recv(m)._value_((3));
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+}))._fork();
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,(3));
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncResolvingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithRejectingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithRejectingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m signal: 4 ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "new:", "signal:", "assert:description:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._signal_((4));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),(function(err){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(err,(4));
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithRejectingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithResolvingExecutor",
+protocol: " tests",
+args: [],
+source: "testPromiseWithResolvingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m value: 3 ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+return $core.withContext(function($ctx2) {
+return $recv(m)._value_((3));
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+})))._then_((function(result){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_(result,(3));
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithResolvingExecutor",{})});
+}; }),
+$globals.PromiseTest);
+
+
+
 $core.addClass("QueueTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
@@ -68637,6 +69650,33 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNonLocalReturnWithCatch",
+protocol: "tests",
+args: [],
+source: "testNonLocalReturnWithCatch\x0a\x09self should: 'foo [ ^ 1 ] on: Error do: [ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] on: Error do: [ ^ 2 ]' return: 1.\x0a\x09self should: 'foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ ^ 2 ]' return: 1.",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+[$self._should_return_("foo [ ^ 1 ] on: Error do: [ 2 ]",(1))
+,$ctx1.sendIdx["should:return:"]=1
+][0];
+[$self._should_return_("foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ 2 ]",(1))
+,$ctx1.sendIdx["should:return:"]=2
+][0];
+[$self._should_return_("foo [ ^ 1 ] on: Error do: [ ^ 2 ]",(1))
+,$ctx1.sendIdx["should:return:"]=3
+][0];
+$self._should_return_("foo [ ^ 1 ] tryIfTrue: [ true ] catch: [ ^ 2 ]",(1));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testNonLocalReturnWithCatch",{})});
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPascalCaseGlobal",
 protocol: "tests",
 args: [],
@@ -68671,6 +69711,24 @@ return $core.withContext(function($ctx1) {
 $self._should_return_("foo < inlineJS: 'return 2+3' >",(5));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testPragmaJSStatement",{})});
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncExecutorAndLocalReturn",
+protocol: "tests",
+args: [],
+source: "testPromiseWithAsyncExecutorAndLocalReturn\x0a\x09self\x0a\x09\x09should: 'foo ^ Promise new: [ :m | [ 3 + 4 ] fork. ^ 5 ]'\x0a\x09\x09return: 5",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._should_return_("foo ^ Promise new: [ :m | [ 3 + 4 ] fork. ^ 5 ]",(5));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncExecutorAndLocalReturn",{})});
 }; }),
 $globals.AbstractCompilerTest);
 
@@ -71772,6 +72830,34 @@ $globals.SUnitAsyncTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakeNonLifoReturn",
+protocol: "helpers",
+args: [],
+source: "fakeNonLifoReturn\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := (self async: [ flag := 'ok'. ^ 'non-lifo' ]) valueWithTimeout: 20",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["timeout:", "valueWithTimeout:", "async:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self.flag="bad";
+$self._timeout_((30));
+$self.flag=$recv($self._async_((function(){
+$self.flag="ok";
+throw $early=["non-lifo"];
+
+})))._valueWithTimeout_((20));
+return self;
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"fakeNonLifoReturn",{})});
+}; }),
+$globals.SUnitAsyncTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakeTimeout",
 protocol: "helpers",
 args: [],
@@ -71992,6 +73078,57 @@ $self._finished();
 $self._deny_($self._isAsync());
 return self;
 }, function($ctx1) {$ctx1.fill(self,"testIsAsyncReturnsCorrectValues",{})});
+}; }),
+$globals.SUnitAsyncTest);
+
+$core.addMethod(
+$core.method({
+selector: "testNonLifo",
+protocol: "tests",
+args: [],
+source: "testNonLifo\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #(fakeNonLifoReturn testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeNonLifoReturn) asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: Set new.\x0a\x09\x09\x22TODO check that error is indeed a correct NonLifoReturn\x22\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].\x0a\x09runner run",
+referencedClasses: ["TestSuiteRunner", "Set", "ResultAnnouncement"],
+pragmas: [],
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "async:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "new", "finished", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "run"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var suite,runner,result,assertBlock;
+return $core.withContext(function($ctx1) {
+var $1;
+suite=["fakeNonLifoReturn", "testPass"]._collect_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv($self._class())._selector_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+runner=$recv($globals.TestSuiteRunner)._on_(suite);
+$self._timeout_((200));
+result=[$recv(runner)._result()
+,$ctx1.sendIdx["result"]=1
+][0];
+assertBlock=$self._async_((function(){
+return $core.withContext(function($ctx2) {
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
+,$ctx2.sendIdx["selectorSetOf:"]=1
+][0],["fakeNonLifoReturn"]._asSet())
+,$ctx2.sendIdx["assert:equals:"]=1
+][0];
+$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),$recv($globals.Set)._new());
+return $self._finished();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+$recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(ann){
+return $core.withContext(function($ctx2) {
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+$1=$recv($recv(result)._runs()).__eq($recv(result)._total());
+} else {
+$1=false;
+}
+return $recv($1)._ifTrue_(assertBlock);
+}, function($ctx2) {$ctx2.fillBlock({ann:ann},$ctx1,3)});
+}));
+$recv(runner)._run();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testNonLifo",{suite:suite,runner:runner,result:result,assertBlock:assertBlock})});
 }; }),
 $globals.SUnitAsyncTest);
 
@@ -72254,6 +73391,34 @@ $globals.SUnitPromiseTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakeNonLifoReturn",
+protocol: "helpers",
+args: [],
+source: "fakeNonLifoReturn\x0a\x09flag := 'bad'.\x0a\x09self timeout: 30.\x0a\x09flag := Promise delayMilliseconds: 20.\x0a\x09^ flag then: [ flag := 'ok'. ^ 'non-lifo' ]",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "delayMilliseconds:", "then:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self.flag="bad";
+$self._timeout_((30));
+$self.flag=$recv($globals.Promise)._delayMilliseconds_((20));
+return $recv($self.flag)._then_((function(){
+$self.flag="ok";
+throw $early=["non-lifo"];
+
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"fakeNonLifoReturn",{})});
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakePromiseWithoutTimeout",
 protocol: "helpers",
 args: [],
@@ -72385,6 +73550,60 @@ $globals.SUnitPromiseTest);
 
 $core.addMethod(
 $core.method({
+selector: "testNonLifo",
+protocol: "tests",
+args: [],
+source: "testNonLifo\x0a\x09| suite runner result |\x0a\x09suite := #(fakeNonLifoReturn testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeNonLifoReturn) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: Set new.\x0a\x09\x09\x09\x09\x22TODO check that error is indeed a correct NonLifoReturn\x22\x0a\x09\x09] ] ].\x0a\x09\x09runner run ]",
+referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement", "Set"],
+pragmas: [],
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "do:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "new", "run"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+var suite,runner,result;
+return $core.withContext(function($ctx1) {
+var $1;
+suite=["fakeNonLifoReturn", "testPass"]._collect_((function(each){
+return $core.withContext(function($ctx2) {
+return $recv($self._class())._selector_(each);
+}, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
+}));
+runner=$recv($globals.TestSuiteRunner)._on_(suite);
+$self._timeout_((200));
+result=[$recv(runner)._result()
+,$ctx1.sendIdx["result"]=1
+][0];
+return $recv($globals.Promise)._new_((function(model){
+return $core.withContext(function($ctx2) {
+$recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(ann){
+return $core.withContext(function($ctx3) {
+if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
+$1=$recv($recv(result)._runs()).__eq($recv(result)._total());
+} else {
+$1=false;
+}
+if($core.assert($1)){
+return $recv(model)._do_((function(){
+return $core.withContext(function($ctx4) {
+[$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
+,$ctx4.sendIdx["selectorSetOf:"]=1
+][0],["fakeNonLifoReturn"]._asSet())
+,$ctx4.sendIdx["assert:equals:"]=1
+][0];
+return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),$recv($globals.Set)._new());
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
+}));
+}
+}, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
+}));
+return $recv(runner)._run();
+}, function($ctx2) {$ctx2.fillBlock({model:model},$ctx1,2)});
+}));
+}, function($ctx1) {$ctx1.fill(self,"testNonLifo",{suite:suite,runner:runner,result:result})});
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPass",
 protocol: "tests",
 args: [],
@@ -72414,10 +73633,10 @@ $core.method({
 selector: "testPromiseErrorsAndFailures",
 protocol: "tests",
 args: [],
-source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09\x09\x09model value: nil ] ].\x0a\x09\x09runner run ]",
+source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].\x0a\x09\x09runner run ]",
 referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
 pragmas: [],
-messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "value:", "run"]
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "do:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "run"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var suite,runner,result;
@@ -72443,15 +73662,18 @@ $1=$recv($recv(result)._runs()).__eq($recv(result)._total());
 $1=false;
 }
 if($core.assert($1)){
+return $recv(model)._do_((function(){
+return $core.withContext(function($ctx4) {
 [$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
-,$ctx3.sendIdx["selectorSetOf:"]=1
+,$ctx4.sendIdx["selectorSetOf:"]=1
 ][0],[["fakeError"]._asSet()
-,$ctx3.sendIdx["asSet"]=1
+,$ctx4.sendIdx["asSet"]=1
 ][0])
-,$ctx3.sendIdx["assert:equals:"]=1
+,$ctx4.sendIdx["assert:equals:"]=1
 ][0];
-$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
-return $recv(model)._value_(nil);
+return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
+}));
 }
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
 }));
@@ -72467,15 +73689,15 @@ $core.method({
 selector: "testTimeouts",
 protocol: "tests",
 args: [],
-source: "testTimeouts\x0a\x09| suite runner result |\x0a\x09suite := #(fakeTimeout fakeMultipleTimeoutFailing fakeMultipleTimeoutPassing fakeTimeoutSendOnly fakePromiseWithoutTimeout testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09console log: ann; log: ann result runs.\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #() asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet.\x0a\x09\x09\x09\x09model value: nil ] ].\x0a\x09\x09runner run ]",
+source: "testTimeouts\x0a\x09| suite runner result |\x0a\x09suite := #(fakeTimeout fakeMultipleTimeoutFailing fakeMultipleTimeoutPassing fakeTimeoutSendOnly fakePromiseWithoutTimeout testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #() asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeMultipleTimeoutFailing fakeTimeout fakeTimeoutSendOnly fakePromiseWithoutTimeout) asSet ] ] ].\x0a\x09\x09runner run ]",
 referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
 pragmas: [],
-messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "log:", "runs", "ifTrue:", "and:", "==", "=", "total", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "value:", "run"]
+messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "do:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "run"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 var suite,runner,result;
 return $core.withContext(function($ctx1) {
-var $1,$2;
+var $1;
 suite=["fakeTimeout", "fakeMultipleTimeoutFailing", "fakeMultipleTimeoutPassing", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout", "testPass"]._collect_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($self._class())._selector_(each);
@@ -72490,30 +73712,24 @@ return $recv($globals.Promise)._new_((function(model){
 return $core.withContext(function($ctx2) {
 $recv($recv(runner)._announcer())._on_do_($globals.ResultAnnouncement,(function(ann){
 return $core.withContext(function($ctx3) {
-$1=console;
-[$recv($1)._log_(ann)
-,$ctx3.sendIdx["log:"]=1
-][0];
-$recv($1)._log_([$recv([$recv(ann)._result()
-,$ctx3.sendIdx["result"]=2
-][0])._runs()
-,$ctx3.sendIdx["runs"]=1
-][0]);
 if($core.assert($recv($recv(ann)._result()).__eq_eq(result))){
-$2=$recv($recv(result)._runs()).__eq($recv(result)._total());
+$1=$recv($recv(result)._runs()).__eq($recv(result)._total());
 } else {
-$2=false;
+$1=false;
 }
-if($core.assert($2)){
+if($core.assert($1)){
+return $recv(model)._do_((function(){
+return $core.withContext(function($ctx4) {
 [$self._assert_equals_([$self._selectorSetOf_($recv(result)._errors())
-,$ctx3.sendIdx["selectorSetOf:"]=1
+,$ctx4.sendIdx["selectorSetOf:"]=1
 ][0],[[]._asSet()
-,$ctx3.sendIdx["asSet"]=1
+,$ctx4.sendIdx["asSet"]=1
 ][0])
-,$ctx3.sendIdx["assert:equals:"]=1
+,$ctx4.sendIdx["assert:equals:"]=1
 ][0];
-$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeMultipleTimeoutFailing", "fakeTimeout", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout"]._asSet());
-return $recv(model)._value_(nil);
+return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeMultipleTimeoutFailing", "fakeTimeout", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout"]._asSet());
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
+}));
 }
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
 }));
