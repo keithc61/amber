@@ -15678,11 +15678,11 @@ selector: "testPromiseExecutorAsyncNegativeDo",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseExecutorAsyncNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+source: "testPromiseExecutorAsyncNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "fork", "do:", "error:", "assert:equals:", "messageText"]
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "do:", "error:", "assert:description:", "assert:equals:", "messageText"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15713,13 +15713,21 @@ return $self._error_("Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(error){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+//>>excludeEnd("ctx");
+}),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_($recv(error)._messageText(),"Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15734,11 +15742,11 @@ selector: "testPromiseExecutorAsyncNegativeTry",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseExecutorAsyncNegativeTry\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+source: "testPromiseExecutorAsyncNegativeTry\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "fork", "try:", "error:", "assert:equals:", "messageText"]
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "try:", "error:", "assert:description:", "assert:equals:", "messageText"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15769,13 +15777,21 @@ return $self._error_("Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(error){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+//>>excludeEnd("ctx");
+}),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_($recv(error)._messageText(),"Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15928,11 +15944,11 @@ selector: "testPromiseExecutorNegativeDo",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseExecutorNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+source: "testPromiseExecutorNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "fork", "do:", "error:", "assert:equals:", "messageText"]
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "do:", "error:", "assert:description:", "assert:equals:", "messageText"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15963,13 +15979,21 @@ return $self._error_("Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(error){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,4)});
+//>>excludeEnd("ctx");
+}),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_($recv(error)._messageText(),"Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,5)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -15984,11 +16008,11 @@ selector: "testPromiseExecutorNegativeTry",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseExecutorNegativeTry\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+source: "testPromiseExecutorNegativeTry\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "try:", "error:", "assert:equals:", "messageText"]
+messageSends: ["timeout:", "then:catch:", "new:", "try:", "error:", "assert:description:", "assert:equals:", "messageText"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16011,13 +16035,21 @@ return $self._error_("Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(error){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}),(function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_($recv(error)._messageText(),"Intentional");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,3)});
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16186,11 +16218,11 @@ selector: "testPromiseWithAsyncPassingRejectingExecutor",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseWithAsyncPassingRejectingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ]) catch: [ :err | self assert: err equals: 4 ]",
+source: "testPromiseWithAsyncPassingRejectingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "fork", "signal:", "value:", "assert:equals:"]
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "signal:", "value:", "assert:description:", "assert:equals:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16239,13 +16271,21 @@ return $recv(m)._value_(passPromise);
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["new:"]=1
 //>>excludeEnd("ctx");
-][0])._catch_((function(err){
+][0])._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
+//>>excludeEnd("ctx");
+}),(function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_(err,(4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,5)});
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,6)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16338,11 +16378,11 @@ selector: "testPromiseWithAsyncRejectingExecutor",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseWithAsyncRejectingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m signal: 4 ] fork ])\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+source: "testPromiseWithAsyncRejectingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m signal: 4 ] fork ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "fork", "signal:", "assert:equals:"]
+messageSends: ["timeout:", "then:catch:", "new:", "fork", "signal:", "assert:description:", "assert:equals:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16365,13 +16405,21 @@ return $recv(m)._signal_((4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(err){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,3)});
+//>>excludeEnd("ctx");
+}),(function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_(err,(4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,4)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16434,11 +16482,11 @@ selector: "testPromiseWithRejectingExecutor",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseWithRejectingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m signal: 4 ])\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+source: "testPromiseWithRejectingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m signal: 4 ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
 referencedClasses: ["Promise"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["timeout:", "catch:", "new:", "signal:", "assert:equals:"]
+messageSends: ["timeout:", "then:catch:", "new:", "signal:", "assert:description:", "assert:equals:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -16453,13 +16501,21 @@ return $recv(m)._signal_((4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
 //>>excludeEnd("ctx");
-})))._catch_((function(err){
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),(function(err){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 return $self._assert_equals_(err,(4));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,2)});
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

@@ -2789,12 +2789,14 @@ TestCase subclass: #PromiseTest
 testPromiseExecutorAsyncNegativeDo
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
 !
 
 testPromiseExecutorAsyncNegativeTry
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
 !
 
@@ -2816,12 +2818,14 @@ testPromiseExecutorAsyncPositiveTry
 testPromiseExecutorNegativeDo
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
 !
 
 testPromiseExecutorNegativeTry
 	self timeout: 20.
 	^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
 !
 
@@ -2852,7 +2856,9 @@ testPromiseWithAsyncPassingRejectingExecutor
 		| passPromise |
 		passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].
 		m value: passPromise
-	] fork ]) catch: [ :err | self assert: err equals: 4 ]
+	] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		catch: [ :err | self assert: err equals: 4 ]
 !
 
 testPromiseWithAsyncPassingResolvingExecutor
@@ -2867,6 +2873,7 @@ testPromiseWithAsyncPassingResolvingExecutor
 testPromiseWithAsyncRejectingExecutor
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m signal: 4 ] fork ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :err | self assert: err equals: 4 ]
 !
 
@@ -2879,6 +2886,7 @@ testPromiseWithAsyncResolvingExecutor
 testPromiseWithRejectingExecutor
 	self timeout: 20.
 	^ (Promise new: [ :m | m signal: 4 ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
 		catch: [ :err | self assert: err equals: 4 ]
 !
 
