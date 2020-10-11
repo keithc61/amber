@@ -297,7 +297,7 @@ execute: aBlock
 				ifTrue: [ result isThenable ifTrue: [
 					result
 						then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]
-						catch: [ :error | testCase isAsync ifTrue: [ self execute: [ error signal ] ] ] ] ] ]
+						catch: [ :error | testCase isAsync ifTrue: [ self execute: [ (Smalltalk asSmalltalkException: error) pass ] ] ] ] ] ]
 !
 
 start
