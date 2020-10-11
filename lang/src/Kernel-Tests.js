@@ -15671,6 +15671,845 @@ $globals.PointTest);
 
 
 
+$core.addClass("PromiseTest", $globals.TestCase, "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncNegativeDo",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorAsyncNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "fork", "do:", "error:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._do_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncNegativeDo",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncNegativeTry",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorAsyncNegativeTry\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "fork", "try:", "error:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._try_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncNegativeTry",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncPositiveDo",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorAsyncPositiveDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ 3 ] ] fork ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "do:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._do_((function(){
+return (3);
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncPositiveDo",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorAsyncPositiveTry",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorAsyncPositiveTry\x0a\x09self timeout: 200.\x0a\x09^ (Promise any: {\x0a\x09\x09(Promise new: [ :m | [ m try: [ 3 ] ] fork ])\x0a\x09\x09\x09then: [ :result | self assert: result equals: 3 ].\x0a\x09\x09Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]\x0a\x09}) then: [ :result | self assert: result equals: #timeout ].",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "any:", "new:", "fork", "try:", "assert:equals:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((200));
+return [$recv($recv($globals.Promise)._any_([$recv([$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._try_((function(){
+return (3);
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new:"]=1
+//>>excludeEnd("ctx");
+][0])._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$self._assert_equals_(result,(3))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,4)});
+//>>excludeEnd("ctx");
+})),$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._value_("timeout");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,6)});
+//>>excludeEnd("ctx");
+}))._valueWithTimeout_((20));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,5)});
+//>>excludeEnd("ctx");
+}))]))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,"timeout");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,7)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["then:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorAsyncPositiveTry",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorNegativeDo",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorNegativeDo\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "fork", "do:", "error:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._do_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,4)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorNegativeDo",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorNegativeTry",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorNegativeTry\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])\x0a\x09\x09catch: [ :error | self assert: error messageText equals: 'Intentional' ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "try:", "error:", "assert:equals:", "messageText"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(m)._try_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $self._error_("Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(error)._messageText(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorNegativeTry",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorPositiveDo",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorPositiveDo\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m do: [ 3 ] ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "do:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(m)._do_((function(){
+return (3);
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorPositiveDo",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseExecutorPositiveTry",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseExecutorPositiveTry\x0a\x09self timeout: 200.\x0a\x09^ (Promise any: {\x0a\x09\x09(Promise new: [ :m | m try: [ 3 ] ])\x0a\x09\x09\x09then: [ :result | self assert: result equals: 3 ].\x0a\x09\x09Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]\x0a\x09}) then: [ :result | self assert: result equals: #timeout ].",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "any:", "new:", "try:", "assert:equals:", "valueWithTimeout:", "value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((200));
+return [$recv($recv($globals.Promise)._any_([$recv([$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(m)._try_((function(){
+return (3);
+
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new:"]=1
+//>>excludeEnd("ctx");
+][0])._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$self._assert_equals_(result,(3))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:equals:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+//>>excludeEnd("ctx");
+})),$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._value_("timeout");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,5)});
+//>>excludeEnd("ctx");
+}))._valueWithTimeout_((20));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,4)});
+//>>excludeEnd("ctx");
+}))]))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,"timeout");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,6)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["then:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseExecutorPositiveTry",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseNew",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseNew\x0a\x09self timeout: 20.\x0a\x09^ Promise new\x0a\x09\x09then: [ :result | self assert: result equals: nil ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new())._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseNew",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncPassingRejectingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithAsyncPassingRejectingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ]) catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "fork", "signal:", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((60));
+return $recv([$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv((function(){
+var passPromise;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+passPromise=$recv($globals.Promise)._new_((function(m2){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx5) {
+//>>excludeEnd("ctx");
+return $recv(m2)._signal_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,4)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({m2:m2},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+return $recv(m)._value_(passPromise);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({passPromise:passPromise},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["fork"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new:"]=1
+//>>excludeEnd("ctx");
+][0])._catch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(err,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,5)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncPassingRejectingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncPassingResolvingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithAsyncPassingResolvingExecutor\x0a\x09self timeout: 60.\x0a\x09^ (Promise new: [ :m | [\x0a\x09\x09| passPromise |\x0a\x09\x09passPromise := Promise new: [ :m2 | [ m2 value: 3 ] fork ].\x0a\x09\x09m value: passPromise\x0a\x09] fork ]) then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((60));
+return $recv([$recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$recv((function(){
+var passPromise;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+passPromise=$recv($globals.Promise)._new_((function(m2){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx4) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx5) {
+//>>excludeEnd("ctx");
+return [$recv(m2)._value_((3))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx5.sendIdx["value:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx5) {$ctx5.fillBlock({},$ctx4,4)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx4) {$ctx4.fillBlock({m2:m2},$ctx3,3)});
+//>>excludeEnd("ctx");
+}));
+return $recv(m)._value_(passPromise);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({passPromise:passPromise},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["fork"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new:"]=1
+//>>excludeEnd("ctx");
+][0])._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,5)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncPassingResolvingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncRejectingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithAsyncRejectingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m signal: 4 ] fork ])\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "fork", "signal:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._signal_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(err,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncRejectingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithAsyncResolvingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithAsyncResolvingExecutor\x0a\x09self timeout: 40.\x0a\x09^ (Promise new: [ :m | [ m value: 3 ] fork ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "fork", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((40));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
+return $recv(m)._value_((3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,2)});
+//>>excludeEnd("ctx");
+}))._fork();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncResolvingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithRejectingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithRejectingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m signal: 4 ])\x0a\x09\x09catch: [ :err | self assert: err equals: 4 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "catch:", "new:", "signal:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(m)._signal_((4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._catch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(err,(4));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithRejectingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseWithResolvingExecutor",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithResolvingExecutor\x0a\x09self timeout: 20.\x0a\x09^ (Promise new: [ :m | m value: 3 ])\x0a\x09\x09then: [ :result | self assert: result equals: 3 ]",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:", "new:", "value:", "assert:equals:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._timeout_((20));
+return $recv($recv($globals.Promise)._new_((function(m){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $recv(m)._value_((3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({m:m},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._then_((function(result){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_(result,(3));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithResolvingExecutor",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+
+
 $core.addClass("QueueTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({

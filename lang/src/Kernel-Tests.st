@@ -2780,6 +2780,114 @@ testTranslateBy
 	self assert: (3@3 translateBy: 3 negated @0) equals: 0@3.
 ! !
 
+TestCase subclass: #PromiseTest
+	slots: {}
+	package: 'Kernel-Tests'!
+
+!PromiseTest methodsFor: ' tests'!
+
+testPromiseExecutorAsyncNegativeDo
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
+		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
+!
+
+testPromiseExecutorAsyncNegativeTry
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m try: [ self error: 'Intentional' ] ] fork ])
+		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
+!
+
+testPromiseExecutorAsyncPositiveDo
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m do: [ 3 ] ] fork ])
+		then: [ :result | self assert: result equals: 3 ]
+!
+
+testPromiseExecutorAsyncPositiveTry
+	self timeout: 200.
+	^ (Promise any: {
+		(Promise new: [ :m | [ m try: [ 3 ] ] fork ])
+			then: [ :result | self assert: result equals: 3 ].
+		Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]
+	}) then: [ :result | self assert: result equals: #timeout ].
+!
+
+testPromiseExecutorNegativeDo
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m do: [ self error: 'Intentional' ] ] fork ])
+		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
+!
+
+testPromiseExecutorNegativeTry
+	self timeout: 20.
+	^ (Promise new: [ :m | m try: [ self error: 'Intentional' ] ])
+		catch: [ :error | self assert: error messageText equals: 'Intentional' ]
+!
+
+testPromiseExecutorPositiveDo
+	self timeout: 20.
+	^ (Promise new: [ :m | m do: [ 3 ] ])
+		then: [ :result | self assert: result equals: 3 ]
+!
+
+testPromiseExecutorPositiveTry
+	self timeout: 200.
+	^ (Promise any: {
+		(Promise new: [ :m | m try: [ 3 ] ])
+			then: [ :result | self assert: result equals: 3 ].
+		Promise new: [ :m | [ m value: #timeout ] valueWithTimeout: 20 ]
+	}) then: [ :result | self assert: result equals: #timeout ].
+!
+
+testPromiseNew
+	self timeout: 20.
+	^ Promise new
+		then: [ :result | self assert: result equals: nil ]
+!
+
+testPromiseWithAsyncPassingRejectingExecutor
+	self timeout: 60.
+	^ (Promise new: [ :m | [
+		| passPromise |
+		passPromise := Promise new: [ :m2 | [ m2 signal: 4 ] fork ].
+		m value: passPromise
+	] fork ]) catch: [ :err | self assert: err equals: 4 ]
+!
+
+testPromiseWithAsyncPassingResolvingExecutor
+	self timeout: 60.
+	^ (Promise new: [ :m | [
+		| passPromise |
+		passPromise := Promise new: [ :m2 | [ m2 value: 3 ] fork ].
+		m value: passPromise
+	] fork ]) then: [ :result | self assert: result equals: 3 ]
+!
+
+testPromiseWithAsyncRejectingExecutor
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m signal: 4 ] fork ])
+		catch: [ :err | self assert: err equals: 4 ]
+!
+
+testPromiseWithAsyncResolvingExecutor
+	self timeout: 40.
+	^ (Promise new: [ :m | [ m value: 3 ] fork ])
+		then: [ :result | self assert: result equals: 3 ]
+!
+
+testPromiseWithRejectingExecutor
+	self timeout: 20.
+	^ (Promise new: [ :m | m signal: 4 ])
+		catch: [ :err | self assert: err equals: 4 ]
+!
+
+testPromiseWithResolvingExecutor
+	self timeout: 20.
+	^ (Promise new: [ :m | m value: 3 ])
+		then: [ :result | self assert: result equals: 3 ]
+! !
+
 TestCase subclass: #QueueTest
 	slots: {}
 	package: 'Kernel-Tests'!
