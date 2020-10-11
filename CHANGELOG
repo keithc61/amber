@@ -1,3 +1,11 @@
+?? Oct 2020 - Release 0.29.6
+===================================
+
+* A model in `Promise new: [ :model | ... ]` reified as PromiseExecution.
+
+Commits: https://lolg.it/amber/amber/commits/0.29.6.
+
+
 7 Oct 2020 - Release 0.29.5
 ===================================
 

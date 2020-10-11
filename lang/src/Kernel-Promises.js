@@ -145,10 +145,10 @@ selector: "new:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = {\x0a\x09\x09value: resolve,\x0a\x09\x09signal: reject,\x0a\x09\x09do: function (aBlock) { resolve(this.try(aBlock)); },\x0a\x09\x09try: function (aBlock) {\x0a\x09\x09\x09try { return aBlock._value(); }\x0a\x09\x09\x09catch (e) { reject(e); }\x0a\x09\x09}\x0a\x09};\x0a    aBlock._value_(model);\x0a})'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a    aBlock._value_(model);\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return new Promise(function (resolve, reject) {\x0a    var model = {\x0a\x09\x09value: resolve,\x0a\x09\x09signal: reject,\x0a\x09\x09do: function (aBlock) { resolve(this.try(aBlock)); },\x0a\x09\x09try: function (aBlock) {\x0a\x09\x09\x09try { return aBlock._value(); }\x0a\x09\x09\x09catch (e) { reject(e); }\x0a\x09\x09}\x0a\x09};\x0a    aBlock._value_(model);\x0a})"]]],
+pragmas: [["inlineJS:", ["return new Promise(function (resolve, reject) {\x0a    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a    aBlock._value_(model);\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
@@ -156,15 +156,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return new Promise(function (resolve, reject) {
-    var model = {
-		value: resolve,
-		signal: reject,
-		do: function (aBlock) { resolve(this.try(aBlock)); },
-		try: function (aBlock) {
-			try { return aBlock._value(); }
-			catch (e) { reject(e); }
-		}
-	};
+    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
     aBlock._value_(model);
 });
 return self;
@@ -221,6 +213,263 @@ return self;
 //>>excludeEnd("ctx");
 }; }),
 $globals.Promise.a$cls);
+
+
+$core.addClass("PromiseExecution", $globals.Object, "Kernel-Promises");
+$core.setSlots($globals.PromiseExecution, ["resolveBlock", "rejectBlock"]);
+$core.addMethod(
+$core.method({
+selector: "do:",
+protocol: "evaluating",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "do: aBlock\x0a\x09self value: (self try: aBlock)",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:", "try:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._value_($self._try_(aBlock));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"do:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "resolveBlock:rejectBlock:",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock", "anotherBlock"],
+source: "resolveBlock: aBlock rejectBlock: anotherBlock\x0a\x09resolveBlock := aBlock.\x0a\x09rejectBlock := anotherBlock",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: []
+}, function ($methodClass){ return function (aBlock,anotherBlock){
+var self=this,$self=this;
+$self.resolveBlock=aBlock;
+$self.rejectBlock=anotherBlock;
+return self;
+
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "signal:",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anErrorObject"],
+source: "signal: anErrorObject\x0a\x09rejectBlock value: anErrorObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (anErrorObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self.rejectBlock)._value_(anErrorObject);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anErrorObject:anErrorObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "try:",
+protocol: "evaluating",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock"],
+source: "try: aBlock\x0a\x09^ aBlock tryCatch: [ :err | self signal: err ]",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["tryCatch:", "signal:"]
+}, function ($methodClass){ return function (aBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv(aBlock)._tryCatch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._signal_(err);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"try:",{aBlock:aBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseExecution);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09resolveBlock value: anObject",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv($self.resolveBlock)._value_(anObject);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseExecution);
+
+
+$core.addMethod(
+$core.method({
+selector: "resolveBlock:rejectBlock:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["aBlock", "anotherBlock"],
+source: "resolveBlock: aBlock rejectBlock: anotherBlock\x0a\x09^ super new\x0a\x09\x09resolveBlock: aBlock rejectBlock: anotherBlock;\x0a\x09\x09yourself",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["resolveBlock:rejectBlock:", "new", "yourself"]
+}, function ($methodClass){ return function (aBlock,anotherBlock){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1;
+$1=[(
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+$ctx1.supercall = true,
+//>>excludeEnd("ctx");
+($methodClass.superclass||$boot.nilAsClass).fn.prototype._new.call($self))
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.supercall = false
+//>>excludeEnd("ctx");
+][0];
+$recv($1)._resolveBlock_rejectBlock_(aBlock,anotherBlock);
+return $recv($1)._yourself();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"resolveBlock:rejectBlock:",{aBlock:aBlock,anotherBlock:anotherBlock})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseExecution.a$cls);
+
+
+$core.addTrait("TPromiseModel", "Kernel-Promises");
+$core.addMethod(
+$core.method({
+selector: "signal",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "signal\x0a\x09^ self signal: Error new",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["signal:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._signal_($recv($globals.Error)._new());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"signal",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "signal:",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anErrorObject"],
+source: "signal: anErrorObject\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (anErrorObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"signal:",{anErrorObject:anErrorObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "value",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "value\x0a\x09^ self value: nil",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["value:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $self._value_(nil);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TPromiseModel);
+
+$core.addMethod(
+$core.method({
+selector: "value:",
+protocol: "settling",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "value: anObject\x0a\x09self subclassResponsibility",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["subclassResponsibility"]
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._subclassResponsibility();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"value:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TPromiseModel);
 
 
 $core.addTrait("TThenable", "Kernel-Promises");
@@ -425,5 +674,7 @@ return $recv($recv($self._then_(aBlockOrArray))._on_do_(aClass,aBlock))._catch_(
 $globals.TThenable);
 
 $core.setTraitComposition([{trait: $globals.TThenable}], $globals.Promise);
+$core.setTraitComposition([{trait: $globals.TPromiseModel}], $globals.Promise.a$cls);
+$core.setTraitComposition([{trait: $globals.TPromiseModel}], $globals.PromiseExecution);
 
 });

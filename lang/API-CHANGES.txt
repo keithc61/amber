@@ -1,3 +1,20 @@
+0.29.6:
+
+* Add TPromiseModel with unary value / signal passing to 1-arg.
+  * Promise class as well as PromiseExecution use it.
+
++ PromiseExecution >>
+  + do:
+  + signal:
+  + try:
+  + value:
++ TPromiseModel >>
+  + signal
+  + signal:
+  + value
+  + value:
+
+
 0.29.5:
 
 + (model in `Promise new: [ :model | ]`) >>

@@ -40,15 +40,7 @@ and model signal: ... to reject the promise.
 If error happens during run of the block,
 promise is rejected with that error as well."
 <inlineJS: 'return new Promise(function (resolve, reject) {
-    var model = {
-		value: resolve,
-		signal: reject,
-		do: function (aBlock) { resolve(this.try(aBlock)); },
-		try: function (aBlock) {
-			try { return aBlock._value(); }
-			catch (e) { reject(e); }
-		}
-	};
+    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
     aBlock._value_(model);
 })'>
 !
@@ -61,6 +53,66 @@ signal: anObject
 value: anObject
 "Returns a Promise resolved with anObject."
 <inlineJS: 'return $recv(anObject)._in_(function (x) {return Promise.resolve(x)})'>
+! !
+
+Object subclass: #PromiseExecution
+	slots: {#resolveBlock. #rejectBlock}
+	package: 'Kernel-Promises'!
+
+!PromiseExecution methodsFor: 'accessing'!
+
+resolveBlock: aBlock rejectBlock: anotherBlock
+	resolveBlock := aBlock.
+	rejectBlock := anotherBlock
+! !
+
+!PromiseExecution methodsFor: 'evaluating'!
+
+do: aBlock
+	self value: (self try: aBlock)
+!
+
+try: aBlock
+	^ aBlock tryCatch: [ :err | self signal: err ]
+! !
+
+!PromiseExecution methodsFor: 'settling'!
+
+signal: anErrorObject
+	rejectBlock value: anErrorObject
+!
+
+value: anObject
+	resolveBlock value: anObject
+! !
+
+!PromiseExecution class methodsFor: 'instance creation'!
+
+resolveBlock: aBlock rejectBlock: anotherBlock
+	^ super new
+		resolveBlock: aBlock rejectBlock: anotherBlock;
+		yourself
+! !
+
+Trait named: #TPromiseModel
+	package: 'Kernel-Promises'!
+
+!TPromiseModel methodsFor: 'settling'!
+
+signal
+	^ self signal: Error new
+!
+
+signal: anErrorObject
+	self subclassResponsibility
+!
+
+value
+	^ self value: nil
+!
+
+value: anObject
+	self subclassResponsibility
 ! !
 
 Trait named: #TThenable
@@ -129,5 +181,7 @@ isThenable
 ! !
 
 Promise setTraitComposition: {TThenable} asTraitComposition!
+Promise class setTraitComposition: {TPromiseModel} asTraitComposition!
+PromiseExecution setTraitComposition: {TPromiseModel} asTraitComposition!
 ! !
 
