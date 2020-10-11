@@ -39,10 +39,18 @@ You should call model value: ... to resolve the promise
 and model signal: ... to reject the promise.
 If error happens during run of the block,
 promise is rejected with that error as well."
-<inlineJS: 'return new Promise(function (resolve, reject) {
-    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
-    aBlock._value_(model);
-})'>
+<inlineJS: '
+	var localReturn = null,
+		promise = new Promise(function (resolve, reject) {
+		    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
+		    try { aBlock._value_(model); }
+			catch (ex) {
+				if (Array.isArray(ex) && ex.length === 1) localReturn = ex;
+				else reject(ex);
+			}
+		});
+	if (localReturn) throw localReturn; else return promise;
+'>
 !
 
 signal: anObject

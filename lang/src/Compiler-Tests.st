@@ -245,6 +245,12 @@ testPragmaJSStatement
 	self should: 'foo < inlineJS: ''return 2+3'' >' return: 5
 !
 
+testPromiseWithAsyncExecutorAndLocalReturn
+	self
+		should: 'foo ^ Promise new: [ :m | [ 3 + 4 ] fork. ^ 5 ]'
+		return: 5
+!
+
 testReceiverEvaluatedOnceInSpecials
 	self should: 'foo |x| x := 1. ^ {[ x := x+1 ] value ifNil: []. x}' return: {2. 2}.
 	self should: 'foo |xs| xs := {nil. nil}. ^ {[ xs removeLast ] value ifNotNil: []. xs}' return: {nil. {nil}}.

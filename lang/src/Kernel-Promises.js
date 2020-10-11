@@ -145,20 +145,27 @@ selector: "new:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: 'return new Promise(function (resolve, reject) {\x0a    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a    aBlock._value_(model);\x0a})'>",
+source: "new: aBlock\x0a\x22Returns a Promise that is eventually resolved or rejected.\x0aPass a block that is called with one argument, model.\x0aYou should call model value: ... to resolve the promise\x0aand model signal: ... to reject the promise.\x0aIf error happens during run of the block,\x0apromise is rejected with that error as well.\x22\x0a<inlineJS: '\x0a\x09var localReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) localReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (localReturn) throw localReturn; else return promise;\x0a'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return new Promise(function (resolve, reject) {\x0a    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a    aBlock._value_(model);\x0a})"]]],
+pragmas: [["inlineJS:", ["\x0a\x09var localReturn = null,\x0a\x09\x09promise = new Promise(function (resolve, reject) {\x0a\x09\x09    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);\x0a\x09\x09    try { aBlock._value_(model); }\x0a\x09\x09\x09catch (ex) {\x0a\x09\x09\x09\x09if (Array.isArray(ex) && ex.length === 1) localReturn = ex;\x0a\x09\x09\x09\x09else reject(ex);\x0a\x09\x09\x09}\x0a\x09\x09});\x0a\x09if (localReturn) throw localReturn; else return promise;"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return new Promise(function (resolve, reject) {
-    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
-    aBlock._value_(model);
-});
+
+	var localReturn = null,
+		promise = new Promise(function (resolve, reject) {
+		    var model = $globals.PromiseExecution._resolveBlock_rejectBlock_(resolve, reject);
+		    try { aBlock._value_(model); }
+			catch (ex) {
+				if (Array.isArray(ex) && ex.length === 1) localReturn = ex;
+				else reject(ex);
+			}
+		});
+	if (localReturn) throw localReturn; else return promise;;
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"new:",{aBlock:aBlock})});

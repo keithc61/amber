@@ -1064,6 +1064,30 @@ $globals.AbstractCompilerTest);
 
 $core.addMethod(
 $core.method({
+selector: "testPromiseWithAsyncExecutorAndLocalReturn",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseWithAsyncExecutorAndLocalReturn\x0a\x09self\x0a\x09\x09should: 'foo ^ Promise new: [ :m | [ 3 + 4 ] fork. ^ 5 ]'\x0a\x09\x09return: 5",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:return:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_return_("foo ^ Promise new: [ :m | [ 3 + 4 ] fork. ^ 5 ]",(5));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseWithAsyncExecutorAndLocalReturn",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.AbstractCompilerTest);
+
+$core.addMethod(
+$core.method({
 selector: "testReceiverEvaluatedOnceInSpecials",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
