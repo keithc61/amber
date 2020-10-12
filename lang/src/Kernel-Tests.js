@@ -15674,6 +15674,58 @@ $globals.PointTest);
 $core.addClass("PromiseTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
+selector: "testPromiseCatchOnDoWithNonLocalReturn",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseCatchOnDoWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ ((Promise signal: 4) catch: [ :err | ^ 'Caught ', err asString ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Caught 4' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "catch:", "signal:", ",", "asString", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._signal_((4)))._catch_((function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+throw $early=["Caught ".__comma($recv(err)._asString())];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._then_on_do_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),$globals.NonLifoReturn,(function(nonlifo){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(nonlifo)._value(),"Caught 4");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseCatchOnDoWithNonLocalReturn",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPromiseExecutorAsyncDoWithNonLocalReturn",
 protocol: " tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -16444,6 +16496,105 @@ return $self._assert_equals_(result,nil);
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"testPromiseNew",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseThenCatchWithNonLocalReturn",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseThenCatchWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new then: [ ^ 'Intentional' ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err |\x0a\x09\x09\x09self assert: (err isKindOf: NonLifoReturn) description: 'Expected a NonLifoReturn'.\x0a\x09\x09\x09self assert: err value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "then:", "new", "assert:description:", "isKindOf:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._new())._then_((function(){
+throw $early=["Intentional"];
+
+})))._then_catch_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return [$self._assert_description_(false,"Should not have been resolved")
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx2.sendIdx["assert:description:"]=1
+//>>excludeEnd("ctx");
+][0];
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),(function(err){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$self._assert_description_($recv(err)._isKindOf_($globals.NonLifoReturn),"Expected a NonLifoReturn");
+return $self._assert_equals_($recv(err)._value(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseThenCatchWithNonLocalReturn",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseThenOnDoWithNonLocalReturn",
+protocol: " tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testPromiseThenOnDoWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new then: [ ^ 'Intentional' ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "then:", "new", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._new())._then_((function(){
+throw $early=["Intentional"];
+
+})))._then_on_do_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_description_(false,"Should not have been resolved");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+//>>excludeEnd("ctx");
+}),$globals.NonLifoReturn,(function(nonlifo){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,3)});
+//>>excludeEnd("ctx");
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testPromiseThenOnDoWithNonLocalReturn",{})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.PromiseTest);

@@ -947,6 +947,33 @@ $globals.NonLifoReturn);
 
 $core.addMethod(
 $core.method({
+selector: "reifyIfFeasible:",
+protocol: "instance creation",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anObject"],
+source: "reifyIfFeasible: anObject\x0a\x09\x22If anObject represents non-local return, reify it as my instance.\x0a\x09Otherwise, return anObject as-is.\x22\x0a\x09<inlineJS: '\x0a\x09\x09return Array.isArray(anObject) && anObject.length === 1 ?\x0a\x09\x09\x09$self._value_(anObject[0]) : anObject\x0a\x09'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Array.isArray(anObject) && anObject.length === 1 ?\x0a\x09\x09\x09$self._value_(anObject[0]) : anObject\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+
+		return Array.isArray(anObject) && anObject.length === 1 ?
+			$self._value_(anObject[0]) : anObject
+	;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"reifyIfFeasible:",{anObject:anObject})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.NonLifoReturn.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "value:",
 protocol: "instance creation",
 //>>excludeStart("ide", pragmas.excludeIdeData);

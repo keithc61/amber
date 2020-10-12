@@ -2786,6 +2786,13 @@ TestCase subclass: #PromiseTest
 
 !PromiseTest methodsFor: ' tests'!
 
+testPromiseCatchOnDoWithNonLocalReturn
+	self timeout: 20.
+	^ ((Promise signal: 4) catch: [ :err | ^ 'Caught ', err asString ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Caught 4' ]
+!
+
 testPromiseExecutorAsyncDoWithNonLocalReturn
 	self timeout: 40.
 	^ (Promise new: [ :m | [ m do: [ ^  'Intentional' ] ] fork ])
@@ -2876,6 +2883,22 @@ testPromiseNew
 	self timeout: 20.
 	^ Promise new
 		then: [ :result | self assert: result equals: nil ]
+!
+
+testPromiseThenCatchWithNonLocalReturn
+	self timeout: 20.
+	^ (Promise new then: [ ^ 'Intentional' ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		catch: [ :err |
+			self assert: (err isKindOf: NonLifoReturn) description: 'Expected a NonLifoReturn'.
+			self assert: err value equals: 'Intentional' ]
+!
+
+testPromiseThenOnDoWithNonLocalReturn
+	self timeout: 20.
+	^ (Promise new then: [ ^ 'Intentional' ])
+		then: [ self assert: false description: 'Should not have been resolved' ]
+		on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]
 !
 
 testPromiseWithAsyncPassingRejectingExecutor

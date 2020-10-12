@@ -262,6 +262,15 @@ value: anObject
 
 !NonLifoReturn class methodsFor: 'instance creation'!
 
+reifyIfFeasible: anObject
+	"If anObject represents non-local return, reify it as my instance.
+	Otherwise, return anObject as-is."
+	<inlineJS: '
+		return Array.isArray(anObject) && anObject.length === 1 ?
+			$self._value_(anObject[0]) : anObject
+	'>
+!
+
 value: anObject
 	^ super new
 		value: anObject;

@@ -1,10 +1,10 @@
-11 Oct 2020 - Release 0.29.6
+12 Oct 2020 - Release 0.29.7
 ===================================
 
 * A model in `Promise new: [ :model | ... ]` reified as PromiseExecution.
 * Non-LIFO return represented by own Error subclass NonLifoReturn.
 
-Commits: https://lolg.it/amber/amber/commits/0.29.6.
+Commits: https://lolg.it/amber/amber/commits/0.29.7.
 
 
 7 Oct 2020 - Release 0.29.5

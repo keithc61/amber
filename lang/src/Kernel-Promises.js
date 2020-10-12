@@ -298,10 +298,10 @@ selector: "try:",
 protocol: "evaluating",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09'>",
+source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
@@ -312,11 +312,7 @@ return $core.withContext(function($ctx1) {
 		try {
 			return aBlock._value();
 		} catch(error) {
-			$self._signal_(
-				Array.isArray(error) && error.length === 1 ?
-					$globals.NonLifoReturn._value_(error[0]) :
-					error
-			);
+			$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));
 		}
 	;
 return self;
@@ -489,17 +485,19 @@ selector: "catch:",
 protocol: "promises",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) { return aBlock._value_(err); })'>",
+source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self.then(null, function (err) { return aBlock._value_(err); })"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return self.then(null, function (err) { return aBlock._value_(err); });
+return self.then(null, function (err) {
+	return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));
+});
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock})});
@@ -531,10 +529,10 @@ selector: "on:do:",
 protocol: "promises",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
@@ -542,7 +540,8 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self.then(null, function (err) {
-    if (err._isKindOf_(aClass)) return aBlock._value_(err);
+	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 });
 return self;

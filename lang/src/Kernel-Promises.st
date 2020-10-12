@@ -92,11 +92,7 @@ try: aBlock
 		try {
 			return aBlock._value();
 		} catch(error) {
-			$self._signal_(
-				Array.isArray(error) && error.length === 1 ?
-					$globals.NonLifoReturn._value_(error[0]) :
-					error
-			);
+			$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));
 		}
 	'>
 ! !
@@ -146,12 +142,15 @@ Trait named: #TThenable
 !TThenable methodsFor: 'promises'!
 
 catch: aBlock
-<inlineJS: 'return self.then(null, function (err) { return aBlock._value_(err); })'>
+<inlineJS: 'return self.then(null, function (err) {
+	return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));
+})'>
 !
 
 on: aClass do: aBlock
 <inlineJS: 'return self.then(null, function (err) {
-    if (err._isKindOf_(aClass)) return aBlock._value_(err);
+	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 })'>
 !

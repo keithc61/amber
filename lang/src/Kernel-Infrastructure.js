@@ -3087,11 +3087,11 @@ selector: "asSmalltalkException:",
 protocol: "error handling",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["anObject"],
-source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09(self isNonLocalReturn: anObject)\x0a\x09\x09\x09\x09\x09\x09ifTrue: [ NonLifoReturn value: anObject first ]\x0a\x09\x09\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ] ]",
+source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09| asNonLocalReturn |\x0a\x09\x09\x09\x09\x09asNonLocalReturn := NonLifoReturn reifyIfFeasible: anObject.\x0a\x09\x09\x09\x09\x09asNonLocalReturn == anObject\x0a\x09\x09\x09\x09\x09\x09ifFalse: [ asNonLocalReturn ]\x0a\x09\x09\x09\x09\x09\x09ifTrue: [ JavaScriptException on: anObject ] ] ]",
 referencedClasses: ["Error", "NonLifoReturn", "JavaScriptException"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "isNonLocalReturn:", "value:", "first", "on:"]
+messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "reifyIfFeasible:", "ifFalse:ifTrue:", "==", "on:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -3114,10 +3114,12 @@ return e;
 if($core.assert($self._isError_(anObject))){
 return anObject;
 } else {
-if($core.assert($self._isNonLocalReturn_(anObject))){
-return $recv($globals.NonLifoReturn)._value_($recv(anObject)._first());
-} else {
+var asNonLocalReturn;
+asNonLocalReturn=$recv($globals.NonLifoReturn)._reifyIfFeasible_(anObject);
+if($core.assert($recv(asNonLocalReturn).__eq_eq(anObject))){
 return $recv($globals.JavaScriptException)._on_(anObject);
+} else {
+return asNonLocalReturn;
 }
 }
 }
@@ -3481,30 +3483,6 @@ return false;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "isNonLocalReturn:",
-protocol: "testing",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["anObject"],
-source: "isNonLocalReturn: anObject\x0a\x09<inlineJS: 'return Array.isArray(anObject) && anObject.length === 1'>",
-referencedClasses: [],
-//>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return Array.isArray(anObject) && anObject.length === 1"]]],
-messageSends: []
-}, function ($methodClass){ return function (anObject){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-return Array.isArray(anObject) && anObject.length === 1;
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"isNonLocalReturn:",{anObject:anObject})});
 //>>excludeEnd("ctx");
 }; }),
 $globals.SmalltalkImage);
