@@ -23956,9 +23956,9 @@ $core.method({
 selector: "try:",
 protocol: "evaluating",
 args: ["aBlock"],
-source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09'>",
+source: "try: aBlock\x0a\x09\x22Executes a block 'in the context of a promise'.\x0a\x09That is, if it ends with an error, promise is rejected.\x0a\x09Non-local returns are also treated as an error and reified as rejections.\x22\x0a\x09<inlineJS: '\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));\x0a\x09\x09}\x0a\x09'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_(\x0a\x09\x09\x09\x09Array.isArray(error) && error.length === 1 ?\x0a\x09\x09\x09\x09\x09$globals.NonLifoReturn._value_(error[0]) :\x0a\x09\x09\x09\x09\x09error\x0a\x09\x09\x09);\x0a\x09\x09}\x0a\x09"]]],
+pragmas: [["inlineJS:", ["\x0a\x09\x09try {\x0a\x09\x09\x09return aBlock._value();\x0a\x09\x09} catch(error) {\x0a\x09\x09\x09$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));\x0a\x09\x09}\x0a\x09"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
@@ -23967,11 +23967,7 @@ return $core.withContext(function($ctx1) {
 		try {
 			return aBlock._value();
 		} catch(error) {
-			$self._signal_(
-				Array.isArray(error) && error.length === 1 ?
-					$globals.NonLifoReturn._value_(error[0]) :
-					error
-			);
+			$self._signal_($globals.NonLifoReturn._reifyIfFeasible_(error));
 		}
 	;
 return self;
@@ -24101,14 +24097,16 @@ $core.method({
 selector: "catch:",
 protocol: "promises",
 args: ["aBlock"],
-source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) { return aBlock._value_(err); })'>",
+source: "catch: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));\x0a})'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self.then(null, function (err) { return aBlock._value_(err); })"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return self.then(null, function (err) { return aBlock._value_(err); });
+return self.then(null, function (err) {
+	return aBlock._value_($globals.NonLifoReturn._reifyIfFeasible_(err));
+});
 return self;
 }, function($ctx1) {$ctx1.fill(self,"catch:",{aBlock:aBlock})});
 }; }),
@@ -24135,15 +24133,16 @@ $core.method({
 selector: "on:do:",
 protocol: "promises",
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a    if (err._isKindOf_(aClass)) return aBlock._value_(err);\x0a    else throw err;\x0a})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return self.then(null, function (err) {
-    if (err._isKindOf_(aClass)) return aBlock._value_(err);
+	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 });
 return self;
@@ -26554,10 +26553,10 @@ $core.method({
 selector: "asSmalltalkException:",
 protocol: "error handling",
 args: ["anObject"],
-source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09(self isNonLocalReturn: anObject)\x0a\x09\x09\x09\x09\x09\x09ifTrue: [ NonLifoReturn value: anObject first ]\x0a\x09\x09\x09\x09\x09\x09ifFalse: [ JavaScriptException on: anObject ] ] ]",
+source: "asSmalltalkException: anObject\x0a\x09\x22A JavaScript exception may be thrown.\x0a\x09We then need to convert it back to a Smalltalk object\x22\x0a\x09\x0a\x09^ anObject\x0a\x09\x09ifNil: [ [ self error: 'Error: nil' ] on: Error do: [ :e | e ] ]\x0a\x09\x09ifNotNil: [\x0a\x09\x09\x09(self isError: anObject)\x0a\x09\x09\x09\x09ifTrue: [ anObject ]\x0a\x09\x09\x09\x09ifFalse: [\x0a\x09\x09\x09\x09\x09| asNonLocalReturn |\x0a\x09\x09\x09\x09\x09asNonLocalReturn := NonLifoReturn reifyIfFeasible: anObject.\x0a\x09\x09\x09\x09\x09asNonLocalReturn == anObject\x0a\x09\x09\x09\x09\x09\x09ifFalse: [ asNonLocalReturn ]\x0a\x09\x09\x09\x09\x09\x09ifTrue: [ JavaScriptException on: anObject ] ] ]",
 referencedClasses: ["Error", "NonLifoReturn", "JavaScriptException"],
 pragmas: [],
-messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "isNonLocalReturn:", "value:", "first", "on:"]
+messageSends: ["ifNil:ifNotNil:", "on:do:", "error:", "ifTrue:ifFalse:", "isError:", "reifyIfFeasible:", "ifFalse:ifTrue:", "==", "on:"]
 }, function ($methodClass){ return function (anObject){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
@@ -26574,10 +26573,12 @@ return e;
 if($core.assert($self._isError_(anObject))){
 return anObject;
 } else {
-if($core.assert($self._isNonLocalReturn_(anObject))){
-return $recv($globals.NonLifoReturn)._value_($recv(anObject)._first());
-} else {
+var asNonLocalReturn;
+asNonLocalReturn=$recv($globals.NonLifoReturn)._reifyIfFeasible_(anObject);
+if($core.assert($recv(asNonLocalReturn).__eq_eq(anObject))){
 return $recv($globals.JavaScriptException)._on_(anObject);
+} else {
+return asNonLocalReturn;
 }
 }
 }
@@ -26852,24 +26853,6 @@ return $recv(anObject)._isError();
 return false;
 }
 }, function($ctx1) {$ctx1.fill(self,"isError:",{anObject:anObject})});
-}; }),
-$globals.SmalltalkImage);
-
-$core.addMethod(
-$core.method({
-selector: "isNonLocalReturn:",
-protocol: "testing",
-args: ["anObject"],
-source: "isNonLocalReturn: anObject\x0a\x09<inlineJS: 'return Array.isArray(anObject) && anObject.length === 1'>",
-referencedClasses: [],
-pragmas: [["inlineJS:", ["return Array.isArray(anObject) && anObject.length === 1"]]],
-messageSends: []
-}, function ($methodClass){ return function (anObject){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-return Array.isArray(anObject) && anObject.length === 1;
-return self;
-}, function($ctx1) {$ctx1.fill(self,"isNonLocalReturn:",{anObject:anObject})});
 }; }),
 $globals.SmalltalkImage);
 
@@ -27361,13 +27344,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.6'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.7'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.6";
+return "0.29.7";
 
 }; }),
 $globals.SmalltalkImage);
@@ -28324,6 +28307,27 @@ return self;
 }; }),
 $globals.NonLifoReturn);
 
+
+$core.addMethod(
+$core.method({
+selector: "reifyIfFeasible:",
+protocol: "instance creation",
+args: ["anObject"],
+source: "reifyIfFeasible: anObject\x0a\x09\x22If anObject represents non-local return, reify it as my instance.\x0a\x09Otherwise, return anObject as-is.\x22\x0a\x09<inlineJS: '\x0a\x09\x09return Array.isArray(anObject) && anObject.length === 1 ?\x0a\x09\x09\x09$self._value_(anObject[0]) : anObject\x0a\x09'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["\x0a\x09\x09return Array.isArray(anObject) && anObject.length === 1 ?\x0a\x09\x09\x09$self._value_(anObject[0]) : anObject\x0a\x09"]]],
+messageSends: []
+}, function ($methodClass){ return function (anObject){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+
+		return Array.isArray(anObject) && anObject.length === 1 ?
+			$self._value_(anObject[0]) : anObject
+	;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"reifyIfFeasible:",{anObject:anObject})});
+}; }),
+$globals.NonLifoReturn.a$cls);
 
 $core.addMethod(
 $core.method({
@@ -66864,6 +66868,40 @@ $globals.PointTest);
 $core.addClass("PromiseTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({
+selector: "testPromiseCatchOnDoWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseCatchOnDoWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ ((Promise signal: 4) catch: [ :err | ^ 'Caught ', err asString ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Caught 4' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "catch:", "signal:", ",", "asString", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._signal_((4)))._catch_((function(err){
+return $core.withContext(function($ctx2) {
+throw $early=["Caught ".__comma($recv(err)._asString())];
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,1)});
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Caught 4");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,3)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseCatchOnDoWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "testPromiseExecutorAsyncDoWithNonLocalReturn",
 protocol: " tests",
 args: [],
@@ -67345,6 +67383,75 @@ return $self._assert_equals_(result,nil);
 }, function($ctx2) {$ctx2.fillBlock({result:result},$ctx1,1)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"testPromiseNew",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseThenCatchWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseThenCatchWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new then: [ ^ 'Intentional' ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09catch: [ :err |\x0a\x09\x09\x09self assert: (err isKindOf: NonLifoReturn) description: 'Expected a NonLifoReturn'.\x0a\x09\x09\x09self assert: err value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:catch:", "then:", "new", "assert:description:", "isKindOf:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._new())._then_((function(){
+throw $early=["Intentional"];
+
+})))._then_catch_((function(){
+return $core.withContext(function($ctx2) {
+return [$self._assert_description_(false,"Should not have been resolved")
+,$ctx2.sendIdx["assert:description:"]=1
+][0];
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),(function(err){
+return $core.withContext(function($ctx2) {
+$self._assert_description_($recv(err)._isKindOf_($globals.NonLifoReturn),"Expected a NonLifoReturn");
+return $self._assert_equals_($recv(err)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({err:err},$ctx1,3)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseThenCatchWithNonLocalReturn",{})});
+}; }),
+$globals.PromiseTest);
+
+$core.addMethod(
+$core.method({
+selector: "testPromiseThenOnDoWithNonLocalReturn",
+protocol: " tests",
+args: [],
+source: "testPromiseThenOnDoWithNonLocalReturn\x0a\x09self timeout: 20.\x0a\x09^ (Promise new then: [ ^ 'Intentional' ])\x0a\x09\x09then: [ self assert: false description: 'Should not have been resolved' ]\x0a\x09\x09on: NonLifoReturn do: [ :nonlifo | self assert: nonlifo value equals: 'Intentional' ]",
+referencedClasses: ["Promise", "NonLifoReturn"],
+pragmas: [],
+messageSends: ["timeout:", "then:on:do:", "then:", "new", "assert:description:", "assert:equals:", "value"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $early={};
+try {
+$self._timeout_((20));
+return $recv($recv($recv($globals.Promise)._new())._then_((function(){
+throw $early=["Intentional"];
+
+})))._then_on_do_((function(){
+return $core.withContext(function($ctx2) {
+return $self._assert_description_(false,"Should not have been resolved");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}),$globals.NonLifoReturn,(function(nonlifo){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(nonlifo)._value(),"Intentional");
+}, function($ctx2) {$ctx2.fillBlock({nonlifo:nonlifo},$ctx1,3)});
+}));
+}
+catch(e) {if(e===$early)return e[0]; throw e}
+}, function($ctx1) {$ctx1.fill(self,"testPromiseThenOnDoWithNonLocalReturn",{})});
 }; }),
 $globals.PromiseTest);
 
