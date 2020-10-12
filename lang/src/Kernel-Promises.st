@@ -149,7 +149,7 @@ catch: aBlock
 
 on: aClass do: aBlock
 <inlineJS: 'return self.then(null, function (err) {
-	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
     if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 })'>

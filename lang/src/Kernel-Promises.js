@@ -529,10 +529,10 @@ selector: "on:do:",
 protocol: "promises",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
 referencedClasses: [],
 //>>excludeEnd("ide");
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
@@ -540,7 +540,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 return self.then(null, function (err) {
-	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
     if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 });
