@@ -69,7 +69,7 @@ define(['./junk-drawer'], function ($goodies) {
         function aliasesOfSelector (selector, traitAliases) {
             if (!traitAliases) return [selector];
             var result = Object.keys(traitAliases).filter(function (aliasSelector) {
-                return traitAliases[aliasSelector] === selector
+                return traitAliases[aliasSelector] === selector;
             });
             if (!traitAliases[selector]) result.push(selector);
             return result;

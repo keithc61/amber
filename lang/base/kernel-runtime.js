@@ -231,7 +231,7 @@ define(['./junk-drawer'], function ($goodies) {
             this.__init__ = function () {
                 st.alias(globals.Array, "OrderedCollection");
                 st.alias(globals.Date, "Time");
-            }
+            };
         }
 
         RuntimeMethodsBrik.deps = ["selectorConversion"];
@@ -430,7 +430,7 @@ define(['./junk-drawer'], function ($goodies) {
                         self[propertyName] = args[0];
                         return self;
                     default:
-                        throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function")
+                        throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function");
                 }
             };
         }
