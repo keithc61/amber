@@ -486,6 +486,40 @@ $globals.SUnitAsyncTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakePassFailingInTearDown",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakePassFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09(self async: [ self finished ]) fork",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "fork", "async:", "finished"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((10));
+$recv($self._async_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._finished();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+})))._fork();
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakePassFailingInTearDown",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitAsyncTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakeTimeout",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -597,7 +631,7 @@ selector: "testAsyncErrorsAndFailures",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testAsyncErrorsAndFailures\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].\x0a\x09runner run",
+source: "testAsyncErrorsAndFailures\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].\x0a\x09runner run",
 referencedClasses: ["TestSuiteRunner", "ResultAnnouncement"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -609,7 +643,7 @@ var suite,runner,result,assertBlock;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
+suite=["fakeError", "fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -642,7 +676,7 @@ return $core.withContext(function($ctx2) {
 ,$ctx2.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
 return $self._finished();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
@@ -1291,6 +1325,31 @@ $globals.SUnitPromiseTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakePassFailingInTearDown",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "fakePassFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09^ Promise new",
+referencedClasses: ["Promise"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["timeout:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self.flag="bad";
+$self._timeout_((10));
+return $recv($globals.Promise)._new();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"fakePassFailingInTearDown",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakePromiseWithoutTimeout",
 protocol: "helpers",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -1588,7 +1647,7 @@ selector: "testPromiseErrorsAndFailures",
 protocol: "tests",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].\x0a\x09\x09runner run ]",
+source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].\x0a\x09\x09runner run ]",
 referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
 //>>excludeEnd("ide");
 pragmas: [],
@@ -1600,7 +1659,7 @@ var suite,runner,result;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
+suite=["fakeError", "fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
@@ -1647,7 +1706,7 @@ return $core.withContext(function($ctx4) {
 ,$ctx4.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 //>>excludeEnd("ctx");

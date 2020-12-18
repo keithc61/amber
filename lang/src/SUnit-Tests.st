@@ -99,6 +99,12 @@ fakeNonLifoReturn
 	flag := (self async: [ flag := 'ok'. ^ 'non-lifo' ]) valueWithTimeout: 20
 !
 
+fakePassFailingInTearDown
+	flag := 'bad'.
+	self timeout: 10.
+	(self async: [ self finished ]) fork
+!
+
 fakeTimeout
 	self timeout: 10.
 	(self async: [ self finished ]) valueWithTimeout: 20
@@ -124,13 +130,13 @@ tearDown
 
 testAsyncErrorsAndFailures
 	| suite runner result assertBlock |
-	suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
+	suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
 	runner := TestSuiteRunner on: suite.
 	self timeout: 200.
 	result := runner result.
 	assertBlock := self async: [
 		self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.
-		self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.
+		self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet.
 		self finished
 	].
 	runner announcer on: ResultAnnouncement do: [ :ann |
@@ -251,6 +257,12 @@ fakeNonLifoReturn
 	^ flag then: [ flag := 'ok'. ^ 'non-lifo' ]
 !
 
+fakePassFailingInTearDown
+	flag := 'bad'.
+	self timeout: 10.
+	^ Promise new
+!
+
 fakePromiseWithoutTimeout
 	^ Promise delayMilliseconds: 10
 !
@@ -316,7 +328,7 @@ testPass
 
 testPromiseErrorsAndFailures
 	| suite runner result |
-	suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
+	suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].
 	runner := TestSuiteRunner on: suite.
 	self timeout: 200.
 	result := runner result.
@@ -324,7 +336,7 @@ testPromiseErrorsAndFailures
 		runner announcer on: ResultAnnouncement do: [ :ann |
 			(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [
 				self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.
-				self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].
+				self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].
 		runner run ]
 !
 

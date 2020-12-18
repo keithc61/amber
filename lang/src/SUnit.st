@@ -295,9 +295,10 @@ execute: aBlock
 			testCase isAsync
 				ifFalse: [ testCase tearDown ]
 				ifTrue: [ result isThenable ifTrue: [
-					result
-						then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]
-						catch: [ :error | testCase isAsync ifTrue: [ self execute: [ (Smalltalk asSmalltalkException: error) pass ] ] ] ] ] ]
+					failed := false.
+					(result
+						catch: [ :error | testCase isAsync ifTrue: [ self execute: [ failed := true. (Smalltalk asSmalltalkException: error) pass ] ] ])
+						then: [ failed ifFalse: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ] ] ] ] ]
 !
 
 start

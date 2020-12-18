@@ -1050,11 +1050,11 @@ selector: "execute:",
 protocol: "running",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: ["aBlock"],
-source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09result\x0a\x09\x09\x09\x09\x09\x09then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ (Smalltalk asSmalltalkException: error) pass ] ] ] ] ] ]",
+source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09failed := false.\x0a\x09\x09\x09\x09\x09(result\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ failed := true. (Smalltalk asSmalltalkException: error) pass ] ] ])\x0a\x09\x09\x09\x09\x09\x09then: [ failed ifFalse: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ] ] ] ] ]",
 referencedClasses: ["Smalltalk"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:catch:", "execute:", "pass", "asSmalltalkException:"]
+messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:", "catch:", "execute:", "pass", "asSmalltalkException:"]
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 var failed,result;
@@ -1111,7 +1111,8 @@ if($core.assert([$recv($self.testCase)._isAsync()
 //>>excludeEnd("ctx");
 ][0])){
 if($core.assert($recv(result)._isThenable())){
-return $recv(result)._then_catch_((function(){
+failed=false;
+return $recv($recv(result)._catch_((function(error){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
@@ -1124,7 +1125,8 @@ return [$self._execute_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-return $recv($self.testCase)._finished();
+failed=true;
+return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,11)});
 //>>excludeEnd("ctx");
@@ -1135,25 +1137,27 @@ return $recv($self.testCase)._finished();
 ][0];
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,9)});
+}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,9)});
 //>>excludeEnd("ctx");
-}),(function(error){
+})))._then_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
+if(!$core.assert(failed)){
 if($core.assert($recv($self.testCase)._isAsync())){
 return $self._execute_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
-return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
+return $recv($self.testCase)._finished();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,14)});
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,15)});
 //>>excludeEnd("ctx");
 }));
 }
+}
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,12)});
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,12)});
 //>>excludeEnd("ctx");
 }));
 }
