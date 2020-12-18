@@ -1817,7 +1817,7 @@ define('amber/kernel-language',['./junk-drawer'], function ($goodies) {
         function aliasesOfSelector (selector, traitAliases) {
             if (!traitAliases) return [selector];
             var result = Object.keys(traitAliases).filter(function (aliasSelector) {
-                return traitAliases[aliasSelector] === selector
+                return traitAliases[aliasSelector] === selector;
             });
             if (!traitAliases[selector]) result.push(selector);
             return result;
@@ -2425,7 +2425,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             this.__init__ = function () {
                 st.alias(globals.Array, "OrderedCollection");
                 st.alias(globals.Date, "Time");
-            }
+            };
         }
 
         RuntimeMethodsBrik.deps = ["selectorConversion"];
@@ -2624,7 +2624,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                         self[propertyName] = args[0];
                         return self;
                     default:
-                        throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function")
+                        throw new Error("Cannot interpret " + propertyName + " with " + args.length + " arguments; field is a " + typeof propertyValue + ", not a function");
                 }
             };
         }
@@ -2673,7 +2673,7 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
  | Copyright (c) 2010-2014
  | Nicolas Petton <petton.nicolas@gmail.com>
  |
- | Copyright (c) 2012-2019
+ | Copyright (c) 2012-2020
  | The Amber team https://lolg.it/org/amber/members
  | Amber contributors (see /CONTRIBUTORS)
  |
@@ -24133,15 +24133,15 @@ $core.method({
 selector: "on:do:",
 protocol: "promises",
 args: ["aClass", "aBlock"],
-source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
+source: "on: aClass do: aBlock\x0a<inlineJS: 'return self.then(null, function (err) {\x0a    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})'>",
 referencedClasses: [],
-pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a\x09var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
+pragmas: [["inlineJS:", ["return self.then(null, function (err) {\x0a    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);\x0a    if (reified._isKindOf_(aClass)) return aBlock._value_(reified);\x0a    else throw err;\x0a})"]]],
 messageSends: []
 }, function ($methodClass){ return function (aClass,aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return self.then(null, function (err) {
-	var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
+    var reified = $globals.NonLifoReturn._reifyIfFeasible_(err);
     if (reified._isKindOf_(aClass)) return aBlock._value_(reified);
     else throw err;
 });
@@ -27344,13 +27344,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.7'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.8'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.7";
+return "0.29.8";
 
 }; }),
 $globals.SmalltalkImage);
@@ -55418,10 +55418,10 @@ $core.method({
 selector: "execute:",
 protocol: "running",
 args: ["aBlock"],
-source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09result\x0a\x09\x09\x09\x09\x09\x09then: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ]\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ (Smalltalk asSmalltalkException: error) pass ] ] ] ] ] ]",
+source: "execute: aBlock\x0a\x09| failed result |\x0a\x09\x0a\x09testCase context: self.\x0a\x09[\x0a\x09\x09failed := true.\x0a\x09\x09result := aBlock value.\x0a\x09\x09testCase isAsync ifFalse: [\x0a\x09\x09\x09testCase assert: result isThenable not description: testCase asString, ' returned promise without sending #timeout:' ].\x0a\x09\x09failed := false\x0a\x09]\x0a\x09\x09ensure: [\x0a\x09\x09\x09\x22testCase context: nil.\x22\x0a\x09\x09\x09\x0a\x09\x09\x09(failed and: [ testCase isAsync ]) ifTrue: [ testCase finished ].\x0a\x09\x09\x09testCase isAsync\x0a\x09\x09\x09\x09ifFalse: [ testCase tearDown ]\x0a\x09\x09\x09\x09ifTrue: [ result isThenable ifTrue: [\x0a\x09\x09\x09\x09\x09failed := false.\x0a\x09\x09\x09\x09\x09(result\x0a\x09\x09\x09\x09\x09\x09catch: [ :error | testCase isAsync ifTrue: [ self execute: [ failed := true. (Smalltalk asSmalltalkException: error) pass ] ] ])\x0a\x09\x09\x09\x09\x09\x09then: [ failed ifFalse: [ testCase isAsync ifTrue: [ self execute: [ testCase finished ] ] ] ] ] ] ]",
 referencedClasses: ["Smalltalk"],
 pragmas: [],
-messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:catch:", "execute:", "pass", "asSmalltalkException:"]
+messageSends: ["context:", "ensure:", "value", "ifFalse:", "isAsync", "assert:description:", "not", "isThenable", ",", "asString", "ifTrue:", "and:", "finished", "ifFalse:ifTrue:", "tearDown", "then:", "catch:", "execute:", "pass", "asSmalltalkException:"]
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 var failed,result;
@@ -55460,30 +55460,34 @@ if($core.assert([$recv($self.testCase)._isAsync()
 ,$ctx2.sendIdx["isAsync"]=3
 ][0])){
 if($core.assert($recv(result)._isThenable())){
-return $recv(result)._then_catch_((function(){
+failed=false;
+return $recv($recv(result)._catch_((function(error){
 return $core.withContext(function($ctx3) {
 if($core.assert([$recv($self.testCase)._isAsync()
 ,$ctx3.sendIdx["isAsync"]=4
 ][0])){
 return [$self._execute_((function(){
 return $core.withContext(function($ctx4) {
-return $recv($self.testCase)._finished();
+failed=true;
+return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,11)});
 }))
 ,$ctx3.sendIdx["execute:"]=1
 ][0];
 }
-}, function($ctx3) {$ctx3.fillBlock({},$ctx2,9)});
-}),(function(error){
+}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,9)});
+})))._then_((function(){
 return $core.withContext(function($ctx3) {
+if(!$core.assert(failed)){
 if($core.assert($recv($self.testCase)._isAsync())){
 return $self._execute_((function(){
 return $core.withContext(function($ctx4) {
-return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
-}, function($ctx4) {$ctx4.fillBlock({},$ctx3,14)});
+return $recv($self.testCase)._finished();
+}, function($ctx4) {$ctx4.fillBlock({},$ctx3,15)});
 }));
 }
-}, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,12)});
+}
+}, function($ctx3) {$ctx3.fillBlock({},$ctx2,12)});
 }));
 }
 } else {
@@ -72965,6 +72969,30 @@ $globals.SUnitAsyncTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakePassFailingInTearDown",
+protocol: "helpers",
+args: [],
+source: "fakePassFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09(self async: [ self finished ]) fork",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["timeout:", "fork", "async:", "finished"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self.flag="bad";
+$self._timeout_((10));
+$recv($self._async_((function(){
+return $core.withContext(function($ctx2) {
+return $self._finished();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+})))._fork();
+return self;
+}, function($ctx1) {$ctx1.fill(self,"fakePassFailingInTearDown",{})});
+}; }),
+$globals.SUnitAsyncTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakeTimeout",
 protocol: "helpers",
 args: [],
@@ -73047,7 +73075,7 @@ $core.method({
 selector: "testAsyncErrorsAndFailures",
 protocol: "tests",
 args: [],
-source: "testAsyncErrorsAndFailures\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].\x0a\x09runner run",
+source: "testAsyncErrorsAndFailures\x0a\x09| suite runner result assertBlock |\x0a\x09suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09assertBlock := self async: [\x0a\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet.\x0a\x09\x09self finished\x0a\x09].\x0a\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: assertBlock ].\x0a\x09runner run",
 referencedClasses: ["TestSuiteRunner", "ResultAnnouncement"],
 pragmas: [],
 messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "async:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "finished", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "run"]
@@ -73056,7 +73084,7 @@ var self=this,$self=this;
 var suite,runner,result,assertBlock;
 return $core.withContext(function($ctx1) {
 var $1;
-suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
+suite=["fakeError", "fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($self._class())._selector_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -73075,7 +73103,7 @@ return $core.withContext(function($ctx2) {
 ][0])
 ,$ctx2.sendIdx["assert:equals:"]=1
 ][0];
-$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+$self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
 return $self._finished();
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
@@ -73526,6 +73554,25 @@ $globals.SUnitPromiseTest);
 
 $core.addMethod(
 $core.method({
+selector: "fakePassFailingInTearDown",
+protocol: "helpers",
+args: [],
+source: "fakePassFailingInTearDown\x0a\x09flag := 'bad'.\x0a\x09self timeout: 10.\x0a\x09^ Promise new",
+referencedClasses: ["Promise"],
+pragmas: [],
+messageSends: ["timeout:", "new"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self.flag="bad";
+$self._timeout_((10));
+return $recv($globals.Promise)._new();
+}, function($ctx1) {$ctx1.fill(self,"fakePassFailingInTearDown",{})});
+}; }),
+$globals.SUnitPromiseTest);
+
+$core.addMethod(
+$core.method({
 selector: "fakePromiseWithoutTimeout",
 protocol: "helpers",
 args: [],
@@ -73740,7 +73787,7 @@ $core.method({
 selector: "testPromiseErrorsAndFailures",
 protocol: "tests",
 args: [],
-source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].\x0a\x09\x09runner run ]",
+source: "testPromiseErrorsAndFailures\x0a\x09| suite runner result |\x0a\x09suite := #(fakeError fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure testPass) collect: [ :each | self class selector: each ].\x0a\x09runner := TestSuiteRunner on: suite.\x0a\x09self timeout: 200.\x0a\x09result := runner result.\x0a\x09^ Promise new: [ :model |\x0a\x09\x09runner announcer on: ResultAnnouncement do: [ :ann |\x0a\x09\x09\x09(ann result == result and: [ result runs = result total ]) ifTrue: [ model do: [\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result errors) equals: #(fakeError) asSet.\x0a\x09\x09\x09\x09self assert: (self selectorSetOf: result failures) equals: #(fakePassFailingInTearDown fakeErrorFailingInTearDown fakeFailure) asSet ] ] ].\x0a\x09\x09runner run ]",
 referencedClasses: ["TestSuiteRunner", "Promise", "ResultAnnouncement"],
 pragmas: [],
 messageSends: ["collect:", "selector:", "class", "on:", "timeout:", "result", "new:", "on:do:", "announcer", "ifTrue:", "and:", "==", "=", "runs", "total", "do:", "assert:equals:", "selectorSetOf:", "errors", "asSet", "failures", "run"]
@@ -73749,7 +73796,7 @@ var self=this,$self=this;
 var suite,runner,result;
 return $core.withContext(function($ctx1) {
 var $1;
-suite=["fakeError", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
+suite=["fakeError", "fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure", "testPass"]._collect_((function(each){
 return $core.withContext(function($ctx2) {
 return $recv($self._class())._selector_(each);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -73778,7 +73825,7 @@ return $core.withContext(function($ctx4) {
 ][0])
 ,$ctx4.sendIdx["assert:equals:"]=1
 ][0];
-return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
+return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 }));
 }
