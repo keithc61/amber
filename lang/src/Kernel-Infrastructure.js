@@ -4178,14 +4178,14 @@ selector: "version",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.8'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.9-pre'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.8";
+return "0.29.9-pre";
 
 }; }),
 $globals.SmalltalkImage);
