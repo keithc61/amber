@@ -1,3 +1,13 @@
+23 Feb 2021 - Release 0.30.0
+===================================
+
+* Move to use `globalThis`.
+  * Stop using `global`, so breaking, but just fix preamble of index.html.
+* Removed old backward-compatibility code.
+
+Commits: https://lolg.it/amber/amber/commits/0.30.0
+
+
 18 Dec 2020 - Release 0.29.8
 ===================================
 

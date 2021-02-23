@@ -36,13 +36,13 @@ define(function () {
     //     return Object.create(new Function("return this")()).Object === Object;
     // });
     assert(function () {
-        return typeof global !== "undefined";
+        return typeof globalThis !== "undefined";
     });
     assert(function () {
-        return global.Object === Object;
+        return globalThis.Object === Object;
     });
     assert(function () {
-        return Object.create(global).Object === Object;
+        return Object.create(globalThis).Object === Object;
     });
     assert(function () {
         return (function () {

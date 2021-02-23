@@ -44,7 +44,7 @@ define([
 ], function (require, _, Brikz, FundamentalsFactory, LanguageFactory) {
     "use strict";
 
-    var globals = Object.create(global);
+    var globals = Object.create(globalThis);
     var emit = Object.create(null);
 
     var runtimeLoadedPromise = new Promise(function (resolve, reject) {
