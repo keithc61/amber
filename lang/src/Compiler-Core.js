@@ -1281,30 +1281,6 @@ $globals.Compiler.a$cls);
 
 $core.addMethod(
 $core.method({
-selector: "initialize",
-protocol: "initialization",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: [],
-source: "initialize\x0a\x09\x22TODO remove, backward compat\x22\x0a\x09Smalltalk globals at: #SmalltalkParser put: smalltalkParser",
-referencedClasses: ["Smalltalk"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["at:put:", "globals"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-$recv($recv($globals.Smalltalk)._globals())._at_put_("SmalltalkParser",smalltalkParser);
-return self;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.Compiler.a$cls);
-
-$core.addMethod(
-$core.method({
 selector: "parse:",
 protocol: "parsing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -332,13 +332,6 @@ eval: aString
 	^ self new eval: aString
 ! !
 
-!Compiler class methodsFor: 'initialization'!
-
-initialize
-	"TODO remove, backward compat"
-	Smalltalk globals at: #SmalltalkParser put: smalltalkParser
-! !
-
 !Compiler class methodsFor: 'parsing'!
 
 parse: aString

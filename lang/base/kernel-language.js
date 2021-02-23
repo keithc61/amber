@@ -299,11 +299,6 @@ define(['./junk-drawer'], function ($goodies) {
                 else if (o.a$cls != null) return o;
                 else return st.wrapJavaScript(o);
             };
-
-            // TODO remove, .iVarNames backward compatibility
-            this.__init__ = function () {
-                brikz.classConstruction.iVarNamesCompat(SmalltalkBehavior);
-            };
         }
 
         ClassConstructionBrik.deps = ["classModel", "behaviorals", "methods"];
@@ -328,20 +323,6 @@ define(['./junk-drawer'], function ($goodies) {
             }
 
             st.setSlots = setSlots;
-
-            // TODO remove, .iVarNames backward compatibility
-            this.iVarNamesCompat = function (SmalltalkBehavior) {
-                Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return this.slots;
-                    },
-                    set: function (instanceVariableNames) {
-                        setSlots(this, instanceVariableNames);
-                    }
-                });
-            };
 
             /* Smalltalk class creation. A class is an instance of an automatically
              created metaclass object. Newly created classes (not their metaclass)

@@ -160,7 +160,6 @@ define(['./junk-drawer'], function ($goodies) {
             }
 
             function initClassSlots (klass) {
-                installIvarCompat(klass);
             }
 
             function copySuperclass (klass) {
@@ -175,23 +174,6 @@ define(['./junk-drawer'], function ($goodies) {
                 var methods = klass.methods;
                 Object.keys(methods).forEach(function (selector) {
                     installAmberMethodIntoAmberClass(methods[selector], klass);
-                });
-            }
-
-            // TODO remove, ["@foo"] backward compatibility
-            function installIvarCompat (klass) {
-                var ivars = klass.slots;
-                ivars.forEach(function (ivar) {
-                    Object.defineProperty(klass.fn.prototype, "@" + ivar, {
-                        get: function () {
-                            return this[ivar];
-                        },
-                        set: function (value) {
-                            return this[ivar] = value;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
                 });
             }
 

@@ -83,15 +83,6 @@ define([
 
     brikz();
 
-    // TODO deprecated, remove
-    Object.defineProperty(globals, "CharacterArray", {
-        enumerable: true,
-        configurable: true,
-        get: function () {
-            return this.String;
-        }
-    });
-
     return {
         api: api,
         nilAsReceiver: brikz.nil.nilAsReceiver,
