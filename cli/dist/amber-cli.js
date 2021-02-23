@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+var globalThis = typeof globalThis === "undefined" ? global : globalThis || global;
 (function(define, require){
 define(function (requirejs) {
 var module = void 0; // Bad UMDs workaround
@@ -1217,13 +1218,13 @@ define('amber/kernel-checks',[],function () {
     //     return Object.create(new Function("return this")()).Object === Object;
     // });
     assert(function () {
-        return typeof global !== "undefined";
+        return typeof globalThis !== "undefined";
     });
     assert(function () {
-        return global.Object === Object;
+        return globalThis.Object === Object;
     });
     assert(function () {
-        return Object.create(global).Object === Object;
+        return Object.create(globalThis).Object === Object;
     });
     assert(function () {
         return (function () {
@@ -2047,11 +2048,6 @@ define('amber/kernel-language',['./junk-drawer'], function ($goodies) {
                 else if (o.a$cls != null) return o;
                 else return st.wrapJavaScript(o);
             };
-
-            // TODO remove, .iVarNames backward compatibility
-            this.__init__ = function () {
-                brikz.classConstruction.iVarNamesCompat(SmalltalkBehavior);
-            };
         }
 
         ClassConstructionBrik.deps = ["classModel", "behaviorals", "methods"];
@@ -2076,20 +2072,6 @@ define('amber/kernel-language',['./junk-drawer'], function ($goodies) {
             }
 
             st.setSlots = setSlots;
-
-            // TODO remove, .iVarNames backward compatibility
-            this.iVarNamesCompat = function (SmalltalkBehavior) {
-                Object.defineProperty(SmalltalkBehavior.prototype, "iVarNames", {
-                    enumerable: true,
-                    configurable: true,
-                    get: function () {
-                        return this.slots;
-                    },
-                    set: function (instanceVariableNames) {
-                        setSlots(this, instanceVariableNames);
-                    }
-                });
-            };
 
             /* Smalltalk class creation. A class is an instance of an automatically
              created metaclass object. Newly created classes (not their metaclass)
@@ -2354,7 +2336,6 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             }
 
             function initClassSlots (klass) {
-                installIvarCompat(klass);
             }
 
             function copySuperclass (klass) {
@@ -2369,23 +2350,6 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
                 var methods = klass.methods;
                 Object.keys(methods).forEach(function (selector) {
                     installAmberMethodIntoAmberClass(methods[selector], klass);
-                });
-            }
-
-            // TODO remove, ["@foo"] backward compatibility
-            function installIvarCompat (klass) {
-                var ivars = klass.slots;
-                ivars.forEach(function (ivar) {
-                    Object.defineProperty(klass.fn.prototype, "@" + ivar, {
-                        get: function () {
-                            return this[ivar];
-                        },
-                        set: function (value) {
-                            return this[ivar] = value;
-                        },
-                        enumerable: false,
-                        configurable: true
-                    });
                 });
             }
 
@@ -2707,7 +2671,7 @@ define('amber/boot',[
 ], function (require, _, Brikz, FundamentalsFactory, LanguageFactory) {
     "use strict";
 
-    var globals = Object.create(global);
+    var globals = Object.create(globalThis);
     var emit = Object.create(null);
 
     var runtimeLoadedPromise = new Promise(function (resolve, reject) {
@@ -2745,15 +2709,6 @@ define('amber/boot',[
     brikz.stInit = SmalltalkInitBrik;
 
     brikz();
-
-    // TODO deprecated, remove
-    Object.defineProperty(globals, "CharacterArray", {
-        enumerable: true,
-        configurable: true,
-        get: function () {
-            return this.String;
-        }
-    });
 
     return {
         api: api,
@@ -2800,7 +2755,7 @@ define('amber/helpers',["./boot", "./junk-drawer", "require"], function (boot, $
     function settingsInLocalStorage () {
         var storage;
         try {
-            storage = 'localStorage' in global && global.localStorage;
+            storage = 'localStorage' in globalThis && globalThis.localStorage;
         } catch (ex) {
             console.warn("Access denied to localStorage, " +
                 "settings not loaded nor, subsequently, saved.");
@@ -27344,13 +27299,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.29.8'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.0'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.29.8";
+return "0.30.0";
 
 }; }),
 $globals.SmalltalkImage);
@@ -39436,24 +39391,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($self._new())._eval_(aString);
 }, function($ctx1) {$ctx1.fill(self,"eval:",{aString:aString})});
-}; }),
-$globals.Compiler.a$cls);
-
-$core.addMethod(
-$core.method({
-selector: "initialize",
-protocol: "initialization",
-args: [],
-source: "initialize\x0a\x09\x22TODO remove, backward compat\x22\x0a\x09Smalltalk globals at: #SmalltalkParser put: smalltalkParser",
-referencedClasses: ["Smalltalk"],
-pragmas: [],
-messageSends: ["at:put:", "globals"]
-}, function ($methodClass){ return function (){
-var self=this,$self=this;
-return $core.withContext(function($ctx1) {
-$recv($recv($globals.Smalltalk)._globals())._at_put_("SmalltalkParser",smalltalkParser);
-return self;
-}, function($ctx1) {$ctx1.fill(self,"initialize",{})});
 }; }),
 $globals.Compiler.a$cls);
 
