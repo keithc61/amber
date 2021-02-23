@@ -1,6 +1,7 @@
 function nodeWrapper() {
     return {
-        start: "(function(define, require){\n" +
+        start: "var globalThis = typeof globalThis === \"undefined\" ? global : globalThis || global;\n" +
+        "(function(define, require){\n" +
         "define(function (requirejs) {\n" +
         "var module = void 0; // Bad UMDs workaround\n" +
         "requirejs.resolve = require.resolve;\n" +
