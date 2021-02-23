@@ -1,6 +1,6 @@
 {
   "name": "@ambers/sdk",
-  "version": "0.12.3",
+  "version": "0.12.4",
   "description": "Development goodies for Amber Smalltalk",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
