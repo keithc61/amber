@@ -127,7 +127,7 @@ exports.template = function (grunt, init, done) {
             "@ambers/contrib-legacy": "^0.10.1",
             "@ambers/helios": "^0.13.2",
             "@ambers/ide-starter-modal": "^0.2.0",
-            "@ambers/sdk": "^0.12.1",
+            "@ambers/sdk": "^0.12.4",
             "grunt": "^1.0.3",
             "grunt-contrib-clean": "^1.1.0",
             "grunt-contrib-requirejs": "^1.0.0",
