@@ -4202,14 +4202,14 @@ selector: "version",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.2-pre'",
 referencedClasses: [],
 //>>excludeEnd("ide");
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.30.1";
+return "0.30.2-pre";
 
 }; }),
 $globals.SmalltalkImage);
