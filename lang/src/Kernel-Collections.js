@@ -3463,57 +3463,68 @@ selector: "asJavaScriptSource",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);
 args: [],
-source: "asJavaScriptSource\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str nextPut: '{'.\x0a\x09\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].\x0a\x09\x09str skip: -1; nextPut: '}' ]",
+source: "asJavaScriptSource\x0a\x09^ self\x0a\x09\x09ifEmpty: [ '{}' ]\x0a\x09\x09ifNotEmpty: [\x0a\x09\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09\x09str nextPut: '{'.\x0a\x09\x09\x09\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09\x09\x09str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].\x0a\x09\x09\x09\x09str skip: -1; nextPut: '}' ] ]",
 referencedClasses: ["String"],
 //>>excludeEnd("ide");
 pragmas: [],
-messageSends: ["streamContents:", "nextPut:", "keysAndValuesDo:", "nextPutAll:", "asJavaScriptSource", "skip:"]
+messageSends: ["ifEmpty:ifNotEmpty:", "streamContents:", "nextPut:", "keysAndValuesDo:", "nextPutAll:", "asJavaScriptSource", "skip:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-return $recv($globals.String)._streamContents_((function(str){
+return $self._ifEmpty_ifNotEmpty_((function(){
+return "{}";
+
+}),(function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
+return $recv($globals.String)._streamContents_((function(str){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx3) {
+//>>excludeEnd("ctx");
 [$recv(str)._nextPut_("{")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx2.sendIdx["nextPut:"]=1
+,$ctx3.sendIdx["nextPut:"]=1
 //>>excludeEnd("ctx");
 ][0];
 $self._keysAndValuesDo_((function(key,value){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx3) {
+return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 [$recv(str)._nextPutAll_([$recv(key)._asJavaScriptSource()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["asJavaScriptSource"]=1
+,$ctx4.sendIdx["asJavaScriptSource"]=1
 //>>excludeEnd("ctx");
 ][0])
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["nextPutAll:"]=1
+,$ctx4.sendIdx["nextPutAll:"]=1
 //>>excludeEnd("ctx");
 ][0];
 [$recv(str)._nextPut_(":")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["nextPut:"]=2
+,$ctx4.sendIdx["nextPut:"]=2
 //>>excludeEnd("ctx");
 ][0];
 $recv(str)._nextPutAll_($recv(value)._asJavaScriptSource());
 return [$recv(str)._nextPut_(",")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx3.sendIdx["nextPut:"]=3
+,$ctx4.sendIdx["nextPut:"]=3
 //>>excludeEnd("ctx");
 ][0];
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
+}, function($ctx4) {$ctx4.fillBlock({key:key,value:value},$ctx3,4)});
 //>>excludeEnd("ctx");
 }));
 $recv(str)._skip_((-1));
 return $recv(str)._nextPut_("}");
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+}, function($ctx3) {$ctx3.fillBlock({str:str},$ctx2,3)});
+//>>excludeEnd("ctx");
+}));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
