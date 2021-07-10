@@ -794,6 +794,30 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "newObject",
+protocol: "accessing",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "newObject\x0a\x09<inlineJS: 'return {}'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["return {}"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return {};
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"newObject",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "null",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

@@ -187,6 +187,10 @@ isThenable
 
 !JSObjectProxy class methodsFor: 'accessing'!
 
+newObject
+	<inlineJS: 'return {}'>
+!
+
 null
 	<inlineJS: 'return null'>
 !
