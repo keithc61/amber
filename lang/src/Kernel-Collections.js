@@ -3598,6 +3598,29 @@ $globals.HashedCollection);
 
 $core.addMethod(
 $core.method({
+selector: "jsonLiteralized",
+protocol: "converting",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "jsonLiteralized\x0a\x09^ JSON parse: (JSON stringify: self)",
+referencedClasses: ["JSON"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["parse:", "stringify:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+return $recv($globals.JSON)._parse_($recv($globals.JSON)._stringify_(self));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"jsonLiteralized",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.HashedCollection);
+
+$core.addMethod(
+$core.method({
 selector: "keys",
 protocol: "accessing",
 //>>excludeStart("ide", pragmas.excludeIdeData);

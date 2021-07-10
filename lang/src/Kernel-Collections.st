@@ -878,6 +878,12 @@ removeKey: aKey ifAbsent: aBlock
 		ifAbsent: [ aBlock value ]
 ! !
 
+!HashedCollection methodsFor: 'converting'!
+
+jsonLiteralized
+	^ JSON parse: (JSON stringify: self)
+! !
+
 !HashedCollection methodsFor: 'enumerating'!
 
 keysDo: aBlock
