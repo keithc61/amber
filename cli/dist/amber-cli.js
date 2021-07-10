@@ -11295,37 +11295,44 @@ $core.method({
 selector: "asJavaScriptSource",
 protocol: "accessing",
 args: [],
-source: "asJavaScriptSource\x0a\x09^ String streamContents: [ :str |\x0a\x09\x09str nextPut: '{'.\x0a\x09\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].\x0a\x09\x09str skip: -1; nextPut: '}' ]",
+source: "asJavaScriptSource\x0a\x09^ self\x0a\x09\x09ifEmpty: [ '{}' ]\x0a\x09\x09ifNotEmpty: [\x0a\x09\x09\x09String streamContents: [ :str |\x0a\x09\x09\x09\x09str nextPut: '{'.\x0a\x09\x09\x09\x09self keysAndValuesDo: [ :key :value |\x0a\x09\x09\x09\x09\x09str nextPutAll: key asJavaScriptSource; nextPut: ':'; nextPutAll: value asJavaScriptSource; nextPut: ',' ].\x0a\x09\x09\x09\x09str skip: -1; nextPut: '}' ] ]",
 referencedClasses: ["String"],
 pragmas: [],
-messageSends: ["streamContents:", "nextPut:", "keysAndValuesDo:", "nextPutAll:", "asJavaScriptSource", "skip:"]
+messageSends: ["ifEmpty:ifNotEmpty:", "streamContents:", "nextPut:", "keysAndValuesDo:", "nextPutAll:", "asJavaScriptSource", "skip:"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-return $recv($globals.String)._streamContents_((function(str){
+return $self._ifEmpty_ifNotEmpty_((function(){
+return "{}";
+
+}),(function(){
 return $core.withContext(function($ctx2) {
+return $recv($globals.String)._streamContents_((function(str){
+return $core.withContext(function($ctx3) {
 [$recv(str)._nextPut_("{")
-,$ctx2.sendIdx["nextPut:"]=1
+,$ctx3.sendIdx["nextPut:"]=1
 ][0];
 $self._keysAndValuesDo_((function(key,value){
-return $core.withContext(function($ctx3) {
+return $core.withContext(function($ctx4) {
 [$recv(str)._nextPutAll_([$recv(key)._asJavaScriptSource()
-,$ctx3.sendIdx["asJavaScriptSource"]=1
+,$ctx4.sendIdx["asJavaScriptSource"]=1
 ][0])
-,$ctx3.sendIdx["nextPutAll:"]=1
+,$ctx4.sendIdx["nextPutAll:"]=1
 ][0];
 [$recv(str)._nextPut_(":")
-,$ctx3.sendIdx["nextPut:"]=2
+,$ctx4.sendIdx["nextPut:"]=2
 ][0];
 $recv(str)._nextPutAll_($recv(value)._asJavaScriptSource());
 return [$recv(str)._nextPut_(",")
-,$ctx3.sendIdx["nextPut:"]=3
+,$ctx4.sendIdx["nextPut:"]=3
 ][0];
-}, function($ctx3) {$ctx3.fillBlock({key:key,value:value},$ctx2,2)});
+}, function($ctx4) {$ctx4.fillBlock({key:key,value:value},$ctx3,4)});
 }));
 $recv(str)._skip_((-1));
 return $recv(str)._nextPut_("}");
-}, function($ctx2) {$ctx2.fillBlock({str:str},$ctx1,1)});
+}, function($ctx3) {$ctx3.fillBlock({str:str},$ctx2,3)});
+}));
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
 }));
 }, function($ctx1) {$ctx1.fill(self,"asJavaScriptSource",{})});
 }; }),
@@ -11384,6 +11391,23 @@ return $core.withContext(function($ctx1) {
 return self.hasOwnProperty(aKey);
 return self;
 }, function($ctx1) {$ctx1.fill(self,"includesKey:",{aKey:aKey})});
+}; }),
+$globals.HashedCollection);
+
+$core.addMethod(
+$core.method({
+selector: "jsonLiteralized",
+protocol: "converting",
+args: [],
+source: "jsonLiteralized\x0a\x09^ JSON parse: (JSON stringify: self)",
+referencedClasses: ["JSON"],
+pragmas: [],
+messageSends: ["parse:", "stringify:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return $recv($globals.JSON)._parse_($recv($globals.JSON)._stringify_(self));
+}, function($ctx1) {$ctx1.fill(self,"jsonLiteralized",{})});
 }; }),
 $globals.HashedCollection);
 
@@ -24814,6 +24838,24 @@ $globals.JSObjectProxy.a$cls);
 
 $core.addMethod(
 $core.method({
+selector: "newObject",
+protocol: "accessing",
+args: [],
+source: "newObject\x0a\x09<inlineJS: 'return {}'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["return {}"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+return {};
+return self;
+}, function($ctx1) {$ctx1.fill(self,"newObject",{})});
+}; }),
+$globals.JSObjectProxy.a$cls);
+
+$core.addMethod(
+$core.method({
 selector: "null",
 protocol: "accessing",
 args: [],
@@ -27299,13 +27341,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.0'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.1'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.30.0";
+return "0.30.1";
 
 }; }),
 $globals.SmalltalkImage);
