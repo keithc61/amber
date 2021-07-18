@@ -181,11 +181,13 @@ if(!$core.assert([$recv([$recv(result)._failures()
 //>>excludeEnd("ctx");
 ][0];
 }
-if(!$core.assert($recv([$recv(result)._errors()
+if($core.assert($recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["errors"]=2
 //>>excludeEnd("ctx");
 ][0])._isEmpty())){
+return nil;
+} else {
 $recv([$recv([$recv(result)._errors()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["errors"]=3
@@ -213,6 +215,8 @@ return $self._error_([$recv([$recv($recv($recv($recv([$recv([$recv(result)._erro
 //>>excludeEnd("ctx");
 ][0]);
 }
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({ann:ann,result:result},$ctx1,3)});

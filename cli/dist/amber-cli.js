@@ -9153,7 +9153,9 @@ var $early={};
 try {
 $self._do_((function(each){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($recv(aBlock)._value_(each))){
+if($core.assert($recv(aBlock)._value_(each))){
+return nil;
+} else {
 throw $early=[false];
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -9213,6 +9215,8 @@ $self._do_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(each))){
 throw $early=[true];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -9476,6 +9480,8 @@ $self._do_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(each))){
 throw $early=[each];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -9708,6 +9714,8 @@ $1=false;
 }
 if($core.assert($1)){
 return $recv(outputSet)._add_(each);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -9751,6 +9759,8 @@ $self._do_((function(item){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(item))){
 throw $early=[false];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({item:item},$ctx1,1)});
 }));
@@ -9797,6 +9807,8 @@ return $core.withContext(function($ctx2) {
 if($core.assert($recv(anObject).__eq(each))){
 tally=$recv(tally).__plus((1));
 return tally;
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -9923,6 +9935,8 @@ $self._do_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(each))){
 return $recv(stream)._nextPut_(each);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -9951,6 +9965,8 @@ if($core.assert([$recv(selectBlock)._value_(each)
 ,$ctx2.sendIdx["value:"]=1
 ][0])){
 return $recv(stream)._nextPut_($recv(collectBlock)._value_(each));
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -10764,6 +10780,8 @@ $self._keysAndValuesDo_((function(key,value){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(value))){
 return $recv(newDict)._at_put_(key,value);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 }));
@@ -10792,6 +10810,8 @@ if($core.assert([$recv(selectBlock)._value_(value)
 ,$ctx2.sendIdx["value:"]=1
 ][0])){
 return $recv(newDict)._at_put_(key,$recv(collectBlock)._value_(value));
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
 }));
@@ -11550,7 +11570,9 @@ return false;
 }
 $self._withIndexDo_((function(each,i){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($recv($recv(aCollection)._at_(i)).__eq(each))){
+if($core.assert($recv($recv(aCollection)._at_(i)).__eq(each))){
+return nil;
+} else {
 throw $early=[false];
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each,i:i},$ctx1,3)});
@@ -13713,6 +13735,8 @@ return $core.withContext(function($ctx2) {
 lineCount=$recv(lineCount).__plus((1));
 if($core.assert($recv(lineCount).__eq(anIndex))){
 throw $early=[$self._copyFrom_to_(start,endWithoutDelimiters)];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({start:start,endWithoutDelimiters:endWithoutDelimiters,end:end},$ctx1,1)});
 }));
@@ -14947,6 +14971,8 @@ $self._do_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(aBlock)._value_(each))){
 return $recv(collection)._add_(each);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -14975,6 +15001,8 @@ if($core.assert([$recv(selectBlock)._value_(each)
 ,$ctx2.sendIdx["value:"]=1
 ][0])){
 return $recv(collection)._add_($recv(collectBlock)._value_(each));
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -15494,7 +15522,9 @@ return $core.withContext(function($ctx1) {
 tempCollection=$recv($recv($self._collection())._class())._new();
 $recv(anInteger)._timesRepeat_((function(){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 return $recv(tempCollection)._add_($self._next());
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -15540,7 +15570,9 @@ messageSends: ["ifFalse:", "atEnd", "at:", "collection", "+", "position"]
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 return $recv($self._collection())._at_($recv($self._position()).__plus((1)));
 }
 }, function($ctx1) {$ctx1.fill(self,"peek",{})});
@@ -15820,7 +15852,9 @@ return $core.withContext(function($ctx1) {
 tempCollection=$recv($recv($self._collection())._class())._new();
 $recv(anInteger)._timesRepeat_((function(){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 tempCollection=$recv(tempCollection).__comma($self._next());
 return tempCollection;
 }
@@ -16726,8 +16760,6 @@ $1=[$self._superclass()
 ][0];
 if($1 == null || $1.a$nil){
 return [];
-} else {
-$1;
 }
 return $recv($recv([$self._superclass()
 ,$ctx1.sendIdx["superclass"]=2
@@ -17683,9 +17715,7 @@ var $1,$2;
 theClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theClass;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv(theClass)._package_(thePackage);
 if(!$core.assert($recv($recv(theClass)._superclass()).__eq_eq(aClass))){
 return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
@@ -17715,9 +17745,7 @@ var $1,$2,$3,$4;
 theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theTrait;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=theTrait;
 $recv($2)._package_(thePackage);
 $recv($2)._recompile();
@@ -17937,6 +17965,8 @@ return [$recv([$recv($globals.Compiler)._new()
 ][0])
 ,$ctx2.sendIdx["install:forClass:protocol:"]=1
 ][0];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }))
@@ -17962,6 +17992,8 @@ if($core.assert($recv($recv(each)._origin()).__eq([$recv(aClass)._class()
 return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(each)._source(),[$recv(anotherClass)._class()
 ,$ctx2.sendIdx["class"]=5
 ][0],$recv(each)._protocol());
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});
 }));
@@ -18471,9 +18503,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 result=$recv($self._slots())._copy();
 $1=$self._superclass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var s;
 s=$1;
 $recv(result)._addAll_($recv(s)._allSlots());
@@ -18624,16 +18654,12 @@ messageSends: ["ifNotNil:", "addElement:", "organization", "protocol", "removePr
 }, function ($methodClass){ return function (aMethod,oldMethod){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(aMethod == null || aMethod.a$nil){
-aMethod;
-} else {
+if(aMethod != null && !aMethod.a$nil){
 $recv($self._organization())._addElement_([$recv(aMethod)._protocol()
 ,$ctx1.sendIdx["protocol"]=1
 ][0]);
 }
-if(oldMethod == null || oldMethod.a$nil){
-oldMethod;
-} else {
+if(oldMethod != null && !oldMethod.a$nil){
 $self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
 }
 return self;
@@ -19254,9 +19280,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1,$2;
 $1=$globals.Smalltalk;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=$self._basicAt_("category");
 if($2 == null || $2.a$nil){
 [$self._basicPackage_(nil)
@@ -19288,9 +19312,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$globals.Smalltalk;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($recv($self._package())._organization())._removeElement_(self);
 }
 return self;
@@ -21006,6 +21028,8 @@ $recv($self._methodClass())._allSubclassesDo_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(each)._includesSelector_($self.selector))){
 throw $early=[true];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }));
@@ -21038,8 +21062,6 @@ superclass=[$recv([$self._methodClass()
 $1=superclass;
 if($1 == null || $1.a$nil){
 return false;
-} else {
-$1;
 }
 return $recv($recv($recv($self._methodClass())._superclass())._lookupSelector_($self._selector()))._notNil();
 }, function($ctx1) {$ctx1.fill(self,"isOverride",{superclass:superclass})});
@@ -21202,9 +21224,7 @@ var $1,$2,$3,$4;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
 $1=oldProtocol;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodMoved)._new();
 $recv($3)._method_(self);
@@ -21212,9 +21232,7 @@ $recv($3)._oldProtocol_(oldProtocol);
 $recv($2)._announce_($recv($3)._yourself());
 }
 $4=$self._origin();
-if($4 == null || $4.a$nil){
-$4;
-} else {
+if($4 != null && !$4.a$nil){
 var origin;
 origin=$4;
 $recv($recv(origin)._organization())._addElement_(aString);
@@ -21440,7 +21458,9 @@ block=$recv($self.queue)._nextIfAbsent_((function(){
 return sentinel;
 
 }));
-if(!$core.assert($recv(block).__eq_eq(sentinel))){
+if($core.assert($recv(block).__eq_eq(sentinel))){
+return nil;
+} else {
 return $recv((function(){
 return $core.withContext(function($ctx3) {
 return $recv(block)._value();
@@ -22859,8 +22879,6 @@ $1=[$self._methodContext()
 ][0];
 if($1 == null || $1.a$nil){
 return nil;
-} else {
-$1;
 }
 receiverClass=$recv($recv([$self._methodContext()
 ,$ctx1.sendIdx["methodContext"]=2
@@ -26001,9 +26019,11 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 $recv(aCollection)._do_((function(import_){
 return $core.withContext(function($ctx2) {
-if(!$core.assert([$recv(import_)._isString()
+if($core.assert([$recv(import_)._isString()
 ,$ctx2.sendIdx["isString"]=1
 ][0])){
+return nil;
+} else {
 if(!$core.assert($recv(import_)._respondsTo_("key"))){
 [$self._error_("Imports must be Strings or Associations")
 ,$ctx2.sendIdx["error:"]=1
@@ -26018,7 +26038,9 @@ if(!$core.assert($recv([$recv([$recv(import_)._key()
 ,$ctx2.sendIdx["error:"]=2
 ][0];
 }
-if(!$core.assert($recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$"))){
+if($core.assert($recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$"))){
+return nil;
+} else {
 return $self._error_("Keys must be identifiers");
 }
 }
@@ -26237,9 +26259,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv(anAnnouncement)._theClass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var theClass;
 theClass=$1;
 $recv($recv(theClass)._package())._beDirty();
@@ -26263,9 +26283,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv($recv(anAnnouncement)._method())._package();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var package_;
 package_=$1;
 $recv(package_)._beDirty();
@@ -27040,7 +27058,9 @@ return $recv(pkgs)._includes_($recv(each)._package());
 }));
 $recv(classes)._do_((function(each){
 return $core.withContext(function($ctx3) {
-if(!$core.assert($recv(each).__eq($self._class()))){
+if($core.assert($recv(each).__eq($self._class()))){
+return nil;
+} else {
 return $recv(each)._initialize();
 }
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,3)});
@@ -27341,13 +27361,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.1'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.2'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.30.1";
+return "0.30.2";
 
 }; }),
 $globals.SmalltalkImage);
@@ -29278,9 +29298,7 @@ var $1;
 $1=[$recv(anError)._context()
 ,$ctx1.sendIdx["context"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logErrorContext_($recv(anError)._context());
 }
 $self._logError_(anError);
@@ -29323,9 +29341,7 @@ var $1;
 $1=[$recv(aContext)._home()
 ,$ctx1.sendIdx["home"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logContext_($recv(aContext)._home());
 }
 $self._log_($recv(aContext)._asString());
@@ -29365,15 +29381,11 @@ messageSends: ["ifNotNil:", "home", "logContext:"]
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
-if(aContext == null || aContext.a$nil){
-aContext;
-} else {
+if(aContext != null && !aContext.a$nil){
 $1=[$recv(aContext)._home()
 ,$ctx1.sendIdx["home"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logContext_($recv(aContext)._home());
 }
 }
@@ -29599,9 +29611,7 @@ protocols=$recv(aClass)._protocols();
 $1=[$recv(aClass)._superclass()
 ,$ctx1.sendIdx["superclass"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv(protocols)._addAll_($self._availableProtocolsFor_($recv(aClass)._superclass()));
 }
 return $recv($recv($recv(protocols)._asSet())._asArray())._sort();
@@ -29759,9 +29769,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 ,$ctx1.sendIdx[","]=1
 ][0]);
@@ -29859,8 +29867,6 @@ package_=$recv($globals.Package)._named_(aPackageName);
 $1=package_;
 if($1 == null || $1.a$nil){
 $self._error_("Invalid package name");
-} else {
-$1;
 }
 if($core.assert($recv(package_).__eq_eq($recv(aClass)._package()))){
 return self;
@@ -30102,9 +30108,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 ,$ctx1.sendIdx[","]=1
 ][0]);
@@ -30304,8 +30308,6 @@ var $1;
 $1=$self._current();
 if($1 == null || $1.a$nil){
 $self._register_(anObject);
-} else {
-$1;
 }
 return self;
 }, function($ctx1) {$ctx1.fill(self,"registerIfNone:",{anObject:anObject})});
@@ -30334,8 +30336,6 @@ smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(anError);
 $1=$recv(smalltalkError)._context();
 if($1 == null || $1.a$nil){
 $recv(smalltalkError)._context_($core.getThisContext());
-} else {
-$1;
 }
 $self._handleUnhandledError_(smalltalkError);
 return self;
@@ -35151,6 +35151,8 @@ return $recv(each)._includingPossibleMetaDo_((function(behavior){
 return $core.withContext(function($ctx3) {
 if($core.assert($recv($recv(behavior)._protocols())._includes_(extensionName))){
 return $recv(result)._add_($recv($globals.ExportMethodProtocol)._name_theClass_(extensionName,behavior));
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({behavior:behavior},$ctx2,3)});
 }));
@@ -35709,6 +35711,8 @@ $recv(aClass)._protocolsDo_((function(category,methods){
 return $core.withContext(function($ctx4) {
 if($core.assert($recv(category).__eq("*".__comma(name)))){
 return $recv(map)._at_put_(category,methods);
+} else {
+return nil;
 }
 }, function($ctx4) {$ctx4.fillBlock({category:category,methods:methods},$ctx3,3)});
 }));
@@ -35746,7 +35750,9 @@ return $core.withContext(function($ctx1) {
 map=$recv($globals.Dictionary)._new();
 $recv(aClass)._protocolsDo_((function(each,methods){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($recv(each)._match_("^\x5c*"))){
+if($core.assert($recv(each)._match_("^\x5c*"))){
+return nil;
+} else {
 return $recv(map)._at_put_(each,methods);
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each,methods:methods},$ctx1,1)});
@@ -35992,8 +35998,6 @@ if($1 == null || $1.a$nil){
 [$recv(aStream)._lf()
 ,$ctx1.sendIdx["lf"]=5
 ][0];
-} else {
-$1;
 }
 [$recv(aStream)._write_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);")
 ,$ctx1.sendIdx["write:"]=6
@@ -36051,9 +36055,7 @@ $1;
 ,$ctx1.sendIdx["write:"]=13
 ][0];
 $2=$recv(aMethod)._instantiateFn();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 var ifn;
 ifn=$2;
 [$recv(aStream)._write_([", ",$recv(ifn)._compiledSource()])
@@ -36149,9 +36151,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv(aPackage)._contextFunctionSource();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var source;
 source=$1;
 $recv(aStream)._write_(["$pkg.context = ",source,";"]);
@@ -37088,6 +37088,8 @@ result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 if($core.assert(lastEmpty)){
 lastEmpty=false;
 return $recv(result)._scanFrom_(parser);
+} else {
+return nil;
 }
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
 }));
@@ -37174,6 +37176,8 @@ $1=$recv($recv(xhr)._status()).__lt((300));
 $1=false;
 }
 return $recv($1)._ifTrue_ifFalse_(aBlock,anotherBlock);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }));
@@ -37950,8 +37954,6 @@ if(anObject == null || anObject.a$nil){
 return [$self._for_($self._defaultType())
 ,$ctx1.sendIdx["for:"]=1
 ][0];
-} else {
-anObject;
 }
 $1=$self._for_($recv(anObject)._type());
 $recv($1)._setupFromJson_(anObject);
@@ -38022,9 +38024,7 @@ var $1;
 $1=[$recv(aClass)._type()
 ,$ctx1.sendIdx["type"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.registry)._at_put_($recv(aClass)._type(),aClass);
 }
 return self;
@@ -39284,6 +39284,8 @@ return $recv($recv($recv(eachSide)._methodDictionary())._values())._do_displayin
 return $core.withContext(function($ctx3) {
 if($core.assert($recv($recv(each)._origin()).__eq(eachSide))){
 return $self._install_forClass_protocol_($recv(each)._source(),eachSide,$recv(each)._protocol());
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
 }),"Recompiling ".__comma($recv(eachSide)._name()));
@@ -40615,8 +40617,6 @@ if($1 == null || $1.a$nil){
 return $recv([$self._arguments()
 ,$ctx1.sendIdx["arguments"]=1
 ][0])._copy();
-} else {
-$1;
 }
 return $recv($self._arguments())._copyWithFirst_($self._receiver());
 }, function($ctx1) {$ctx1.fill(self,"dagChildren",{})});
@@ -42375,9 +42375,7 @@ $recv($2)._scope_($recv(old)._scope());
 $recv($2)._name_($recv(old)._name());
 $recv($1)._binding_($recv($2)._yourself());
 $3=$self._args();
-if($3 == null || $3.a$nil){
-$3;
-} else {
+if($3 != null && !$3.a$nil){
 var myArgs;
 myArgs=$3;
 if(!$core.assert($recv(myArgs).__eq([$self._arguments()
@@ -42715,8 +42713,6 @@ lookup=$2;
 lookup=$recv($self._outerScope())._lookupVariable_(aString);
 }
 lookup;
-} else {
-$1;
 }
 return lookup;
 }, function($ctx1) {$ctx1.fill(self,"lookupVariable:",{aString:aString,lookup:lookup})});
@@ -42849,8 +42845,6 @@ $1=[$self._outerScope()
 ][0];
 if($1 == null || $1.a$nil){
 return (1);
-} else {
-$1;
 }
 if($core.assert($self._isInlined())){
 return [$recv([$self._outerScope()
@@ -43153,8 +43147,6 @@ $recv($3)._scope_($self._methodScope());
 return $recv($2)._at_put_(each,$recv($3)._yourself());
 }, function($ctx2) {$ctx2.fillBlock({each:each,impl:impl},$ctx1,2)});
 }));
-} else {
-$1;
 }
 return $self.pseudoVars;
 }, function($ctx1) {$ctx1.fill(self,"pseudoVars",{})});
@@ -43850,9 +43842,7 @@ messageSends: ["ifNotNil:", "collect:", "reject:", "imports", "ifTrue:", "includ
 }, function ($methodClass){ return function (aString,aPackage){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(aPackage == null || aPackage.a$nil){
-aPackage;
-} else {
+if(aPackage != null && !aPackage.a$nil){
 var packageKnownVars;
 packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
 if($core.assert($recv(packageKnownVars)._includes_(aString))){
@@ -43965,8 +43955,6 @@ $1=$self.blockIndex;
 if($1 == null || $1.a$nil){
 $self.blockIndex=(0);
 $self.blockIndex;
-} else {
-$1;
 }
 $self.blockIndex=$recv($self.blockIndex).__plus((1));
 return $self.blockIndex;
@@ -43988,9 +43976,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$self.currentScope;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self.currentScope=$recv($self.currentScope)._outerScope();
 $self.currentScope;
 }
@@ -44098,9 +44084,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$recv($self.currentScope)._lookupVariable_(aString);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._errorShadowingVariable_(aString);
 }
 return self;
@@ -44612,9 +44596,7 @@ messageSends: ["ifNotNil:", "ifFalse:", "isVariable", "add:", "sequence"]
 }, function ($methodClass){ return function (anInstruction){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(anInstruction == null || anInstruction.a$nil){
-anInstruction;
-} else {
+if(anInstruction != null && !anInstruction.a$nil){
 if(!$core.assert($recv(anInstruction)._isVariable())){
 $recv($self._sequence())._add_(anInstruction);
 }
@@ -44692,8 +44674,6 @@ return nil;
 $2=threshold;
 if($2 == null || $2.a$nil){
 return $self._visitAll_(aCollection);
-} else {
-$2;
 }
 shouldAlias=true;
 return $recv(aCollection)._collect_((function(each){
@@ -49291,9 +49271,7 @@ if($core.assert([$recv($recv($globals.IRSendInliner)._inlinedSelectors())._inclu
 ,$ctx1.sendIdx["shouldBeAliased:"]=1
 ][0];
 $1=$recv(aNode)._receiver();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var receiver;
 receiver=$1;
 if($core.assert($recv($recv($globals.IRSendInliner)._inlinedSelectorsNeedingIdempotentReceiver())._includes_($recv(aNode)._selector()))){
@@ -49427,6 +49405,28 @@ $globals.IRInlinedIfFalse);
 
 
 
+$core.addClass("IRInlinedIfNil", $globals.IRInlinedSend, "Compiler-Inlining");
+$globals.IRInlinedIfNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
+$core.addMethod(
+$core.method({
+selector: "acceptDagVisitor:",
+protocol: "visiting",
+args: ["aVisitor"],
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfNil: self",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["visitIRInlinedIfNil:"]
+}, function ($methodClass){ return function (aVisitor){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv(aVisitor)._visitIRInlinedIfNil_(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
+}; }),
+$globals.IRInlinedIfNil);
+
+
+
 $core.addClass("IRInlinedIfNilIfNotNil", $globals.IRInlinedSend, "Compiler-Inlining");
 $globals.IRInlinedIfNilIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
 $core.addMethod(
@@ -49446,6 +49446,28 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
 }; }),
 $globals.IRInlinedIfNilIfNotNil);
+
+
+
+$core.addClass("IRInlinedIfNotNil", $globals.IRInlinedSend, "Compiler-Inlining");
+$globals.IRInlinedIfNotNil.comment="I represent an inlined `#ifNil:ifNotNil:` message send instruction.";
+$core.addMethod(
+$core.method({
+selector: "acceptDagVisitor:",
+protocol: "visiting",
+args: ["aVisitor"],
+source: "acceptDagVisitor: aVisitor\x0a\x09aVisitor visitIRInlinedIfNotNil: self",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["visitIRInlinedIfNotNil:"]
+}, function ($methodClass){ return function (aVisitor){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv(aVisitor)._visitIRInlinedIfNotNil_(self);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"acceptDagVisitor:",{aVisitor:aVisitor})});
+}; }),
+$globals.IRInlinedIfNotNil);
 
 
 
@@ -49893,6 +49915,51 @@ $globals.IRInliningJSTranslator);
 
 $core.addMethod(
 $core.method({
+selector: "visitIRInlinedIfNil:",
+protocol: "visiting",
+args: ["anIRInlinedIfNil"],
+source: "visitIRInlinedIfNil: anIRInlinedIfNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self visit: anIRInlinedIfNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ' == null || '.\x0a\x09\x09\x09self visit: anIRInlinedIfNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNil dagChildren second ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["nextPutIf:then:", "stream", "visit:", "first", "dagChildren", "nextPutAll:", "second"]
+}, function ($methodClass){ return function (anIRInlinedIfNil){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv([$self._stream()
+,$ctx1.sendIdx["stream"]=1
+][0])._nextPutIf_then_((function(){
+return $core.withContext(function($ctx2) {
+[$self._visit_([$recv([$recv(anIRInlinedIfNil)._dagChildren()
+,$ctx2.sendIdx["dagChildren"]=1
+][0])._first()
+,$ctx2.sendIdx["first"]=1
+][0])
+,$ctx2.sendIdx["visit:"]=1
+][0];
+[$recv([$self._stream()
+,$ctx2.sendIdx["stream"]=2
+][0])._nextPutAll_(" == null || ")
+,$ctx2.sendIdx["nextPutAll:"]=1
+][0];
+[$self._visit_($recv([$recv(anIRInlinedIfNil)._dagChildren()
+,$ctx2.sendIdx["dagChildren"]=2
+][0])._first())
+,$ctx2.sendIdx["visit:"]=2
+][0];
+return $recv($self._stream())._nextPutAll_(".a$nil");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),(function(){
+return $core.withContext(function($ctx2) {
+return $self._visit_($recv($recv(anIRInlinedIfNil)._dagChildren())._second());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfNil:",{anIRInlinedIfNil:anIRInlinedIfNil})});
+}; }),
+$globals.IRInliningJSTranslator);
+
+$core.addMethod(
+$core.method({
 selector: "visitIRInlinedIfNilIfNotNil:",
 protocol: "visiting",
 args: ["anIRInlinedIfNilIfNotNil"],
@@ -49941,6 +50008,51 @@ return $self._visit_($recv($recv(anIRInlinedIfNilIfNotNil)._dagChildren())._thir
 }));
 return self;
 }, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfNilIfNotNil:",{anIRInlinedIfNilIfNotNil:anIRInlinedIfNilIfNotNil})});
+}; }),
+$globals.IRInliningJSTranslator);
+
+$core.addMethod(
+$core.method({
+selector: "visitIRInlinedIfNotNil:",
+protocol: "visiting",
+args: ["anIRInlinedIfNotNil"],
+source: "visitIRInlinedIfNotNil: anIRInlinedIfNotNil\x0a\x09self stream\x0a\x09\x09nextPutIf: [\x0a\x09\x09\x09self visit: anIRInlinedIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: ' != null && !'.\x0a\x09\x09\x09self visit: anIRInlinedIfNotNil dagChildren first.\x0a\x09\x09\x09self stream nextPutAll: '.a$nil' ]\x0a\x09\x09then: [ self visit: anIRInlinedIfNotNil dagChildren second ]",
+referencedClasses: [],
+pragmas: [],
+messageSends: ["nextPutIf:then:", "stream", "visit:", "first", "dagChildren", "nextPutAll:", "second"]
+}, function ($methodClass){ return function (anIRInlinedIfNotNil){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv([$self._stream()
+,$ctx1.sendIdx["stream"]=1
+][0])._nextPutIf_then_((function(){
+return $core.withContext(function($ctx2) {
+[$self._visit_([$recv([$recv(anIRInlinedIfNotNil)._dagChildren()
+,$ctx2.sendIdx["dagChildren"]=1
+][0])._first()
+,$ctx2.sendIdx["first"]=1
+][0])
+,$ctx2.sendIdx["visit:"]=1
+][0];
+[$recv([$self._stream()
+,$ctx2.sendIdx["stream"]=2
+][0])._nextPutAll_(" != null && !")
+,$ctx2.sendIdx["nextPutAll:"]=1
+][0];
+[$self._visit_($recv([$recv(anIRInlinedIfNotNil)._dagChildren()
+,$ctx2.sendIdx["dagChildren"]=2
+][0])._first())
+,$ctx2.sendIdx["visit:"]=2
+][0];
+return $recv($self._stream())._nextPutAll_(".a$nil");
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),(function(){
+return $core.withContext(function($ctx2) {
+return $self._visit_($recv($recv(anIRInlinedIfNotNil)._dagChildren())._second());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"visitIRInlinedIfNotNil:",{anIRInlinedIfNotNil:anIRInlinedIfNotNil})});
 }; }),
 $globals.IRInliningJSTranslator);
 
@@ -50116,30 +50228,15 @@ $core.method({
 selector: "ifNil:",
 protocol: "inlining",
 args: ["anIRInstruction"],
-source: "ifNil: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
-referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
+source: "ifNil: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self inlinedSend: IRInlinedIfNil new withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfNil"],
 pragmas: [],
-messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:", "new"]
 }, function ($methodClass){ return function (anIRInstruction){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3;
 $self._mustBeNiladicClosure_(anIRInstruction);
-$1=[$recv($globals.IRInlinedIfNilIfNotNil)._new()
-,$ctx1.sendIdx["new"]=1
-][0];
-$2=[$recv($globals.IRClosure)._new()
-,$ctx1.sendIdx["new"]=2
-][0];
-$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
-$3=$recv($globals.IRBlockSequence)._new();
-$recv($3)._add_($recv($self._send())._receiver());
-[$recv($2)._add_([$recv($3)._yourself()
-,$ctx1.sendIdx["yourself"]=1
-][0])
-,$ctx1.sendIdx["add:"]=1
-][0];
-return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$recv($2)._yourself());
+return $self._inlinedSend_withBlock_($recv($globals.IRInlinedIfNil)._new(),anIRInstruction);
 }, function($ctx1) {$ctx1.fill(self,"ifNil:",{anIRInstruction:anIRInstruction})});
 }; }),
 $globals.IRSendInliner);
@@ -50168,30 +50265,15 @@ $core.method({
 selector: "ifNotNil:",
 protocol: "inlining",
 args: ["anIRInstruction"],
-source: "ifNotNil: anIRInstruction\x0a\x09self mustBeNiladicOrUnaryClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
-referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
+source: "ifNotNil: anIRInstruction\x0a\x09self mustBeNiladicOrUnaryClosure: anIRInstruction.\x0a\x09^ self inlinedSend: IRInlinedIfNotNil new withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfNotNil"],
 pragmas: [],
-messageSends: ["mustBeNiladicOrUnaryClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
+messageSends: ["mustBeNiladicOrUnaryClosure:", "inlinedSend:withBlock:", "new"]
 }, function ($methodClass){ return function (anIRInstruction){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-var $1,$2,$3;
 $self._mustBeNiladicOrUnaryClosure_(anIRInstruction);
-$1=[$recv($globals.IRInlinedIfNilIfNotNil)._new()
-,$ctx1.sendIdx["new"]=1
-][0];
-$2=[$recv($globals.IRClosure)._new()
-,$ctx1.sendIdx["new"]=2
-][0];
-$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
-$3=$recv($globals.IRBlockSequence)._new();
-$recv($3)._add_($recv($self._send())._receiver());
-[$recv($2)._add_([$recv($3)._yourself()
-,$ctx1.sendIdx["yourself"]=1
-][0])
-,$ctx1.sendIdx["add:"]=1
-][0];
-return $self._inlinedSend_withBlock_withBlock_($1,$recv($2)._yourself(),anIRInstruction);
+return $self._inlinedSend_withBlock_($recv($globals.IRInlinedIfNotNil)._new(),anIRInstruction);
 }, function($ctx1) {$ctx1.fill(self,"ifNotNil:",{anIRInstruction:anIRInstruction})});
 }; }),
 $globals.IRSendInliner);
@@ -50398,40 +50480,6 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 return $recv($globals.IRInlinedClosure)._new();
 }, function($ctx1) {$ctx1.fill(self,"inlinedClosure",{})});
-}; }),
-$globals.IRSendInliner);
-
-$core.addMethod(
-$core.method({
-selector: "inlinedClosure:wrapFinalValueIn:",
-protocol: "inlining",
-args: ["closure", "aBlock"],
-source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence final |\x0a\x0a\x09sequence := closure sequence.\x0a\x09\x0a\x09sequence dagChildren ifEmpty: [ sequence add: (IRVariable new\x0a\x09\x09variable: (closure scope pseudoVars at: 'nil');\x0a\x09\x09yourself) ].\x0a\x09final := sequence dagChildren last.\x0a\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].\x0a\x0a\x09^ closure",
-referencedClasses: ["IRVariable"],
-pragmas: [],
-messageSends: ["sequence", "ifEmpty:", "dagChildren", "add:", "variable:", "new", "at:", "pseudoVars", "scope", "yourself", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
-}, function ($methodClass){ return function (closure,aBlock){
-var self=this,$self=this;
-var sequence,final;
-return $core.withContext(function($ctx1) {
-var $1,$2;
-sequence=$recv(closure)._sequence();
-$recv([$recv(sequence)._dagChildren()
-,$ctx1.sendIdx["dagChildren"]=1
-][0])._ifEmpty_((function(){
-return $core.withContext(function($ctx2) {
-$1=sequence;
-$2=$recv($globals.IRVariable)._new();
-$recv($2)._variable_($recv($recv($recv(closure)._scope())._pseudoVars())._at_("nil"));
-return $recv($1)._add_($recv($2)._yourself());
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-}));
-final=$recv($recv(sequence)._dagChildren())._last();
-if($core.assert($recv(final)._yieldsValue())){
-$recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
-}
-return closure;
-}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,final:final})});
 }; }),
 $globals.IRSendInliner);
 
@@ -50756,7 +50804,163 @@ return false;
 $globals.IRSendInliner.a$cls);
 
 
-$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRWrappingSendInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$globals.IRWrappingSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
+$core.addMethod(
+$core.method({
+selector: "ifFalse:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "ifFalse: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self inlinedSend: \x0a\x09\x09IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: IRBlockSequence new\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence"],
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+return $self._inlinedSend_withBlock_withBlock_($1,$recv($2)._add_($recv($recv($globals.IRBlockSequence)._new())._yourself()),anIRInstruction);
+}, function($ctx1) {$ctx1.fill(self,"ifFalse:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "ifNil:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "ifNil: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)",
+referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfNilIfNotNil)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+$3=$recv($globals.IRBlockSequence)._new();
+$recv($3)._add_($recv($self._send())._receiver());
+[$recv($2)._add_([$recv($3)._yourself()
+,$ctx1.sendIdx["yourself"]=1
+][0])
+,$ctx1.sendIdx["add:"]=1
+][0];
+return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$recv($2)._yourself());
+}, function($ctx1) {$ctx1.fill(self,"ifNil:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "ifNotNil:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "ifNotNil: anIRInstruction\x0a\x09self mustBeNiladicOrUnaryClosure: anIRInstruction.\x0a\x09^ self\x0a\x09\x09inlinedSend: IRInlinedIfNilIfNotNil new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: (IRBlockSequence new\x0a\x09\x09\x09\x09add: self send receiver;\x0a\x09\x09\x09\x09yourself);\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfNilIfNotNil", "IRClosure", "IRBlockSequence"],
+pragmas: [],
+messageSends: ["mustBeNiladicOrUnaryClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "receiver", "send", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2,$3;
+$self._mustBeNiladicOrUnaryClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfNilIfNotNil)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+$3=$recv($globals.IRBlockSequence)._new();
+$recv($3)._add_($recv($self._send())._receiver());
+[$recv($2)._add_([$recv($3)._yourself()
+,$ctx1.sendIdx["yourself"]=1
+][0])
+,$ctx1.sendIdx["add:"]=1
+][0];
+return $self._inlinedSend_withBlock_withBlock_($1,$recv($2)._yourself(),anIRInstruction);
+}, function($ctx1) {$ctx1.fill(self,"ifNotNil:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "ifTrue:",
+protocol: "inlining",
+args: ["anIRInstruction"],
+source: "ifTrue: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self inlinedSend: \x0a\x09\x09IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: IRBlockSequence new\x0a\x09\x09\x09yourself)",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence"],
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+,$ctx1.sendIdx["new"]=1
+][0];
+$2=[$recv($globals.IRClosure)._new()
+,$ctx1.sendIdx["new"]=2
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$recv($2)._add_($recv($recv($globals.IRBlockSequence)._new())._yourself()));
+}, function($ctx1) {$ctx1.fill(self,"ifTrue:",{anIRInstruction:anIRInstruction})});
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "inlinedClosure:wrapFinalValueIn:",
+protocol: "inlining",
+args: ["closure", "aBlock"],
+source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence final |\x0a\x0a\x09sequence := closure sequence.\x0a\x09\x0a\x09sequence dagChildren ifEmpty: [ sequence add: (IRVariable new\x0a\x09\x09variable: (closure scope pseudoVars at: 'nil');\x0a\x09\x09yourself) ].\x0a\x09final := sequence dagChildren last.\x0a\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].\x0a\x0a\x09^ closure",
+referencedClasses: ["IRVariable"],
+pragmas: [],
+messageSends: ["sequence", "ifEmpty:", "dagChildren", "add:", "variable:", "new", "at:", "pseudoVars", "scope", "yourself", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
+}, function ($methodClass){ return function (closure,aBlock){
+var self=this,$self=this;
+var sequence,final;
+return $core.withContext(function($ctx1) {
+var $1,$2;
+sequence=$recv(closure)._sequence();
+$recv([$recv(sequence)._dagChildren()
+,$ctx1.sendIdx["dagChildren"]=1
+][0])._ifEmpty_((function(){
+return $core.withContext(function($ctx2) {
+$1=sequence;
+$2=$recv($globals.IRVariable)._new();
+$recv($2)._variable_($recv($recv($recv(closure)._scope())._pseudoVars())._at_("nil"));
+return $recv($1)._add_($recv($2)._yourself());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}));
+final=$recv($recv(sequence)._dagChildren())._last();
+if($core.assert($recv(final)._yieldsValue())){
+$recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
+}
+return closure;
+}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,final:final})});
+}; }),
+$globals.IRWrappingSendInliner);
+
+
+
+$core.addClass("IRAssignmentInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 $core.setSlots($globals.IRAssignmentInliner, ["target"]);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
 $core.addMethod(
@@ -50843,7 +51047,7 @@ $globals.IRAssignmentInliner);
 
 
 
-$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRNonLocalReturnInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 $globals.IRNonLocalReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 $core.addMethod(
 $core.method({
@@ -50892,7 +51096,7 @@ $globals.IRNonLocalReturnInliner);
 
 
 
-$core.addClass("IRReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRReturnInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 $globals.IRReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 $core.addMethod(
 $core.method({
@@ -51413,8 +51617,6 @@ return $recv(context)._ast();
 $2=$self.ast;
 if($2 == null || $2.a$nil){
 $self._initializeAST();
-} else {
-$2;
 }
 return $self.ast;
 }, function($ctx1) {$ctx1.fill(self,"ast",{})});
@@ -51663,15 +51865,11 @@ $self._selector_($recv(aMethodContext)._selector());
 $1=[$recv(aMethodContext)._outerContext()
 ,$ctx1.sendIdx["outerContext"]=1
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var outer;
 outer=$1;
 $2=$recv(outer)._methodContext();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 $self._outerContext_($recv($self._class())._fromMethodContext_($recv(aMethodContext)._outerContext()));
 }
 $recv([$recv(aMethodContext)._locals()
@@ -51704,9 +51902,7 @@ $1=$recv($globals.ASTInterpreter)._new();
 $recv($1)._context_(self);
 $self.interpreter=$recv($1)._yourself();
 $2=$self._innerContext();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 $self._setupInterpreter_($self.interpreter);
 }
 return self;
@@ -51782,8 +51978,6 @@ var $1;
 $1=$self.interpreter;
 if($1 == null || $1.a$nil){
 $self._initializeInterpreter();
-} else {
-$1;
 }
 return $self.interpreter;
 }, function($ctx1) {$ctx1.fill(self,"interpreter",{})});
@@ -51906,8 +52100,6 @@ var $1;
 $1=$self.locals;
 if($1 == null || $1.a$nil){
 $self._initializeLocals();
-} else {
-$1;
 }
 return $self.locals;
 }, function($ctx1) {$ctx1.fill(self,"locals",{})});
@@ -52016,9 +52208,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $self.outerContext=anAIContext;
 $1=$self.outerContext;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var context;
 context=$1;
 $recv(context)._innerContext_(self);
@@ -52163,9 +52353,7 @@ $recv($1)._visit_([$self._ast()
 ][0]);
 currentNode=$recv($1)._currentNode();
 $2=$recv($self._ast())._sequenceNode();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 var sequence;
 sequence=$2;
 [$recv($recv(sequence)._temps())._do_((function(each){
@@ -52400,8 +52588,6 @@ $1=[$self._context()
 ][0];
 if($1 == null || $1.a$nil){
 return true;
-} else {
-$1;
 }
 if($core.assert($recv($self._interpreter())._atEnd())){
 return $recv($self._context())._isTopContext();
@@ -52459,9 +52645,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$self._context();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var cxt;
 cxt=$1;
 $recv(cxt)._innerContext_(nil);
@@ -52543,9 +52727,7 @@ if($core.assert([$recv([$self._interpreter()
 ,$ctx1.sendIdx["atEnd"]=1
 ][0])){
 $1=$recv($self._context())._outerContext();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var outerContext;
 outerContext=$1;
 $self._context_(outerContext);
@@ -53314,8 +53496,6 @@ if($1 == null || $1.a$nil){
 return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
 ,$ctx1.sendIdx["messageNotUnderstood:receiver:"]=1
 ][0];
-} else {
-$1;
 }
 $2=$recv(parent)._at_(aString);
 if($2 == null || $2.a$nil){
@@ -53350,8 +53530,6 @@ if($1 == null || $1.a$nil){
 return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
 ,$ctx1.sendIdx["messageNotUnderstood:receiver:"]=1
 ][0];
-} else {
-$1;
 }
 $2=$recv(parent)._at_(aString);
 if($2 == null || $2.a$nil){
@@ -53384,8 +53562,6 @@ if($1 == null || $1.a$nil){
 return [$self._messageNotUnderstood_receiver_(aMessage,anObject)
 ,$ctx1.sendIdx["messageNotUnderstood:receiver:"]=1
 ][0];
-} else {
-$1;
 }
 $2=$recv(parent)._lookupSelector_($recv(aMessage)._selector());
 if($2 == null || $2.a$nil){
@@ -54876,6 +55052,8 @@ return (function(){
 return $core.withContext(function($ctx2) {
 if($core.assert($self._isAsync())){
 return $recv(c)._execute_(aBlock);
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 });
@@ -54971,9 +55149,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $self._errorIfNotAsync_("#finished");
 $1=$self.asyncTimeout;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.asyncTimeout)._clearTimeout();
 }
 $self.asyncTimeout=nil;
@@ -55202,9 +55378,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$self.asyncTimeout;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.asyncTimeout)._clearTimeout();
 }
 $self.asyncTimeout=(0);
@@ -55453,21 +55627,29 @@ return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 }))
 ,$ctx3.sendIdx["execute:"]=1
 ][0];
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,9)});
 })))._then_((function(){
 return $core.withContext(function($ctx3) {
-if(!$core.assert(failed)){
+if($core.assert(failed)){
+return nil;
+} else {
 if($core.assert($recv($self.testCase)._isAsync())){
 return $self._execute_((function(){
 return $core.withContext(function($ctx4) {
 return $recv($self.testCase)._finished();
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,15)});
 }));
+} else {
+return nil;
 }
 }
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,12)});
 }));
+} else {
+return nil;
 }
 } else {
 return $recv($self.testCase)._tearDown();
@@ -55570,7 +55752,9 @@ $ctx3.supercall = true,
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
 }))._ensure_((function(){
 return $core.withContext(function($ctx2) {
-if(!$core.assert($recv($self.testCase)._isAsync())){
+if($core.assert($recv($self.testCase)._isAsync())){
+return nil;
+} else {
 $recv($self.result)._increaseRuns();
 return $recv($self.finished)._value();
 }
@@ -55831,9 +56015,11 @@ messageSends: ["ifFalse:", "==", "runs", "total", "value:", "+"]
 }, function ($methodClass){ return function (aBlock){
 var self=this,$self=this;
 return $core.withContext(function($ctx1) {
-if(!$core.assert($recv([$self._runs()
+if($core.assert($recv([$self._runs()
 ,$ctx1.sendIdx["runs"]=1
 ][0]).__eq_eq($self._total()))){
+return nil;
+} else {
 return $recv(aBlock)._value_($recv($self._runs()).__plus((1)));
 }
 }, function($ctx1) {$ctx1.fill(self,"nextRunDo:",{aBlock:aBlock})});
@@ -56043,6 +56229,8 @@ return $core.withContext(function($ctx2) {
 runs=$recv($self.result)._runs();
 if($core.assert($recv(runs).__lt($recv($self.result)._total()))){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({runs:runs},$ctx1,1)});
 });
@@ -57112,11 +57300,15 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5,$6,$7,$8;
 if($core.assert(true)){
 $1="alternative block";
+} else {
+$1=nil;
 }
 [$self._assert_equals_($1,"alternative block")
 ,$ctx1.sendIdx["assert:equals:"]=1
 ][0];
-if(!$core.assert(true)){
+if($core.assert(true)){
+$2=nil;
+} else {
 $2="alternative block";
 }
 [$self._assert_equals_($2,nil)
@@ -57124,11 +57316,15 @@ $2="alternative block";
 ][0];
 if($core.assert(false)){
 $3="alternative block";
+} else {
+$3=nil;
 }
 [$self._assert_equals_($3,nil)
 ,$ctx1.sendIdx["assert:equals:"]=3
 ][0];
-if(!$core.assert(false)){
+if($core.assert(false)){
+$4=nil;
+} else {
 $4="alternative block";
 }
 [$self._assert_equals_($4,"alternative block")
@@ -57186,13 +57382,17 @@ if($core.assert([true._yourself()
 ,$ctx1.sendIdx["yourself"]=1
 ][0])){
 $1="alternative block";
+} else {
+$1=nil;
 }
 [$self._assert_equals_($1,"alternative block")
 ,$ctx1.sendIdx["assert:equals:"]=1
 ][0];
-if(!$core.assert([true._yourself()
+if($core.assert([true._yourself()
 ,$ctx1.sendIdx["yourself"]=2
 ][0])){
+$2=nil;
+} else {
 $2="alternative block";
 }
 [$self._assert_equals_($2,nil)
@@ -57202,13 +57402,17 @@ if($core.assert([false._yourself()
 ,$ctx1.sendIdx["yourself"]=3
 ][0])){
 $3="alternative block";
+} else {
+$3=nil;
 }
 [$self._assert_equals_($3,nil)
 ,$ctx1.sendIdx["assert:equals:"]=3
 ][0];
-if(!$core.assert([false._yourself()
+if($core.assert([false._yourself()
 ,$ctx1.sendIdx["yourself"]=4
 ][0])){
+$4=nil;
+} else {
 $4="alternative block";
 }
 [$self._assert_equals_($4,"alternative block")
@@ -57551,9 +57755,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $self._tearDownTheClass();
 $1=$self.theClass;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._deny_($recv($recv($recv($self.theClass)._package())._classes())._includes_($self.theClass));
 $self._assert_equals_($recv($recv($globals.Smalltalk)._globals())._at_($recv($self.theClass)._name()),nil);
 }
@@ -68439,9 +68641,7 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 var $1;
 $1=$self._theClass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var theClass;
 theClass=$1;
 $recv($recv($globals.Array)._streamContents_((function(s){
@@ -72453,9 +72653,7 @@ $recv($1)._selector_($recv(ast)._selector());
 $recv($1)._interpreter_($recv($globals.ASTInterpreter)._new());
 ctx=$recv($1)._yourself();
 $2=$recv(ast)._sequenceNode();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 var sequence;
 sequence=$2;
 $recv($recv(sequence)._temps())._do_((function(each){
@@ -73725,6 +73923,8 @@ return $core.withContext(function($ctx4) {
 return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),$recv($globals.Set)._new());
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 }));
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
 }));
@@ -73807,6 +74007,8 @@ return $core.withContext(function($ctx4) {
 return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakePassFailingInTearDown", "fakeErrorFailingInTearDown", "fakeFailure"]._asSet());
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 }));
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
 }));
@@ -73863,6 +74065,8 @@ return $core.withContext(function($ctx4) {
 return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["fakeMultipleTimeoutFailing", "fakeTimeout", "fakeTimeoutSendOnly", "fakePromiseWithoutTimeout"]._asSet());
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 }));
+} else {
+return nil;
 }
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
 }));
@@ -74692,6 +74896,8 @@ $recv(aRequest)._on_do_("end",(function(){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(stream)._writable())){
 return $recv(stream)._end();
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
 }));
@@ -75279,7 +75485,9 @@ $recv($self.fs)._stat_then_([$self._basePath()
 ][0],(function(err,stat){
 return $core.withContext(function($ctx2) {
 if(err == null || err.a$nil){
-if(!$core.assert($recv(stat)._isDirectory())){
+if($core.assert($recv(stat)._isDirectory())){
+return nil;
+} else {
 return [$recv(console)._warn_([$recv(["Warning: --base-path parameter ".__comma([$self._basePath()
 ,$ctx2.sendIdx["basePath"]=2
 ][0])
@@ -75539,6 +75747,8 @@ $recv(args)._detect_ifNone_((function(each){
 return $core.withContext(function($ctx2) {
 if($core.assert($recv(each).__eq("--help"))){
 return $recv($globals.FileServer)._printHelp();
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
 }),(function(){
@@ -76113,6 +76323,8 @@ return $core.withContext(function($ctx2) {
 if($core.assert($recv(names)._includes_(aString))){
 $recv(cmd)._value();
 throw $early=[true];
+} else {
+return nil;
 }
 }, function($ctx2) {$ctx2.fillBlock({names:names,cmd:cmd},$ctx1,1)});
 }));
