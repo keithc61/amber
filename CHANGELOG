@@ -1,3 +1,11 @@
+18 July 2021 - Release 0.30.2
+===================================
+
+* Fixes bug in ifTrue: / ifFalse: inlining.
+
+Commits: https://lolg.it/amber/amber/commits/0.30.2
+
+
 10 July 2021 - Release 0.30.1
 ===================================
 
