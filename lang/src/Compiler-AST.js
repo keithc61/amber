@@ -1134,8 +1134,6 @@ return $recv([$self._arguments()
 ,$ctx1.sendIdx["arguments"]=1
 //>>excludeEnd("ctx");
 ][0])._copy();
-} else {
-$1;
 }
 return $recv($self._arguments())._copyWithFirst_($self._receiver());
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

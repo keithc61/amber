@@ -497,9 +497,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $self._errorIfNotAsync_("#finished");
 $1=$self.asyncTimeout;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.asyncTimeout)._clearTimeout();
 }
 $self.asyncTimeout=nil;
@@ -792,9 +790,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$self.asyncTimeout;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.asyncTimeout)._clearTimeout();
 }
 $self.asyncTimeout=(0);

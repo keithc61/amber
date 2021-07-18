@@ -24,9 +24,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(anInstruction == null || anInstruction.a$nil){
-anInstruction;
-} else {
+if(anInstruction != null && !anInstruction.a$nil){
 if(!$core.assert($recv(anInstruction)._isVariable())){
 $recv($self._sequence())._add_(anInstruction);
 }
@@ -122,8 +120,6 @@ return nil;
 $2=threshold;
 if($2 == null || $2.a$nil){
 return $self._visitAll_(aCollection);
-} else {
-$2;
 }
 shouldAlias=true;
 return $recv(aCollection)._collect_((function(each){

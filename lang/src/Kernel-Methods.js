@@ -1233,8 +1233,6 @@ superclass=[$recv([$self._methodClass()
 $1=superclass;
 if($1 == null || $1.a$nil){
 return false;
-} else {
-$1;
 }
 return $recv($recv($recv($self._methodClass())._superclass())._lookupSelector_($self._selector()))._notNil();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1441,9 +1439,7 @@ var $1,$2,$3,$4;
 oldProtocol=$self._protocol();
 $self.protocol=aString;
 $1=oldProtocol;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=$recv($globals.SystemAnnouncer)._current();
 $3=$recv($globals.MethodMoved)._new();
 $recv($3)._method_(self);
@@ -1451,9 +1447,7 @@ $recv($3)._oldProtocol_(oldProtocol);
 $recv($2)._announce_($recv($3)._yourself());
 }
 $4=$self._origin();
-if($4 == null || $4.a$nil){
-$4;
-} else {
+if($4 != null && !$4.a$nil){
 var origin;
 origin=$4;
 $recv($recv(origin)._organization())._addElement_(aString);
@@ -3576,8 +3570,6 @@ $1=[$self._methodContext()
 ][0];
 if($1 == null || $1.a$nil){
 return nil;
-} else {
-$1;
 }
 receiverClass=$recv($recv([$self._methodContext()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

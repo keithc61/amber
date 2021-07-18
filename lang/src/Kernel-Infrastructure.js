@@ -2713,9 +2713,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv(anAnnouncement)._theClass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var theClass;
 theClass=$1;
 $recv($recv(theClass)._package())._beDirty();
@@ -2745,9 +2743,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($recv(anAnnouncement)._method())._package();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var package_;
 package_=$1;
 $recv(package_)._beDirty();

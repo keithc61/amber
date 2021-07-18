@@ -4798,9 +4798,7 @@ $recv($1)._selector_($recv(ast)._selector());
 $recv($1)._interpreter_($recv($globals.ASTInterpreter)._new());
 ctx=$recv($1)._yourself();
 $2=$recv(ast)._sequenceNode();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 var sequence;
 sequence=$2;
 $recv($recv(sequence)._temps())._do_((function(each){

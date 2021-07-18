@@ -133,8 +133,6 @@ $1=[$self._superclass()
 ][0];
 if($1 == null || $1.a$nil){
 return [];
-} else {
-$1;
 }
 return $recv($recv([$self._superclass()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1388,9 +1386,7 @@ var $1,$2;
 theClass=$recv($recv($globals.Smalltalk)._globals())._at_(className);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theClass;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv(theClass)._package_(thePackage);
 if(!$core.assert($recv($recv(theClass)._superclass()).__eq_eq(aClass))){
 return $self._migrateClassNamed_superclass_slots_package_(className,aClass,aCollection,packageName);
@@ -1426,9 +1422,7 @@ var $1,$2,$3,$4;
 theTrait=$recv($recv($globals.Smalltalk)._globals())._at_(traitName);
 thePackage=$recv($globals.Package)._named_(packageName);
 $1=theTrait;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=theTrait;
 $recv($2)._package_(thePackage);
 $recv($2)._recompile();
@@ -2448,9 +2442,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 result=$recv($self._slots())._copy();
 $1=$self._superclass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var s;
 s=$1;
 $recv(result)._addAll_($recv(s)._allSlots());
@@ -2649,18 +2641,14 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(aMethod == null || aMethod.a$nil){
-aMethod;
-} else {
+if(aMethod != null && !aMethod.a$nil){
 $recv($self._organization())._addElement_([$recv(aMethod)._protocol()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["protocol"]=1
 //>>excludeEnd("ctx");
 ][0]);
 }
-if(oldMethod == null || oldMethod.a$nil){
-oldMethod;
-} else {
+if(oldMethod != null && !oldMethod.a$nil){
 $self._removeProtocolIfEmpty_($recv(oldMethod)._protocol());
 }
 return self;
@@ -3535,9 +3523,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1,$2;
 $1=$globals.Smalltalk;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $2=$self._basicAt_("category");
 if($2 == null || $2.a$nil){
 [$self._basicPackage_(nil)
@@ -3577,9 +3563,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$globals.Smalltalk;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($recv($self._package())._organization())._removeElement_(self);
 }
 return self;

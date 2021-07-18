@@ -254,9 +254,7 @@ $recv($2)._scope_($recv(old)._scope());
 $recv($2)._name_($recv(old)._name());
 $recv($1)._binding_($recv($2)._yourself());
 $3=$self._args();
-if($3 == null || $3.a$nil){
-$3;
-} else {
+if($3 != null && !$3.a$nil){
 var myArgs;
 myArgs=$3;
 if(!$core.assert($recv(myArgs).__eq([$self._arguments()
@@ -696,8 +694,6 @@ lookup=$2;
 lookup=$recv($self._outerScope())._lookupVariable_(aString);
 }
 lookup;
-} else {
-$1;
 }
 return lookup;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -860,8 +856,6 @@ $1=[$self._outerScope()
 ][0];
 if($1 == null || $1.a$nil){
 return (1);
-} else {
-$1;
 }
 if($core.assert($self._isInlined())){
 return [$recv([$self._outerScope()
@@ -1252,8 +1246,6 @@ return $recv($2)._at_put_(each,$recv($3)._yourself());
 }, function($ctx2) {$ctx2.fillBlock({each:each,impl:impl},$ctx1,2)});
 //>>excludeEnd("ctx");
 }));
-} else {
-$1;
 }
 return $self.pseudoVars;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2125,9 +2117,7 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(aPackage == null || aPackage.a$nil){
-aPackage;
-} else {
+if(aPackage != null && !aPackage.a$nil){
 var packageKnownVars;
 packageKnownVars=$recv($recv($recv(aPackage)._imports())._reject_("isString"))._collect_("key");
 if($core.assert($recv(packageKnownVars)._includes_(aString))){
@@ -2276,8 +2266,6 @@ $1=$self.blockIndex;
 if($1 == null || $1.a$nil){
 $self.blockIndex=(0);
 $self.blockIndex;
-} else {
-$1;
 }
 $self.blockIndex=$recv($self.blockIndex).__plus((1));
 return $self.blockIndex;
@@ -2305,9 +2293,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$self.currentScope;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self.currentScope=$recv($self.currentScope)._outerScope();
 $self.currentScope;
 }
@@ -2435,9 +2421,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($self.currentScope)._lookupVariable_(aString);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._errorShadowingVariable_(aString);
 }
 return self;

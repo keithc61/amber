@@ -1990,9 +1990,7 @@ return $core.withContext(function($ctx1) {
 var $1;
 $self._tearDownTheClass();
 $1=$self.theClass;
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._deny_($recv($recv($recv($self.theClass)._package())._classes())._includes_($self.theClass));
 $self._assert_equals_($recv($recv($globals.Smalltalk)._globals())._at_($recv($self.theClass)._name()),nil);
 }
@@ -18088,9 +18086,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$self._theClass();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var theClass;
 theClass=$1;
 $recv($recv($globals.Array)._streamContents_((function(s){

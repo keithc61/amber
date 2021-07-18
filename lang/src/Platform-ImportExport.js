@@ -1371,8 +1371,6 @@ if($1 == null || $1.a$nil){
 ,$ctx1.sendIdx["lf"]=5
 //>>excludeEnd("ctx");
 ][0];
-} else {
-$1;
 }
 [$recv(aStream)._write_("//>>excludeStart(\x22ide\x22, pragmas.excludeIdeData);")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1470,9 +1468,7 @@ $1;
 //>>excludeEnd("ctx");
 ][0];
 $2=$recv(aMethod)._instantiateFn();
-if($2 == null || $2.a$nil){
-$2;
-} else {
+if($2 != null && !$2.a$nil){
 var ifn;
 ifn=$2;
 [$recv(aStream)._write_([", ",$recv(ifn)._compiledSource()])
@@ -1608,9 +1604,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv(aPackage)._contextFunctionSource();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var source;
 source=$1;
 $recv(aStream)._write_(["$pkg.context = ",source,";"]);
@@ -4099,8 +4093,6 @@ return [$self._for_($self._defaultType())
 ,$ctx1.sendIdx["for:"]=1
 //>>excludeEnd("ctx");
 ][0];
-} else {
-anObject;
 }
 $1=$self._for_($recv(anObject)._type());
 $recv($1)._setupFromJson_(anObject);
@@ -4195,9 +4187,7 @@ $1=[$recv(aClass)._type()
 ,$ctx1.sendIdx["type"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv($self.registry)._at_put_($recv(aClass)._type(),aClass);
 }
 return self;

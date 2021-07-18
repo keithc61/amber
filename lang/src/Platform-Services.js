@@ -29,9 +29,7 @@ $1=[$recv(anError)._context()
 ,$ctx1.sendIdx["context"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logErrorContext_($recv(anError)._context());
 }
 $self._logError_(anError);
@@ -88,9 +86,7 @@ $1=[$recv(aContext)._home()
 ,$ctx1.sendIdx["home"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logContext_($recv(aContext)._home());
 }
 $self._log_($recv(aContext)._asString());
@@ -142,17 +138,13 @@ var self=this,$self=this;
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
-if(aContext == null || aContext.a$nil){
-aContext;
-} else {
+if(aContext != null && !aContext.a$nil){
 $1=[$recv(aContext)._home()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["home"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._logContext_($recv(aContext)._home());
 }
 }
@@ -450,9 +442,7 @@ $1=[$recv(aClass)._superclass()
 ,$ctx1.sendIdx["superclass"]=1
 //>>excludeEnd("ctx");
 ][0];
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $recv(protocols)._addAll_($self._availableProtocolsFor_($recv(aClass)._superclass()));
 }
 return $recv($recv($recv(protocols)._asSet())._asArray())._sort();
@@ -666,9 +656,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
@@ -798,8 +786,6 @@ package_=$recv($globals.Package)._named_(aPackageName);
 $1=package_;
 if($1 == null || $1.a$nil){
 $self._error_("Invalid package name");
-} else {
-$1;
 }
 if($core.assert($recv(package_).__eq_eq($recv(aClass)._package()))){
 return self;
@@ -1121,9 +1107,7 @@ return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
 var $1;
 $1=$recv($recv($globals.Smalltalk)._globals())._at_(aClassName);
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 $self._error_([$recv("A class named ".__comma(aClassName)).__comma(" already exists")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx[","]=1
@@ -1385,8 +1369,6 @@ var $1;
 $1=$self._current();
 if($1 == null || $1.a$nil){
 $self._register_(anObject);
-} else {
-$1;
 }
 return self;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1423,8 +1405,6 @@ smalltalkError=$recv($globals.Smalltalk)._asSmalltalkException_(anError);
 $1=$recv(smalltalkError)._context();
 if($1 == null || $1.a$nil){
 $recv(smalltalkError)._context_($core.getThisContext());
-} else {
-$1;
 }
 $self._handleUnhandledError_(smalltalkError);
 return self;

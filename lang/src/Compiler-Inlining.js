@@ -37,9 +37,7 @@ if($core.assert([$recv($recv($globals.IRSendInliner)._inlinedSelectors())._inclu
 //>>excludeEnd("ctx");
 ][0];
 $1=$recv(aNode)._receiver();
-if($1 == null || $1.a$nil){
-$1;
-} else {
+if($1 != null && !$1.a$nil){
 var receiver;
 receiver=$1;
 if($core.assert($recv($recv($globals.IRSendInliner)._inlinedSelectorsNeedingIdempotentReceiver())._includes_($recv(aNode)._selector()))){
