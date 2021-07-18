@@ -1353,13 +1353,17 @@ return $core.withContext(function($ctx1) {
 var $1,$2,$3,$4,$5,$6,$7,$8;
 if($core.assert(true)){
 $1="alternative block";
+} else {
+$1=nil;
 }
 [$self._assert_equals_($1,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(!$core.assert(true)){
+if($core.assert(true)){
+$2=nil;
+} else {
 $2="alternative block";
 }
 [$self._assert_equals_($2,nil)
@@ -1369,13 +1373,17 @@ $2="alternative block";
 ][0];
 if($core.assert(false)){
 $3="alternative block";
+} else {
+$3=nil;
 }
 [$self._assert_equals_($3,nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=3
 //>>excludeEnd("ctx");
 ][0];
-if(!$core.assert(false)){
+if($core.assert(false)){
+$4=nil;
+} else {
 $4="alternative block";
 }
 [$self._assert_equals_($4,"alternative block")
@@ -1449,17 +1457,21 @@ if($core.assert([true._yourself()
 //>>excludeEnd("ctx");
 ][0])){
 $1="alternative block";
+} else {
+$1=nil;
 }
 [$self._assert_equals_($1,"alternative block")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=1
 //>>excludeEnd("ctx");
 ][0];
-if(!$core.assert([true._yourself()
+if($core.assert([true._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=2
 //>>excludeEnd("ctx");
 ][0])){
+$2=nil;
+} else {
 $2="alternative block";
 }
 [$self._assert_equals_($2,nil)
@@ -1473,17 +1485,21 @@ if($core.assert([false._yourself()
 //>>excludeEnd("ctx");
 ][0])){
 $3="alternative block";
+} else {
+$3=nil;
 }
 [$self._assert_equals_($3,nil)
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["assert:equals:"]=3
 //>>excludeEnd("ctx");
 ][0];
-if(!$core.assert([false._yourself()
+if($core.assert([false._yourself()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["yourself"]=4
 //>>excludeEnd("ctx");
 ][0])){
+$4=nil;
+} else {
 $4="alternative block";
 }
 [$self._assert_equals_($4,"alternative block")

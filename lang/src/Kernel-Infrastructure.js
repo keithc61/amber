@@ -2387,11 +2387,13 @@ $recv(aCollection)._do_((function(import_){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert([$recv(import_)._isString()
+if($core.assert([$recv(import_)._isString()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["isString"]=1
 //>>excludeEnd("ctx");
 ][0])){
+return nil;
+} else {
 if(!$core.assert($recv(import_)._respondsTo_("key"))){
 [$self._error_("Imports must be Strings or Associations")
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2414,7 +2416,9 @@ if(!$core.assert($recv([$recv([$recv(import_)._key()
 //>>excludeEnd("ctx");
 ][0];
 }
-if(!$core.assert($recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$"))){
+if($core.assert($recv($recv(import_)._key())._match_("^[a-zA-Z][a-zA-Z0-9]*$"))){
+return nil;
+} else {
 return $self._error_("Keys must be identifiers");
 }
 }
@@ -3770,7 +3774,9 @@ $recv(classes)._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv(each).__eq($self._class()))){
+if($core.assert($recv(each).__eq($self._class()))){
+return nil;
+} else {
 return $recv(each)._initialize();
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);

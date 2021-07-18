@@ -372,6 +372,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($self._isAsync())){
 return $recv(c)._execute_(aBlock);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
@@ -1135,6 +1137,8 @@ return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 ,$ctx3.sendIdx["execute:"]=1
 //>>excludeEnd("ctx");
 ][0];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({error:error},$ctx2,9)});
@@ -1143,7 +1147,9 @@ return $recv($recv($globals.Smalltalk)._asSmalltalkException_(error))._pass();
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
-if(!$core.assert(failed)){
+if($core.assert(failed)){
+return nil;
+} else {
 if($core.assert($recv($self.testCase)._isAsync())){
 return $self._execute_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1154,12 +1160,16 @@ return $recv($self.testCase)._finished();
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,15)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return nil;
 }
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({},$ctx2,12)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return nil;
 }
 } else {
 return $recv($self.testCase)._tearDown();
@@ -1304,7 +1314,9 @@ $ctx3.supercall = true,
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv($self.testCase)._isAsync())){
+if($core.assert($recv($self.testCase)._isAsync())){
+return nil;
+} else {
 $recv($self.result)._increaseRuns();
 return $recv($self.finished)._value();
 }
@@ -1651,11 +1663,13 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv([$self._runs()
+if($core.assert($recv([$self._runs()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx1.sendIdx["runs"]=1
 //>>excludeEnd("ctx");
 ][0]).__eq_eq($self._total()))){
+return nil;
+} else {
 return $recv(aBlock)._value_($recv($self._runs()).__plus((1)));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -1937,6 +1951,8 @@ return $core.withContext(function($ctx2) {
 runs=$recv($self.result)._runs();
 if($core.assert($recv(runs).__lt($recv($self.result)._total()))){
 return $recv($self._contextOf_($recv(runs).__plus((1))))._start();
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({runs:runs},$ctx1,1)});

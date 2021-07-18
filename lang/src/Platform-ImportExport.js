@@ -110,6 +110,8 @@ return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 if($core.assert($recv($recv(behavior)._protocols())._includes_(extensionName))){
 return $recv(result)._add_($recv($globals.ExportMethodProtocol)._name_theClass_(extensionName,behavior));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({behavior:behavior},$ctx2,3)});
@@ -924,6 +926,8 @@ return $core.withContext(function($ctx4) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(category).__eq("*".__comma(name)))){
 return $recv(map)._at_put_(category,methods);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({category:category,methods:methods},$ctx3,3)});
@@ -983,7 +987,9 @@ $recv(aClass)._protocolsDo_((function(each,methods){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv(each)._match_("^\x5c*"))){
+if($core.assert($recv(each)._match_("^\x5c*"))){
+return nil;
+} else {
 return $recv(map)._at_put_(each,methods);
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -2925,6 +2931,8 @@ result=$recv($recv($globals.Compiler)._new())._evaluateExpression_(chunk);
 if($core.assert(lastEmpty)){
 lastEmpty=false;
 return $recv(result)._scanFrom_(parser);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,5)});
@@ -3039,6 +3047,8 @@ $1=$recv($recv(xhr)._status()).__lt((300));
 $1=false;
 }
 return $recv($1)._ifTrue_ifFalse_(aBlock,anotherBlock);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});

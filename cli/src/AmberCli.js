@@ -853,6 +853,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(stream)._writable())){
 return $recv(stream)._end();
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,5)});
@@ -1640,7 +1642,9 @@ $recv($self.fs)._stat_then_([$self._basePath()
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if(err == null || err.a$nil){
-if(!$core.assert($recv(stat)._isDirectory())){
+if($core.assert($recv(stat)._isDirectory())){
+return nil;
+} else {
 return [$recv(console)._warn_([$recv(["Warning: --base-path parameter ".__comma([$self._basePath()
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 ,$ctx2.sendIdx["basePath"]=2
@@ -2000,6 +2004,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(each).__eq("--help"))){
 return $recv($globals.FileServer)._printHelp();
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -2802,6 +2808,8 @@ return $core.withContext(function($ctx2) {
 if($core.assert($recv(names)._includes_(aString))){
 $recv(cmd)._value();
 throw $early=[true];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({names:names,cmd:cmd},$ctx1,1)});

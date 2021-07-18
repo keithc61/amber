@@ -1187,6 +1187,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(each)._includesSelector_($self.selector))){
 throw $early=[true];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1735,7 +1737,9 @@ block=$recv($self.queue)._nextIfAbsent_((function(){
 return sentinel;
 
 }));
-if(!$core.assert($recv(block).__eq_eq(sentinel))){
+if($core.assert($recv(block).__eq_eq(sentinel))){
+return nil;
+} else {
 return $recv((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx3) {

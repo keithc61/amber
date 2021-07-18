@@ -1720,6 +1720,8 @@ return [$recv([$recv($globals.Compiler)._new()
 ,$ctx2.sendIdx["install:forClass:protocol:"]=1
 //>>excludeEnd("ctx");
 ][0];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1765,6 +1767,8 @@ return $recv($recv($globals.Compiler)._new())._install_forClass_protocol_($recv(
 ,$ctx2.sendIdx["class"]=5
 //>>excludeEnd("ctx");
 ][0],$recv(each)._protocol());
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,3)});

@@ -1589,6 +1589,8 @@ return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),$r
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
@@ -1711,6 +1713,8 @@ return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});
@@ -1797,6 +1801,8 @@ return $self._assert_equals_($self._selectorSetOf_($recv(result)._failures()),["
 }, function($ctx4) {$ctx4.fillBlock({},$ctx3,6)});
 //>>excludeEnd("ctx");
 }));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({ann:ann},$ctx2,3)});

@@ -516,7 +516,9 @@ $self._do_((function(each){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv(aBlock)._value_(each))){
+if($core.assert($recv(aBlock)._value_(each))){
+return nil;
+} else {
 throw $early=[false];
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -596,6 +598,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(each))){
 throw $early=[true];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -965,6 +969,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(each))){
 throw $early=[each];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1275,6 +1281,8 @@ $1=false;
 }
 if($core.assert($1)){
 return $recv(outputSet)._add_(each);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1334,6 +1342,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(item))){
 throw $early=[false];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({item:item},$ctx1,1)});
@@ -1396,6 +1406,8 @@ return $core.withContext(function($ctx2) {
 if($core.assert($recv(anObject).__eq(each))){
 tally=$recv(tally).__plus((1));
 return tally;
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1574,6 +1586,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(each))){
 return $recv(stream)._nextPut_(each);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -1614,6 +1628,8 @@ if($core.assert([$recv(selectBlock)._value_(each)
 //>>excludeEnd("ctx");
 ][0])){
 return $recv(stream)._nextPut_($recv(collectBlock)._value_(each));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -2749,6 +2765,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(value))){
 return $recv(newDict)._at_put_(key,value);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
@@ -2789,6 +2807,8 @@ if($core.assert([$recv(selectBlock)._value_(value)
 //>>excludeEnd("ctx");
 ][0])){
 return $recv(newDict)._at_put_(key,$recv(collectBlock)._value_(value));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({key:key,value:value},$ctx1,1)});
@@ -3823,7 +3843,9 @@ $self._withIndexDo_((function(each,i){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($recv($recv(aCollection)._at_(i)).__eq(each))){
+if($core.assert($recv($recv(aCollection)._at_(i)).__eq(each))){
+return nil;
+} else {
 throw $early=[false];
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -6734,6 +6756,8 @@ return $core.withContext(function($ctx2) {
 lineCount=$recv(lineCount).__plus((1));
 if($core.assert($recv(lineCount).__eq(anIndex))){
 throw $early=[$self._copyFrom_to_(start,endWithoutDelimiters)];
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({start:start,endWithoutDelimiters:endWithoutDelimiters,end:end},$ctx1,1)});
@@ -8392,6 +8416,8 @@ return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
 if($core.assert($recv(aBlock)._value_(each))){
 return $recv(collection)._add_(each);
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -8432,6 +8458,8 @@ if($core.assert([$recv(selectBlock)._value_(each)
 //>>excludeEnd("ctx");
 ][0])){
 return $recv(collection)._add_($recv(collectBlock)._value_(each));
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx2) {$ctx2.fillBlock({each:each},$ctx1,1)});
@@ -9119,7 +9147,9 @@ $recv(anInteger)._timesRepeat_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 return $recv(tempCollection)._add_($self._next());
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9183,7 +9213,9 @@ var self=this,$self=this;
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx1) {
 //>>excludeEnd("ctx");
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 return $recv($self._collection())._at_($recv($self._position()).__plus((1)));
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
@@ -9541,7 +9573,9 @@ $recv(anInteger)._timesRepeat_((function(){
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 return $core.withContext(function($ctx2) {
 //>>excludeEnd("ctx");
-if(!$core.assert($self._atEnd())){
+if($core.assert($self._atEnd())){
+return nil;
+} else {
 tempCollection=$recv(tempCollection).__comma($self._next());
 return tempCollection;
 }

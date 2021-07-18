@@ -1057,6 +1057,8 @@ return $core.withContext(function($ctx3) {
 //>>excludeEnd("ctx");
 if($core.assert($recv($recv(each)._origin()).__eq(eachSide))){
 return $self._install_forClass_protocol_($recv(each)._source(),eachSide,$recv(each)._protocol());
+} else {
+return nil;
 }
 //>>excludeStart("ctx", pragmas.excludeDebugContexts);
 }, function($ctx3) {$ctx3.fillBlock({each:each},$ctx2,2)});
