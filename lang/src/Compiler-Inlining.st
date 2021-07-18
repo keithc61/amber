@@ -74,6 +74,18 @@ acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfFalse: self
 ! !
 
+IRInlinedSend subclass: #IRInlinedIfNil
+	slots: {}
+	package: 'Compiler-Inlining'!
+!IRInlinedIfNil commentStamp!
+I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
+
+!IRInlinedIfNil methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	aVisitor visitIRInlinedIfNil: self
+! !
+
 IRInlinedSend subclass: #IRInlinedIfNilIfNotNil
 	slots: {}
 	package: 'Compiler-Inlining'!
@@ -84,6 +96,18 @@ I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
 
 acceptDagVisitor: aVisitor
 	aVisitor visitIRInlinedIfNilIfNotNil: self
+! !
+
+IRInlinedSend subclass: #IRInlinedIfNotNil
+	slots: {}
+	package: 'Compiler-Inlining'!
+!IRInlinedIfNotNil commentStamp!
+I represent an inlined `#ifNil:ifNotNil:` message send instruction.!
+
+!IRInlinedIfNotNil methodsFor: 'visiting'!
+
+acceptDagVisitor: aVisitor
+	aVisitor visitIRInlinedIfNotNil: self
 ! !
 
 IRInlinedSend subclass: #IRInlinedIfTrue
@@ -244,6 +268,16 @@ visitIRInlinedIfFalse: anIRInlinedIfFalse
 		then: [ self visit: anIRInlinedIfFalse dagChildren last ]
 !
 
+visitIRInlinedIfNil: anIRInlinedIfNil
+	self stream
+		nextPutIf: [
+			self visit: anIRInlinedIfNil dagChildren first.
+			self stream nextPutAll: ' == null || '.
+			self visit: anIRInlinedIfNil dagChildren first.
+			self stream nextPutAll: '.a$nil' ]
+		then: [ self visit: anIRInlinedIfNil dagChildren second ]
+!
+
 visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
 	self stream
 		nextPutIf: [
@@ -253,6 +287,16 @@ visitIRInlinedIfNilIfNotNil: anIRInlinedIfNilIfNotNil
 			self stream nextPutAll: '.a$nil' ]
 		then: [ self visit: anIRInlinedIfNilIfNotNil dagChildren second ]
 		else: [ self visit: anIRInlinedIfNilIfNotNil dagChildren third ]
+!
+
+visitIRInlinedIfNotNil: anIRInlinedIfNotNil
+	self stream
+		nextPutIf: [
+			self visit: anIRInlinedIfNotNil dagChildren first.
+			self stream nextPutAll: ' !!= null && !!'.
+			self visit: anIRInlinedIfNotNil dagChildren first.
+			self stream nextPutAll: '.a$nil' ]
+		then: [ self visit: anIRInlinedIfNotNil dagChildren second ]
 !
 
 visitIRInlinedIfTrue: anIRInlinedIfTrue
@@ -341,15 +385,7 @@ ifFalse: anIRInstruction ifTrue: anotherIRInstruction
 
 ifNil: anIRInstruction
 	self mustBeNiladicClosure: anIRInstruction.
-	^ self
-		inlinedSend: IRInlinedIfNilIfNotNil new
-		withBlock: anIRInstruction
-		withBlock: (IRClosure new
-			scope: anIRInstruction scope copy;
-			add: (IRBlockSequence new
-				add: self send receiver;
-				yourself);
-			yourself)
+	^ self inlinedSend: IRInlinedIfNil new withBlock: anIRInstruction
 !
 
 ifNil: anIRInstruction ifNotNil: anotherIRInstruction
@@ -360,15 +396,7 @@ ifNil: anIRInstruction ifNotNil: anotherIRInstruction
 
 ifNotNil: anIRInstruction
 	self mustBeNiladicOrUnaryClosure: anIRInstruction.
-	^ self
-		inlinedSend: IRInlinedIfNilIfNotNil new
-		withBlock: (IRClosure new
-			scope: anIRInstruction scope copy;
-			add: (IRBlockSequence new
-				add: self send receiver;
-				yourself);
-			yourself)
-		withBlock: anIRInstruction
+	^ self inlinedSend: IRInlinedIfNotNil new withBlock: anIRInstruction
 !
 
 ifNotNil: anIRInstruction ifNil: anotherIRInstruction
@@ -536,6 +564,32 @@ ifFalse: anIRInstruction
 		withBlock: (IRClosure new
 			scope: anIRInstruction scope copy;
 			add: IRBlockSequence new
+			yourself)
+		withBlock: anIRInstruction
+!
+
+ifNil: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	^ self
+		inlinedSend: IRInlinedIfNilIfNotNil new
+		withBlock: anIRInstruction
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: (IRBlockSequence new
+				add: self send receiver;
+				yourself);
+			yourself)
+!
+
+ifNotNil: anIRInstruction
+	self mustBeNiladicOrUnaryClosure: anIRInstruction.
+	^ self
+		inlinedSend: IRInlinedIfNilIfNotNil new
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: (IRBlockSequence new
+				add: self send receiver;
+				yourself);
 			yourself)
 		withBlock: anIRInstruction
 !
