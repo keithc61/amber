@@ -433,20 +433,6 @@ inlineSend: anIRSend
 		withArguments: self send arguments
 !
 
-inlinedClosure: closure wrapFinalValueIn: aBlock
-	| sequence final |
-
-	sequence := closure sequence.
-	
-	sequence dagChildren ifEmpty: [ sequence add: (IRVariable new
-		variable: (closure scope pseudoVars at: 'nil');
-		yourself) ].
-	final := sequence dagChildren last.
-	final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].
-
-	^ closure
-!
-
 or: anIRInstruction
 	self mustBeNiladicClosure: anIRInstruction.
 	^ self
@@ -535,7 +521,51 @@ shouldInline: anIRSend
 			anIRSend arguments allSatisfy: [ :each | each isClosure ] ] ]
 ! !
 
-IRSendInliner subclass: #IRAssignmentInliner
+IRSendInliner subclass: #IRWrappingSendInliner
+	slots: {}
+	package: 'Compiler-Inlining'!
+!IRWrappingSendInliner commentStamp!
+I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.!
+
+!IRWrappingSendInliner methodsFor: 'inlining'!
+
+ifFalse: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	^ self inlinedSend: 
+		IRInlinedIfTrueIfFalse new
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: IRBlockSequence new
+			yourself)
+		withBlock: anIRInstruction
+!
+
+ifTrue: anIRInstruction
+	self mustBeNiladicClosure: anIRInstruction.
+	^ self inlinedSend: 
+		IRInlinedIfTrueIfFalse new
+		withBlock: anIRInstruction
+		withBlock: (IRClosure new
+			scope: anIRInstruction scope copy;
+			add: IRBlockSequence new
+			yourself)
+!
+
+inlinedClosure: closure wrapFinalValueIn: aBlock
+	| sequence final |
+
+	sequence := closure sequence.
+	
+	sequence dagChildren ifEmpty: [ sequence add: (IRVariable new
+		variable: (closure scope pseudoVars at: 'nil');
+		yourself) ].
+	final := sequence dagChildren last.
+	final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].
+
+	^ closure
+! !
+
+IRWrappingSendInliner subclass: #IRAssignmentInliner
 	slots: {#target}
 	package: 'Compiler-Inlining'!
 !IRAssignmentInliner commentStamp!
@@ -580,7 +610,7 @@ inlineClosure: anIRClosure
 				yourself ]
 ! !
 
-IRSendInliner subclass: #IRNonLocalReturnInliner
+IRWrappingSendInliner subclass: #IRNonLocalReturnInliner
 	slots: {}
 	package: 'Compiler-Inlining'!
 !IRNonLocalReturnInliner commentStamp!
@@ -601,7 +631,7 @@ inlineReturn: anIRReturn
 	^ self inlineSend: anIRReturn expression andReplace: anIRReturn
 ! !
 
-IRSendInliner subclass: #IRReturnInliner
+IRWrappingSendInliner subclass: #IRReturnInliner
 	slots: {}
 	package: 'Compiler-Inlining'!
 !IRReturnInliner commentStamp!

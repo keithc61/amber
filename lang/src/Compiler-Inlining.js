@@ -1615,52 +1615,6 @@ $globals.IRSendInliner);
 
 $core.addMethod(
 $core.method({
-selector: "inlinedClosure:wrapFinalValueIn:",
-protocol: "inlining",
-//>>excludeStart("ide", pragmas.excludeIdeData);
-args: ["closure", "aBlock"],
-source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence final |\x0a\x0a\x09sequence := closure sequence.\x0a\x09\x0a\x09sequence dagChildren ifEmpty: [ sequence add: (IRVariable new\x0a\x09\x09variable: (closure scope pseudoVars at: 'nil');\x0a\x09\x09yourself) ].\x0a\x09final := sequence dagChildren last.\x0a\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].\x0a\x0a\x09^ closure",
-referencedClasses: ["IRVariable"],
-//>>excludeEnd("ide");
-pragmas: [],
-messageSends: ["sequence", "ifEmpty:", "dagChildren", "add:", "variable:", "new", "at:", "pseudoVars", "scope", "yourself", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
-}, function ($methodClass){ return function (closure,aBlock){
-var self=this,$self=this;
-var sequence,final;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx1) {
-//>>excludeEnd("ctx");
-var $1,$2;
-sequence=$recv(closure)._sequence();
-$recv([$recv(sequence)._dagChildren()
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-,$ctx1.sendIdx["dagChildren"]=1
-//>>excludeEnd("ctx");
-][0])._ifEmpty_((function(){
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-return $core.withContext(function($ctx2) {
-//>>excludeEnd("ctx");
-$1=sequence;
-$2=$recv($globals.IRVariable)._new();
-$recv($2)._variable_($recv($recv($recv(closure)._scope())._pseudoVars())._at_("nil"));
-return $recv($1)._add_($recv($2)._yourself());
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
-//>>excludeEnd("ctx");
-}));
-final=$recv($recv(sequence)._dagChildren())._last();
-if($core.assert($recv(final)._yieldsValue())){
-$recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
-}
-return closure;
-//>>excludeStart("ctx", pragmas.excludeDebugContexts);
-}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,final:final})});
-//>>excludeEnd("ctx");
-}; }),
-$globals.IRSendInliner);
-
-$core.addMethod(
-$core.method({
 selector: "inlinedSend:withBlock:",
 protocol: "private",
 //>>excludeStart("ide", pragmas.excludeIdeData);
@@ -2080,7 +2034,131 @@ return false;
 $globals.IRSendInliner.a$cls);
 
 
-$core.addClass("IRAssignmentInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRWrappingSendInliner", $globals.IRSendInliner, "Compiler-Inlining");
+//>>excludeStart("ide", pragmas.excludeIdeData);
+$globals.IRWrappingSendInliner.comment="I inline some message sends and block closure arguments. I heavily rely on #perform: to dispatch inlining methods.";
+//>>excludeEnd("ide");
+$core.addMethod(
+$core.method({
+selector: "ifFalse:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRInstruction"],
+source: "ifFalse: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self inlinedSend: \x0a\x09\x09IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: IRBlockSequence new\x0a\x09\x09\x09yourself)\x0a\x09\x09withBlock: anIRInstruction",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+$2=[$recv($globals.IRClosure)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+return $self._inlinedSend_withBlock_withBlock_($1,$recv($2)._add_($recv($recv($globals.IRBlockSequence)._new())._yourself()),anIRInstruction);
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ifFalse:",{anIRInstruction:anIRInstruction})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "ifTrue:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["anIRInstruction"],
+source: "ifTrue: anIRInstruction\x0a\x09self mustBeNiladicClosure: anIRInstruction.\x0a\x09^ self inlinedSend: \x0a\x09\x09IRInlinedIfTrueIfFalse new\x0a\x09\x09withBlock: anIRInstruction\x0a\x09\x09withBlock: (IRClosure new\x0a\x09\x09\x09scope: anIRInstruction scope copy;\x0a\x09\x09\x09add: IRBlockSequence new\x0a\x09\x09\x09yourself)",
+referencedClasses: ["IRInlinedIfTrueIfFalse", "IRClosure", "IRBlockSequence"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["mustBeNiladicClosure:", "inlinedSend:withBlock:withBlock:", "new", "scope:", "copy", "scope", "add:", "yourself"]
+}, function ($methodClass){ return function (anIRInstruction){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+$self._mustBeNiladicClosure_(anIRInstruction);
+$1=[$recv($globals.IRInlinedIfTrueIfFalse)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=1
+//>>excludeEnd("ctx");
+][0];
+$2=[$recv($globals.IRClosure)._new()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["new"]=2
+//>>excludeEnd("ctx");
+][0];
+$recv($2)._scope_($recv($recv(anIRInstruction)._scope())._copy());
+return $self._inlinedSend_withBlock_withBlock_($1,anIRInstruction,$recv($2)._add_($recv($recv($globals.IRBlockSequence)._new())._yourself()));
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"ifTrue:",{anIRInstruction:anIRInstruction})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRWrappingSendInliner);
+
+$core.addMethod(
+$core.method({
+selector: "inlinedClosure:wrapFinalValueIn:",
+protocol: "inlining",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: ["closure", "aBlock"],
+source: "inlinedClosure: closure wrapFinalValueIn: aBlock\x0a\x09| sequence final |\x0a\x0a\x09sequence := closure sequence.\x0a\x09\x0a\x09sequence dagChildren ifEmpty: [ sequence add: (IRVariable new\x0a\x09\x09variable: (closure scope pseudoVars at: 'nil');\x0a\x09\x09yourself) ].\x0a\x09final := sequence dagChildren last.\x0a\x09final yieldsValue ifTrue: [ sequence replace: final with: (aBlock value: final) ].\x0a\x0a\x09^ closure",
+referencedClasses: ["IRVariable"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["sequence", "ifEmpty:", "dagChildren", "add:", "variable:", "new", "at:", "pseudoVars", "scope", "yourself", "last", "ifTrue:", "yieldsValue", "replace:with:", "value:"]
+}, function ($methodClass){ return function (closure,aBlock){
+var self=this,$self=this;
+var sequence,final;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var $1,$2;
+sequence=$recv(closure)._sequence();
+$recv([$recv(sequence)._dagChildren()
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+,$ctx1.sendIdx["dagChildren"]=1
+//>>excludeEnd("ctx");
+][0])._ifEmpty_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+$1=sequence;
+$2=$recv($globals.IRVariable)._new();
+$recv($2)._variable_($recv($recv($recv(closure)._scope())._pseudoVars())._at_("nil"));
+return $recv($1)._add_($recv($2)._yourself());
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}));
+final=$recv($recv(sequence)._dagChildren())._last();
+if($core.assert($recv(final)._yieldsValue())){
+$recv(sequence)._replace_with_(final,$recv(aBlock)._value_(final));
+}
+return closure;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"inlinedClosure:wrapFinalValueIn:",{closure:closure,aBlock:aBlock,sequence:sequence,final:final})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.IRWrappingSendInliner);
+
+
+
+$core.addClass("IRAssignmentInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 $core.setSlots($globals.IRAssignmentInliner, ["target"]);
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRAssignmentInliner.comment="I inline message sends together with assignments by moving them around into the inline closure instructions.\x0a\x0a##Example\x0a\x0a\x09foo\x0a\x09\x09| a |\x0a\x09\x09a := true ifTrue: [ 1 ]\x0a\x0aWill produce:\x0a\x0a\x09if($core.assert(true) {\x0a\x09\x09a = 1;\x0a\x09};";
@@ -2195,7 +2273,7 @@ $globals.IRAssignmentInliner);
 
 
 
-$core.addClass("IRNonLocalReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRNonLocalReturnInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRNonLocalReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 //>>excludeEnd("ide");
@@ -2266,7 +2344,7 @@ $globals.IRNonLocalReturnInliner);
 
 
 
-$core.addClass("IRReturnInliner", $globals.IRSendInliner, "Compiler-Inlining");
+$core.addClass("IRReturnInliner", $globals.IRWrappingSendInliner, "Compiler-Inlining");
 //>>excludeStart("ide", pragmas.excludeIdeData);
 $globals.IRReturnInliner.comment="I inline message sends with inlined closure together with a return instruction.";
 //>>excludeEnd("ide");
