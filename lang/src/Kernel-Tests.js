@@ -18788,6 +18788,105 @@ return self;
 $globals.TKeyValueCollectionTest);
 
 
+$core.addClass("TypeErrorTest", $globals.TestCase, "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testCatchingException",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testCatchingException\x0a\x09[ self throwException ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error |\x0a\x09\x09\x09self assert: (error basicAt: #name) equals: #TypeError.\x0a\x09\x09\x09\x22self assert: error context notNil\x22 \x22TODO context only in uncaught exceptions; make it so caught ones have it, too\x22 ]",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["on:do:", "throwException", "assert:equals:", "basicAt:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$recv((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._throwException();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}))._on_do_($globals.Error,(function(error){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._assert_equals_($recv(error)._basicAt_("name"),"TypeError");
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
+//>>excludeEnd("ctx");
+}));
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testCatchingException",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TypeErrorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRaisingException",
+protocol: "tests",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "testRaisingException\x0a\x09self should: [ self throwException ] raise: Error",
+referencedClasses: ["Error"],
+//>>excludeEnd("ide");
+pragmas: [],
+messageSends: ["should:raise:", "throwException"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+$self._should_raise_((function(){
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx2) {
+//>>excludeEnd("ctx");
+return $self._throwException();
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+//>>excludeEnd("ctx");
+}),$globals.Error);
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"testRaisingException",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TypeErrorTest);
+
+$core.addMethod(
+$core.method({
+selector: "throwException",
+protocol: "helpers",
+//>>excludeStart("ide", pragmas.excludeIdeData);
+args: [],
+source: "throwException\x0a\x09<inlineJS: 'var x; x.y;'>",
+referencedClasses: [],
+//>>excludeEnd("ide");
+pragmas: [["inlineJS:", ["var x; x.y;"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+return $core.withContext(function($ctx1) {
+//>>excludeEnd("ctx");
+var x; x.y;;
+return self;
+//>>excludeStart("ctx", pragmas.excludeDebugContexts);
+}, function($ctx1) {$ctx1.fill(self,"throwException",{})});
+//>>excludeEnd("ctx");
+}; }),
+$globals.TypeErrorTest);
+
+
+
 $core.addClass("UndefinedTest", $globals.TestCase, "Kernel-Tests");
 $core.addMethod(
 $core.method({

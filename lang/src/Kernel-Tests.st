@@ -3347,6 +3347,30 @@ testWithIndexDo
 		self assert: (collection at: index) equals: each ]
 ! !
 
+TestCase subclass: #TypeErrorTest
+	slots: {}
+	package: 'Kernel-Tests'!
+
+!TypeErrorTest methodsFor: 'helpers'!
+
+throwException
+	<inlineJS: 'var x; x.y;'>
+! !
+
+!TypeErrorTest methodsFor: 'tests'!
+
+testCatchingException
+	[ self throwException ]
+		on: Error
+		do: [ :error |
+			self assert: (error basicAt: #name) equals: #TypeError.
+			"self assert: error context notNil" "TODO context only in uncaught exceptions; make it so caught ones have it, too" ]
+!
+
+testRaisingException
+	self should: [ self throwException ] raise: Error
+! !
+
 TestCase subclass: #UndefinedTest
 	slots: {}
 	package: 'Kernel-Tests'!
