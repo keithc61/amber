@@ -2519,6 +2519,11 @@ define('amber/kernel-runtime',['./junk-drawer'], function ($goodies) {
             function resultWithNoErrorHandling (worker) {
                 try {
                     return worker(thisContext);
+                } catch (error) {
+                    if (error.context == null) {
+                        error.context = thisContext;
+                    }
+                    throw error;                                
                 } finally {
                     thisContext = null;
                 }
@@ -27361,13 +27366,13 @@ $core.method({
 selector: "version",
 protocol: "accessing",
 args: [],
-source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.2'",
+source: "version\x0a\x09\x22Answer the version string of Amber\x22\x0a\x09\x0a\x09^ '0.30.3'",
 referencedClasses: [],
 pragmas: [],
 messageSends: []
 }, function ($methodClass){ return function (){
 var self=this,$self=this;
-return "0.30.2";
+return "0.30.3";
 
 }; }),
 $globals.SmalltalkImage);
@@ -69099,6 +69104,75 @@ return self;
 }, function($ctx1) {$ctx1.fill(self,"testWithIndexDo",{collection:collection})});
 }; }),
 $globals.TKeyValueCollectionTest);
+
+
+$core.addClass("TypeErrorTest", $globals.TestCase, "Kernel-Tests");
+$core.addMethod(
+$core.method({
+selector: "testCatchingException",
+protocol: "tests",
+args: [],
+source: "testCatchingException\x0a\x09[ self throwException ]\x0a\x09\x09on: Error\x0a\x09\x09do: [ :error |\x0a\x09\x09\x09self assert: (error basicAt: #name) equals: #TypeError.\x0a\x09\x09\x09\x22self assert: error context notNil\x22 \x22TODO context only in uncaught exceptions; make it so caught ones have it, too\x22 ]",
+referencedClasses: ["Error"],
+pragmas: [],
+messageSends: ["on:do:", "throwException", "assert:equals:", "basicAt:"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$recv((function(){
+return $core.withContext(function($ctx2) {
+return $self._throwException();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}))._on_do_($globals.Error,(function(error){
+return $core.withContext(function($ctx2) {
+return $self._assert_equals_($recv(error)._basicAt_("name"),"TypeError");
+}, function($ctx2) {$ctx2.fillBlock({error:error},$ctx1,2)});
+}));
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testCatchingException",{})});
+}; }),
+$globals.TypeErrorTest);
+
+$core.addMethod(
+$core.method({
+selector: "testRaisingException",
+protocol: "tests",
+args: [],
+source: "testRaisingException\x0a\x09self should: [ self throwException ] raise: Error",
+referencedClasses: ["Error"],
+pragmas: [],
+messageSends: ["should:raise:", "throwException"]
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+$self._should_raise_((function(){
+return $core.withContext(function($ctx2) {
+return $self._throwException();
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)});
+}),$globals.Error);
+return self;
+}, function($ctx1) {$ctx1.fill(self,"testRaisingException",{})});
+}; }),
+$globals.TypeErrorTest);
+
+$core.addMethod(
+$core.method({
+selector: "throwException",
+protocol: "helpers",
+args: [],
+source: "throwException\x0a\x09<inlineJS: 'var x; x.y;'>",
+referencedClasses: [],
+pragmas: [["inlineJS:", ["var x; x.y;"]]],
+messageSends: []
+}, function ($methodClass){ return function (){
+var self=this,$self=this;
+return $core.withContext(function($ctx1) {
+var x; x.y;;
+return self;
+}, function($ctx1) {$ctx1.fill(self,"throwException",{})});
+}; }),
+$globals.TypeErrorTest);
+
 
 
 $core.addClass("UndefinedTest", $globals.TestCase, "Kernel-Tests");
