@@ -1,3 +1,11 @@
+25 March 2022 - Release 0.30.3
+===================================
+
+* Uncaught JS-thrown exceptions have info on ST context.
+
+Commits: https://lolg.it/amber/amber/commits/0.30.3
+
+
 18 July 2021 - Release 0.30.2
 ===================================
 
