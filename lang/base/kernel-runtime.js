@@ -343,6 +343,11 @@ define(['./junk-drawer'], function ($goodies) {
             function resultWithNoErrorHandling (worker) {
                 try {
                     return worker(thisContext);
+                } catch (error) {
+                    if (error.context == null) {
+                        error.context = thisContext;
+                    }
+                    throw error;                                
                 } finally {
                     thisContext = null;
                 }
